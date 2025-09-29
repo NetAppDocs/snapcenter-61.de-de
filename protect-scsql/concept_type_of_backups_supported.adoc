@@ -1,0 +1,61 @@
+---
+permalink: protect-scsql/concept_type_of_backups_supported.html 
+sidebar: sidebar 
+keywords: Type of backups 
+summary: 'Zum Sichern von SQL Server-System- und Benutzerdatenbanken mit SnapCenter müssen Sie den Ressourcentyp auswählen, z. B. Datenbanken, SQL Server-Instanzen und Verfügbarkeitsgruppen \(AG\).  Mithilfe der Snapshot-Technologie werden schreibgeschützte Onlinekopien der Volumes erstellt, auf denen sich die Ressourcen befinden.' 
+---
+= Unterstützte Sicherungstypen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Zum Sichern von SQL Server-System- und Benutzerdatenbanken mit SnapCenter müssen Sie den Ressourcentyp auswählen, z. B. Datenbanken, SQL Server-Instanzen und Verfügbarkeitsgruppen (AG).  Mithilfe der Snapshot-Technologie werden schreibgeschützte Onlinekopien der Volumes erstellt, auf denen sich die Ressourcen befinden.
+
+Sie können die Option „Nur kopieren“ auswählen, um anzugeben, dass der SQL Server Transaktionsprotokolle nicht abschneidet.  Sie sollten diese Option verwenden, wenn Sie den SQL Server auch mit anderen Sicherungsanwendungen verwalten.  Wenn die Transaktionsprotokolle intakt bleiben, kann jede Sicherungsanwendung die Systemdatenbanken wiederherstellen.  Nur-Kopier-Backups sind unabhängig von der Reihenfolge der geplanten Backups und haben keinen Einfluss auf die Backup- und Wiederherstellungsvorgänge der Datenbank.
+
+|===
+| Sicherungstyp | Beschreibung | Nur-Kopier-Option mit Sicherungstyp 
+
+
+ a| 
+Vollständige Sicherung und Protokollsicherung
+ a| 
+Sichert die Systemdatenbank und kürzt die Transaktionsprotokolle.
+
+Der SQL Server kürzt die Transaktionsprotokolle, indem er die Einträge entfernt, die bereits in der Datenbank festgeschrieben sind.
+
+Nach Abschluss der vollständigen Sicherung wird mit dieser Option ein Transaktionsprotokoll erstellt, in dem Transaktionsinformationen erfasst werden.  Normalerweise sollten Sie diese Option wählen.  Wenn Ihre Sicherungszeit jedoch kurz ist, können Sie bei einer vollständigen Sicherung auf die Ausführung einer Transaktionsprotokollsicherung verzichten.
+
+Sie können keine Protokollsicherung für Master- und MSDB-Systemdatenbanken erstellen.  Sie können jedoch Protokollsicherungen für die Modellsystemdatenbank erstellen.
+ a| 
+Sichert die Systemdatenbankdateien und die Transaktionsprotokolle, ohne die Protokolle abzuschneiden.
+
+Eine reine Kopiesicherung kann nicht als differenzielle Basis oder differenzielle Sicherung dienen und hat keinen Einfluss auf die differenzielle Basis.  Das Wiederherstellen einer vollständigen Nur-Kopier-Sicherung ist dasselbe wie das Wiederherstellen jeder anderen vollständigen Sicherung.
+
+
+
+ a| 
+Vollständige Datenbanksicherung
+ a| 
+Sichert die Systemdatenbankdateien.
+
+Sie können eine vollständige Datenbanksicherung für Master-, Modell- und MSDB-Systemdatenbanken erstellen.
+ a| 
+Sichert die Systemdatenbankdateien.
+
+
+
+ a| 
+Transaktionsprotokollsicherung
+ a| 
+Sichert die gekürzten Transaktionsprotokolle und kopiert nur die Transaktionen, die seit der Sicherung des letzten Transaktionsprotokolls festgeschrieben wurden.
+
+Wenn Sie neben vollständigen Datenbanksicherungen auch häufige Transaktionsprotokollsicherungen planen, können Sie granulare Wiederherstellungspunkte auswählen.
+ a| 
+Sichert die Transaktionsprotokolle, ohne sie zu kürzen.
+
+Dieser Sicherungstyp hat keinen Einfluss auf die Reihenfolge der regulären Protokollsicherungen.  Nur-Kopier-Protokollsicherungen sind für die Durchführung von Online-Wiederherstellungsvorgängen nützlich.
+
+|===

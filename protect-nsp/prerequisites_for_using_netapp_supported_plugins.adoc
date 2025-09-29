@@ -1,0 +1,32 @@
+---
+permalink: protect-nsp/prerequisites_for_using_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: Credentials 
+summary: Bevor Sie die von SnapCenter NetApp unterstützten Plug-Ins verwenden, muss der SnapCenter Administrator den SnapCenter -Server installieren und konfigurieren und die erforderlichen Aufgaben ausführen. 
+---
+= Voraussetzungen für die Verwendung der von NetApp unterstützten Plug-Ins
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie die von SnapCenter NetApp unterstützten Plug-Ins verwenden, muss der SnapCenter Administrator den SnapCenter -Server installieren und konfigurieren und die erforderlichen Aufgaben ausführen.
+
+* Installieren und konfigurieren Sie SnapCenter Server.
+* Melden Sie sich beim SnapCenter -Server an.
+* Konfigurieren Sie die SnapCenter -Umgebung, indem Sie Speichersystemverbindungen hinzufügen und gegebenenfalls Anmeldeinformationen erstellen.
+* Fügen Sie Hosts hinzu und installieren und laden Sie die Plug-Ins hoch.
+* Installieren Sie gegebenenfalls Java 11 auf dem Plug-In-Host.
+* Wenn Sie über mehrere Datenpfade (LIFs) oder eine dNFS-Konfiguration verfügen, können Sie mithilfe der SnapCenter -CLI auf dem Datenbankhost Folgendes ausführen:
++
+** Standardmäßig werden alle IP-Adressen des Datenbankhosts zur NFS-Speicherexportrichtlinie in der Storage Virtual Machine (SVM) für die geklonten Volumes hinzugefügt.  Wenn Sie eine bestimmte IP-Adresse haben oder auf eine Teilmenge der IP-Adressen beschränken möchten, führen Sie die CLI „Set-PreferredHostIPsInStorageExportPolicy“ aus.
+** Wenn Sie mehrere Datenpfade (LIFs) in SVMs haben, wählt SnapCenter den entsprechenden Datenpfad (LIF) zum Mounten des geklonten NFS-Volumes aus. Wenn Sie jedoch einen bestimmten Datenpfad (LIF) angeben möchten, müssen Sie die CLI „Set-SvmPreferredDataPath“ ausführen. Informationen zu den mit dem Befehl verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenter Software-Befehlsreferenzhandbuch"^] .
+
+
+* Richten Sie SnapMirror und SnapVault ein, wenn Sie eine Backup-Replikation wünschen.
+* Stellen Sie sicher, dass Port 9090 von keiner anderen Anwendung auf dem Host verwendet wird.
++
+Port 9090 muss zusätzlich zu den anderen von SnapCenter benötigten Ports für die Verwendung durch von NetApp unterstützte Plug-Ins reserviert werden.
+
+

@@ -1,0 +1,51 @@
+= 
+:allow-uri-read: 
+
+
+Sie müssen die CA-Zertifikate mithilfe der Microsoft Management Console (MMC) in den SnapCenter -Server und die Windows-Host-Plug-Ins importieren.
+
+.Schritte
+. Gehen Sie zur Microsoft-Verwaltungskonsole (MMC) und klicken Sie dann auf *Datei* > *Snap-In hinzufügen/entfernen*.
+. Wählen Sie im Fenster „Snap-Ins hinzufügen oder entfernen“ *Zertifikate* aus und klicken Sie dann auf *Hinzufügen*.
+. Wählen Sie im Zertifikat-Snap-In-Fenster die Option *Computerkonto* und klicken Sie dann auf *Fertig*.
+. Klicken Sie auf *Konsolenstamm* > *Zertifikate – Lokaler Computer* > *Vertrauenswürdige Stammzertifizierungsstellen* > *Zertifikate*.
+. Klicken Sie mit der rechten Maustaste auf den Ordner „Vertrauenswürdige Stammzertifizierungsstellen“ und wählen Sie dann *Alle Aufgaben* > *Importieren*, um den Importassistenten zu starten.
+. Schließen Sie den Assistenten wie folgt ab:
++
+|===
+| In diesem Assistentenfenster ... | Gehen Sie wie folgt vor... 
+
+
+ a| 
+Privaten Schlüssel importieren
+ a| 
+Wählen Sie die Option *Ja*, importieren Sie den privaten Schlüssel und klicken Sie anschließend auf *Weiter*.
+
+
+
+ a| 
+Importdateiformat
+ a| 
+Nehmen Sie keine Änderungen vor; klicken Sie auf *Weiter*.
+
+
+
+ a| 
+Sicherheit
+ a| 
+Geben Sie das neue Kennwort an, das für das exportierte Zertifikat verwendet werden soll, und klicken Sie dann auf *Weiter*.
+
+
+
+ a| 
+Abschließen des Zertifikatimport-Assistenten
+ a| 
+Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*, um den Import zu starten.
+
+|===
++
+
+NOTE: Das zu importierende Zertifikat sollte mit dem privaten Schlüssel gebündelt werden (unterstützte Formate sind: *.pfx, *.p12 und *.p7b).
+
+. Wiederholen Sie Schritt 5 für den Ordner „Persönlich“.
+

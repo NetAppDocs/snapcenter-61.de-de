@@ -1,0 +1,28 @@
+---
+permalink: 'release-notes/what"s-new-in-snapcenter61.html' 
+sidebar: sidebar 
+keywords: what is new, features, enhancements, 6.1 
+summary: Die Version 6.1 der SnapCenter software enthält mehrere neue Funktionen und Verbesserungen. 
+---
+= Was ist neu in der SnapCenter software 6.1
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Version 6.1 der SnapCenter software enthält mehrere neue Funktionen und Verbesserungen.
+
+|===
+| Aktualisieren | Beschreibung 
+
+
+| link:../get-started/reference_supported_storage_systems_and_applications.html["Unterstützung für ASA r2-Systeme"]  a| 
+SnapCenter unterstützt jetzt ASA r2-Systeme, die ein vereinfachtes Erlebnis schaffen, das speziell auf die Anforderungen von SAN-Only-Kunden zugeschnitten ist.
+
+
+
+| Unterstützt sekundäre manipulationssichere Snapshots  a| 
+Mit SnapCenter können Sie die Sperrdauer für sekundäre Snapshots festlegen.
+
+|===

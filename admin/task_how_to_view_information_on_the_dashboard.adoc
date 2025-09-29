@@ -1,0 +1,23 @@
+---
+permalink: admin/task_how_to_view_information_on_the_dashboard.html 
+sidebar: sidebar 
+keywords: dashboard 
+summary: 'Im linken Navigationsbereich von SnapCenter können Sie verschiedene Dashboard-Kacheln oder Anzeigen zusammen mit den zugehörigen Systemdetails anzeigen.  Die Anzahl der im Dashboard verfügbaren Anzeigen ist festgelegt und kann nicht geändert werden.  Der in jeder Anzeige bereitgestellte Inhalt hängt von der rollenbasierten Zugriffskontrolle (RBAC) ab.' 
+---
+= So zeigen Sie Informationen auf dem Dashboard an
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Im linken Navigationsbereich von SnapCenter können Sie verschiedene Dashboard-Kacheln oder Anzeigen zusammen mit den zugehörigen Systemdetails anzeigen.  Die Anzahl der im Dashboard verfügbaren Anzeigen ist festgelegt und kann nicht geändert werden.  Der in jeder Anzeige bereitgestellte Inhalt hängt von der rollenbasierten Zugriffskontrolle (RBAC) ab.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Dashboard*.
+. Klicken Sie auf die aktiven Bereiche auf jedem Display, um zusätzliche Informationen zu erhalten.
++
+Wenn Sie beispielsweise in *Jobs* auf ein Ringdiagramm klicken, werden Sie auf die Monitorseite weitergeleitet, wo Sie weitere Informationen zu Ihrer Auswahl erhalten.  Wenn Sie in der *Schutzzusammenfassung* auf ein Ringdiagramm klicken, werden Sie auf die Seite „Berichte“ weitergeleitet, auf der Sie weitere Informationen zu Ihrer Auswahl erhalten.
+
+

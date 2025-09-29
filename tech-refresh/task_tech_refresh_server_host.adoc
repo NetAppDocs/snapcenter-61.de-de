@@ -1,0 +1,156 @@
+---
+permalink: tech-refresh/task_tech_refresh_server_host.html 
+sidebar: sidebar 
+keywords: tech refresh, SnapCenter Server, cmdlet, APIs, F5, rollback, decommission, disaster recovery, standalone 
+summary: Installieren Sie dieselbe Version von SnapCenter Server auf dem neuen Host und führen Sie dann die APIs aus oder führen Sie Cmdlets aus, um das SnapCenter vom alten Server zu sichern und auf dem neuen Server wiederherzustellen. 
+---
+= Technische Aktualisierung des SnapCenter Server-Hosts
+:allow-uri-read: 
+
+
+[role="lead"]
+Wenn der SnapCenter Server-Host aktualisiert werden muss, können Sie dieselbe Version von SnapCenter Server auf dem neuen Host installieren und dann die APIs ausführen, um das SnapCenter vom alten Server zu sichern und auf dem neuen Server wiederherzustellen.
+
+.Schritte
+. Stellen Sie den neuen Host bereit und führen Sie die folgenden Aufgaben aus:
++
+.. Installieren Sie dieselbe Version des SnapCenter -Servers.
+.. (Optional) Konfigurieren Sie CA-Zertifikate und aktivieren Sie bidirektionales SSL.  Weitere Informationen finden Sie unter https://docs.netapp.com/us-en/snapcenter/install/reference_generate_CA_certificate_CSR_file.html["CA-Zertifikat konfigurieren"] Und https://docs.netapp.com/us-en/snapcenter/install/task_configure_two_way_ssl.html["Konfigurieren und Aktivieren von bidirektionalem SSL"] .
+.. (Optional) Konfigurieren Sie die Multi-Faktor-Authentifizierung. Weitere Informationen finden Sie unter  https://docs.netapp.com/us-en/snapcenter/install/enable_multifactor_authentication.html["Aktivieren Sie die Multi-Faktor-Authentifizierung"] .
+
+
+. Melden Sie sich als SnapCenter -Administratorbenutzer an.
+. Erstellen Sie mithilfe der API eine Sicherung des SnapCenter -Servers auf dem alten Host: `/<snapcenter_version>/server/backup` oder das Cmdlet: _New-SmServerBackup_.
++
+
+NOTE: Unterbrechen Sie vor der Sicherung alle geplanten Jobs und stellen Sie sicher, dass keine Jobs ausgeführt werden.
+
++
+
+IMPORTANT: Wenn Sie die Sicherung auf dem SnapCenter -Server wiederherstellen möchten, der auf einer neuen Domäne ausgeführt wird, sollten Sie vor der Erstellung einer Sicherung den neuen Domänenbenutzer im alten SnapCenter Host hinzufügen und ihm die SnapCenter Administratorrolle zuweisen.
+
+. Kopieren Sie das Backup vom alten Host auf den neuen Host.
+. Stellen Sie die Sicherung des SnapCenter -Servers auf dem neuen Host mithilfe der API wieder her: `/<snapcenter_version>/server/restore` oder das Cmdlet: _Restore-SmServerBackup_.
++
+Durch die Wiederherstellung wird die neue SnapCenter -Server-URL standardmäßig auf allen Hosts aktualisiert.  Wenn Sie das Update überspringen möchten, verwenden Sie das Attribut _-SkipSMSURLInHosts_ und aktualisieren Sie die Server-URL separat, indem Sie entweder die folgende API verwenden: `/<snapcenter_version>/server/configureurl` oder das Cmdlet: _Set-SmServerConfig_.
+
++
+
+NOTE: Wenn der Plug-In-Host den Server-Hostnamen nicht auflösen kann, melden Sie sich bei jedem Plug-In-Host an und fügen Sie den Eintrag _etc/host_ für die neue IP im Format <Neue IP> SC_Server_Name hinzu.
+
++
+
+NOTE: Die Server-_etc/Host-_-Einträge werden nicht wiederhergestellt.  Sie können es manuell vom alten Server wiederherstellen.
+
++
+Wenn die Sicherung auf dem SnpCenter-Server wiederhergestellt wird, der auf einer neuen Domäne ausgeführt wird, und Sie die alten Domänenbenutzer weiterhin verwenden möchten, sollten Sie die alte Domäne auf dem neuen SnapCenter -Server registrieren.
+
++
+
+NOTE: Wenn Sie die Datei web.config im alten SnapCenter -Host manuell aktualisiert haben, werden die Updates nicht auf den neuen Host kopiert.  Sie sollten dieselben Änderungen manuell in der Datei web.config des neuen Hosts vornehmen.
+
+. Wenn Sie die Aktualisierung der SnapCenter -Server-URL übersprungen haben oder einer der Hosts während des Wiederherstellungsvorgangs ausgefallen war, aktualisieren Sie den neuen Servernamen in allen Hosts oder angegebenen Hosts, die vom SnapCenter verwaltet werden, mithilfe der API: `/<snapcenter_version>/server/configureurl` oder das Cmdlet: _Set-SmServerConfig_.
+. Aktivieren Sie die geplanten Jobs auf allen Hosts vom neuen SnapCenter -Server.
+
+
+
+
+== Technische Aktualisierung eines Knotens im F5-Cluster
+
+Sie können die technische Aktualisierung jedes Knotens im F5-Cluster durchführen, indem Sie den Knoten entfernen und den neuen Knoten hinzufügen.  Wenn der Knoten, der aktualisiert werden muss, aktiv ist, machen Sie einen anderen Knoten des Clusters zum aktiven Knoten und entfernen Sie dann den Knoten.
+
+Informationen zum Hinzufügen eines Knotens zum F5-Cluster finden Sie unter https://docs.netapp.com/us-en/snapcenter/install/concept_configure_snapcenter_servers_for_high_availabiity_using_f5.html["Konfigurieren Sie SnapCenter -Server für hohe Verfügbarkeit mit F5"] .
+
+
+NOTE: Wenn sich die URL des F5-Clusters ändert, kann die URL in allen Hosts mithilfe der API aktualisiert werden: `/<snapcenter_version>/server/configureurl` oder das Cmdlet: _Set-SmServerConfig_.
+
+
+
+== Außerbetriebnahme des alten SnapCenter Server-Hosts
+
+Sie können den alten SnapCenter Server-Host entfernen, nachdem Sie überprüft haben, dass der neue SnapCenter Server betriebsbereit ist und alle Plug-In-Hosts mit dem neuen SnapCenter Server-Host kommunizieren können.
+
+
+
+== Rollback zum alten SnapCenter Server-Host
+
+Bei Problemen können Sie den alten SnapCenter Server-Host wiederherstellen, indem Sie die SnapCenter Server-URL in allen Hosts mithilfe der API aktualisieren: `/<snapcenter_version>/server/configureurl` oder das Cmdlet: _Set-SmServerConfig_.
+
+
+
+== Notfallwiederherstellung
+
+
+
+=== Notfallwiederherstellung eines eigenständigen SnapCenter Hosts
+
+Sie können eine Notfallwiederherstellung durchführen, indem Sie die Serversicherung auf dem neuen Host wiederherstellen.
+
+.Bevor Sie beginnen
+Stellen Sie sicher, dass Sie über eine Sicherungskopie des alten SnapCenter -Servers verfügen.
+
+.Schritte
+. Stellen Sie den neuen Host bereit und führen Sie die folgenden Aufgaben aus:
++
+.. Installieren Sie dieselbe Version des SnapCenter -Servers.
+.. Konfigurieren Sie CA-Zertifikate und aktivieren Sie bidirektionales SSL.  Weitere Informationen finden Sie unter https://docs.netapp.com/us-en/snapcenter/install/reference_generate_CA_certificate_CSR_file.html["CA-Zertifikat konfigurieren"] Und https://docs.netapp.com/us-en/snapcenter/install/task_configure_two_way_ssl.html["Konfigurieren und Aktivieren von bidirektionalem SSL"] .
+
+
+. Kopieren Sie das alte SnapCenter Server-Backup auf den neuen Host.
+. Melden Sie sich als SnapCenter -Administratorbenutzer an.
+. Stellen Sie die Sicherung des SnapCenter -Servers auf dem neuen Host mithilfe der API wieder her: `/<snapcenter_version>/server/restore` oder das Cmdlet: _Restore-SmServerBackup_.
++
+Durch die Wiederherstellung wird die neue SnapCenter -Server-URL standardmäßig auf allen Hosts aktualisiert.  Wenn Sie das Update überspringen möchten, verwenden Sie das Attribut _-SkipSMSURLInHosts_ und aktualisieren Sie die Server-URL separat, indem Sie entweder die API verwenden: `/<snapcenter_version>/server/configureurl` oder das Cmdlet: _Set-SmServerConfig_.
+
++
+
+NOTE: Wenn der Plug-In-Host den Server-Hostnamen nicht auflösen kann, melden Sie sich bei jedem Plug-In-Host an und fügen Sie den Eintrag _etc/host_ für die neue IP im Format <Neue IP> SC_Server_Name hinzu.
+
++
+
+NOTE: Die Server-_etc/Host-_-Einträge werden nicht wiederhergestellt.  Sie können es manuell vom alten Server wiederherstellen.
+
+. Wenn Sie die Aktualisierung der URL übersprungen haben oder einer der Hosts während des Wiederherstellungsvorgangs ausgefallen war, aktualisieren Sie den neuen Servernamen in allen Hosts oder angegebenen Hosts, die vom SnapCenter verwaltet werden, mithilfe der API: `/<snapcenter_version>/server/configureurl` oder das Cmdlet: _Set-SmServerConfig_.
+
+
+
+
+=== Notfallwiederherstellung des SnapCenter F5-Clusters
+
+Sie können eine Notfallwiederherstellung durchführen, indem Sie die Serversicherung auf dem neuen Host wiederherstellen und dann den eigenständigen Host in einen Cluster konvertieren.
+
+.Bevor Sie beginnen
+Stellen Sie sicher, dass Sie über eine Sicherungskopie des alten SnapCenter -Servers verfügen.
+
+.Schritte
+. Stellen Sie den neuen Host bereit und führen Sie die folgenden Aufgaben aus:
++
+.. Installieren Sie dieselbe Version des SnapCenter -Servers.
+.. Konfigurieren Sie CA-Zertifikate und aktivieren Sie bidirektionales SSL.  Weitere Informationen finden Sie unter https://docs.netapp.com/us-en/snapcenter/install/reference_generate_CA_certificate_CSR_file.html["CA-Zertifikat konfigurieren"] Und https://docs.netapp.com/us-en/snapcenter/install/task_configure_two_way_ssl.html["Konfigurieren und Aktivieren von bidirektionalem SSL"] .
+
+
+. Kopieren Sie das alte SnapCenter Server-Backup auf den neuen Host.
+. Melden Sie sich als SnapCenter -Administratorbenutzer an.
+. Stellen Sie die Sicherung des SnapCenter -Servers auf dem neuen Host mithilfe der API wieder her: `/<snapcenter_version>/server/restore` oder das Cmdlet: _Restore-SmServerBackup_.
++
+Durch die Wiederherstellung wird die neue SnapCenter -Server-URL standardmäßig auf allen Hosts aktualisiert.  Wenn Sie das Update überspringen möchten, verwenden Sie das Attribut _-SkipSMSURLInHosts_ und aktualisieren Sie die Server-URL separat, indem Sie entweder die API verwenden: `/<snapcenter_version>/server/configureurl` oder das Cmdlet: _Set-SmServerConfig_.
+
++
+
+NOTE: Wenn der Plug-In-Host den Server-Hostnamen nicht auflösen kann, melden Sie sich bei jedem Plug-In-Host an und fügen Sie den Eintrag _etc/host_ für die neue IP im Format <Neue IP> SC_Server_Name hinzu.
+
++
+
+NOTE: Die Server-_etc/Host-_-Einträge werden nicht wiederhergestellt.  Sie können es manuell vom alten Server wiederherstellen.
+
+. Wenn Sie die Aktualisierung der URL übersprungen haben oder einer der Hosts während des Wiederherstellungsvorgangs ausgefallen war, aktualisieren Sie den neuen Servernamen in allen Hosts oder angegebenen Hosts, die vom SnapCenter verwaltet werden, mithilfe der API: `/<snapcenter_version>/server/configureurl` oder das Cmdlet: _Set-SmServerConfig_.
+. Konvertieren Sie den eigenständigen Host in einen F5-Cluster.
++
+Informationen zur Konfiguration von F5 finden Sie unter https://docs.netapp.com/us-en/snapcenter/install/concept_configure_snapcenter_servers_for_high_availabiity_using_f5.html["Konfigurieren Sie SnapCenter -Server für hohe Verfügbarkeit mit F5"] .
+
+
+
+.Ähnliche Informationen
+Informationen zu den APIs erhalten Sie auf der Swagger-Seite. Siehelink:https://docs.netapp.com/us-en/snapcenter/sc-automation/task_how%20to_access_rest_apis_using_the_swagger_api_web_page.html["So greifen Sie über die Swagger-API-Webseite auf REST-APIs zu"] .
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_.  Alternativ können Sie auch die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .

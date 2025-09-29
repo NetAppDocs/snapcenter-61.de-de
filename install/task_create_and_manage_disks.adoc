@@ -1,0 +1,633 @@
+---
+permalink: install/task_create_and_manage_disks.html 
+sidebar: sidebar 
+keywords: disks, create, manage, clustered disks, view 
+summary: Der Windows-Host sieht LUNs auf Ihrem Speichersystem als virtuelle Datenträger.  Sie können SnapCenter verwenden, um eine FC- oder iSCSI-verbundene LUN zu erstellen und zu konfigurieren. 
+---
+= Erstellen und Verwalten von Datenträgern
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Windows-Host sieht LUNs auf Ihrem Speichersystem als virtuelle Datenträger.  Sie können SnapCenter verwenden, um eine FC- oder iSCSI-verbundene LUN zu erstellen und zu konfigurieren.
+
+* SnapCenter unterstützt nur Basisdatenträger.  Die dynamischen Datenträger werden nicht unterstützt.
+* Für GPT ist nur eine Datenpartition und für MBR eine primäre Partition zulässig, die über ein mit NTFS oder CSVFS formatiertes Volume und einen Mount-Pfad verfügt.
+* Unterstützte Partitionsstile: GPT, MBR; in einer VMware UEFI VM werden nur iSCSI-Festplatten unterstützt
+
+
+
+NOTE: SnapCenter unterstützt das Umbenennen einer Festplatte nicht.  Wenn eine von SnapCenter verwaltete Festplatte umbenannt wird, sind SnapCenter -Vorgänge nicht erfolgreich.
+
+
+
+== Anzeigen der Festplatten auf einem Host
+
+Sie können die Festplatten auf jedem Windows-Host anzeigen, den Sie mit SnapCenter verwalten.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Klicken Sie auf der Seite „Hosts“ auf *Datenträger*.
+. Wählen Sie den Host aus der Dropdown-Liste *Host* aus.
++
+Die Datenträger werden aufgelistet.
+
+
+
+
+
+== Anzeigen von Clusterdatenträgern
+
+Sie können Cluster-Datenträger auf dem Cluster anzeigen, den Sie mit SnapCenter verwalten.  Die gruppierten Datenträger werden nur angezeigt, wenn Sie den Cluster aus der Dropdown-Liste „Hosts“ auswählen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Klicken Sie auf der Seite „Hosts“ auf *Datenträger*.
+. Wählen Sie den Cluster aus der Dropdown-Liste *Host* aus.
++
+Die Datenträger werden aufgelistet.
+
+
+
+
+
+== Richten Sie eine iSCSI-Sitzung ein
+
+Wenn Sie iSCSI zum Herstellen einer Verbindung mit einer LUN verwenden, müssen Sie vor dem Erstellen der LUN eine iSCSI-Sitzung einrichten, um die Kommunikation zu ermöglichen.
+
+*Bevor Sie beginnen*
+
+* Sie müssen den Speichersystemknoten als iSCSI-Ziel definiert haben.
+* Sie müssen den iSCSI-Dienst auf dem Speichersystem gestartet haben. http://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/home.html["Mehr erfahren"^]
+
+
+*Über diese Aufgabe*
+
+Sie können eine iSCSI-Sitzung nur zwischen denselben IP-Versionen herstellen, entweder von IPv6 zu IPv6 oder von IPv4 zu IPv4.
+
+Sie können eine Link-Local-IPv6-Adresse für die iSCSI-Sitzungsverwaltung und für die Kommunikation zwischen einem Host und einem Ziel nur verwenden, wenn sich beide im selben Subnetz befinden.
+
+Wenn Sie den Namen eines iSCSI-Initiators ändern, wirkt sich dies auf den Zugriff auf iSCSI-Ziele aus.  Nach der Namensänderung müssen Sie möglicherweise die vom Initiator aufgerufenen Ziele neu konfigurieren, damit sie den neuen Namen erkennen können.  Sie müssen sicherstellen, dass der Host neu gestartet wird, nachdem Sie den Namen eines iSCSI-Initiators geändert haben.
+
+Wenn Ihr Host über mehr als eine iSCSI-Schnittstelle verfügt, können Sie, nachdem Sie eine iSCSI-Sitzung zu SnapCenter mithilfe einer IP-Adresse auf der ersten Schnittstelle hergestellt haben, keine iSCSI-Sitzung von einer anderen Schnittstelle mit einer anderen IP-Adresse herstellen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Klicken Sie auf der Seite „Hosts“ auf *iSCSI-Sitzung*.
+. Wählen Sie aus der Dropdown-Liste *Storage Virtual Machine* die Storage Virtual Machine (SVM) für das iSCSI-Ziel aus.
+. Wählen Sie aus der Dropdown-Liste *Host* den Host für die Sitzung aus.
+. Klicken Sie auf *Sitzung herstellen*.
++
+Der Assistent zum Einrichten einer Sitzung wird angezeigt.
+
+. Identifizieren Sie im Assistenten „Sitzung einrichten“ das Ziel:
++
+|===
+| In diesem Bereich... | Eingeben... 
+
+
+ a| 
+Zielknotenname
+ a| 
+Der Knotenname des iSCSI-Ziels
+
+Wenn ein Zielknotenname vorhanden ist, wird der Name im schreibgeschützten Format angezeigt.
+
+
+
+ a| 
+Zielportaladresse
+ a| 
+Die IP-Adresse des Zielnetzwerkportals
+
+
+
+ a| 
+Zielportal-Port
+ a| 
+Der TCP-Port des Zielnetzwerkportals
+
+
+
+ a| 
+Adresse des Initiatorportals
+ a| 
+Die IP-Adresse des Initiator-Netzwerkportals
+
+|===
+. Wenn Sie mit Ihren Eingaben zufrieden sind, klicken Sie auf *Verbinden*.
++
+SnapCenter stellt die iSCSI-Sitzung her.
+
+. Wiederholen Sie diesen Vorgang, um für jedes Ziel eine Sitzung einzurichten.
+
+
+
+
+== Erstellen Sie FC-verbundene oder iSCSI-verbundene LUNs oder Festplatten
+
+Der Windows-Host sieht die LUNs auf Ihrem Speichersystem als virtuelle Datenträger.  Sie können SnapCenter verwenden, um eine FC- oder iSCSI-verbundene LUN zu erstellen und zu konfigurieren.
+
+Wenn Sie Datenträger außerhalb von SnapCenter erstellen und formatieren möchten, werden nur die Dateisysteme NTFS und CSVFS unterstützt.
+
+.Bevor Sie beginnen
+* Sie müssen auf Ihrem Speichersystem ein Volume für die LUN erstellt haben.
++
+Das Volume sollte nur LUNs enthalten und nur LUNs, die mit SnapCenter erstellt wurden.
+
++
+
+NOTE: Sie können auf einem von SnapCenter erstellten Klonvolume keine LUN erstellen, es sei denn, der Klon wurde bereits aufgeteilt.
+
+* Sie müssen den FC- oder iSCSI-Dienst auf dem Speichersystem gestartet haben.
+* Wenn Sie iSCSI verwenden, müssen Sie eine iSCSI-Sitzung mit dem Speichersystem hergestellt haben.
+* Das SnapCenter Plug-Ins-Paket für Windows darf nur auf dem Host installiert werden, auf dem Sie die Festplatte erstellen.
+
+
+*Über diese Aufgabe*
+
+* Sie können eine LUN nicht mit mehr als einem Host verbinden, es sei denn, die LUN wird von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt.
+* Wenn eine LUN von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt wird, der CSV (Cluster Shared Volumes) verwendet, müssen Sie die Festplatte auf dem Host erstellen, dem die Clustergruppe gehört.
+
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Klicken Sie auf der Seite „Hosts“ auf *Datenträger*.
+. Wählen Sie den Host aus der Dropdown-Liste *Host* aus.
+. Klicken Sie auf *Neu*.
++
+Der Assistent zum Erstellen von Datenträgern wird geöffnet.
+
+. Identifizieren Sie auf der Seite „LUN-Name“ die LUN:
++
+|===
+| In diesem Bereich... | Machen Sie Folgendes... 
+
+
+ a| 
+Speichersystem
+ a| 
+Wählen Sie die SVM für die LUN aus.
+
+
+
+ a| 
+LUN-Pfad
+ a| 
+Klicken Sie auf *Durchsuchen*, um den vollständigen Pfad des Ordners auszuwählen, der die LUN enthält.
+
+
+
+ a| 
+LUN-Name
+ a| 
+Geben Sie den Namen der LUN ein.
+
+
+
+ a| 
+Clustergröße
+ a| 
+Wählen Sie die LUN-Blockzuweisungsgröße für den Cluster aus.
+
+Die Clustergröße hängt vom Betriebssystem und den Anwendungen ab.
+
+
+
+ a| 
+LUN-Bezeichnung
+ a| 
+Geben Sie optional einen beschreibenden Text für die LUN ein.
+
+|===
+. Wählen Sie auf der Seite „Datenträgertyp“ den Datenträgertyp aus:
++
+|===
+| Wählen... | Wenn... 
+
+
+ a| 
+Dedizierte Festplatte
+ a| 
+Auf die LUN kann nur von einem Host aus zugegriffen werden.
+
+Ignorieren Sie das Feld *Ressourcengruppe*.
+
+
+
+ a| 
+Gemeinsam genutzte Festplatte
+ a| 
+Die LUN wird von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt.
+
+Geben Sie den Namen der Cluster-Ressourcengruppe in das Feld *Ressourcengruppe* ein.  Sie müssen die Festplatte nur auf einem Host im Failovercluster erstellen.
+
+
+
+ a| 
+Gemeinsam genutztes Clustervolume (CSV)
+ a| 
+Die LUN wird von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt, der CSV verwendet.
+
+Geben Sie den Namen der Cluster-Ressourcengruppe in das Feld *Ressourcengruppe* ein.  Stellen Sie sicher, dass der Host, auf dem Sie die Festplatte erstellen, der Eigentümer der Clustergruppe ist.
+
+|===
+. Geben Sie auf der Seite „Laufwerkeigenschaften“ die Laufwerkeigenschaften an:
++
+|===
+| Eigentum | Beschreibung 
+
+
+ a| 
+Einhängepunkt automatisch zuweisen
+ a| 
+SnapCenter weist basierend auf dem Systemlaufwerk automatisch einen Volume-Mount-Punkt zu.
+
+Wenn Ihr Systemlaufwerk beispielsweise C: ist, erstellt die automatische Zuweisung einen Volume-Mount-Punkt unter Ihrem Laufwerk C: (C:\scmnpt\).  Die automatische Zuweisung wird für gemeinsam genutzte Datenträger nicht unterstützt.
+
+
+
+ a| 
+Laufwerksbuchstaben zuweisen
+ a| 
+Hängen Sie die Festplatte in das Laufwerk ein, das Sie in der angrenzenden Dropdown-Liste auswählen.
+
+
+
+ a| 
+Volume-Mount-Punkt verwenden
+ a| 
+Hängen Sie die Festplatte in den Laufwerkspfad ein, den Sie im angrenzenden Feld angeben.
+
+Das Stammverzeichnis des Volume-Mount-Punkts muss dem Host gehören, auf dem Sie die Festplatte erstellen.
+
+
+
+ a| 
+Weder Laufwerksbuchstaben noch Volume-Mount-Punkte zuweisen
+ a| 
+Wählen Sie diese Option, wenn Sie die Festplatte lieber manuell in Windows mounten möchten.
+
+
+
+ a| 
+LUN-Größe
+ a| 
+Geben Sie die LUN-Größe an; mindestens 150 MB.
+
+Wählen Sie in der angrenzenden Dropdown-Liste MB, GB oder TB aus.
+
+
+
+ a| 
+Verwenden Sie Thin Provisioning für das Volume, das diese LUN hostet
+ a| 
+Führen Sie eine Thin-Provisioning-Bereitstellung für die LUN durch.
+
+Thin Provisioning weist nur so viel Speicherplatz zu, wie jeweils benötigt wird, sodass die LUN effizient auf die maximal verfügbare Kapazität anwachsen kann.
+
+Stellen Sie sicher, dass auf dem Volume genügend Speicherplatz für den gesamten LUN-Speicher verfügbar ist, den Sie voraussichtlich benötigen.
+
+
+
+ a| 
+Partitionstyp auswählen
+ a| 
+Wählen Sie eine GPT-Partition für eine GUID-Partitionstabelle oder eine MBR-Partition für einen Master Boot Record.
+
+MBR-Partitionen können in Windows Server-Failoverclustern zu Ausrichtungsproblemen führen.
+
+
+NOTE: UEFI-Partitionsdatenträger (Unified Extensible Firmware Interface) werden nicht unterstützt.
+
+|===
+. Wählen Sie auf der Seite „LUN zuordnen“ den iSCSI- oder FC-Initiator auf dem Host aus:
++
+|===
+| In diesem Bereich... | Machen Sie Folgendes... 
+
+
+ a| 
+Gastgeber
+ a| 
+Doppelklicken Sie auf den Clustergruppennamen, um eine Dropdownliste mit den zum Cluster gehörenden Hosts anzuzeigen, und wählen Sie dann den Host für den Initiator aus.
+
+Dieses Feld wird nur angezeigt, wenn die LUN von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt wird.
+
+
+
+ a| 
+Host-Initiator auswählen
+ a| 
+Wählen Sie *Fibre Channel* oder *iSCSI* und wählen Sie dann den Initiator auf dem Host.
+
+Sie können mehrere FC-Initiatoren auswählen, wenn Sie FC mit Multipath I/O (MPIO) verwenden.
+
+|===
+. Geben Sie auf der Seite „Gruppentyp“ an, ob Sie der LUN eine vorhandene Igroup zuordnen oder eine neue Igroup erstellen möchten:
++
+|===
+| Wählen... | Wenn... 
+
+
+ a| 
+Neue igroup für ausgewählte Initiatoren erstellen
+ a| 
+Sie möchten eine neue Igroup für die ausgewählten Initiatoren erstellen.
+
+
+
+ a| 
+Wählen Sie eine vorhandene Igroup oder geben Sie eine neue Igroup für ausgewählte Initiatoren an
+ a| 
+Sie möchten eine vorhandene Igroup für die ausgewählten Initiatoren angeben oder eine neue Igroup mit dem von Ihnen angegebenen Namen erstellen.
+
+Geben Sie den Igroup-Namen in das Feld *Igroup-Name* ein.  Geben Sie die ersten Buchstaben des vorhandenen igroup-Namens ein, um das Feld automatisch zu vervollständigen.
+
+|===
+. Überprüfen Sie auf der Seite „Zusammenfassung“ Ihre Auswahl und klicken Sie dann auf *Fertig*.
++
+SnapCenter erstellt die LUN und verbindet sie mit dem angegebenen Laufwerk oder Laufwerkspfad auf dem Host.
+
+
+
+
+
+== Ändern der Größe einer Festplatte
+
+Sie können die Größe einer Festplatte vergrößern oder verkleinern, wenn sich die Anforderungen Ihres Speichersystems ändern.
+
+*Über diese Aufgabe*
+
+* Für Thin Provisioning LUN wird die ONTAP LUN-Geometriegröße als maximale Größe angezeigt.
+* Bei Thick Provisioning LUN wird die erweiterbare Größe (verfügbare Größe im Volume) als maximale Größe angezeigt.
+* LUNs mit Partitionen im MBR-Stil haben eine Größenbeschränkung von 2 TB.
+* LUNs mit Partitionen im GPT-Stil haben eine Speichersystemgrößenbeschränkung von 16 TB.
+* Es ist eine gute Idee, vor der Größenänderung einer LUN einen Snapshot zu erstellen.
+* Wenn Sie eine LUN aus einem Snapshot wiederherstellen müssen, der vor der Größenänderung der LUN erstellt wurde, passt SnapCenter die Größe der LUN automatisch an die Größe des Snapshots an.
++
+Nach dem Wiederherstellungsvorgang müssen Daten, die der LUN nach der Größenänderung hinzugefügt wurden, aus einem Snapshot wiederhergestellt werden, der nach der Größenänderung erstellt wurde.
+
+
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Klicken Sie auf der Seite „Hosts“ auf *Datenträger*.
+. Wählen Sie den Host aus der Dropdown-Liste „Host“ aus.
++
+Die Datenträger werden aufgelistet.
+
+. Wählen Sie die Festplatte aus, deren Größe Sie ändern möchten, und klicken Sie dann auf *Größe ändern*.
+. Verwenden Sie im Dialogfeld „Datenträgergröße ändern“ den Schieberegler, um die neue Größe des Datenträgers festzulegen, oder geben Sie die neue Größe in das Feld „Größe“ ein.
++
+
+NOTE: Wenn Sie die Größe manuell eingeben, müssen Sie außerhalb des Felds „Größe“ klicken, bevor die Schaltfläche „Verkleinern“ oder „Erweitern“ entsprechend aktiviert wird.  Außerdem müssen Sie auf MB, GB oder TB klicken, um die Maßeinheit anzugeben.
+
+. Wenn Sie mit Ihren Eingaben zufrieden sind, klicken Sie je nach Bedarf auf *Verkleinern* oder *Erweitern*.
++
+SnapCenter ändert die Größe der Festplatte.
+
+
+
+
+
+== Verbinden einer Festplatte
+
+Mit dem Assistenten „Datenträger verbinden“ können Sie eine vorhandene LUN mit einem Host verbinden oder eine getrennte LUN erneut verbinden.
+
+.Bevor Sie beginnen
+* Sie müssen den FC- oder iSCSI-Dienst auf dem Speichersystem gestartet haben.
+* Wenn Sie iSCSI verwenden, müssen Sie eine iSCSI-Sitzung mit dem Speichersystem hergestellt haben.
+* Sie können eine LUN nicht mit mehr als einem Host verbinden, es sei denn, die LUN wird von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt.
+* Wenn die LUN von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt wird, der CSV (Cluster Shared Volumes) verwendet, müssen Sie die Festplatte auf dem Host verbinden, dem die Clustergruppe gehört.
+* Das Plug-in für Windows muss nur auf dem Host installiert werden, an den Sie die Festplatte anschließen.
+
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Klicken Sie auf der Seite „Hosts“ auf *Datenträger*.
+. Wählen Sie den Host aus der Dropdown-Liste *Host* aus.
+. Klicken Sie auf *Verbinden*.
++
+Der Assistent „Datenträger verbinden“ wird geöffnet.
+
+. Identifizieren Sie auf der Seite „LUN-Name“ die LUN, mit der eine Verbindung hergestellt werden soll:
++
+|===
+| In diesem Bereich... | Machen Sie Folgendes... 
+
+
+ a| 
+Speichersystem
+ a| 
+Wählen Sie die SVM für die LUN aus.
+
+
+
+ a| 
+LUN-Pfad
+ a| 
+Klicken Sie auf *Durchsuchen*, um den vollständigen Pfad des Volumes auszuwählen, das die LUN enthält.
+
+
+
+ a| 
+LUN-Name
+ a| 
+Geben Sie den Namen der LUN ein.
+
+
+
+ a| 
+Clustergröße
+ a| 
+Wählen Sie die LUN-Blockzuweisungsgröße für den Cluster aus.
+
+Die Clustergröße hängt vom Betriebssystem und den Anwendungen ab.
+
+
+
+ a| 
+LUN-Bezeichnung
+ a| 
+Geben Sie optional einen beschreibenden Text für die LUN ein.
+
+|===
+. Wählen Sie auf der Seite „Datenträgertyp“ den Datenträgertyp aus:
++
+|===
+| Wählen... | Wenn... 
+
+
+ a| 
+Dedizierte Festplatte
+ a| 
+Auf die LUN kann nur von einem Host aus zugegriffen werden.
+
+
+
+ a| 
+Gemeinsam genutzte Festplatte
+ a| 
+Die LUN wird von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt.
+
+Sie müssen die Festplatte nur mit einem Host im Failovercluster verbinden.
+
+
+
+ a| 
+Gemeinsam genutztes Clustervolume (CSV)
+ a| 
+Die LUN wird von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt, der CSV verwendet.
+
+Stellen Sie sicher, dass der Host, auf dem Sie eine Verbindung zur Festplatte herstellen, der Eigentümer der Clustergruppe ist.
+
+|===
+. Geben Sie auf der Seite „Laufwerkeigenschaften“ die Laufwerkeigenschaften an:
++
+|===
+| Eigentum | Beschreibung 
+
+
+ a| 
+Automatische Zuweisung
+ a| 
+Lassen Sie SnapCenter automatisch einen Volume-Mount-Punkt basierend auf dem Systemlaufwerk zuweisen.
+
+Wenn Ihr Systemlaufwerk beispielsweise C: ist, erstellt die automatische Zuweisungseigenschaft einen Volume-Mount-Punkt unter Ihrem Laufwerk C: (C:\scmnpt\).  Die Eigenschaft „Automatische Zuweisung“ wird für gemeinsam genutzte Datenträger nicht unterstützt.
+
+
+
+ a| 
+Laufwerksbuchstaben zuweisen
+ a| 
+Hängen Sie die Festplatte in das Laufwerk ein, das Sie in der angrenzenden Dropdown-Liste auswählen.
+
+
+
+ a| 
+Volume-Mount-Punkt verwenden
+ a| 
+Hängen Sie die Festplatte in den Laufwerkspfad ein, den Sie im angrenzenden Feld angeben.
+
+Das Stammverzeichnis des Volume-Mount-Punkts muss dem Host gehören, auf dem Sie die Festplatte erstellen.
+
+
+
+ a| 
+Weder Laufwerksbuchstaben noch Volume-Mount-Punkte zuweisen
+ a| 
+Wählen Sie diese Option, wenn Sie die Festplatte lieber manuell in Windows mounten möchten.
+
+|===
+. Wählen Sie auf der Seite „LUN zuordnen“ den iSCSI- oder FC-Initiator auf dem Host aus:
++
+|===
+| In diesem Bereich... | Machen Sie Folgendes... 
+
+
+ a| 
+Gastgeber
+ a| 
+Doppelklicken Sie auf den Clustergruppennamen, um eine Dropdown-Liste mit den zum Cluster gehörenden Hosts anzuzeigen. Wählen Sie dann den Host für den Initiator aus.
+
+Dieses Feld wird nur angezeigt, wenn die LUN von Hosts in einem Windows Server-Failovercluster gemeinsam genutzt wird.
+
+
+
+ a| 
+Host-Initiator auswählen
+ a| 
+Wählen Sie *Fibre Channel* oder *iSCSI* und wählen Sie dann den Initiator auf dem Host.
+
+Sie können mehrere FC-Initiatoren auswählen, wenn Sie FC mit MPIO verwenden.
+
+|===
+. Geben Sie auf der Seite „Gruppentyp“ an, ob Sie der LUN eine vorhandene Igroup zuordnen oder eine neue Igroup erstellen möchten:
++
+|===
+| Wählen... | Wenn... 
+
+
+ a| 
+Neue igroup für ausgewählte Initiatoren erstellen
+ a| 
+Sie möchten eine neue Igroup für die ausgewählten Initiatoren erstellen.
+
+
+
+ a| 
+Wählen Sie eine vorhandene Igroup oder geben Sie eine neue Igroup für ausgewählte Initiatoren an
+ a| 
+Sie möchten eine vorhandene Igroup für die ausgewählten Initiatoren angeben oder eine neue Igroup mit dem von Ihnen angegebenen Namen erstellen.
+
+Geben Sie den Igroup-Namen in das Feld *Igroup-Name* ein.  Geben Sie die ersten Buchstaben des vorhandenen igroup-Namens ein, um das Feld automatisch auszufüllen.
+
+|===
+. Überprüfen Sie auf der Seite „Zusammenfassung“ Ihre Auswahl und klicken Sie auf „Fertig stellen“.
++
+SnapCenter verbindet die LUN mit dem angegebenen Laufwerk oder Laufwerkspfad auf dem Host.
+
+
+
+
+
+== Trennen einer Festplatte
+
+Sie können eine LUN von einem Host trennen, ohne den Inhalt der LUN zu beeinträchtigen, mit einer Ausnahme: Wenn Sie einen Klon trennen, bevor er abgespalten wurde, verlieren Sie den Inhalt des Klons.
+
+.Bevor Sie beginnen
+* Stellen Sie sicher, dass die LUN von keiner Anwendung verwendet wird.
+* Stellen Sie sicher, dass die LUN nicht mit einer Überwachungssoftware überwacht wird.
+* Wenn die LUN gemeinsam genutzt wird, stellen Sie sicher, dass Sie die Cluster-Ressourcenabhängigkeiten von der LUN entfernen und überprüfen, ob alle Knoten im Cluster eingeschaltet sind, ordnungsgemäß funktionieren und für SnapCenter verfügbar sind.
+
+
+*Über diese Aufgabe*
+
+Wenn Sie eine LUN in einem von SnapCenter erstellten FlexClone -Volume trennen und keine anderen LUNs auf dem Volume verbunden sind, löscht SnapCenter das Volume.  Bevor die LUN getrennt wird, zeigt SnapCenter eine Warnmeldung an, dass das FlexClone Volume möglicherweise gelöscht wird.
+
+Um das automatische Löschen des FlexClone -Volumes zu vermeiden, sollten Sie das Volume umbenennen, bevor Sie die letzte LUN trennen.  Achten Sie beim Umbenennen des Datenträgers darauf, dass Sie mehrere Zeichen ändern und nicht nur das letzte Zeichen im Namen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Klicken Sie auf der Seite „Hosts“ auf *Datenträger*.
+. Wählen Sie den Host aus der Dropdown-Liste *Host* aus.
++
+Die Datenträger werden aufgelistet.
+
+. Wählen Sie die Festplatte aus, die Sie trennen möchten, und klicken Sie dann auf *Trennen*.
+. Klicken Sie im Dialogfeld „Datenträger trennen“ auf *OK*.
++
+SnapCenter trennt die Verbindung zur Festplatte.
+
+
+
+
+
+== Löschen eines Datenträgers
+
+Sie können eine Festplatte löschen, wenn Sie sie nicht mehr benötigen.  Nachdem Sie eine Festplatte gelöscht haben, können Sie sie nicht wiederherstellen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Klicken Sie auf der Seite „Hosts“ auf *Datenträger*.
+. Wählen Sie den Host aus der Dropdown-Liste *Host* aus.
++
+Die Datenträger werden aufgelistet.
+
+. Wählen Sie die Festplatte aus, die Sie löschen möchten, und klicken Sie dann auf *Löschen*.
+. Klicken Sie im Dialogfeld „Datenträger löschen“ auf *OK*.
++
+SnapCenter löscht die Festplatte.
+
+

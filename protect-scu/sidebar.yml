@@ -1,0 +1,57 @@
+---
+section: protect-scu
+title: Schützen Sie Unix-Dateisysteme
+entries:
+- title: Übersicht über das SnapCenter -Plug-in für Unix-Dateisysteme
+  url: "/protect-scu/concept_overview_snapcenter_plug_in_for_UNIX_file_systems.html"
+- title: Installieren Sie das SnapCenter Plug-in für Unix-Dateisysteme
+  entries:
+  - title: Voraussetzungen für das Hinzufügen von Hosts und die Installation des Plug-In-Pakets
+      für Linux
+    url: "/protect-scu/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux.html"
+  - title: Hosts hinzufügen und Plug-In-Paket für Linux installieren
+    url: "/protect-scu/task_add_hosts_and_install_the_snapcenter_plug_ins_package_for_linux.html"
+  - title: Konfigurieren des SnapCenter Plug-in Loader -Dienstes
+    url: "/protect-scu/task_configure_snapcenter_plug_in_loader_service.html"
+  - title: Konfigurieren Sie das CA-Zertifikat mit dem SnapCenter Plug-in Loader -Dienst
+      auf dem Linux-Host
+    url: "/protect-scu/task_configure_CA_certificate_with_SPL_on_Linux_host.html"
+  - title: CA-Zertifikate für Plug-Ins aktivieren
+    url: "/protect-scu/task_enable_ca_certificates_for_plug-ins.html"
+- title: Installieren Sie das SnapCenter Plug-in for VMware vSphere
+  url: "/protect-scu/reference_install_snapcenter_plug_in_for_vmware_vsphere.html"
+- title: Bereiten Sie sich auf den Schutz von Unix-Dateisystemen vor
+  url: "/protect-scu/reference_prepare_for_protecting_UNIX file systems.html"
+- title: Sichern Sie Unix-Dateisysteme
+  entries:
+  - title: Entdecken Sie UNIX-Dateisysteme
+    url: "/protect-scu/task_determine_whether_unix_file_systems_are_available_for_backup.html"
+  - title: Erstellen von Sicherungsrichtlinien
+    url: "/protect-scu/task_create_backup_policies_for_unix_file_systems.html"
+  - title: Erstellen von Ressourcengruppen
+    url: "/protect-scu/task_create_resource_groups_and_attach_policies_for_unix_file_systems.html"
+  - title: Erstellen Sie Ressourcengruppen und aktivieren Sie den sekundären Schutz
+      für Unix-Dateisysteme auf ASA R2-Systemen
+    url: "/protect-scu/create-resource-groups-secondary-protection-for-asa-r2-unix-resources.html"
+  - title: Sichern Sie UNIX-Dateisysteme
+    url: "/protect-scu/task_back_up_unix_file_systems.html"
+  - title: Sichern von Ressourcengruppen
+    url: "/protect-scu/task_back_up_unix_file_systems_resource_groups.html"
+  - title: Überwachen des Sicherungsfortschritts
+    url: "/protect-scu/task_monitor_unix_file_systems_backup_operations.html"
+  - title: Geschützte Unix-Dateisysteme auf der Seite „Topologie“ anzeigen
+    url: "/protect-scu/view_protected_unix_file_systems_in_the_topology_page.html"
+- title: Wiederherstellen und Wiederherstellen von Unix-Dateisystemen
+  entries:
+  - title: Wiederherstellen und Wiederherstellen von Unix-Dateisystemen
+    url: "/protect-scu/task_restore_unix_file_systems.html"
+  - title: Überwachen Sie Wiederherstellungsvorgänge für Unix-Dateisysteme
+    url: "/protect-scu/task_monitor_unix_file_systems_restore_operations.html"
+- title: Klonen Sie Unix-Dateisysteme
+  entries:
+  - title: Klonen Sie Unix-Dateisysteme
+    url: "/protect-scu/task_clone_unix_file_systems_backup.html"
+  - title: Einen Klon teilen
+    url: "/protect-scu/task_split_a_clone.html"
+  - title: Überwachen Sie Klonvorgänge für Unix-Dateisysteme
+    url: "/protect-scu/task_monitor_unix_file_systems_clone_operations.html"

@@ -1,0 +1,28 @@
+---
+permalink: protect-sco/task_delete_clone_of_a_pluggable_database.html 
+sidebar: sidebar 
+keywords: delete, PDB, clone PDB 
+summary: 'Sie können den Klon einer Pluggable-Datenbank (PDB) löschen, wenn Sie ihn nicht mehr benötigen.' 
+---
+= Klon einer Pluggable-Datenbank löschen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den Klon einer Pluggable-Datenbank (PDB) löschen, wenn Sie ihn nicht mehr benötigen.
+
+Wenn Sie eine Sicherung der Ziel-CDB erstellt haben, in der die PDB geklont ist, wird beim Löschen des PDB-Klons die geklonte PDB auch aus der Sicherung der Ziel-CDB entfernt.
+
+
+NOTE: Die PDB-Klone werden nicht in der Inventar- oder Ressourcenansicht angezeigt.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie die Quellcontainerdatenbank (CDB) aus der Ressourcen- oder Ressourcengruppenansicht aus.
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Klone* entweder aus dem primären oder sekundären (gespiegelten oder replizierten) Speichersystem aus.
+. Wählen Sie den PDB-Klon (targetCDB:PDBClone) aus und klicken Sie dann aufimage:../media/delete_icon.gif["Symbol „Löschen“"] .
+. Klicken Sie auf *OK*.
+

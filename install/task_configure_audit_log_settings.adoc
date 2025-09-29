@@ -1,0 +1,70 @@
+---
+permalink: install/task_configure_audit_log_settings.html 
+sidebar: sidebar 
+keywords: audit, log, configure 
+summary: Sie können die Protokollierung der Sicherheitsereignisse von Softwareplattformen und der gesamten auf diesen Plattformen ausgeführten Software konfigurieren. 
+---
+= Konfigurieren der Überwachungsprotokolleinstellungen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Für jede einzelne Aktivität des SnapCenter -Servers werden Prüfprotokolle generiert.  Standardmäßig werden Überwachungsprotokolle am standardmäßigen Installationsort _C:\Programme\ NetApp\ SnapCenter WebApp\audit\_ gesichert.
+
+Prüfprotokolle werden durch die Generierung digital signierter Zusammenfassungen für jedes einzelne Prüfereignis gesichert, um sie vor unbefugten Änderungen zu schützen.  Die generierten Digests werden in einer separaten Prüfsummendatei gespeichert und regelmäßigen Integritätsprüfungen unterzogen, um die Integrität des Inhalts sicherzustellen.
+
+Sie sollten sich mit der Rolle „SnapCenterAdmin“ angemeldet haben.
+
+.Informationen zu diesem Vorgang
+* In den folgenden Szenarien werden Warnungen gesendet:
++
+** Zeitplan für die Integritätsprüfung des Audit-Protokolls oder Syslog-Server ist aktiviert oder deaktiviert
+** Integritätsprüfung des Überwachungsprotokolls, Überwachungsprotokoll oder Syslog-Serverprotokollfehler
+** Wenig Speicherplatz
+
+
+* Eine E-Mail wird nur gesendet, wenn die Integritätsprüfung fehlschlägt.
+* Sie sollten die Verzeichnispfade für das Überwachungsprotokoll und das Überwachungsprüfsummenprotokoll gemeinsam ändern.  Sie können nicht nur einen davon ändern.
+* Wenn die Verzeichnispfade für das Prüfprotokoll und das Prüfsummenprotokoll geändert werden, kann die Integritätsprüfung für die am früheren Speicherort vorhandenen Prüfprotokolle nicht durchgeführt werden.
+* Die Verzeichnispfade für das Überwachungsprotokoll und das Überwachungsprüfsummenprotokoll sollten sich auf dem lokalen Laufwerk des SnapCenter -Servers befinden.
++
+Gemeinsam genutzte oder im Netzwerk bereitgestellte Laufwerke werden nicht unterstützt.
+
+* Wenn in den Syslog-Servereinstellungen das UDP-Protokoll verwendet wird, können Fehler aufgrund eines ausgefallenen oder nicht verfügbaren Ports in SnapCenter weder als Fehler noch als Warnung erfasst werden.
+* Sie können die Überwachungsprotokolle mit den Befehlen „Set-SmAuditSettings“ und „Get-SmAuditSettings“ konfigurieren.
++
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von Get-Help command_name.  Alternativ können Sie auch die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+
+
+.Schritte
+. Navigieren Sie auf der Seite *Einstellungen* zu *Einstellungen* > *Globale Einstellungen* > *Einstellungen für Überwachungsprotokoll*.
+. Geben Sie im Abschnitt „Überwachungsprotokoll“ die Details ein.
+. Geben Sie das *Audit-Protokollverzeichnis* und das *Audit-Prüfsummenprotokollverzeichnis* ein
++
+.. Geben Sie die maximale Dateigröße ein
+.. Geben Sie die maximale Anzahl an Protokolldateien ein
+.. Geben Sie den Prozentsatz der Speicherplatznutzung ein, um eine Warnung zu senden
+
+
+. (Optional) Aktivieren Sie *UTC-Zeit protokollieren*.
+. (Optional) Aktivieren Sie *Zeitplan für Integritätsprüfung des Audit-Protokolls* und klicken Sie auf *Integritätsprüfung starten*, um die Integritätsprüfung bei Bedarf durchzuführen.
++
+Sie können auch den Befehl *Start-SmAuditIntegrityCheck* ausführen, um die Integritätsprüfung bei Bedarf zu starten.
+
+. (Optional) Aktivieren Sie „Überwachungsprotokolle an Remote-Syslog-Server weiterleiten“ und geben Sie die Syslog-Serverdetails ein.
++
+Sie sollten das Zertifikat vom Syslog-Server in das „Trusted Root“ für das TLS 1.2-Protokoll importieren.
+
++
+.. Geben Sie den Syslog-Server-Host ein
+.. Geben Sie den Syslog-Server-Port ein
+.. Geben Sie das Syslog-Serverprotokoll ein
+.. RFC-Format eingeben
+
+
+. Klicken Sie auf *Speichern*.
+. Sie können Audit-Integritätsprüfungen und Festplattenspeicherprüfungen anzeigen, indem Sie auf *Überwachen* > *Jobs* klicken.
+

@@ -1,0 +1,26 @@
+---
+permalink: protect-hana/concept_type_of_backups_supported.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Der Sicherungstyp gibt den Sicherungstyp an, den Sie erstellen möchten.  SnapCenter unterstützt dateibasierte Backups und Snapshot-Kopien-basierte Backup-Typen für SAP HANA-Datenbanken. 
+---
+= Unterstützte Sicherungstypen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Sicherungstyp gibt den Sicherungstyp an, den Sie erstellen möchten.  SnapCenter unterstützt dateibasierte Backups und Snapshot-Kopien-basierte Backup-Typen für SAP HANA-Datenbanken.
+
+
+
+== Dateibasierte Sicherung
+
+Dateibasierte Backups überprüfen die Integrität der Datenbank.  Sie können den dateibasierten Sicherungsvorgang so planen, dass er in bestimmten Intervallen erfolgt.  Es werden nur aktive Mandanten gesichert.  Sie können dateibasierte Sicherungen von SnapCenter nicht wiederherstellen und klonen.
+
+
+
+== Snapshot-Kopie-basierte Sicherung
+
+Auf Snapshot-Kopien basierende Backups nutzen die NetApp Snapshot-Technologie, um schreibgeschützte Online-Kopien der Volumes zu erstellen, auf denen sich die SAP HANA-Datenbanken befinden.

@@ -1,0 +1,146 @@
+---
+permalink: protect-sco/alternate-ways-install-plug-in-linux-aix.html 
+sidebar: sidebar 
+keywords: alternate methods, install, plug-ins package, linux, aix, remote hosts, cmdlets, cluster host, silent mode, console mode 
+summary: Sie können das SnapCenter Plug-ins-Paket für Linux oder das SnapCenter Plug-ins-Paket für AIX auch auf andere Weise installieren. 
+---
+= Alternative Möglichkeiten zur Installation des Plug-In-Pakets für Linux oder AIX
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können das Plug-In-Paket für Linux oder AIX auch manuell installieren, indem Sie entweder die Cmdlets oder CLIs verwenden.
+
+Bevor Sie das Plug-in manuell installieren, sollten Sie die Signatur des Binärpakets mithilfe der Schlüssel *snapcenter_public_key.pub* und *snapcenter_linux_host_plugin.bin.sig* unter _C:\ProgramData\ NetApp\ SnapCenter\Package Repository_ validieren.
+
+
+NOTE: Stellen Sie sicher, dass *OpenSSL 1.0.2g* auf dem Host installiert ist, auf dem Sie das Plug-in installieren möchten.
+
+Validieren Sie die Signatur des Binärpakets, indem Sie den folgenden Befehl ausführen:
+
+* Für Linux-Host: `openssl dgst -sha256 -verify snapcenter_public_key.pub -signature snapcenter_linux_host_plugin.bin.sig snapcenter_linux_host_plugin.bin`
+* Für AIX-Host: `openssl dgst -sha256 -verify snapcenter_public_key.pub -signature snapcenter_aix_host_plugin.bsx.sig snapcenter_aix_host_plugin.bsx`
+
+
+
+
+== Installieren Sie mithilfe von Cmdlets auf mehreren Remotehosts
+
+Sie sollten das PowerShell-Cmdlet _Install-SmHostPackage_ verwenden, um das SnapCenter Plug-ins-Paket für Linux oder das SnapCenter Plug-ins-Paket für AIX auf mehreren Hosts zu installieren.
+
+*Was Sie brauchen*
+
+Sie sollten auf jedem Host, auf dem Sie das Plug-In-Paket installieren möchten, als Domänenbenutzer mit lokalen Administratorrechten bei SnapCenter angemeldet sein.
+
+*Schritte*
+
+. Starten Sie PowerShell.
+. Richten Sie auf dem SnapCenter Server-Host eine Sitzung mit dem Cmdlet _Open-SmConnection_ ein und geben Sie dann Ihre Anmeldeinformationen ein.
+. Installieren Sie das SnapCenter Plug-ins-Paket für Linux oder das SnapCenter Plug-ins-Paket für AIX mit dem Cmdlet _Install-SmHostPackage_ und den erforderlichen Parametern.
++
+Sie können die Option _-skippercheck_ verwenden, wenn Sie die Plug-Ins bereits manuell installiert haben und nicht überprüfen möchten, ob der Host die Anforderungen für die Installation des Plug-Ins erfüllt.
+
++
+
+NOTE: Das Vorabprüfungsskript validiert den Firewall-Status des Plug-In-Ports nicht, wenn dieser in den Ablehnungsregeln der Firewall angegeben ist.
+
+. Geben Sie Ihre Anmeldeinformationen für die Remote-Installation ein.
+
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+
+
+== Auf Clusterhost installieren
+
+Sie sollten das SnapCenter Plug-ins-Paket für Linux oder das SnapCenter Plug-ins-Paket für AIX auf beiden Knoten des Clusterhosts installieren.
+
+Jeder Knoten des Cluster-Hosts hat zwei IPs.  Eine der IPs ist die öffentliche IP der jeweiligen Knoten und die zweite IP ist die Cluster-IP, die von beiden Knoten gemeinsam genutzt wird.
+
+*Schritte*
+
+. Installieren Sie das SnapCenter Plug-ins-Paket für Linux oder das SnapCenter Plug-ins-Paket für AIX auf beiden Knoten des Clusterhosts.
+. Überprüfen Sie, ob die richtigen Werte für die Parameter SNAPCENTER_SERVER_HOST, SPL_PORT, SNAPCENTER_SERVER_PORT und SPL_ENABLED_PLUGINS in der Datei spl.properties unter _/var/opt/snapcenter/spl/etc/_ angegeben sind.
++
+Wenn SPL_ENABLED_PLUGINS in spl.properties nicht angegeben ist, können Sie es hinzufügen und den Wert SCO,SCU zuweisen.
+
+. Richten Sie auf dem SnapCenter Server-Host eine Sitzung mit dem Cmdlet _Open-SmConnection_ ein und geben Sie dann Ihre Anmeldeinformationen ein.
+. Legen Sie in jedem Knoten die bevorzugten IPs des Knotens mit dem sccli-Befehl _Set-PreferredHostIPsInStorageExportPolicy_ und den erforderlichen Parametern fest.
+. Fügen Sie im SnapCenter Server-Host einen Eintrag für die Cluster-IP und den entsprechenden DNS-Namen in _C:\Windows\System32\drivers\etc\hosts_ hinzu.
+. Fügen Sie den Knoten mit dem Cmdlet _Add-SmHost_ zum SnapCenter -Server hinzu, indem Sie die Cluster-IP für den Hostnamen angeben.
+
+
+Ermitteln Sie die Oracle-Datenbank auf Knoten 1 (vorausgesetzt, die Cluster-IP wird auf Knoten 1 gehostet) und erstellen Sie eine Sicherungskopie der Datenbank.  Wenn ein Failover auftritt, können Sie die auf Knoten 1 erstellte Sicherung verwenden, um die Datenbank auf Knoten 2 wiederherzustellen.  Sie können das auf Knoten 1 erstellte Backup auch verwenden, um einen Klon auf Knoten 2 zu erstellen.
+
+
+NOTE: Wenn das Failover erfolgt, während andere SnapCenter -Vorgänge ausgeführt werden, bleiben veraltete Volumes, Verzeichnisse und Sperrdateien übrig.
+
+
+
+== Installieren Sie das Plug-In-Paket für Linux im unbeaufsichtigten Modus
+
+Sie können das SnapCenter Plug-Ins-Paket für Linux im unbeaufsichtigten Modus mithilfe der Befehlszeilenschnittstelle (CLI) installieren.
+
+*Was Sie brauchen*
+
+* Sie sollten die Voraussetzungen für die Installation des Plug-In-Pakets überprüfen.
+* Sie sollten sicherstellen, dass die Umgebungsvariable DISPLAY nicht festgelegt ist.
++
+Wenn die Umgebungsvariable DISPLAY festgelegt ist, sollten Sie unset DISPLAY ausführen und dann versuchen, das Plug-In manuell zu installieren.
+
+
+
+*Über diese Aufgabe*
+
+Bei der Installation im Konsolenmodus müssen Sie die erforderlichen Installationsinformationen angeben, bei der Installation im unbeaufsichtigten Modus hingegen müssen Sie keine Installationsinformationen angeben.
+
+*Schritte*
+
+. Laden Sie das SnapCenter Plug-Ins-Paket für Linux vom Installationsort des SnapCenter Servers herunter.
++
+Der Standardinstallationspfad ist _C:\ProgramData\ NetApp\ SnapCenter\PackageRepository_.  Auf diesen Pfad kann vom Host aus zugegriffen werden, auf dem der SnapCenter -Server installiert ist.
+
+. Navigieren Sie in der Eingabeaufforderung zu dem Verzeichnis, in das Sie die Installationsdatei heruntergeladen haben.
+. Laufen
++
+`./SnapCenter_linux_host_plugin.bin-i silent-DPORT=8145-DSERVER_IP=SnapCenter_Server_FQDN-DSERVER_HTTPS_PORT=SnapCenter_Server_Port-DUSER_INSTALL_DIR==/opt/custom_path`
+
+. Bearbeiten Sie die Datei spl.properties unter _/var/opt/snapcenter/spl/etc/_, um SPL_ENABLED_PLUGINS=SCO,SCU hinzuzufügen, und starten Sie dann den Dienst SnapCenter Plug-in Loader neu.
+
+
+
+IMPORTANT: Durch die Installation des Plug-In-Pakets werden die Plug-Ins auf dem Host und nicht auf dem SnapCenter -Server registriert.  Sie sollten die Plug-Ins auf dem SnapCenter -Server registrieren, indem Sie den Host mithilfe der SnapCenter -GUI oder des PowerShell-Cmdlets hinzufügen.  Wählen Sie beim Hinzufügen des Hosts „Keine“ als Anmeldeinformationen aus.  Nachdem der Host hinzugefügt wurde, werden die installierten Plug-Ins automatisch erkannt.
+
+
+
+== Installieren Sie das Plug-In-Paket für AIX im unbeaufsichtigten Modus
+
+Sie können das SnapCenter Plug-ins-Paket für AIX im unbeaufsichtigten Modus mithilfe der Befehlszeilenschnittstelle (CLI) installieren.
+
+*Was Sie brauchen*
+
+* Sie sollten die Voraussetzungen für die Installation des Plug-In-Pakets überprüfen.
+* Sie sollten sicherstellen, dass die Umgebungsvariable DISPLAY nicht festgelegt ist.
++
+Wenn die Umgebungsvariable DISPLAY festgelegt ist, sollten Sie unset DISPLAY ausführen und dann versuchen, das Plug-In manuell zu installieren.
+
+
+
+*Schritte*
+
+. Laden Sie das SnapCenter Plug-ins-Paket für AIX vom Installationsort des SnapCenter Servers herunter.
++
+Der Standardinstallationspfad ist _C:\ProgramData\ NetApp\ SnapCenter\PackageRepository_.  Auf diesen Pfad kann vom Host aus zugegriffen werden, auf dem der SnapCenter -Server installiert ist.
+
+. Navigieren Sie in der Eingabeaufforderung zu dem Verzeichnis, in das Sie die Installationsdatei heruntergeladen haben.
+. Laufen
++
+`./snapcenter_aix_host_plugin.bsx-i silent-DPORT=8145-DSERVER_IP=SnapCenter_Server_FQDN-DSERVER_HTTPS_PORT=SnapCenter_Server_Port-DUSER_INSTALL_DIR==/opt/custom_path-DINSTALL_LOG_NAME=SnapCenter_AIX_Host_Plug-in_Install_MANUAL.log-DCHOSEN_FEATURE_LIST=CUSTOMDSPL_USER=install_user`
+
+. Bearbeiten Sie die Datei spl.properties unter _/var/opt/snapcenter/spl/etc/_, um SPL_ENABLED_PLUGINS=SCO,SCU hinzuzufügen, und starten Sie dann den Dienst SnapCenter Plug-in Loader neu.
+
+
+
+IMPORTANT: Durch die Installation des Plug-In-Pakets werden die Plug-Ins auf dem Host und nicht auf dem SnapCenter -Server registriert.  Sie sollten die Plug-Ins auf dem SnapCenter -Server registrieren, indem Sie den Host mithilfe der SnapCenter -GUI oder des PowerShell-Cmdlets hinzufügen.  Wählen Sie beim Hinzufügen des Hosts „Keine“ als Anmeldeinformationen aus.  Nachdem der Host hinzugefügt wurde, werden die installierten Plug-Ins automatisch erkannt.

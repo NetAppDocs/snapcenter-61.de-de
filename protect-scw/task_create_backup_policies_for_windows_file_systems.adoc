@@ -1,0 +1,181 @@
+---
+permalink: protect-scw/task_create_backup_policies_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backup policy 
+summary: Sie können eine neue Sicherungsrichtlinie für Ressourcen erstellen, bevor Sie SnapCenter zum Sichern von Windows-Dateisystemen verwenden, oder Sie können eine neue Sicherungsrichtlinie erstellen, wenn Sie eine Ressourcengruppe erstellen oder eine Ressource sichern. 
+---
+= Erstellen von Sicherungsrichtlinien für Windows-Dateisysteme
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können eine neue Sicherungsrichtlinie für Ressourcen erstellen, bevor Sie SnapCenter zum Sichern von Windows-Dateisystemen verwenden, oder Sie können eine neue Sicherungsrichtlinie erstellen, wenn Sie eine Ressourcengruppe erstellen oder eine Ressource sichern.
+
+.Bevor Sie beginnen
+* Sie müssen Ihre Sicherungsstrategie definiert haben.link:task_define_a_backup_strategy_for_windows_file_systems.html["Mehr erfahren"^]
+* Sie müssen sich auf den Datenschutz vorbereitet haben.
++
+Zur Vorbereitung des Datenschutzes müssen Sie Aufgaben wie die Installation von SnapCenter, das Hinzufügen von Hosts, das Erkennen von Ressourcen und das Erstellen von Verbindungen zu virtuellen Speichermaschinen (SVM) erledigen.
+
+* Wenn Sie Snapshots auf einen Spiegel- oder Tresor-Sekundärspeicher replizieren, muss der SnapCenter Administrator Ihnen die SVMs sowohl für das Quell- als auch für das Zielvolume zugewiesen haben.
+* Wenn Sie die PowerShell-Skripte in Prescripts und Postscripts ausführen möchten, sollten Sie den Wert des Parameters usePowershellProcessforScripts in der Datei web.config auf true setzen.
++
+Der Standardwert ist „false“
+
+* Überprüfen Sie die spezifischen Voraussetzungen und Einschränkungen der SnapMirror Active Sync. Weitere Informationen finden Sie unter https://docs.netapp.com/us-en/ontap/smbc/considerations-limits.html#volumes["Objektlimits für SnapMirror Active Sync"] .
+
+
+.Informationen zu diesem Vorgang
+* Der SCRIPTS_PATH wird mithilfe des Schlüssels „PredefinedWindowsScriptsDirectory“ definiert, der sich in der Datei „SMCoreServiceHost.exe.Config“ des Plug-In-Hosts befindet.
++
+Bei Bedarf können Sie diesen Pfad ändern und den SMcore-Dienst neu starten.  Aus Sicherheitsgründen wird empfohlen, den Standardpfad zu verwenden.
+
++
+Der Wert des Schlüssels kann von Swagger über die API angezeigt werden: API /4.7/configsettings
+
++
+Sie können die GET-API verwenden, um den Wert des Schlüssels anzuzeigen.  SET-API wird nicht unterstützt.
+
+* SnapLock
++
+** Wenn die Option „Sicherungskopien für eine bestimmte Anzahl von Tagen aufbewahren“ ausgewählt ist, muss die SnapLock -Aufbewahrungsdauer kleiner oder gleich der angegebenen Aufbewahrungsdauer in Tagen sein.
+** Durch die Angabe einer Snapshot-Sperrfrist wird das Löschen der Snapshots verhindert, bis die Aufbewahrungsfrist abgelaufen ist. Dies kann dazu führen, dass mehr Snapshots aufbewahrt werden als in der Richtlinie angegeben.
+** Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+
+
+
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Einstellungen* aus.
+. Wählen Sie auf der Seite „Einstellungen“ *Richtlinien* aus.
+. Wählen Sie *Neu*.
+. Geben Sie auf der Seite „Name“ den Richtliniennamen und die Details ein.
+. Führen Sie auf der Seite „Sicherung und Replikation“ die folgenden Aufgaben aus:
++
+.. Wählen Sie eine Sicherungseinstellung aus.
++
+|===
+| Option | Beschreibung 
+
+
+ a| 
+Dateisystemkonsistente Sicherung
+ a| 
+Wählen Sie diese Option, wenn SnapCenter das Festplattenlaufwerk, auf dem sich das Dateisystem befindet, vor Beginn des Sicherungsvorgangs stilllegen und das Festplattenlaufwerk nach Abschluss des Sicherungsvorgangs wieder aktivieren soll.
+
+
+
+ a| 
+Dateisystem-Absturzkonsistente Sicherung
+ a| 
+Wählen Sie diese Option, wenn SnapCenter das Festplattenlaufwerk, auf dem sich das Dateisystem befindet, nicht stilllegen soll.
+
+|===
+.. Wählen Sie eine Zeitplanhäufigkeit (auch Richtlinientyp genannt) aus.
++
+Die Richtlinie gibt nur die Sicherungshäufigkeit an.  Der spezifische Schutzzeitplan für die Sicherung wird in der Ressourcengruppe definiert.  Daher können zwei oder mehr Ressourcengruppen dieselbe Richtlinie und Sicherungshäufigkeit verwenden, jedoch unterschiedliche Sicherungspläne haben.
+
++
+
+NOTE: Wenn Sie 2:00 Uhr morgens geplant haben, wird der Zeitplan während der Sommerzeit (DST) nicht ausgelöst.
+
+.. Wählen Sie eine Richtlinienbezeichnung aus.
++
+Abhängig von der von Ihnen ausgewählten Snapshot-Bezeichnung wendet ONTAP die sekundäre Snapshot-Aufbewahrungsrichtlinie an, die der Bezeichnung entspricht.
+
++
+
+NOTE: Wenn Sie * SnapMirror nach dem Erstellen einer lokalen Snapshot-Kopie aktualisieren* ausgewählt haben, können Sie optional die sekundäre Richtlinienbezeichnung angeben.  Wenn Sie jedoch * SnapVault nach dem Erstellen einer lokalen Snapshot-Kopie aktualisieren* ausgewählt haben, sollten Sie die sekundäre Richtlinienbezeichnung angeben.
+
+
+
+. Wählen Sie im Abschnitt „Sekundäre Replikationsoptionen auswählen“ eine oder beide der folgenden sekundären Replikationsoptionen aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Aktualisieren Sie SnapMirror , nachdem Sie eine lokale Snapshot-Kopie erstellt haben
+ a| 
+Wählen Sie diese Option, um Spiegelkopien von Sicherungssätzen auf einem anderen Volume (SnapMirror) zu erstellen.
+
+Diese Option sollte für die aktive Synchronisierung von SnapSnapMirror aktiviert werden.
+
+Während der sekundären Replikation lädt die Ablaufzeit des SnapLock die Ablaufzeit des primären SnapLock .  Durch Klicken auf die Schaltfläche *Aktualisieren* auf der Seite „Topologie“ werden die Ablaufzeiten des sekundären und primären SnapLock aktualisiert, die von ONTAP abgerufen werden.
+
+Sehen link:../protect-scw/task_view_related_backups_and_clones_in_the_topology_page.html["Anzeigen zugehöriger Sicherungen und Klone auf der Seite „Topologie“"] .
+
+
+
+ a| 
+Aktualisieren Sie SnapVault nach dem Erstellen einer Snapshot-Kopie
+ a| 
+Wählen Sie diese Option, um eine Backup-Replikation von Festplatte zu Festplatte durchzuführen.
+
+Während der sekundären Replikation lädt die Ablaufzeit des SnapLock die Ablaufzeit des primären SnapLock .  Durch Klicken auf die Schaltfläche „Aktualisieren“ auf der Seite „Topologie“ werden die Ablaufzeiten des sekundären und primären SnapLock aktualisiert, die von ONTAP abgerufen werden.
+
+Wenn SnapLock nur auf dem sekundären Server von ONTAP , bekannt als SnapLock Vault, konfiguriert ist, wird durch Klicken auf die Schaltfläche „Aktualisieren“ auf der Seite „Topologie“ die Sperrdauer auf dem sekundären Server aktualisiert, die von ONTAP abgerufen wird.
+
+Weitere Informationen zu SnapLock Vault finden Sie unter https://docs.netapp.com/us-en/ontap/snaplock/commit-snapshot-copies-worm-concept.html["Übertragen Sie Snapshot-Kopien in WORM auf einem Tresorziel"]
+
+
+
+ a| 
+Fehleranzahl der Wiederholungsversuche
+ a| 
+Geben Sie die Anzahl der Replikationsversuche ein, die durchgeführt werden sollen, bevor der Prozess angehalten wird.
+
+|===
++
+
+NOTE: Sie sollten die SnapMirror Aufbewahrungsrichtlinie in ONTAP für den sekundären Speicher konfigurieren, um zu vermeiden, dass das maximale Limit für Snapshots auf dem sekundären Speicher erreicht wird.
+
+. Geben Sie auf der Seite „Aufbewahrungseinstellungen“ die Aufbewahrungseinstellungen für On-Demand-Backups und für jede von Ihnen ausgewählte Zeitplanhäufigkeit an.
++
+|===
+| Option | Beschreibung 
+
+
+ a| 
+Gesamtzahl der aufzubewahrenden Snapshot-Kopien
+ a| 
+Wählen Sie diese Option, wenn Sie die Anzahl der Snapshots angeben möchten, die SnapCenter speichert, bevor sie automatisch gelöscht werden.
+
+
+
+ a| 
+Bewahren Sie Snapshot-Kopien für
+ a| 
+Wählen Sie diese Option, wenn Sie die Anzahl der Tage angeben möchten, die SnapCenter eine Sicherungskopie aufbewahrt, bevor sie gelöscht wird.
+
+
+
+ a| 
+Sperrzeitraum für Snapshot-Kopien
+ a| 
+Wählen Sie den Snapshot-Sperrzeitraum aus und geben Sie die Dauer in Tagen, Monaten oder Jahren an.
+
+Die Aufbewahrungsdauer von SnapLock sollte weniger als 100 Jahre betragen.
+
+|===
++
+
+IMPORTANT: Sie sollten die Aufbewahrungsanzahl auf 2 oder höher einstellen.  Der Mindestwert für die Aufbewahrungsanzahl beträgt 2.
+
++
+
+NOTE: Der maximale Aufbewahrungswert beträgt 1018. Sicherungen schlagen fehl, wenn die Aufbewahrung auf einen höheren Wert eingestellt ist, als von der ONTAP Version unterstützt wird.
+
+. Geben Sie auf der Seite „Skript“ den Pfad des Präskripts oder Postskripts ein, das der SnapCenter -Server vor bzw. nach dem Sicherungsvorgang ausführen soll, sowie ein Zeitlimit, das SnapCenter auf die Ausführung des Skripts wartet, bevor es zu einer Zeitüberschreitung kommt.
++
+Sie können beispielsweise ein Skript ausführen, um SNMP-Traps zu aktualisieren, Warnungen zu automatisieren und Protokolle zu senden.
+
++
+
+NOTE: Der Prescripts- oder Postscripts-Pfad sollte keine Laufwerke oder Freigaben enthalten.  Der Pfad sollte relativ zum SCRIPTS_PATH sein.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+

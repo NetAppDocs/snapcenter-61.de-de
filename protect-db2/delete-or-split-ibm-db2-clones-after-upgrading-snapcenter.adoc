@@ -1,0 +1,30 @@
+---
+permalink: protect-db2/delete-or-split-ibm-db2-clones-after-upgrading-snapcenter.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 Database 
+summary: Nach dem Upgrade auf SnapCenter 4.3 werden die Klone nicht mehr angezeigt.  Sie können den Klon löschen oder die Klone auf der Topologieseite der Ressource aufteilen, aus der die Klone erstellt wurden. 
+---
+= Löschen oder Aufteilen von IBM Db2-Datenbankklonen nach dem Upgrade von SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nach dem Upgrade auf SnapCenter 4.3 werden die Klone nicht mehr angezeigt.  Sie können den Klon löschen oder die Klone auf der Topologieseite der Ressource aufteilen, aus der die Klone erstellt wurden.
+
+.Informationen zu diesem Vorgang
+Wenn Sie den Speicherbedarf der versteckten Klone ermitteln möchten, führen Sie den folgenden Befehl aus: `Get-SmClone -ListStorageFootprint`
+
+.Schritte
+. Löschen Sie die Sicherungen der geklonten Ressourcen mithilfe des Cmdlets „remove-smbackup“.
+. Löschen Sie die Ressourcengruppe der geklonten Ressourcen mithilfe des Cmdlets „remove-smresourcegroup“.
+. Entfernen Sie den Schutz der geklonten Ressource mithilfe des Cmdlets „remove-smprotectresource“.
+. Wählen Sie die übergeordnete Ressource auf der Seite „Ressourcen“ aus.
++
+Die Seite „Ressourcentopologie“ wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ die Klone entweder aus dem primären oder sekundären (gespiegelten oder replizierten) Speichersystem aus.
+. Wählen Sie die Klone aus und klicken Sie dann aufimage:../media/delete_icon.gif["Symbol „Löschen“"] , um Klone zu löschen, oder klicken Sie aufimage:../media/split_clone.gif["geteilter Klon"] um die Klone zu teilen.
+. Klicken Sie auf *OK*.
+

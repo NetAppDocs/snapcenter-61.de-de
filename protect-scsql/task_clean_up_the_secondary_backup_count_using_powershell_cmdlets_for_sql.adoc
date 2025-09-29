@@ -1,0 +1,39 @@
+---
+permalink: protect-scsql/task_clean_up_the_secondary_backup_count_using_powershell_cmdlets_for_sql.html 
+sidebar: sidebar 
+keywords: backups 
+summary: Sie können das Cmdlet „Remove-SmBackup“ verwenden, um die Sicherungsanzahl für sekundäre Sicherungen ohne Snapshots zu bereinigen.  Sie möchten dieses Cmdlet möglicherweise verwenden, wenn die Gesamtzahl der in der Topologie „Kopien verwalten“ angezeigten Snapshots nicht mit der Snapshot-Aufbewahrungseinstellung des sekundären Speichers übereinstimmt. 
+---
+= Bereinigen der Anzahl sekundärer Sicherungen mithilfe von PowerShell-Cmdlets
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können das Cmdlet „Remove-SmBackup“ verwenden, um die Sicherungsanzahl für sekundäre Sicherungen ohne Snapshot zu bereinigen.  Sie können dieses Cmdlet verwenden, wenn die Gesamtzahl der in der Topologie „Kopien verwalten“ angezeigten Snapshots nicht mit der Snapshot-Aufbewahrungseinstellung des sekundären Speichers übereinstimmt.
+
+Sie müssen die PowerShell-Umgebung vorbereitet haben, um die PowerShell-Cmdlets auszuführen.
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+.Schritte
+. Initiieren Sie mithilfe des Cmdlets Open-SmConnection eine Verbindungssitzung mit dem SnapCenter -Server für einen angegebenen Benutzer.
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. Bereinigen Sie die Anzahl sekundärer Sicherungen mit dem Parameter -CleanupSecondaryBackups.
++
+In diesem Beispiel wird die Sicherungsanzahl für sekundäre Sicherungen ohne Snapshots bereinigt:
+
++
+[listing]
+----
+Remove-SmBackup -CleanupSecondaryBackups
+Remove-SmBackup
+Are you sure want to remove the backup(s).
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"):
+----
+

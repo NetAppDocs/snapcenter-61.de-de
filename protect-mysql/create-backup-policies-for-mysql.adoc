@@ -1,0 +1,153 @@
+---
+permalink: protect-mysql/create-backup-policies-for-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: Bevor Sie SnapCenter zum Sichern von MySQL-Datenbankressourcen verwenden, müssen Sie eine Sicherungsrichtlinie für die Ressource oder Ressourcengruppe erstellen, die Sie sichern möchten.  Eine Sicherungsrichtlinie ist ein Satz von Regeln, der regelt, wie Sie Sicherungen verwalten, planen und aufbewahren. 
+---
+= Erstellen von Sicherungsrichtlinien für MySQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie SnapCenter zum Sichern von MySQL-Ressourcen verwenden, müssen Sie eine Sicherungsrichtlinie für die Ressource oder Ressourcengruppe erstellen, die Sie sichern möchten.  Eine Sicherungsrichtlinie ist ein Satz von Regeln, der regelt, wie Sie Sicherungen verwalten, planen und aufbewahren.
+
+.Bevor Sie beginnen
+* Sie müssen Ihre Sicherungsstrategie definiert haben.
++
+Einzelheiten finden Sie in den Informationen zum Definieren einer Datenschutzstrategie für MySQL-Datenbanken.
+
+* Sie müssen sich auf den Datenschutz vorbereitet haben, indem Sie Aufgaben wie die Installation von SnapCenter, das Hinzufügen von Hosts, das Einrichten von Speichersystemverbindungen und das Hinzufügen von Ressourcen abgeschlossen haben.
+* Wenn Sie Snapshots auf einen Spiegel oder Tresor replizieren, muss Ihnen der SnapCenter Administrator die SVMs für das Quell- und das Zielvolume zugewiesen haben.
++
+Darüber hinaus können Sie in der Richtlinie Replikations-, Skript- und Anwendungseinstellungen angeben.  Diese Optionen sparen Zeit, wenn Sie die Richtlinie für eine andere Ressourcengruppe wiederverwenden möchten.
+
+
+
+.Informationen zu diesem Vorgang
+* SnapLock
++
+** Wenn die Option „Sicherungskopien für eine bestimmte Anzahl von Tagen aufbewahren“ ausgewählt ist, muss die SnapLock -Aufbewahrungsdauer kleiner oder gleich der angegebenen Aufbewahrungsdauer in Tagen sein.
+** Durch die Angabe einer Snapshot-Sperrfrist wird das Löschen der Snapshots verhindert, bis die Aufbewahrungsfrist abgelaufen ist.  Dies kann dazu führen, dass mehr Snapshots aufbewahrt werden als in der Richtlinie angegeben.
+** Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+
+
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Richtlinien*.
+. Klicken Sie auf *Neu*.
+. Geben Sie auf der Seite „Name“ den Richtliniennamen und die Details ein.
+. Führen Sie auf der Seite „Richtlinientyp“ die folgenden Schritte aus:
++
+.. Wählen Sie den Speichertyp aus.
+.. Geben Sie im Abschnitt „Benutzerdefinierte Sicherungseinstellungen“ alle spezifischen Sicherungseinstellungen an, die im Schlüssel-Wert-Format an das Plug-In übergeben werden müssen.
++
+Sie können mehrere Schlüsselwerte angeben, die an das Plug-In übergeben werden sollen.
+
+
+
+. Führen Sie auf der Seite „Snapshot und Replikation“ die folgenden Schritte aus:
++
+.. Geben Sie den Zeitplantyp an, indem Sie *Auf Anfrage*, *Stündlich*, *Täglich*, *Wöchentlich* oder *Monatlich* auswählen.
++
+
+NOTE: Sie können den Zeitplan (Startdatum, Enddatum und Häufigkeit) für den Sicherungsvorgang beim Erstellen einer Ressourcengruppe angeben.  Auf diese Weise können Sie Ressourcengruppen erstellen, die dieselbe Richtlinie und Sicherungshäufigkeit verwenden, aber jeder Richtlinie unterschiedliche Sicherungszeitpläne zuweisen.
+
++
+
+NOTE: Wenn Sie 2:00 Uhr morgens geplant haben, wird der Zeitplan während der Sommerzeit (DST) nicht ausgelöst.
+
+.. Geben Sie im Abschnitt „Snapshot-Einstellungen“ die Aufbewahrungseinstellungen für den Sicherungstyp und den Zeitplantyp an, die auf der Seite „Sicherungstyp“ ausgewählt wurden:
++
+|===
+| Wenn Sie wollen... | Dann... 
+
+
+ a| 
+Behalten Sie eine bestimmte Anzahl von Snapshots
+ a| 
+Wählen Sie *Zu behaltende Kopien* und geben Sie dann die Anzahl der Snapshots an, die Sie behalten möchten.
+
+Wenn die Anzahl der Snapshots die angegebene Anzahl überschreitet, werden die Snapshots gelöscht, wobei die ältesten Kopien zuerst gelöscht werden.
+
+
+NOTE: Sie müssen die Aufbewahrungsanzahl auf 2 oder höher einstellen, wenn Sie die SnapVault -Replikation aktivieren möchten.  Wenn Sie die Aufbewahrungsanzahl auf 1 setzen, schlägt der Aufbewahrungsvorgang möglicherweise fehl, da der erste Snapshot der Referenz-Snapshot für die SnapVault -Beziehung ist, bis ein neuerer Snapshot auf das Ziel repliziert wird.
+
+
+NOTE: Der maximale Aufbewahrungswert beträgt 1018. Sicherungen schlagen fehl, wenn die Aufbewahrung auf einen höheren Wert eingestellt ist, als von der zugrunde liegenden ONTAP Version unterstützt wird.
+
+
+
+ a| 
+Bewahren Sie die Snapshots für eine bestimmte Anzahl von Tagen auf
+ a| 
+Wählen Sie *Kopien aufbewahren für* und geben Sie dann die Anzahl der Tage an, für die Sie die Snapshots aufbewahren möchten, bevor sie gelöscht werden.
+
+
+
+ a| 
+Sperrzeitraum für Snapshot-Kopien
+ a| 
+Wählen Sie *Sperrzeitraum für Snapshot-Kopien* und geben Sie Tage, Monate oder Jahre an.
+
+Die Aufbewahrungsdauer von SnapLock sollte weniger als 100 Jahre betragen.
+
+|===
+.. Wählen Sie eine Richtlinienbezeichnung aus.
++
+
+NOTE: Sie können primären Snapshots SnapMirror Labels für die Remote-Replikation zuweisen, sodass die primären Snapshots den Snapshot-Replikationsvorgang von SnapCenter auf sekundäre ONTAP -Systeme auslagern können. Dies kann erfolgen, ohne die Option SnapMirror oder SnapVault auf der Richtlinienseite zu aktivieren.
+
+
+
+. Wählen Sie im Abschnitt „Sekundäre Replikationsoptionen auswählen“ eine oder beide der folgenden sekundären Replikationsoptionen aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+*Aktualisieren Sie SnapMirror , nachdem Sie eine lokale Snapshot-Kopie erstellt haben*
+ a| 
+Wählen Sie dieses Feld aus, um Spiegelkopien der Sicherungssätze auf einem anderen Volume zu erstellen (SnapMirror -Replikation).
+
+Wenn die Schutzbeziehung in ONTAP vom Typ „Mirror und Vault“ ist und Sie nur diese Option auswählen, wird der auf dem primären Server erstellte Snapshot nicht zum Ziel übertragen, sondern im Ziel aufgelistet.  Wenn dieser Snapshot vom Ziel ausgewählt wird, um einen Wiederherstellungsvorgang durchzuführen, wird die folgende Fehlermeldung angezeigt: „Der sekundäre Speicherort ist für die ausgewählte gewölbte/gespiegelte Sicherung nicht verfügbar.“
+
+Während der sekundären Replikation lädt die Ablaufzeit des SnapLock die Ablaufzeit des primären SnapLock .
+
+Durch Klicken auf die Schaltfläche *Aktualisieren* auf der Seite „Topologie“ werden die Ablaufzeiten des sekundären und primären SnapLock aktualisiert, die von ONTAP abgerufen werden.
+
+Sehen link:view-mysql-database-backups-and-clones-in-the-topology-page.html["Anzeigen von MySQL-Ressourcen-bezogenen Sicherungen und Klonen auf der Seite „Topologie“"] .
+
+
+
+ a| 
+*Aktualisieren Sie SnapVault , nachdem Sie eine lokale Snapshot-Kopie erstellt haben*
+ a| 
+Wählen Sie diese Option, um eine Backup-Replikation von Festplatte zu Festplatte durchzuführen (SnapVault -Backups).
+
+Während der sekundären Replikation lädt die Ablaufzeit des SnapLock die Ablaufzeit des primären SnapLock .  Durch Klicken auf die Schaltfläche *Aktualisieren* auf der Seite „Topologie“ werden die Ablaufzeiten des sekundären und primären SnapLock aktualisiert, die von ONTAP abgerufen werden.
+
+Wenn SnapLock nur auf dem sekundären Server von ONTAP , bekannt als SnapLock Vault, konfiguriert ist, wird durch Klicken auf die Schaltfläche *Aktualisieren* auf der Seite „Topologie“ die Sperrdauer auf dem sekundären Server aktualisiert, die von ONTAP abgerufen wird.
+
+Weitere Informationen zu SnapLock Vault finden Sie unter Commit Snapshots to WORM on a vault destination
+
+Sehen link:view-mysql-database-backups-and-clones-in-the-topology-page.html["Anzeigen von MySQL-Ressourcen-bezogenen Sicherungen und Klonen auf der Seite „Topologie“"] .
+
+
+
+ a| 
+*Fehler bei der Wiederholungsanzahl*
+ a| 
+Geben Sie die maximale Anzahl an Replikationsversuchen ein, die zulässig sind, bevor der Vorgang beendet wird.
+
+|===
++
+
+NOTE: Sie sollten die SnapMirror Aufbewahrungsrichtlinie in ONTAP für den sekundären Speicher konfigurieren, um zu vermeiden, dass das maximale Limit für Snapshots auf dem sekundären Speicher erreicht wird.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+

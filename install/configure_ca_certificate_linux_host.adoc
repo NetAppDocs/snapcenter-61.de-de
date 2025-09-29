@@ -1,0 +1,73 @@
+---
+permalink: install/configure_ca_certificate_linux_host.html 
+sidebar: sidebar 
+keywords: SnapCenter, configure, CA certificate, linux, linux host 
+summary: Sie sollten das CA-Zertifikat mit SnapCenter Server auf dem Linux-Host konfigurieren. 
+---
+= Konfigurieren des CA-Zertifikats für den Linux-Host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nach der Installation des SnapCenter -Servers unter Linux erstellt das Installationsprogramm das selbstsignierte Zertifikat.  Wenn Sie das CA-Zertifikat verwenden möchten, sollten Sie die Zertifikate für den Nginx-Reverse-Proxy, die Audit-Protokollierung und die SnapCenter -Dienste konfigurieren.
+
+
+
+== Konfigurieren Sie das Nginx-Zertifikat
+
+.Schritte
+. Navigieren Sie zu _/etc/nginx/conf.d_: `cd /etc/nginx/conf.d`
+. Öffnen Sie *snapcenter.conf* mit vi oder einem beliebigen Texteditor.
+. Navigieren Sie zum Serverabschnitt in der Konfigurationsdatei.
+. Ändern Sie die Pfade von _ssl_certificate_ und _ssl_certificate_key_, sodass sie auf das CA-Zertifikat verweisen.
+. Speichern und schließen Sie die Datei.
+. Nginx neu laden: `$nginx -s reload`
+
+
+
+
+== Konfigurieren des Überwachungsprotokollzertifikats
+
+.Schritte
+. Öffnen Sie _INSTALL_DIR/ NetApp/snapcenter/SnapManagerWeb/ SnapManager.Web.UI.dll.config_ mit vi oder einem beliebigen Texteditor.
++
+Der Standardwert von _INSTALL_DIR_ ist _/opt_.
+
+. Bearbeiten Sie die Schlüssel *AUDILOG_CERTIFICATE_PATH* und *AUDILOG_CERTIFICATE_PASSWORD*, um den CA-Zertifikatpfad bzw. das CA-Passwort einzuschließen.
++
+Für das Audit-Protokollzertifikat wird nur das _.pfx_-Format unterstützt.
+
+. Speichern und schließen Sie die Datei.
+. Starten Sie den Dienst *snapmanagerweb* neu: `$ systemctl restart snapmanagerweb`
+
+
+
+
+== Konfigurieren des SnapCenter -Dienstzertifikats
+
+.Schritte
+. Öffnen Sie die folgenden Konfigurationsdateien mit vi oder einem beliebigen Texteditor.
++
+** _INSTALL_DIR/ NetApp/snapcenter/SnapManagerWeb/ SnapManager.Web.UI.dll.config_
+** _INSTALL_DIR/ NetApp/snapcenter/SMCore/SMCoreServiceHost.dll.config_
+** _INSTALL_DIR/ NetApp/snapcenter/Scheduler/Scheduler.Api.dll.config_
++
+Der Standardwert von _INSTALL_DIR_ ist _/opt_.
+
+
+
+. Bearbeiten Sie die Schlüssel *SERVICE_CERTIFICATE_PATH* und *SERVICE_CERTIFICATE_PASSWORD*, um den CA-Zertifikatpfad bzw. das CA-Passwort einzuschließen.
++
+Für das SnapCenter -Dienstzertifikat wird nur das _.pfx_-Format unterstützt.
+
+. Speichern und schließen Sie die Dateien.
+. Starten Sie alle Dienste neu.
++
+** `$ systemctl restart snapmanagerweb`
+** `$ systemctl restart smcore`
+** `$ systemctl restart scheduler`
+
+
+

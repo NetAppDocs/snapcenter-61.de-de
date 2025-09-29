@@ -1,0 +1,38 @@
+---
+permalink: protect-sce/task_get_the_CA_certificate_thumbprint.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Holen Sie sich den Fingerabdruck des CA-Zertifikats. 
+---
+= Abrufen des CA-Zertifikatfingerabdrucks
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein Zertifikatfingerabdruck ist eine hexadezimale Zeichenfolge, die ein Zertifikat identifiziert.  Aus dem Inhalt des Zertifikats wird mithilfe eines Fingerabdruckalgorithmus ein Fingerabdruck berechnet.
+
+.Schritte
+. Führen Sie auf der GUI Folgendes aus:
++
+.. Doppelklicken Sie auf das Zertifikat.
+.. Klicken Sie im Dialogfeld „Zertifikat“ auf die Registerkarte „Details“.
+.. Blättern Sie durch die Liste der Felder und klicken Sie auf *Fingerabdruck*.
+.. Kopieren Sie die Hexadezimalzeichen aus dem Feld.
+.. Entfernen Sie die Leerzeichen zwischen den Hexadezimalzahlen.
++
+Wenn der Fingerabdruck beispielsweise lautet: „a9 09 50 2d d8 2a e4 14 33 e6 f8 38 86 b0 0d 42 77 a3 2a 7b“, lautet er nach dem Entfernen der Leerzeichen: „a909502dd82ae41433e6f83886b00d4277a32a7b“.
+
+
+
+. Führen Sie in PowerShell Folgendes aus:
++
+.. Führen Sie den folgenden Befehl aus, um den Fingerabdruck des installierten Zertifikats aufzulisten und das kürzlich installierte Zertifikat anhand des Betreffnamens zu identifizieren.
++
+_Get-ChildItem -Pfad Zertifikat:\LocalMachine\My_
+
+.. Kopieren Sie den Fingerabdruck.
+
+
+

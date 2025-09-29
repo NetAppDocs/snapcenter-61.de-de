@@ -1,0 +1,51 @@
+---
+permalink: protect-sco/task_back_up_oracle_databases_using_unix_commands.html 
+sidebar: sidebar 
+keywords: backup, cli, commands 
+summary: Der Sicherungsworkflow umfasst die Planung, die Identifizierung der Ressourcen für die Sicherung, die Erstellung von Sicherungsrichtlinien, die Erstellung von Ressourcengruppen und das Anhängen von Richtlinien, die Erstellung von Sicherungen und die Überwachung der Vorgänge. 
+---
+= Sichern Sie Oracle-Datenbanken mit UNIX-Befehlen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Sicherungsworkflow umfasst die Planung, die Identifizierung der Ressourcen für die Sicherung, die Erstellung von Sicherungsrichtlinien, die Erstellung von Ressourcengruppen und das Anhängen von Richtlinien, die Erstellung von Sicherungen und die Überwachung der Vorgänge.
+
+*Was Sie brauchen*
+
+* Sie sollten die Speichersystemverbindungen hinzugefügt und die Anmeldeinformationen mit den Befehlen _Add-SmStorageConnection_ und _Add-SmCredential_ erstellt haben.
+* Sie sollten die Verbindungssitzung mit dem SnapCenter -Server mit dem Befehl _Open-SmConnection_ hergestellt haben.
++
+Sie können nur eine Anmeldesitzung für das SnapCenter -Konto haben und das Token wird im Home-Verzeichnis des Benutzers gespeichert.
+
++
+
+NOTE: Die Verbindungssitzung ist nur 24 Stunden gültig.  Sie können jedoch mit der Option „TokenNeverExpires“ ein Token erstellen, das nie abläuft und die Sitzung immer gültig ist.
+
+
+
+*Über diese Aufgabe*
+
+Sie sollten die folgenden Befehle ausführen, um die Verbindung mit dem SnapCenter -Server herzustellen, die Oracle-Datenbankinstanzen zu ermitteln, Richtlinien und Ressourcengruppen hinzuzufügen, eine Sicherung durchzuführen und die Sicherung zu überprüfen.
+
+Informationen zu den mit dem Befehl verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von Get-Help _command_name_. Alternativ können Sie auch auf die https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenter Software-Befehlsreferenzhandbuch"^] .
+
+*Schritte*
+
+. Initiieren Sie eine Verbindungssitzung mit dem SnapCenter -Server für einen angegebenen Benutzer: _Open-SmConnection_
+. Führen Sie den Vorgang zur Erkennung von Hostressourcen durch: _Get-SmResources_
+. Konfigurieren Sie die Anmeldeinformationen und bevorzugten Knoten der Oracle-Datenbank für den Sicherungsvorgang einer Real Application Cluster (RAC)-Datenbank: _Configure-SmOracleDatabase_
+. Erstellen Sie eine Sicherungsrichtlinie: _Add-SmPolicy_
+. Rufen Sie die Informationen zum sekundären Speicherort (SnapVault oder SnapMirror) ab: _Get-SmSecondaryDetails_
++
+Dieser Befehl ruft die Zuordnungsdetails zwischen Primär- und Sekundärspeicher einer angegebenen Ressource ab.  Sie können die Zuordnungsdetails verwenden, um die sekundären Überprüfungseinstellungen beim Erstellen einer Sicherungsressourcengruppe zu konfigurieren.
+
+. Fügen Sie SnapCenter eine Ressourcengruppe hinzu: _Add-SmResourceGroup_
+. Erstellen Sie ein Backup: _New-SmBackup_
++
+Sie können den Job mit der Option „WaitForCompletion“ abfragen.  Wenn diese Option angegeben ist, fragt der Befehl den Server weiterhin ab, bis der Sicherungsauftrag abgeschlossen ist.
+
+. Rufen Sie die Protokolle von SnapCenter ab: _Get-SmLogs_
+

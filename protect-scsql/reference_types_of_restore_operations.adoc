@@ -1,0 +1,87 @@
+---
+permalink: protect-scsql/reference_types_of_restore_operations.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server 
+summary: Sie können SnapCenter verwenden, um verschiedene Arten von Wiederherstellungsvorgängen an SQL Server-Ressourcen durchzuführen. 
+---
+= Arten von Wiederherstellungsvorgängen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um verschiedene Arten von Wiederherstellungsvorgängen an SQL Server-Ressourcen durchzuführen.
+
+* Aktuelle Wiederherstellung
+* Wiederherstellen eines früheren Zeitpunkts
+
+
+In den folgenden Situationen können Sie die Daten auf die Minute genau wiederherstellen oder zu einem früheren Zeitpunkt wiederherstellen:
+
+* Wiederherstellung vom SnapMirror oder SnapVault Sekundärspeicher
+* Auf alternativem Pfad (Speicherort) wiederherstellen
+
+
+
+NOTE: SnapCenter unterstützt kein volumenbasiertes SnapRestore.
+
+
+
+== Wiederherstellung auf die Minute genau
+
+Bei einem minutengenauen Wiederherstellungsvorgang (standardmäßig ausgewählt) werden Datenbanken bis zum Fehlerpunkt wiederhergestellt.  SnapCenter erreicht dies durch Ausführen der folgenden Sequenz:
+
+. Sichert das letzte aktive Transaktionsprotokoll, bevor die Datenbank wiederhergestellt wird.
+. Stellt die Datenbanken aus der von Ihnen ausgewählten vollständigen Datenbanksicherung wieder her.
+. Wendet alle Transaktionsprotokolle an, die nicht in die Datenbanken übernommen wurden (einschließlich Transaktionsprotokolle aus den Sicherungen vom Zeitpunkt der Erstellung der Sicherung bis zum aktuellsten Zeitpunkt).
++
+Transaktionsprotokolle werden weitergeleitet und auf alle ausgewählten Datenbanken angewendet.
+
+
+
+Für einen minutengenauen Wiederherstellungsvorgang ist ein zusammenhängender Satz von Transaktionsprotokollen erforderlich.
+
+Da SnapCenter SQL Server-Datenbanktransaktionsprotokolle nicht aus Protokollversand-Sicherungsdateien wiederherstellen kann (Protokollversand ermöglicht Ihnen das automatische Senden von Transaktionsprotokollsicherungen von einer primären Datenbank auf einer primären Serverinstanz an eine oder mehrere sekundäre Datenbanken auf separaten sekundären Serverinstanzen), können Sie keinen minutenaktuellen Wiederherstellungsvorgang aus den Transaktionsprotokollsicherungen durchführen.  Aus diesem Grund sollten Sie das SnapCenter verwenden, um die Transaktionsprotokolldateien Ihrer SQL Server-Datenbank zu sichern.
+
+Wenn Sie nicht für alle Sicherungen die Wiederherstellungsfunktion auf die Minute genau benötigen, können Sie die Aufbewahrungsdauer der Transaktionsprotokollsicherungen Ihres Systems über die Sicherungsrichtlinien konfigurieren.
+
+
+
+== Beispiel für einen minutengenauen Wiederherstellungsvorgang
+
+Angenommen, Sie führen die SQL Server-Sicherung jeden Tag mittags aus und müssen am Mittwoch um 16:00 Uhr eine Wiederherstellung aus einer Sicherung durchführen.  Aus irgendeinem Grund ist die Überprüfung der Sicherung vom Mittwochmittag fehlgeschlagen, daher entscheiden Sie sich für die Wiederherstellung aus der Sicherung vom Dienstagmittag.  Wenn die Sicherung anschließend wiederhergestellt wird, werden alle Transaktionsprotokolle nach vorne verschoben und auf die wiederhergestellten Datenbanken angewendet. Dabei beginnen wir mit denen, die beim Erstellen der Sicherung vom Dienstag nicht festgeschrieben wurden, und fahren mit dem letzten Transaktionsprotokoll fort, das am Mittwoch um 16:00 Uhr geschrieben wurde (sofern die Transaktionsprotokolle gesichert wurden).
+
+
+
+== Wiederherstellen eines früheren Zeitpunkts
+
+Bei einer zeitpunktbezogenen Wiederherstellung werden Datenbanken nur auf einen bestimmten Zeitpunkt in der Vergangenheit wiederhergestellt.  Eine zeitpunktbezogene Wiederherstellung erfolgt in den folgenden Wiederherstellungssituationen:
+
+* Die Datenbank wird zu einem bestimmten Zeitpunkt in einem gesicherten Transaktionsprotokoll wiederhergestellt.
+* Die Datenbank wird wiederhergestellt und nur eine Teilmenge der gesicherten Transaktionsprotokolle wird darauf angewendet.
+
+
+
+NOTE: Durch die Wiederherstellung einer Datenbank zu einem bestimmten Zeitpunkt ergibt sich ein neuer Wiederherstellungspfad.
+
+Das folgende Bild veranschaulicht die Probleme bei der Ausführung einer zeitpunktbezogenen Wiederherstellung:
+
+image::../media/point_in_time_recovery_path.gif[Wiederherstellen zu einem früheren Zeitpunkt]
+
+Im Bild besteht Wiederherstellungspfad 1 aus einer vollständigen Sicherung, gefolgt von mehreren Transaktionsprotokollsicherungen.  Sie stellen die Datenbank zu einem bestimmten Zeitpunkt wieder her.  Nach der Point-in-Time-Wiederherstellung werden neue Transaktionsprotokollsicherungen erstellt, was zu Wiederherstellungspfad 2 führt.  Die neuen Transaktionsprotokollsicherungen werden erstellt, ohne eine neue vollständige Sicherung zu erstellen.  Aufgrund von Datenbeschädigungen oder anderen Problemen können Sie die aktuelle Datenbank erst wiederherstellen, wenn eine neue vollständige Sicherung erstellt wurde.  Außerdem ist es nicht möglich, die im Wiederherstellungspfad 2 erstellten Transaktionsprotokolle auf die vollständige Sicherung anzuwenden, die zum Wiederherstellungspfad 1 gehört.
+
+Wenn Sie Transaktionsprotokollsicherungen anwenden, können Sie auch ein bestimmtes Datum und eine bestimmte Uhrzeit angeben, zu der die Anwendung der gesicherten Transaktionen beendet werden soll.  Geben Sie dazu ein Datum und eine Uhrzeit innerhalb des verfügbaren Bereichs an und das SnapCenter entfernt alle Transaktionen, die vor diesem Zeitpunkt nicht festgeschrieben wurden.  Mit dieser Methode können Sie Datenbanken auf einen Zeitpunkt vor dem Auftreten einer Beschädigung zurücksetzen oder eine versehentliche Datenbank- oder Tabellenlöschung wiederherstellen.
+
+
+
+== Beispiel für eine zeitpunktbezogene Wiederherstellung
+
+Angenommen, Sie führen einmal um Mitternacht eine vollständige Datenbanksicherung und stündlich eine Transaktionsprotokollsicherung durch.  Die Datenbank stürzt um 9:45 Uhr ab, Sie sichern jedoch trotzdem die Transaktionsprotokolle der ausgefallenen Datenbank.  Sie können zwischen diesen Point-in-Time-Wiederherstellungsszenarien wählen:
+
+* Stellen Sie die vollständige Datenbanksicherung wieder her, die um Mitternacht erstellt wurde, und akzeptieren Sie den Verlust der danach vorgenommenen Datenbankänderungen.  (Option: Keine)
+* Vollständige Datenbanksicherung wiederherstellen und alle Transaktionsprotokollsicherungen bis 9:45 Uhr anwenden (Option: Protokollieren bis)
+* Stellen Sie die vollständige Datenbanksicherung wieder her und wenden Sie Transaktionsprotokollsicherungen an. Geben Sie dabei den Zeitpunkt an, zu dem die Transaktionen aus dem letzten Satz von Transaktionsprotokollsicherungen wiederhergestellt werden sollen.  (Option: Nach bestimmter Zeit)
+
+
+In diesem Fall würden Sie das Datum und die Uhrzeit berechnen, zu der ein bestimmter Fehler gemeldet wurde.  Alle Transaktionen, die nicht vor dem angegebenen Datum und der angegebenen Uhrzeit festgeschrieben wurden, werden entfernt.

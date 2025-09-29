@@ -1,0 +1,16 @@
+---
+permalink: protect-nsp/number_of_backup_jobs_needed.html 
+sidebar: sidebar 
+keywords: backup jobs 
+summary: 'Zu den Faktoren, die die Anzahl der benötigten Sicherungsaufträge bestimmen, gehören die Größe der Ressource, die Anzahl der verwendeten Volumes, die Änderungsrate der Ressource und Ihr Service Level Agreement (SLA).' 
+---
+= Anzahl der benötigten Sicherungsaufträge
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Zu den Faktoren, die die Anzahl der benötigten Sicherungsaufträge bestimmen, gehören die Größe der Ressource, die Anzahl der verwendeten Volumes, die Änderungsrate der Ressource und Ihr Service Level Agreement (SLA).
+
+Die Anzahl der von Ihnen ausgewählten Sicherungsaufträge hängt normalerweise von der Anzahl der Datenträger ab, auf denen Sie Ihre Ressourcen platziert haben.  Wenn Sie beispielsweise eine Gruppe kleiner Ressourcen auf einem Volume und eine große Ressource auf einem anderen Volume platziert haben, können Sie einen Sicherungsauftrag für die kleinen Ressourcen und einen Sicherungsauftrag für die große Ressource erstellen.

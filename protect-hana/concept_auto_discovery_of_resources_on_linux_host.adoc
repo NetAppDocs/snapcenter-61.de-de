@@ -1,0 +1,51 @@
+---
+permalink: protect-hana/concept_auto_discovery_of_resources_on_linux_host.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Ressourcen sind SAP HANA-Datenbanken und Nicht-Datenvolumes auf dem Linux-Host, die von SnapCenter verwaltet werden.  Nach der Installation des SnapCenter -Plug-ins für das SAP HANA-Datenbank-Plug-in werden die SAP HANA-Datenbanken auf diesem Linux-Host automatisch erkannt und auf der Seite „Ressourcen“ angezeigt. 
+---
+= Automatische Erkennung von Ressourcen auf Linux-Hosts
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ressourcen sind SAP HANA-Datenbanken und Nicht-Datenvolumes auf dem Linux-Host, die von SnapCenter verwaltet werden.  Nach der Installation des SnapCenter -Plug-ins für das SAP HANA-Datenbank-Plug-in werden die SAP HANA-Datenbanken auf diesem Linux-Host automatisch erkannt und auf der Seite „Ressourcen“ angezeigt.
+
+Die automatische Erkennung wird für die folgenden SAP HANA-Ressourcen unterstützt:
+
+* Einzelbehälter
++
+Nach der Installation oder Aktualisierung des Plug-ins werden die einzelnen Containerressourcen auf einem zentralen Host-Plug-in als manuell hinzugefügte Ressourcen weitergeführt.
+
++
+Nach der Installation oder Aktualisierung des Plug-Ins werden die SAP HANA-Datenbanken automatisch nur auf den SAP HANA Linux-Hosts erkannt, die direkt bei SnapCenter registriert sind.
+
+* Multitenant-Datenbankcontainer (MDC)
++
+Nach der Installation oder Aktualisierung des Plug-Ins werden die auf einem zentralen Host-Plug-In befindlichen MDC-Ressourcen weiterhin als manuell hinzugefügte Ressourcen verwendet.
+
++
+Sie müssen die MDC-Ressourcen nach dem Upgrade auf SnapCenter 4.3 weiterhin manuell zum zentralen Host-Plug-In hinzufügen.
+
++
+Bei SAP HANA Linux-Hosts, die direkt in SnapCenter registriert sind, löst die Installation oder Aktualisierung des Plug-Ins eine automatische Erkennung von Ressourcen auf dem Host aus.  Nach dem Upgrade des Plug-Ins wird für jede MDC-Ressource, die sich auf dem Plug-In-Host befand, automatisch eine andere MDC-Ressource mit einem anderen GUID-Format erkannt und in SnapCenter registriert.  Die neue Ressource befindet sich im gesperrten Zustand.
+
++
+Wenn sich beispielsweise in SnapCenter 4.2 eine E90-MDC-Ressource auf dem Plug-In-Host befand und manuell registriert wurde, wird nach dem Upgrade auf SnapCenter 4.3 eine weitere E90-MDC-Ressource mit einer anderen GUID erkannt und in SnapCenter registriert.
+
+
+
+Die automatische Erkennung wird für die folgenden Konfigurationen nicht unterstützt:
+
+* RDM- und VMDK-Layouts
++
+
+NOTE: Falls die oben genannten Ressourcen erkannt werden, werden die Datenschutzvorgänge für diese Ressourcen nicht unterstützt.
+
+* HANA-Konfiguration mit mehreren Hosts
+* Mehrere Instanzen auf demselben Host
+* Mehrstufige Scale-Out-HANA-Systemreplikation
+* Kaskadierte Replikationsumgebung im Systemreplikationsmodus
+

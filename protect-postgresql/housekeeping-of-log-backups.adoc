@@ -1,0 +1,16 @@
+---
+permalink: protect-postgresql/housekeeping-of-log-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL 
+summary: SnapCenter verwaltet die Verwaltung von Protokoll- und Datensicherungen auf Speichersystem- und Dateisystemebene sowie innerhalb des PostgreSQL-Sicherungskatalogs. 
+---
+= So verwaltet SnapCenter die Datensicherung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter verwaltet die Datensicherungen auf Speichersystem- und Dateisystemebene.
+
+Die Snapshots auf dem primären oder sekundären Speicher und die entsprechenden Einträge im PostgreSQL-Katalog werden basierend auf den Aufbewahrungseinstellungen gelöscht.

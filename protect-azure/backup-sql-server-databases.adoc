@@ -1,0 +1,53 @@
+---
+permalink: protect-azure/backup-sql-server-databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server Database, back up, databases, Azure NetApp Files 
+summary: Sichern Sie die Ressource von der Seite „Ressourcen“. 
+---
+= Sichern von SQL Server-Datenbanken, die auf Azure NetApp Files ausgeführt werden
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn eine Ressource noch nicht Teil einer Ressourcengruppe ist, können Sie die Ressource von der Seite „Ressourcen“ aus sichern.
+
+.Bevor Sie beginnen
+Sie sollten einen Lastenausgleich erstellen, wenn dem Azure Windows-Failovercluster keine Cluster-IP zugewiesen ist oder er von SnapCenter aus nicht erreichbar ist.  Die IP des Load Balancers sollte konfiguriert und vom SnapCenter -Server aus erreichbar sein.
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Ressourcenseite aus der Dropdownliste „Anzeigen“ die Option „Datenbank“, „Instanz“ oder „Verfügbarkeitsgruppe“ aus.
+. Wählen Sie auf der Ressourcenseite *Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden* aus und geben Sie dann ein benutzerdefiniertes Namensformat ein, das Sie für den Snapshot-Namen verwenden möchten.
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Schritte aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
+.. Wählen *image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] * in der Spalte „Zeitpläne konfigurieren“ für die Richtlinie, für die Sie einen Zeitplan konfigurieren möchten.
+.. Konfigurieren Sie im Dialogfeld „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan und wählen Sie dann *OK* aus.
++
+_policy_name_ ist der Name der von Ihnen ausgewählten Richtlinie.
+
+.. Wählen Sie *Microsoft SQL Server-Scheduler verwenden* und wählen Sie dann aus der Dropdown-Liste *Scheduler-Instanz* die Scheduler-Instanz aus, die der Planungsrichtlinie zugeordnet ist.
+
+
+. Führen Sie auf der Seite „Verifizierung“ die folgenden Schritte aus:
++
+.. Wählen Sie den Verifizierungsserver aus.
+.. Wählen Sie die Richtlinie aus, für die Sie Ihren Überprüfungszeitplan konfigurieren möchten, und klicken Sie dann auf *image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] *.
+.. Wählen Sie entweder *Überprüfung nach Sicherung ausführen* oder *Geplante Überprüfung ausführen*.
+.. Klicken Sie auf OK.
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Wählen Sie *Jetzt sichern*.
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn der Ressource mehrere Richtlinien zugeordnet sind, wählen Sie aus der Dropdownliste *Richtlinie* die Richtlinie aus, die Sie für die Sicherung verwenden möchten.
+.. Wählen Sie *Nach Sicherung überprüfen*.
+.. Wählen Sie *Backup*.
+
+
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+

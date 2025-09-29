@@ -1,0 +1,14 @@
+---
+permalink: protect-mysql/auto-discovery-of-resources-on-linux-host.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: Ressourcen sind MySQL-Instanzen auf dem Linux-Host, die von SnapCenter verwaltet werden.  Nach der Installation des SnapCenter -Plug-ins für MySQL werden die MySQL-Datenbanken auf diesem Linux-Host automatisch erkannt und auf der Ressourcenseite angezeigt. 
+---
+= Automatische Erkennung von Ressourcen auf Linux-Hosts
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ressourcen sind MySQL-Instanzen auf dem Linux-Host, die von SnapCenter verwaltet werden.  Nach der Installation des SnapCenter -Plug-ins für MySQL werden die MySQL-Instanzen auf diesem Linux-Host automatisch erkannt und auf der Ressourcenseite angezeigt.

@@ -1,0 +1,16 @@
+---
+permalink: protect-hana/concept_housekeeping_of_log_backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: SnapCenter verwaltet die Verwaltung von Protokoll- und Datensicherungen auf Speichersystem- und Dateisystemebene sowie innerhalb des SAP HANA-Sicherungskatalogs. 
+---
+= So verwaltet SnapCenter die Verwaltung von Protokoll- und Datensicherungen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter verwaltet die Verwaltung von Protokoll- und Datensicherungen auf Speichersystem- und Dateisystemebene sowie innerhalb des SAP HANA-Sicherungskatalogs.
+
+Die Snapshots auf dem Primär- oder Sekundärspeicher und die entsprechenden Einträge im SAP HANA-Katalog werden basierend auf den Aufbewahrungseinstellungen gelöscht.  Beim Sichern und Löschen der Ressourcengruppe werden auch die SAP HANA-Katalogeinträge gelöscht.

@@ -1,0 +1,33 @@
+---
+permalink: protect-scw/reference_sources_and_destinations_of_clones_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: snapcenter 
+summary: 'Sie können eine Dateisystemsicherung vom Primär- oder Sekundärspeicher klonen.  Sie können auch das Ziel auswählen, das Ihren Anforderungen entspricht: entweder den ursprünglichen Sicherungsspeicherort oder ein anderes Ziel auf demselben oder einem anderen Host.  Das Ziel muss sich auf demselben Datenträger wie die Klon-Quellsicherung befinden.' 
+---
+= Quellen und Ziele von Klonen für Windows-Dateisysteme
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können eine Dateisystemsicherung vom Primär- oder Sekundärspeicher klonen.  Sie können auch das Ziel auswählen, das Ihren Anforderungen entspricht: entweder den ursprünglichen Sicherungsspeicherort oder ein anderes Ziel auf demselben oder einem anderen Host.  Das Ziel muss sich auf demselben Datenträger wie die Klon-Quellsicherung befinden.
+
+|===
+| Klonziel | Beschreibung 
+
+
+ a| 
+Original, Quelle, Standort
+ a| 
+Standardmäßig speichert SnapCenter den Klon am selben Ort und auf demselben Host wie das zu klonende Backup.
+
+
+
+ a| 
+Anderer Standort
+ a| 
+Sie können den Klon an einem anderen Ort auf demselben Host oder auf einem anderen Host speichern.  Der Host muss über eine konfigurierte Verbindung zur Storage Virtual Machine (SVM) verfügen.
+
+|===
+Sie können den Klon umbenennen, nachdem der Klonvorgang abgeschlossen ist.

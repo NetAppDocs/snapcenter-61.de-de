@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_multiple_databases_on_the_same_volume.html 
+sidebar: sidebar 
+keywords: Multiple databases 
+summary: 'Sie können alle Datenbanken auf demselben Datenträger ablegen, da die Sicherungsrichtlinie eine Option zum Festlegen der maximalen Anzahl von Datenbanken pro Sicherung enthält (Standardwert ist 100).' 
+---
+= Mehrere Datenbanken auf demselben Volume
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können alle Datenbanken auf demselben Datenträger ablegen, da die Sicherungsrichtlinie eine Option zum Festlegen der maximalen Anzahl von Datenbanken pro Sicherung enthält (Standardwert ist 100).
+
+Wenn Sie beispielsweise 200 Datenbanken im selben Volume haben, werden zwei Snapshots mit jeweils 100 Datenbanken in den beiden Snapshots erstellt.

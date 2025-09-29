@@ -1,0 +1,143 @@
+---
+permalink: tech-refresh/task_tech_refresh_storage_system.html 
+sidebar: sidebar 
+keywords: tech refresh, storage system, 
+summary: Führen Sie eine technische Aktualisierung des Speichersystems durch, indem Sie die Daten vom alten Speicher auf den neuen Speicher verschieben, den neuen Speicher auf den jeweiligen Hosts bereitstellen und dann die Datenbanken hochfahren. 
+---
+= Technische Aktualisierung des Speichersystems
+:allow-uri-read: 
+
+
+[role="lead"]
+Wenn der Speicher technisch aktualisiert wird, werden die Daten auf einen neuen Speicher migriert und die Anwendungshosts mit neuem Speicher gemountet.  Der SnapCenter Sicherungsworkflow identifiziert den neuen Speicher und erstellt den Snapshot, wenn der neue Speicher in SnapCenter registriert ist.
+
+Sie können die nach der Speicheraktualisierung erstellten neuen Sicherungen wiederherstellen, mounten und klonen.  Diese Vorgänge schlagen jedoch fehl, wenn sie für die Sicherungen ausgeführt werden, die vor der Speicheraktualisierung erstellt wurden, da die Sicherungen die alten Speicherdetails enthalten.  Sie sollten die Storage Tech Refresh-API oder das Cmdlet ausführen, um die alten Backups in SnapCenter mit den neuen Speicherdetails zu aktualisieren.
+
+Die technische Aktualisierung wird für die folgenden SnapCenter -Plug-Ins unterstützt:
+
+* SnapCenter -Plug-in für Microsoft SQL Server
+* SnapCenter -Plug-in für Windows
+* SnapCenter -Plug-in für Oracle-Datenbank
+* SnapCenter Plug-in für SAP HANA-Datenbank
+* SnapCenter -Plug-in für Microsoft Exchange Server
+
+
+Die unterstützten Anwendungsfälle sind:
+
+* Aktualisierung des primären Speichers
++
+Die Aktualisierung der Speichertechnologie wird unterstützt, um den primären Speicher durch neuen Speicher zu ersetzen.  Sie können den vorhandenen Sekundärspeicher nicht in einen Primärspeicher umwandeln.
+
+* Aktualisierung des Sekundärspeichers
+
+
+
+
+== Aktualisieren Sie die Backups des primären Speichers
+
+Wenn der Speicher technisch aktualisiert wird, sollten Sie die API oder das Cmdlet zur technischen Aktualisierung des Speichers ausführen, um die alten Sicherungen in SnapCenter mit den neuen Speicherdetails zu aktualisieren.
+
+.Bevor Sie beginnen
+Da dieser Workflow die Daten im SnapCenter Repository ändert, wird empfohlen, das SnapCenter -Repository zu sichern.  Im Falle von Datenproblemen kann das SnapCenter Repository mithilfe der Sicherung auf den alten Zustand zurückgesetzt werden.
+
+Weitere Informationen finden Sie unter  https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_the_snapcenter_server_repository.html#back-up-the-snapcenter-repository["Sichern Sie das SnapCenter Repository"] .
+
+.Schritte
+. Migrieren Sie die Daten vom alten Speicher zum neuen Speicher.
++
+Informationen zur Migration finden Sie unter:
+
++
+** https://kb.netapp.com/mgmt/SnapCenter/How_to_perform_Storage_tech_refresh["So migrieren Sie die Daten auf einen neuen Speicher"]
+** https://kb.netapp.com/onprem/ontap/dp/SnapMirror/How_can_I_copy_a_volume_and_preserve_all_of_the_Snapshot_copies["Wie kann ich ein Volume kopieren und alle Snapshot-Kopien beibehalten?"]
+
+
+. Versetzen Sie den Host in den Wartungsmodus.
+. Mounten Sie den neuen Speicher in den jeweiligen Hosts und rufen Sie die Datenbanken auf.
++
+Der neue Speicher sollte auf die gleiche Weise wie zuvor mit dem Host verbunden werden.  Wenn es beispielsweise als SAN verbunden war, muss es als SAN verbunden werden.
+
++
+Der neue Speicher muss auf demselben Laufwerk oder Pfad wie der alte Speicher gemountet werden.
+
+. Stellen Sie sicher, dass alle Ressourcen betriebsbereit sind.
+. Fügen Sie den neuen Speicher in SnapCenter hinzu.
++
+Stellen Sie sicher, dass Sie in allen Clustern in SnapCenter über einen eindeutigen SVM-Namen verfügen.  Wenn Sie im neuen Speicher denselben SVM-Namen verwenden und alle Volumes des SVM migriert werden können, bevor die Speicheraktualisierung ausgeführt wird, wird empfohlen, das SVM im alten Cluster zu löschen und das alte Cluster in SnapCenter erneut zu ermitteln, wodurch das SVM aus dem Cache entfernt wird.
+
+. Versetzen Sie den Host in den Produktionsmodus.
+. Erstellen Sie in SnapCenter eine Sicherung der Ressourcen, deren Speicher migriert wird.  Für SnapCenter ist eine neue Sicherung erforderlich, um den neuesten Speicherbedarf zu ermitteln. Außerdem wird sie zum Aktualisieren der Metadaten vorhandener alter Sicherungen verwendet.
++
+
+NOTE: Immer wenn eine neue LUN an den Host angeschlossen wird, erhält sie eine neue Seriennummer.  Während der Erkennung des Windows-Dateisystems behandelt SnapCenter jede eindeutige Seriennummer als neue Ressource.  Wenn während der Aktualisierung der Speichertechnologie die LUN aus dem neuen Speicher mit demselben Laufwerksbuchstaben oder Pfad an den Host angeschlossen wird, markiert die Erkennung des Windows-Dateisystems in SnapCenter die vorhandene Ressource als gelöscht, auch wenn sie mit demselben Laufwerksbuchstaben oder Pfad bereitgestellt wird, und zeigt die neue LUN als neue Ressource an.  Da die Ressource als gelöscht markiert ist, wird sie für die Aktualisierung der Speichertechnologie in SnapCenter nicht berücksichtigt und alle Sicherungen der alten Ressource gehen verloren.  Bei jeder Speicheraktualisierung sollte für Windows-Dateisystemressourcen die Ressourcenerkennung nicht vor der Ausführung der API oder des Cmdlets zur Speicheraktualisierung durchgeführt werden.
+
+. Führen Sie entweder die Speicheraktualisierungs-API aus: `/<snapcenter_version>/techrefresh/primarystorage` oder das Cmdlet: _Invoke-SmTechRefreshPrimaryStorage_.
++
+
+NOTE: Wenn die Ressource mit einer replikationsfähigen Richtlinie konfiguriert ist, sollte die letzte Sicherung nach der Speicheraktualisierung Details zum sekundären Speicher enthalten.
+
++
+.. Wenn Sie das SQL Failover Cluster Instances (FCI)-Setup verwenden, werden die Sicherungen auf Clusterebene verwaltet.  Sie sollten den Clusternamen als Eingabe für die Aktualisierung der Speichertechnologie angeben.
+.. Wenn Sie das SQL Availability Group (AG)-Setup verwenden, werden die Sicherungen auf Knotenebene verwaltet.  Sie sollten den Knotennamen als Eingabe für die Aktualisierung der Speichertechnologie angeben.
+.. Wenn Sie das Oracle Real Application Clusters (RAC)-Setup verwenden, können Sie auf jedem Knoten eine Aktualisierung der Speichertechnologie durchführen.
++
+Das Attribut _IsDryRun_ ist standardmäßig auf True gesetzt.  Es werden die Ressourcen identifiziert, für die der Speicher aktualisiert wird.  Sie können die Ressource und die geänderten Speicherdetails anzeigen, indem Sie entweder die API „<snapcenter_version>/jobs/{jobid}“ oder das Cmdlet „_Get-SmJobSummaryReport_“ ausführen.
+
+
+
+. Nachdem Sie die Speicherdetails überprüft haben, setzen Sie das Attribut _IsDryRun_ auf „False“ und führen Sie die API zur Speicheraktualisierung aus: `/<snapcenter_version>/techrefresh/primarystorage` oder das Cmdlet: _Invoke-SmTechRefreshPrimaryStorage_.
++
+Dadurch werden die Speicherdetails in den älteren Sicherungen aktualisiert.
+
++
+Sie können die API oder das Cmdlet mehrmals auf demselben Host ausführen. Die Speicherdetails in den älteren Sicherungen werden nur aktualisiert, wenn der Speicher aktualisiert wird.
+
++
+
+NOTE: Die Klonhierarchie kann in ONTAP nicht migriert werden.  Wenn der migrierte Speicher Klonmetadaten in SnapCenter enthält, wird die geklonte Ressource als unabhängige Ressource markiert.  Klone von Klonmetadaten werden rekursiv entfernt.
+
+. (Optional) Wenn nicht alle Snapshots vom alten Primärspeicher in den neuen Primärspeicher verschoben werden, führen Sie die folgende API aus: `/<snapcenter_version>/hosts/primarybackupsexistencecheck` oder das Cmdlet _Invoke-SmPrimaryBackupsExistenceCheck_.
++
+Dadurch wird die Existenzprüfung des Snapshots auf dem neuen Primärspeicher durchgeführt und die entsprechenden Backups werden für keinen Vorgang in SnapCenter als verfügbar markiert.
+
+
+
+
+
+== Aktualisieren Sie die Backups des sekundären Speichers
+
+Wenn der Speicher technisch aktualisiert wird, sollten Sie die API oder das Cmdlet zur technischen Aktualisierung des Speichers ausführen, um die alten Sicherungen in SnapCenter mit den neuen Speicherdetails zu aktualisieren.
+
+.Bevor Sie beginnen
+Da dieser Workflow die Daten im SnapCenter Repository ändert, wird empfohlen, das SnapCenter -Repository zu sichern.  Im Falle von Datenproblemen kann das SnapCenter Repository mithilfe der Sicherung auf den alten Zustand zurückgesetzt werden.
+
+Weitere Informationen finden Sie unter  https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_the_snapcenter_server_repository.html#back-up-the-snapcenter-repository["Sichern Sie das SnapCenter Repository"] .
+
+.Schritte
+. Migrieren Sie die Daten vom alten Speicher zum neuen Speicher.
++
+Informationen zur Migration finden Sie unter:
+
++
+** https://kb.netapp.com/mgmt/SnapCenter/How_to_perform_Storage_tech_refresh["So migrieren Sie die Daten auf einen neuen Speicher"]
+** https://kb.netapp.com/onprem/ontap/dp/SnapMirror/How_can_I_copy_a_volume_and_preserve_all_of_the_Snapshot_copies["Wie kann ich ein Volume kopieren und alle Snapshot-Kopien beibehalten?"]
+
+
+. Stellen Sie die SnapMirror -Beziehung zwischen dem primären Speicher und dem neuen sekundären Speicher her und stellen Sie sicher, dass der Beziehungsstatus in Ordnung ist.
+. Erstellen Sie in SnapCenter eine Sicherung der Ressourcen, deren Speicher migriert wird.
++
+Für SnapCenter ist eine neue Sicherung erforderlich, um den neuesten Speicherbedarf zu ermitteln und sie wird zum Aktualisieren der Metadaten vorhandener alter Sicherungen verwendet.
+
++
+
+IMPORTANT: Sie sollten warten, bis dieser Vorgang abgeschlossen ist.  Wenn Sie vor Abschluss mit dem nächsten Schritt fortfahren, gehen alte sekundäre Snapshot-Metadaten vollständig verloren.
+
+. Nachdem Sie erfolgreich eine Sicherung aller Ressourcen auf einem Host erstellt haben, führen Sie entweder die API zur Aktualisierung des sekundären Speichers aus: `/<snapcenter_version>/techrefresh/secondarystorage` oder das Cmdlet: _Invoke-SmTechRefreshSecondaryStorage_.
++
+Dadurch werden die sekundären Speicherdetails der älteren Sicherungen auf dem angegebenen Host aktualisiert.
+
++
+Wenn Sie dies auf Ressourcenebene ausführen möchten, klicken Sie für jede Ressource auf *Aktualisieren*, um die Metadaten des sekundären Speichers zu aktualisieren.
+
+. Nachdem Sie die älteren Sicherungen erfolgreich aktualisiert haben, können Sie die alte Beziehung zwischen dem sekundären und dem primären Speicher trennen.
+

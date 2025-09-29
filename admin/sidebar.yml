@@ -1,0 +1,40 @@
+---
+section: admin
+title: Verwalten von SnapCenter Server und Plug-Ins
+entries:
+- title: Dashboard anzeigen
+  entries:
+  - title: Übersicht über das Dashboard
+    url: "/admin/concept_overview_of_dashboard.html"
+  - title: So zeigen Sie Informationen auf dem Dashboard an
+    url: "/admin/task_how_to_view_information_on_the_dashboard.html"
+  - title: Fordern Sie Statusberichte der Jobs vom Dashboard an
+    url: "/admin/task_request_status_reports_of_the_jobs_from_the_dashboard.html"
+  - title: Fordern Sie Berichte zum Schutzstatus vom Dashboard an
+    url: "/admin/task_request_reports_of_the_protection_status_from_the_dashboard.html"
+- title: RBAC verwalten
+  url: "/admin/task_manage_rbac.html"
+- title: Hosts verwalten
+  url: "/admin/concept_manage_hosts.html"
+- title: Von der Seite „Ressourcen“ unterstützte Vorgänge
+  url: "/admin/concept_what_operations_can_be_performed_from_the_resource_page.html"
+- title: Richtlinien verwalten
+  url: "/admin/concept_manage_policies.html"
+- title: Verwalten von Ressourcengruppen
+  url: "/admin/task_manage_resource_groups.html"
+- title: Backups verwalten
+  url: "/admin/concept_manage_backups.html"
+- title: Klone löschen
+  url: "/admin/task_delete_clones.html"
+- title: Überwachen Sie Jobs, Zeitpläne, Ereignisse und Protokolle
+  url: "/admin/concept_monitor_jobs_schedules_events_and_logs.html"
+- title: Übersicht über die Berichtsfunktionen von SnapCenter
+  url: "/admin/concept_overview_of_snapcenter_reports.html"
+- title: Verwalten des SnapCenter Server-Repository
+  url: "/admin/concept_manage_the_snapcenter_server_repository.html"
+- title: Verwalten von Ressourcen nicht vertrauenswürdiger Domänen
+  url: "/admin/concept_manage_resources_of_untrusted_domains.html"
+- title: Verwalten des Speichersystems
+  url: "/admin/concept_manage_the_storage_system.html"
+- title: Verwalten der EMS-Datenerfassung
+  url: "/admin/concept_manage_ems_data_collection.html"

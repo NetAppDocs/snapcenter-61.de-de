@@ -1,0 +1,82 @@
+---
+permalink: protect-scw/task_define_a_backup_strategy_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backup strategy 
+summary: 'Durch die Definition einer Sicherungsstrategie vor der Erstellung Ihrer Sicherungen erhalten Sie die Sicherungen, die Sie zum erfolgreichen Wiederherstellen oder Klonen Ihrer Dateisysteme benötigen.  Ihre Sicherungsstrategie wird weitgehend durch Ihr Service-Level-Agreement (SLA), Ihr Recovery Time Objective (RTO) und Ihr Recovery Point Objective (RPO) bestimmt.' 
+---
+= Definieren Sie eine Sicherungsstrategie für Windows-Dateisysteme
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Durch die Definition einer Sicherungsstrategie vor der Erstellung Ihrer Sicherungen erhalten Sie die Sicherungen, die Sie zum erfolgreichen Wiederherstellen oder Klonen Ihrer Dateisysteme benötigen.  Ihre Sicherungsstrategie wird weitgehend durch Ihr Service-Level-Agreement (SLA), Ihr Recovery Time Objective (RTO) und Ihr Recovery Point Objective (RPO) bestimmt.
+
+Ein SLA definiert das erwartete Serviceniveau und behandelt viele servicebezogene Probleme, einschließlich der Verfügbarkeit und Leistung des Dienstes.  RTO ist die Zeit, innerhalb derer ein Geschäftsprozess nach einer Dienstunterbrechung wiederhergestellt werden muss.  RPO definiert die Strategie für das Alter der Dateien, die aus dem Sicherungsspeicher wiederhergestellt werden müssen, damit der reguläre Betrieb nach einem Fehler wieder aufgenommen werden kann.  SLA, RTO und RPO tragen zur Datenschutzstrategie bei.
+
+
+
+== Sicherungszeitpläne für Windows-Dateisysteme
+
+Die Sicherungshäufigkeit wird in Richtlinien angegeben; ein Sicherungszeitplan wird in der Ressourcengruppenkonfiguration angegeben.  Der wichtigste Faktor bei der Festlegung einer Sicherungshäufigkeit oder eines Sicherungsplans ist die Änderungsrate der Ressource und die Wichtigkeit der Daten.  Sie können eine häufig genutzte Ressource stündlich sichern, während Sie eine selten genutzte Ressource einmal täglich sichern.  Weitere Faktoren sind die Bedeutung der Ressource für Ihr Unternehmen, Ihr Service Level Agreement (SLA) und Ihr Recover Point Objective (RPO).
+
+Ein SLA definiert das erwartete Serviceniveau und behandelt viele servicebezogene Probleme, einschließlich der Verfügbarkeit und Leistung des Dienstes.  Ein RPO definiert die Strategie für das Alter der Dateien, die aus dem Sicherungsspeicher wiederhergestellt werden müssen, damit der reguläre Betrieb nach einem Fehler wieder aufgenommen werden kann.  SLA und RPO tragen zur Datenschutzstrategie bei.
+
+Selbst bei stark genutzten Ressourcen ist es nicht erforderlich, öfter als ein- oder zweimal täglich eine vollständige Sicherung durchzuführen.
+
+Sicherungszeitpläne bestehen aus den folgenden zwei Teilen:
+
+* Sicherungshäufigkeit
++
+Die Sicherungshäufigkeit (wie oft Sicherungen durchgeführt werden sollen), bei einigen Plug-Ins als _Zeitplantyp_ bezeichnet, ist Teil einer Richtlinienkonfiguration.  Sie können beispielsweise die Sicherungshäufigkeit auf stündlich, täglich, wöchentlich oder monatlich konfigurieren oder „Keine“ angeben, wodurch die Richtlinie zu einer Nur-On-Demand-Richtlinie wird.  Sie können auf die Richtlinien zugreifen, indem Sie auf *Einstellungen* > *Richtlinien* klicken.
+
+* Sicherungszeitpläne
++
+Sicherungszeitpläne (genauer Zeitpunkt der Durchführung von Sicherungen) sind Teil einer Ressourcengruppenkonfiguration.  Wenn Sie beispielsweise über eine Ressourcengruppe verfügen, für die eine Richtlinie für wöchentliche Sicherungen konfiguriert ist, können Sie den Zeitplan so konfigurieren, dass jeden Donnerstag um 22:00 Uhr eine Sicherung durchgeführt wird.  Sie können auf Ressourcengruppenpläne zugreifen, indem Sie auf *Ressourcen* > *Ressourcengruppen* klicken.
+
+
+
+
+
+== Anzahl der für Windows-Dateisysteme benötigten Sicherungen
+
+Zu den Faktoren, die die Anzahl der benötigten Sicherungen bestimmen, gehören die Größe des Windows-Dateisystems, die Anzahl der verwendeten Volumes, die Änderungsrate des Dateisystems und Ihr Service Level Agreement (SLA).
+
+
+
+== Sicherungsnamenskonvention für Windows-Dateisysteme
+
+Für die Sicherung von Windows-Dateisystemen wird die standardmäßige Snapshot-Benennungskonvention verwendet.  Die standardmäßige Namenskonvention für Backups fügt den Snapshot-Namen einen Zeitstempel hinzu, der Ihnen hilft, den Zeitpunkt der Erstellung der Kopien zu identifizieren.
+
+Der Snapshot verwendet die folgende Standard-Namenskonvention: Ressourcengruppenname_Hostname_Zeitstempel
+
+Sie sollten Ihre Backup-Ressourcengruppen logisch benennen, wie im folgenden Beispiel:
+
+[listing]
+----
+dts1_mach1x88_03-12-2015_23.17.26
+----
+In diesem Beispiel haben die Syntaxelemente folgende Bedeutung:
+
+* `dts1`ist der Name der Ressourcengruppe.
+* `mach1x88`ist der Hostname.
+* `03-12-2016_23.17.26`ist das Datum und der Zeitstempel.
+
+
+Beim Erstellen einer Sicherung können Sie auch ein beschreibendes Tag hinzufügen, um die Identifizierung der Sicherung zu erleichtern.  Wenn Sie dagegen eine benutzerdefinierte Namenskonvention für die Sicherung verwenden möchten, müssen Sie die Sicherung nach Abschluss des Sicherungsvorgangs umbenennen.
+
+
+
+== Optionen zur Backup-Aufbewahrung
+
+Sie können entweder die Anzahl der Tage auswählen, für die Sicherungskopien aufbewahrt werden sollen, oder die Anzahl der Sicherungskopien angeben, die Sie aufbewahren möchten, bis zu einem ONTAP Maximum von 255 Kopien.  Beispielsweise kann es in Ihrer Organisation erforderlich sein, dass Sie Sicherungskopien für 10 Tage oder 130 Sicherungskopien aufbewahren.
+
+Beim Erstellen einer Richtlinie können Sie die Aufbewahrungsoptionen für den Sicherungstyp und den Zeitplantyp angeben.
+
+Wenn Sie die SnapMirror Replikation einrichten, wird die Aufbewahrungsrichtlinie auf dem Zielvolume gespiegelt.
+
+SnapCenter löscht die aufbewahrten Sicherungen, deren Aufbewahrungsbezeichnungen dem Zeitplantyp entsprechen.  Wenn der Zeitplantyp für die Ressource oder Ressourcengruppe geändert wurde, verbleiben möglicherweise noch Sicherungen mit der alten Zeitplantypbezeichnung auf dem System.
+
+
+NOTE: Für die langfristige Aufbewahrung von Sicherungskopien sollten Sie SnapVault Backup verwenden.

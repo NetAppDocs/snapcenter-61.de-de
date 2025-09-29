@@ -1,0 +1,240 @@
+---
+permalink: protect-mysql/back-up-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: Wenn eine Ressource noch nicht Teil einer Ressourcengruppe ist, können Sie die Ressource von der Seite „Ressourcen“ aus sichern. 
+---
+= MySQL sichern
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn eine Ressource noch nicht Teil einer Ressourcengruppe ist, können Sie die Ressource von der Seite „Ressourcen“ aus sichern.
+
+.Bevor Sie beginnen
+* Sie müssen eine Sicherungsrichtlinie erstellt haben.
+* Wenn Sie eine Ressource sichern möchten, die über eine SnapMirror -Beziehung mit einem sekundären Speicher verfügt, sollte die dem Speicherbenutzer zugewiesene ONTAP -Rolle das Privileg „snapmirror all“ enthalten.  Wenn Sie jedoch die Rolle „vsadmin“ verwenden, ist das Privileg „snapmirror all“ nicht erforderlich.
+* Stellen Sie bei Sicherungsvorgängen auf Basis von Snapshot-Kopien sicher, dass alle Mandantendatenbanken gültig und aktiv sind.
+* Bei Pre- und Post-Befehlen für Quiesce-, Snapshot- und Unquiesce-Vorgänge sollten Sie überprüfen, ob die Befehle in der Befehlsliste vorhanden sind, die auf dem Plug-In-Host unter den folgenden Pfaden verfügbar ist:
++
+** Standardspeicherort auf dem Windows-Host: _C:\Programme\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Standardspeicherort auf dem Linux-Host: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: Wenn die Befehle nicht in der Befehlsliste vorhanden sind, schlägt der Vorgang fehl.
+
+[role="tabbed-block"]
+====
+.SnapCenter -Benutzeroberfläche
+--
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Filtern Sie auf der Ressourcenseite die Ressourcen aus der Dropdown-Liste *Anzeigen* basierend auf dem Ressourcentyp.
++
+Wählen *image:../media/filter_icon.gif["Filtersymbol"] * und wählen Sie dann den Hostnamen und den Ressourcentyp aus, um die Ressourcen zu filtern.  Sie können dann auswählenimage:../media/filter_icon.gif["Filtersymbol"] , um den Filterbereich zu schließen.
+
+. Wählen Sie die Ressource aus, die Sie sichern möchten.
+. Wählen Sie auf der Ressourcenseite *Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden* aus und geben Sie dann ein benutzerdefiniertes Namensformat ein, das Sie für den Snapshot-Namen verwenden möchten.
++
+Beispiel: _customtext_policy_hostname_ oder _resource_hostname_.  Standardmäßig wird dem Snapshot-Namen ein Zeitstempel angehängt.
+
+. Führen Sie auf der Seite „Anwendungseinstellungen“ die folgenden Schritte aus:
++
+** Wählen Sie den Pfeil *Backups* aus, um zusätzliche Backup-Optionen festzulegen:
++
+Aktivieren Sie bei Bedarf die Konsistenzgruppensicherung und führen Sie die folgenden Aufgaben aus:
+
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Planen Sie Zeit ein, um auf den Abschluss des Vorgangs „Consistency Group Snapshot“ zu warten
+ a| 
+Wählen Sie *Dringend*, *Mittel* oder *Entspannt* aus, um die Wartezeit für die Fertigstellung des Snapshot-Vorgangs festzulegen.  Dringend = 5 Sekunden, Mittel = 7 Sekunden und Entspannt = 20 Sekunden.
+
+
+
+ a| 
+WAFL -Synchronisierung deaktivieren
+ a| 
+Wählen Sie diese Option, um das Erzwingen eines WAFL Konsistenzpunkts zu vermeiden.
+
+|===
+** Wählen Sie den Pfeil *Skripts* aus, um Vor- und Nachbefehle für Quiesce-, Snapshot- und Unquiesce-Vorgänge auszuführen.
++
+Sie können vor dem Beenden des Sicherungsvorgangs auch Vorbefehle ausführen.  Prescripts und Postscripts werden auf dem SnapCenter -Server ausgeführt.
+
+** Wählen Sie den Pfeil **Benutzerdefinierte Konfigurationen** aus und geben Sie dann die benutzerdefinierten Wertepaare ein, die für alle Jobs erforderlich sind, die diese Ressource verwenden.
+** Wählen Sie den Pfeil *Snapshot-Kopiertool*, um das Tool zum Erstellen von Snapshots auszuwählen:
++
+|===
+| Falls Sie es wollen... | Dann... 
+
+
+ a| 
+SnapCenter zum Erstellen eines Snapshots auf Speicherebene
+ a| 
+Wählen Sie * SnapCenter ohne Dateisystemkonsistenz*.
+
+
+
+ a| 
+SnapCenter , um das Plug-In für Windows zu verwenden, um das Dateisystem in einen konsistenten Zustand zu versetzen und dann einen Snapshot zu erstellen
+ a| 
+Wählen Sie * SnapCenter mit Dateisystemkonsistenz*.
+
+
+
+ a| 
+So geben Sie den Befehl zum Erstellen eines Snapshots ein
+ a| 
+Wählen Sie *Andere* und geben Sie dann den Befehl zum Erstellen eines Snapshots ein.
+
+|===
++
+image:../media/application_settings.gif["Anwendungseinstellungen"]
+
+
+
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Schritte aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
++
+
+NOTE: Sie können auch eine Richtlinie erstellen, indem Sie auf * klicken.image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] *.
+
++
+Im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ werden die ausgewählten Richtlinien aufgelistet.
+
+.. Wählen *image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] * in der Spalte „Zeitpläne konfigurieren“ für die Richtlinie, für die Sie einen Zeitplan konfigurieren möchten.
+.. Konfigurieren Sie im Dialogfeld „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan und wählen Sie dann *OK* aus.
++
+_policy_name_ ist der Name der von Ihnen ausgewählten Richtlinie.
+
++
+Die konfigurierten Zeitpläne werden in der Spalte „Angewandte Zeitpläne“ aufgelistet.
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  SMTP muss auch unter *Einstellungen* > *Globale Einstellungen* konfiguriert werden.
+
+. Überprüfen Sie die Zusammenfassung und wählen Sie dann *Fertig*.
++
+Die Seite mit der Ressourcentopologie wird angezeigt.
+
+. Wählen Sie *Jetzt sichern*.
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn Sie mehrere Richtlinien auf die Ressource angewendet haben, wählen Sie aus der Dropdownliste *Richtlinie* die Richtlinie aus, die Sie für die Sicherung verwenden möchten.
++
+Wenn die für die On-Demand-Sicherung ausgewählte Richtlinie mit einem Sicherungszeitplan verknüpft ist, werden die On-Demand-Sicherungen basierend auf den für den Zeitplantyp angegebenen Aufbewahrungseinstellungen aufbewahrt.
+
+.. Wählen Sie *Backup*.
+
+
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
++
+** In MetroCluster -Konfigurationen kann SnapCenter nach einem Failover möglicherweise keine Schutzbeziehung erkennen.
++
+Weitere Informationen finden Sie unter: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["SnapMirror oder SnapVault -Beziehung kann nach MetroCluster Failover nicht erkannt werden"^]
+
+** Wenn Sie Anwendungsdaten auf VMDKs sichern und die Java-Heap-Größe für das SnapCenter Plug-in for VMware vSphere nicht groß genug ist, schlägt die Sicherung möglicherweise fehl.
++
+Um die Java-Heap-Größe zu erhöhen, suchen Sie die Skriptdatei _/opt/netapp/init_scripts/scvservice_.  In diesem Skript startet der Befehl _do_start method_ den SnapCenter VMware-Plug-in-Dienst.  Aktualisieren Sie diesen Befehl wie folgt: _Java -jar -Xmx8192M -Xms4096M_
+
+
+
+
+
+--
+.PowerShell-Cmdlets
+--
+.Schritte
+. Initiieren Sie mithilfe des Cmdlets Open-SmConnection eine Verbindungssitzung mit dem SnapCenter -Server für einen angegebenen Benutzer.
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146\
+----
++
+Die Eingabeaufforderung für Benutzername und Kennwort wird angezeigt.
+
+. Fügen Sie mithilfe des Cmdlets Add-SmResources manuelle Ressourcen hinzu.
++
+Dieses Beispiel zeigt, wie eine MySQL-Instanz hinzugefügt wird:
+
++
+[listing]
+----
+PS C:\> Add-SmResource -HostName 10.32.212.13 -PluginCode MySQL -ResourceType Instance -ResourceName mysqlinst1 -StorageFootPrint (@{"VolumeName"="winmysql01_data01";"LUNName"="winmysql01_data01";"StorageSystem"="scsnfssvm"}) -MountPoints "D:\"
+----
+. Erstellen Sie eine Sicherungsrichtlinie mithilfe des Cmdlets Add-SmPolicy.
+. Schützen Sie die Ressource oder fügen Sie SnapCenter mithilfe des Cmdlets Add-SmResourceGroup eine neue Ressourcengruppe hinzu.
+. Starten Sie einen neuen Sicherungsauftrag mithilfe des Cmdlets New-SmBackup.
++
+Dieses Beispiel zeigt, wie eine Ressourcengruppe gesichert wird:
+
++
+[listing]
+----
+C:\PS> New-SmBackup -Resources @{"Host"="scs000211748.gdl.englab.netapp.com";"Uid"="mysqld_3306";"PluginName"="MySQL"} -Policy "MySQL_snapshotbased"
+----
++
+In diesem Beispiel wird eine geschützte Ressource gesichert:
+
++
+[listing]
+----
+C:\PS> New-SMBackup -Resources @{"Host"="10.232.204.42";"Uid"="MDC\SID";"PluginName"="hana"} -Policy mysql_policy2
+----
+. Überwachen Sie den Auftragsstatus (wird ausgeführt, abgeschlossen oder fehlgeschlagen) mithilfe des Cmdlets Get-smJobSummaryReport.
++
+[listing]
+----
+PS C:\> Get-smJobSummaryReport -JobID 123
+----
+. Überwachen Sie die Details des Sicherungsauftrags wie Sicherungs-ID und Sicherungsname, um mithilfe des Cmdlets Get-SmBackupReport Wiederherstellungs- oder Klonvorgänge durchzuführen.
++
+[listing]
+----
+PS C:\> Get-SmBackupReport -JobId 351
+Output:
+BackedUpObjects           : {DB1}
+FailedObjects             : {}
+IsScheduled               : False
+HasMetadata               : False
+SmBackupId                : 269
+SmJobId                   : 2361
+StartDateTime             : 10/4/2016 11:20:45 PM
+EndDateTime               : 10/4/2016 11:21:32 PM
+Duration                  : 00:00:46.2536470
+CreatedDateTime           : 10/4/2016 11:21:09 PM
+Status                    : Completed
+ProtectionGroupName       : Verify_ASUP_Message_windows
+SmProtectionGroupId       : 211
+PolicyName                : test2
+SmPolicyId                : 20
+BackupName                : Verify_ASUP_Message_windows_scc54_10-04-2016_23.20.46.2758
+VerificationStatus        : NotVerified
+VerificationStatuses      :
+SmJobError                :
+BackupType                : SCC_BACKUP
+CatalogingStatus          : NotApplicable
+CatalogingStatuses        :
+ReportDataCreatedDateTime :
+----
+
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+--
+====

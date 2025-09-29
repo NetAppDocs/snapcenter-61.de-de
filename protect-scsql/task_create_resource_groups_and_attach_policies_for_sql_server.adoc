@@ -1,0 +1,152 @@
+---
+permalink: protect-scsql/task_create_resource_groups_and_attach_policies_for_sql_server.html 
+sidebar: sidebar 
+keywords: run as 
+summary: Eine Ressourcengruppe ist ein Container, zu dem Sie Ressourcen hinzufügen, die Sie gemeinsam sichern und schützen möchten.  Mit einer Ressourcengruppe können Sie alle Daten, die einer bestimmten Anwendung zugeordnet sind, gleichzeitig sichern.  Für jeden Datenschutzjob ist eine Ressourcengruppe erforderlich.  Sie müssen der Ressourcengruppe außerdem eine oder mehrere Richtlinien zuordnen, um die Art des Datenschutzjobs zu definieren, den Sie ausführen möchten. 
+---
+= Erstellen von Ressourcengruppen und Anfügen von Richtlinien für SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine Ressourcengruppe ist ein Container, zu dem Sie Ressourcen hinzufügen, die Sie gemeinsam sichern und schützen möchten.  Mit einer Ressourcengruppe können Sie alle Daten, die einer bestimmten Anwendung zugeordnet sind, gleichzeitig sichern.  Für jeden Datenschutzjob ist eine Ressourcengruppe erforderlich.  Sie müssen der Ressourcengruppe außerdem eine oder mehrere Richtlinien zuordnen, um die Art des Datenschutzjobs zu definieren, den Sie ausführen möchten.
+
+Sie können Ressourcen einzeln schützen, ohne eine neue Ressourcengruppe zu erstellen.  Sie können Backups der geschützten Ressource erstellen.
+
+.Informationen zu diesem Vorgang
+* Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+* Das Hinzufügen neuer Datenbanken ohne SnapMirror Active Sync zu einer vorhandenen Ressourcengruppe, die Ressourcen mit SnapMirror Active Sync enthält, wird nicht unterstützt.
+* Das Hinzufügen neuer Datenbanken zu einer vorhandenen Ressourcengruppe im Failover-Modus von SnapMirror Active Sync wird nicht unterstützt.  Sie können der Ressourcengruppe nur im regulären oder Failback-Zustand Ressourcen hinzufügen.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Ansicht“ die Option „Datenbank“ aus.
++
+
+NOTE: Wenn Sie SnapCenter kürzlich eine Ressource hinzugefügt haben, klicken Sie auf *Ressourcen aktualisieren*, um die neu hinzugefügte Ressource anzuzeigen.
+
+. Klicken Sie auf *Neue Ressourcengruppe*.
+. Führen Sie auf der Seite „Name“ die folgenden Aktionen aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Name
+ a| 
+Geben Sie den Namen der Ressourcengruppe ein.
+
+
+NOTE: Der Name der Ressourcengruppe sollte nicht länger als 250 Zeichen sein.
+
+
+
+ a| 
+Schlagwörter
+ a| 
+Geben Sie eine oder mehrere Bezeichnungen ein, die Ihnen später bei der Suche nach der Ressourcengruppe helfen.  Wenn Sie beispielsweise „HR“ als Tag zu mehreren Ressourcengruppen hinzufügen, können Sie später alle mit dem HR-Tag verknüpften Ressourcengruppen finden.
+
+
+
+ a| 
+Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden
+ a| 
+Optional: Geben Sie einen benutzerdefinierten Snapshot-Namen und ein benutzerdefiniertes Format ein.  Beispiel: customtext_resourcegroup_policy_hostname oder resourcegroup_hostname.  Standardmäßig wird dem Snapshot-Namen ein Zeitstempel angehängt.
+
+|===
+. Führen Sie auf der Seite „Ressourcen“ die folgenden Schritte aus:
++
+.. Wählen Sie den Hostnamen, den Ressourcentyp und die SQL Server-Instanz aus den Dropdown-Listen aus, um die Liste der Ressourcen zu filtern.
++
+
+NOTE: Wenn Sie kürzlich Ressourcen hinzugefügt haben, werden diese erst in der Liste der verfügbaren Ressourcen angezeigt, nachdem Sie Ihre Ressourcenliste aktualisiert haben.
+
+.. Um Ressourcen aus dem Abschnitt *Verfügbare Ressourcen* in den Abschnitt „Ausgewählte Ressourcen“ zu verschieben, führen Sie einen der folgenden Schritte aus:
++
+*** Wählen Sie *Alle Ressourcen auf demselben Speichervolume automatisch auswählen*, um alle Ressourcen auf demselben Volume in den Abschnitt „Ausgewählte Ressourcen“ zu verschieben.
+*** Wählen Sie die Ressourcen aus dem Abschnitt *Verfügbare Ressourcen* aus und klicken Sie dann auf den Rechtspfeil, um sie in den Abschnitt *Ausgewählte Ressourcen* zu verschieben.
+
+
+
+
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Schritte aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
++
+
+NOTE: Sie können auch eine Richtlinie erstellen, indem Sie auf * klicken.image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] *.
+
++
+Im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ werden die ausgewählten Richtlinien aufgelistet.
+
+.. Klicken Sie im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ auf *image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] * in der Spalte „Zeitpläne konfigurieren“ für die Richtlinie, für die Sie den Zeitplan konfigurieren möchten.
+.. Konfigurieren Sie im Dialogfeld „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan, indem Sie das Startdatum, das Ablaufdatum und die Häufigkeit angeben, und klicken Sie dann auf *OK*.
++
+Sie müssen dies für jede in der Richtlinie aufgeführte Frequenz tun.  Die konfigurierten Zeitpläne werden in der Spalte „Angewandte Zeitpläne“ im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ aufgelistet.
+
+.. Wählen Sie den Microsoft SQL Server-Scheduler aus.
++
+Sie müssen außerdem eine Scheduler-Instanz auswählen, die mit der Planungsrichtlinie verknüpft werden soll.
+
++
+Wenn Sie den Microsoft SQL Server-Scheduler nicht auswählen, wird standardmäßig der Microsoft Windows-Scheduler verwendet.
+
+
+
++
+Sicherungspläne von Drittanbietern werden nicht unterstützt, wenn sie sich mit den Sicherungsplänen von SnapCenter überschneiden.  Sie sollten die Zeitpläne nicht ändern und den im Windows-Scheduler oder SQL Server-Agent erstellten Sicherungsauftrag nicht umbenennen.
+
+. Führen Sie auf der Seite „Verifizierung“ die folgenden Schritte aus:
++
+.. Wählen Sie den Verifizierungsserver aus der Dropdown-Liste *Verifizierungsserver* aus.
++
+Die Liste enthält alle in SnapCenter hinzugefügten SQL-Server.  Sie können mehrere Verifizierungsserver auswählen (lokaler Host oder Remote-Host).
+
++
+
+NOTE: Die Version des Überprüfungsservers sollte mit der Version und Edition des SQL-Servers übereinstimmen, auf dem die primäre Datenbank gehostet wird.
+
+.. Klicken Sie auf *Locators laden*, um die SnapMirror und SnapVault -Volumes zu laden und die Überprüfung auf dem sekundären Speicher durchzuführen.
+.. Wählen Sie die Richtlinie aus, für die Sie Ihren Überprüfungszeitplan konfigurieren möchten, und klicken Sie dann auf *image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] *.
+.. Führen Sie im Dialogfeld „Verifizierungszeitpläne hinzufügen“ (Richtlinienname) die folgenden Aktionen aus:
++
+|===
+| Wenn Sie wollen... | Machen Sie Folgendes... 
+
+
+ a| 
+Führen Sie nach der Sicherung eine Überprüfung durch
+ a| 
+Wählen Sie *Überprüfung nach Sicherung ausführen*.
+
+
+
+ a| 
+Planen Sie eine Überprüfung
+ a| 
+Wählen Sie *Geplante Überprüfung ausführen*.
+
+|===
+.. Klicken Sie auf *OK*.
++
+Die konfigurierten Zeitpläne werden in der Spalte „Angewandte Zeitpläne“ aufgelistet.  Sie können die Überprüfung und anschließend die Bearbeitung durchführen, indem Sie auf * klicken.image:../media/edit_icon.gif["Symbol zum Bearbeiten konfigurierter Zeitpläne"] * oder durch Klicken auf * löschenimage:../media/delete_icon_for_configuringschedule.gif["Symbol „Löschen“"] *.
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den an der Ressourcengruppe durchgeführten Vorgang anhängen möchten, wählen Sie *Jobbericht anhängen*.
+
++
+
+NOTE: Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl „Set-SmSmtpServer“ angegeben haben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+
+
+.Ähnliche Informationen
+link:task_create_backup_policies_for_sql_server_databases.html["Erstellen von Sicherungsrichtlinien für SQL Server-Datenbanken"]

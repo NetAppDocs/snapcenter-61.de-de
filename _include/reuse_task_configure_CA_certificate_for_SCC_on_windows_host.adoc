@@ -1,0 +1,118 @@
+= Verwalten Sie das Kennwort für den Plug-In-Schlüsselspeicher und den Alias des verwendeten, von der Zertifizierungsstelle signierten Schlüsselpaars.
+:allow-uri-read: 
+
+
+Sie sollten das Kennwort des Plug-In-Schlüsselspeichers und seines Zertifikats verwalten, das CA-Zertifikat konfigurieren, Stamm- oder Zwischenzertifikate für den Plug-In-Truststore konfigurieren und ein von der CA signiertes Schlüsselpaar für den Plug-In-Truststore mit dem SnapCenter -Plug-In-Dienst konfigurieren, um das installierte digitale Zertifikat zu aktivieren.
+
+Die Plug-ins verwenden die Datei _keystore.jks_, die sich unter _C:\Programme\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc_ befindet, sowohl als Truststore als auch als Keystore.
+
+
+
+== Verwalten Sie das Kennwort für den Plug-In-Schlüsselspeicher und den Alias des verwendeten, von der Zertifizierungsstelle signierten Schlüsselpaars.
+
+.Schritte
+. Sie können das Standardkennwort für den Plug-in-Keystore aus der Eigenschaftendatei des Plug-in-Agenten abrufen.
++
+Es handelt sich um den Wert, der dem Schlüssel _KEYSTORE_PASS_ entspricht.
+
+. Ändern Sie das Keystore-Passwort:
++
+_keytool -storepasswd -keystore keystore.jks_
+
++
+
+NOTE: Wenn der Befehl „keytool“ in der Windows-Eingabeaufforderung nicht erkannt wird, ersetzen Sie den Befehl „keytool“ durch seinen vollständigen Pfad.
+
++
+_C:\Programme\Java\<jdk_version>\bin\keytool.exe" -storepasswd -keystore keystore.jks_
+
+. Ändern Sie das Kennwort für alle Aliase der privaten Schlüsseleinträge im Schlüsselspeicher in dasselbe Kennwort, das für den Schlüsselspeicher verwendet wird:
++
+_keytool -keypasswd -alias "Aliasname_im_Zertifikat" -keystore keystore.jks_
+
++
+Aktualisieren Sie dasselbe für den Schlüssel KEYSTORE_PASS in der Datei _agent.properties_.
+
+. Starten Sie den Dienst nach der Änderung des Kennworts neu.
++
+
+NOTE: Das Kennwort für den Plug-In-Schlüsselspeicher und für alle zugehörigen Aliaskennwörter des privaten Schlüssels müssen identisch sein.
+
+
+
+
+
+== Konfigurieren Sie Stamm- oder Zwischenzertifikate für den Plug-In-Truststore
+
+Sie sollten die Stamm- oder Zwischenzertifikate ohne den privaten Schlüssel für den Plug-In-Truststore konfigurieren.
+
+.Schritte
+. Navigieren Sie zu dem Ordner mit dem Plug-in-Schlüsselspeicher _C:\Programme\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc_
+. Suchen Sie die Datei „keystore.jks“.
+. Listen Sie die hinzugefügten Zertifikate im Schlüsselspeicher auf:
++
+_keytool -list -v -keystore keystore.jks_
+
+. Fügen Sie ein Stamm- oder Zwischenzertifikat hinzu:
++
+_keytool -import -trustcacerts -alias myRootCA -file /root/USERTrustRSA_Root.cer -keystore keystore.jks_
+
+. Starten Sie den Dienst neu, nachdem Sie die Stamm- oder Zwischenzertifikate für den Plug-In-Truststore konfiguriert haben.
+
+
+
+NOTE: Sie sollten das Stamm-CA-Zertifikat und dann die Zwischen-CA-Zertifikate hinzufügen.
+
+
+
+== Konfigurieren Sie das von der Zertifizierungsstelle signierte Schlüsselpaar für den Plug-In-Truststore
+
+Sie sollten das von der Zertifizierungsstelle signierte Schlüsselpaar für den Truststore des Plug-Ins konfigurieren.
+
+.Schritte
+. Navigieren Sie zu dem Ordner mit dem Plug-in-Schlüsselspeicher _C:\Programme\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc_
+. Suchen Sie die Datei _keystore.jks_.
+. Listen Sie die hinzugefügten Zertifikate im Schlüsselspeicher auf:
++
+_keytool -list -v -keystore keystore.jks_
+
+. Fügen Sie das CA-Zertifikat mit privatem und öffentlichem Schlüssel hinzu.
++
+_keytool -importkeystore -srckeystore /root/snapcenter.ssl.test.netapp.com.pfx -srcstoretype pkcs12 -destkeystore keystore.jks -deststoretype JKS_
+
+. Listen Sie die hinzugefügten Zertifikate im Schlüsselspeicher auf.
++
+_keytool -list -v -keystore keystore.jks_
+
+. Überprüfen Sie, ob der Schlüsselspeicher den Alias enthält, der dem neuen CA-Zertifikat entspricht, das dem Schlüsselspeicher hinzugefügt wurde.
+. Ändern Sie das hinzugefügte private Schlüsselkennwort für das CA-Zertifikat in das Schlüsselspeicherkennwort.
++
+Das Standardkennwort für den Plug-in-Schlüsselspeicher ist der Wert des Schlüssels KEYSTORE_PASS in der Datei agent.properties.
+
++
+_keytool -keypasswd -alias "Aliasname_im_CA_Zertifikat" -keystore keystore.jks_
+
+. Konfigurieren Sie den Aliasnamen aus dem CA-Zertifikat in der Datei _agent.properties_.
++
+Aktualisieren Sie diesen Wert anhand des Schlüssels SCC_CERTIFICATE_ALIAS.
+
+. Starten Sie den Dienst neu, nachdem Sie das von der Zertifizierungsstelle signierte Schlüsselpaar für den Plug-In-Truststore konfiguriert haben.
+
+
+
+
+== Konfigurieren der Zertifikatsperrliste (CRL) für SnapCenter -Plug-Ins
+
+.Informationen zu diesem Vorgang
+* Um die neueste CRL-Datei für das entsprechende CA-Zertifikat herunterzuladen, siehe https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_update_certificate_revocation_list_file_in_SnapCenter_CA_Certificate["So aktualisieren Sie die Zertifikatsperrlistendatei im SnapCenter CA-Zertifikat"] .
+* SnapCenter Plug-Ins suchen in einem vorkonfigurierten Verzeichnis nach den CRL-Dateien.
+* Das Standardverzeichnis für die CRL-Dateien für SnapCenter -Plug-ins ist _'C:\Programme\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\crl'_.
+
+
+.Schritte
+. Sie können das Standardverzeichnis in der Datei _agent.properties_ anhand des Schlüssels CRL_PATH ändern und aktualisieren.
+. Sie können mehr als eine CRL-Datei in diesem Verzeichnis ablegen.
++
+Die eingehenden Zertifikate werden anhand der einzelnen CRLs überprüft.
+
+

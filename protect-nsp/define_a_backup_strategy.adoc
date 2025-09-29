@@ -1,0 +1,27 @@
+---
+permalink: protect-nsp/define_a_backup_strategy.html 
+sidebar: sidebar 
+keywords: backup strategy 
+summary: 'Durch das Definieren einer Sicherungsstrategie vor dem Erstellen Ihrer Sicherungsaufträge wird sichergestellt, dass Sie über die Sicherungen verfügen, die Sie zum erfolgreichen Wiederherstellen oder Klonen Ihrer Ressourcen benötigen.  Ihre Sicherungsstrategie wird weitgehend von Ihrem Service-Level-Agreement (SLA), Ihrem Recovery Time Objective (RTO) und Ihrem Recovery Point Objective (RPO) bestimmt.' 
+---
+= Definieren Sie eine Sicherungsstrategie
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Durch das Definieren einer Sicherungsstrategie vor dem Erstellen Ihrer Sicherungsaufträge wird sichergestellt, dass Sie über die Sicherungen verfügen, die Sie zum erfolgreichen Wiederherstellen oder Klonen Ihrer Ressourcen benötigen.  Ihre Sicherungsstrategie wird weitgehend durch Ihr Service-Level-Agreement (SLA), Ihr Recovery Time Objective (RTO) und Ihr Recovery Point Objective (RPO) bestimmt.
+
+.Informationen zu diesem Vorgang
+Ein SLA definiert das erwartete Serviceniveau und behandelt viele servicebezogene Probleme, einschließlich der Verfügbarkeit und Leistung des Dienstes.  RTO ist die Zeit, innerhalb derer ein Geschäftsprozess nach einer Dienstunterbrechung wiederhergestellt werden muss.  RPO definiert die Strategie für das Alter der Dateien, die aus dem Sicherungsspeicher wiederhergestellt werden müssen, damit der reguläre Betrieb nach einem Fehler wieder aufgenommen werden kann.  SLA, RTO und RPO tragen zur Datenschutzstrategie bei.
+
+.Schritte
+. Bestimmen Sie, wann Sie Ihre Ressourcen sichern sollten.
+. Entscheiden Sie, wie viele Sicherungsaufträge Sie benötigen.
+. Entscheiden Sie, wie Sie Ihre Backups benennen möchten.
+. Entscheiden Sie, ob Sie Konsistenzgruppen-Snapshots möchten, und entscheiden Sie sich für geeignete Optionen zum Löschen von Konsistenzgruppen-Snapshots.
+. Entscheiden Sie, ob Sie die NetApp SnapMirror -Technologie für die Replikation oder die NetApp SnapVault -Technologie für die langfristige Aufbewahrung verwenden möchten.
+. Bestimmen Sie die Aufbewahrungsdauer für die Snapshots auf dem Quellspeichersystem und dem SnapMirror -Ziel.
+. Legen Sie fest, ob Sie vor oder nach dem Sicherungsvorgang Befehle ausführen möchten, und geben Sie ein Präskript oder Postskript an.
+

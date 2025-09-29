@@ -1,0 +1,34 @@
+---
+permalink: protect-scsql/concept_how_resources_resource_groups_and_policies_are_used_for_protecting_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server 
+summary: Bevor Sie SnapCenter verwenden, ist es hilfreich, die grundlegenden Konzepte im Zusammenhang mit den Sicherungs-, Klon- und Wiederherstellungsvorgängen zu verstehen, die Sie durchführen möchten.  Sie interagieren mit Ressourcen, Ressourcengruppen und Richtlinien für verschiedene Vorgänge. 
+---
+= So werden Ressourcen, Ressourcengruppen und Richtlinien zum Schutz von SQL Server verwendet
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie SnapCenter verwenden, ist es hilfreich, die grundlegenden Konzepte im Zusammenhang mit den Sicherungs-, Klon- und Wiederherstellungsvorgängen zu verstehen, die Sie durchführen möchten.  Sie interagieren mit Ressourcen, Ressourcengruppen und Richtlinien für verschiedene Vorgänge.
+
+* Bei Ressourcen handelt es sich in der Regel um Datenbanken, Datenbankinstanzen oder Microsoft SQL Server-Verfügbarkeitsgruppen, die Sie mit SnapCenter sichern oder klonen.
+* Eine SnapCenter -Ressourcengruppe ist eine Sammlung von Ressourcen auf einem Host oder Cluster.
++
+Wenn Sie einen Vorgang für eine Ressourcengruppe ausführen, führen Sie diesen Vorgang für die in der Ressourcengruppe definierten Ressourcen gemäß dem Zeitplan aus, den Sie für die Ressourcengruppe angeben.
+
++
+Sie können bei Bedarf eine einzelne Ressource oder eine Ressourcengruppe sichern.  Sie können auch geplante Sicherungen für einzelne Ressourcen und Ressourcengruppen durchführen.
+
+* Die Richtlinien legen die Sicherungshäufigkeit, die Aufbewahrung von Kopien, Replikation, Skripte und andere Merkmale von Datenschutzvorgängen fest.
++
+Wenn Sie eine Ressourcengruppe erstellen, wählen Sie eine oder mehrere Richtlinien für diese Gruppe aus.  Sie können auch eine Richtlinie auswählen, wenn Sie eine bedarfsgesteuerte Sicherung für eine einzelne Ressource durchführen.
+
+
+
+Stellen Sie sich eine Ressourcengruppe so vor, als würde sie definieren, _was_ Sie schützen möchten und wann Sie es hinsichtlich Tag und Uhrzeit schützen möchten.  Stellen Sie sich eine Richtlinie so vor, als würde sie definieren, _wie_ Sie sie schützen möchten.  Wenn Sie beispielsweise alle Datenbanken oder alle Dateisysteme eines Hosts sichern, können Sie eine Ressourcengruppe erstellen, die alle Datenbanken oder alle Dateisysteme auf dem Host enthält.  Sie könnten dann zwei Richtlinien an die Ressourcengruppe anhängen: eine tägliche Richtlinie und eine stündliche Richtlinie.  Wenn Sie die Ressourcengruppe erstellen und die Richtlinien anfügen, können Sie die Ressourcengruppe so konfigurieren, dass täglich eine vollständige Sicherung durchgeführt wird, und einen anderen Zeitplan, der stündlich Protokollsicherungen durchführt.
+
+Die folgende Abbildung veranschaulicht die Beziehung zwischen Ressourcen, Ressourcengruppen und Richtlinien für Datenbanken:
+
+image::../media/scsql_resourcegroup_policy.gif[Ressourcengruppenrichtlinie]

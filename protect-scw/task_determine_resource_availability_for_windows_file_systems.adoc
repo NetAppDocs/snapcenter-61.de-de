@@ -1,0 +1,32 @@
+---
+permalink: protect-scw/task_determine_resource_availability_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: availability 
+summary: Ressourcen sind die LUNs und ähnliche Komponenten in Ihrem Dateisystem, die von den von Ihnen installierten Plug-Ins verwaltet werden.  Sie können diese Ressourcen zu Ressourcengruppen hinzufügen, sodass Sie Datenschutzjobs auf mehreren Ressourcen ausführen können. Zunächst müssen Sie jedoch ermitteln, welche Ressourcen Ihnen zur Verfügung stehen.  Durch die Ermittlung verfügbarer Ressourcen wird auch überprüft, ob die Plug-In-Installation erfolgreich abgeschlossen wurde. 
+---
+= Ermitteln der Ressourcenverfügbarkeit für Windows-Dateisysteme
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ressourcen sind die LUNs und ähnliche Komponenten in Ihrem Dateisystem, die von den von Ihnen installierten Plug-Ins verwaltet werden.  Sie können diese Ressourcen zu Ressourcengruppen hinzufügen, sodass Sie Datenschutzjobs auf mehreren Ressourcen ausführen können. Zunächst müssen Sie jedoch ermitteln, welche Ressourcen Ihnen zur Verfügung stehen.  Durch die Ermittlung verfügbarer Ressourcen wird auch überprüft, ob die Plug-In-Installation erfolgreich abgeschlossen wurde.
+
+.Bevor Sie beginnen
+* Sie müssen bereits Aufgaben wie die Installation von SnapCenter Server, das Hinzufügen von Hosts, das Erstellen von Verbindungen für virtuelle Speichermaschinen (SVM) und das Hinzufügen von Anmeldeinformationen abgeschlossen haben.
+* Wenn sich Dateien auf VMware RDM LUNs oder VMDKs befinden, müssen Sie das SnapCenter Plug-in for VMware vSphere bereitstellen und das Plug-in bei SnapCenter registrieren. Weitere Informationen finden Sie unter  https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphere Dokumentation"^] .
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ *Dateisysteme* aus der Liste aus.
+. Wählen Sie den Host aus, um die Liste der Ressourcen zu filtern, und klicken Sie dann auf *Ressourcen aktualisieren*.
++
+Die neu hinzugefügten, umbenannten oder gelöschten Dateisysteme werden im SnapCenter Server-Inventar aktualisiert.
+
++
+
+IMPORTANT: Sie müssen die Ressourcen aktualisieren, wenn die Datenbanken außerhalb von SnapCenter umbenannt werden.
+
+

@@ -1,0 +1,64 @@
+---
+permalink: protect-db2/monitor-db2-backup-operations.html 
+sidebar: sidebar 
+keywords: SnapCenter Server 
+summary: Sie können den Fortschritt verschiedener Sicherungsvorgänge mithilfe der SnapCenter -Seite „Jobs“ überwachen.  Möglicherweise möchten Sie den Fortschritt überprüfen, um festzustellen, wann der Vorgang abgeschlossen ist oder ob ein Problem vorliegt. 
+---
+= Überwachen von IBM Db2-Sicherungsvorgängen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den Fortschritt verschiedener Sicherungsvorgänge mithilfe der SnapCenterJobs-Seite überwachen.  Möglicherweise möchten Sie den Fortschritt überprüfen, um festzustellen, wann der Vorgang abgeschlossen ist oder ob ein Problem vorliegt.
+
+.Informationen zu diesem Vorgang
+Die folgenden Symbole werden auf der Seite „Jobs“ angezeigt und zeigen den entsprechenden Status der Vorgänge an:
+
+* image:../media/progress_icon.gif["Symbol „In Bearbeitung“"]Im Gange
+* image:../media/success_icon.gif["Symbol „Abgeschlossen“"]Erfolgreich abgeschlossen
+* image:../media/failed_icon.gif["Fehlgeschlagenes Symbol"]Fehlgeschlagen
+* image:../media/warning_icon.gif["Abgeschlossen mit Warnsymbol"]Mit Warnungen abgeschlossen oder konnte aufgrund von Warnungen nicht gestartet werden
+* image:../media/verification_job_in_queue.gif["Der Überprüfungsauftrag befindet sich in der Warteschlange."]In der Warteschlange
+* image:../media/cancel_icon.gif["Symbol „Abbrechen“"]Abgesagt
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Monitor*.
+. Klicken Sie auf der Seite „Überwachen“ auf *Jobs*.
+. Führen Sie auf der Seite „Jobs“ die folgenden Schritte aus:
++
+.. Klickenimage:../media/filter_icon.gif["Filtersymbol"] um die Liste so zu filtern, dass nur Sicherungsvorgänge aufgelistet werden.
+.. Geben Sie das Start- und Enddatum an.
+.. Wählen Sie aus der Dropdownliste *Typ* die Option *Backup* aus.
+.. Wählen Sie aus der Dropdown-Liste *Status* den Sicherungsstatus aus.
+.. Klicken Sie auf *Übernehmen*, um die erfolgreich abgeschlossenen Vorgänge anzuzeigen.
+
+
+. Wählen Sie einen Sicherungsauftrag aus und klicken Sie dann auf *Details*, um die Auftragsdetails anzuzeigen.
++
+
+NOTE: Obwohl der Status des Sicherungsauftrags angezeigt wirdimage:../media/success_icon.gif["Symbol „Abgeschlossen“"] Wenn Sie auf die Auftragsdetails klicken, sehen Sie möglicherweise, dass einige der untergeordneten Aufgaben des Sicherungsvorgangs noch ausgeführt werden oder mit Warnzeichen markiert sind.
+
+. Klicken Sie auf der Seite „Auftragsdetails“ auf *Protokolle anzeigen*.
++
+Die Schaltfläche *Protokolle anzeigen* zeigt die detaillierten Protokolle für den ausgewählten Vorgang an.
+
+
+
+
+
+== Überwachen Sie Datenschutzvorgänge für IBM Db2-Datenbanken im Aktivitätsbereich
+
+Im Aktivitätsbereich werden die fünf zuletzt ausgeführten Vorgänge angezeigt.  Im Aktivitätsbereich wird auch angezeigt, wann der Vorgang gestartet wurde und welchen Status er hat.
+
+Im Aktivitätsbereich werden Informationen zu Sicherungs-, Wiederherstellungs-, Klon- und geplanten Sicherungsvorgängen angezeigt.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Klickenimage:../media/activity_pane_icon.gif["Symbol für den Aktivitätsbereich"] im Aktivitätsbereich, um die fünf letzten Vorgänge anzuzeigen.
++
+Wenn Sie auf einen der Vorgänge klicken, werden die Vorgangsdetails auf der Seite *Auftragsdetails* aufgelistet.
+
+

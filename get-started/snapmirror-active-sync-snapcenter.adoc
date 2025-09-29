@@ -1,0 +1,29 @@
+---
+permalink: get-started/snapmirror-active-sync-snapcenter.html 
+sidebar: sidebar 
+keywords: snapmirror active sync 
+summary: Sie können den SnapCenter -Server im Falle von Katastrophen wie Ressourcenbeschädigung oder Serverabsturz mithilfe der SnapCenter Notfallwiederherstellungsfunktion wiederherstellen. 
+---
+= SnapMirror Active Sync in SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapMirror Active Sync ermöglicht die Weiterführung des Betriebs von Geschäftsdiensten auch bei einem vollständigen Site-Ausfall und unterstützt Anwendungen bei einem transparenten Failover mithilfe einer sekundären Kopie.  Um mit SnapMirror Active Sync ein Failover auszulösen, sind weder manuelle Eingriffe noch zusätzliche Skripts erforderlich.
+
+Weitere Informationen zu SnapMirror Active Sync finden Sie unter https://docs.netapp.com/us-en/ontap/smbc/index.html["SnapMirror Active Sync-Übersicht"] .
+
+Stellen Sie für die aktive Synchronisierung von SnapMirror sicher, dass Sie die verschiedenen Hardware-, Software- und Systemkonfigurationsanforderungen erfüllt haben.  Weitere Informationen finden Sie unter https://docs.netapp.com/us-en/ontap/smbc/smbc_plan_prerequisites.html["Voraussetzungen"]
+
+Die für diese Funktion unterstützten Plug-ins sind SnapCenter Plug-in für SQL Server, SnapCenter Plug-in für Windows, SnapCenter Plug-in für Oracle-Datenbanken, SnapCenter Plug-in für SAP HANA-Datenbanken, SnapCenter Plug-in für Microsoft Exchange Server und SnapCenter Plug-in für Unix.
+
+
+NOTE: Um die Host-Initiator-Nähe in SnapCenter zu unterstützen, sollte der Wert, entweder Quelle oder Ziel, in ONTAP festgelegt werden.
+
+Die in SnapCenter nicht unterstützten Anwendungsfälle:
+
+* Wenn Sie die vorhandenen asymmetrischen SnapMirror Active Sync-Workloads in symmetrische umwandeln, indem Sie die Richtlinie für die SnapMirror Active Sync-Beziehungen in ONTAP von _automatedfailover_ in _automatedfailoverduplex_ ändern, wird dies in SnapCenter nicht unterstützt.
+* Wenn Sicherungen einer Ressourcengruppe vorhanden sind (bereits in SnapCenter geschützt) und dann die Speicherrichtlinie für die SnapMirror -Active-Sync-Beziehungen von _automatedfailover_ in _automatedfailoverduplex_ in ONTAP geändert wird, wird dies in SnapCenter nicht unterstützt.
+

@@ -1,0 +1,58 @@
+---
+permalink: protect-hana/task_discover_the_databases_automatically.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Ressourcen sind SAP HANA-Datenbanken und Nicht-Datenvolumes auf dem Linux-Host, die von SnapCenter verwaltet werden.  Sie können diese Ressourcen zu Ressourcengruppen hinzufügen, um Datenschutzvorgänge durchzuführen, nachdem Sie die verfügbaren SAP HANA-Datenbanken ermittelt haben. 
+---
+= Automatisches Erkennen der Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ressourcen sind SAP HANA-Datenbanken und Nicht-Datenvolumes auf dem Linux-Host, die von SnapCenter verwaltet werden.  Sie können diese Ressourcen zu Ressourcengruppen hinzufügen, um Datenschutzvorgänge durchzuführen, nachdem Sie die verfügbaren SAP HANA-Datenbanken ermittelt haben.
+
+.Bevor Sie beginnen
+* Sie müssen bereits Aufgaben wie die Installation des SnapCenter -Servers, das Hinzufügen des HDB User Store Key, das Hinzufügen von Hosts und das Einrichten der Speichersystemverbindungen abgeschlossen haben.
+* Sie müssen den HDB Secure User Store Key und den HDB SQL OS-Benutzer auf dem Linux-Host konfiguriert haben.
++
+** Sie müssen den HDB-Benutzerspeicherschlüssel mit der SID „Adm-Benutzer“ konfigurieren.  Beispielsweise muss für ein HANA-System mit A22 als SID der HDB-Benutzerspeicherschlüssel mit a22adm konfiguriert werden.
+
+
+* Das SnapCenter Plug-in für die SAP HANA-Datenbank unterstützt keine automatische Erkennung der in virtuellen RDM/VMDK-Umgebungen vorhandenen Ressourcen.  Sie müssen die Speicherinformationen für virtuelle Umgebungen angeben, während Sie die Datenbanken manuell hinzufügen.
+
+
+.Informationen zu diesem Vorgang
+Nach der Installation des Plug-Ins werden alle Ressourcen auf diesem Linux-Host automatisch erkannt und auf der Seite „Ressourcen“ angezeigt.
+
+Die automatisch erkannten Ressourcen können nicht geändert oder gelöscht werden.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Plug-in für die SAP HANA-Datenbank aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ den Ressourcentyp aus der Liste „Anzeigen“ aus.
+. (Optional) Klicken Sie auf *image:../media/filter_icon.gif["Filtersymbol"] * und wählen Sie dann den Hostnamen aus.
++
+Sie können dann auf * klicken.image:../media/filter_icon.gif["Filtersymbol"] *, um den Filterbereich zu schließen.
+
+. Klicken Sie auf *Ressourcen aktualisieren*, um die auf dem Host verfügbaren Ressourcen anzuzeigen.
++
+Die Ressourcen werden zusammen mit Informationen wie Ressourcentyp, Hostname, zugehörigen Ressourcengruppen, Sicherungstyp, Richtlinien und Gesamtstatus angezeigt.
+
++
+** Wenn sich die Datenbank auf einem NetApp -Speicher befindet und nicht geschützt ist, wird in der Spalte „Gesamtstatus“ „Nicht geschützt“ angezeigt.
+** Wenn sich die Datenbank auf einem NetApp -Speichersystem befindet und geschützt ist und kein Sicherungsvorgang ausgeführt wird, wird in der Spalte „Gesamtstatus“ die Meldung „Sicherung nicht ausgeführt“ angezeigt.  Andernfalls ändert sich der Status basierend auf dem letzten Sicherungsstatus in „Sicherung fehlgeschlagen“ oder „Sicherung erfolgreich“.
+
+
+
+
+
+NOTE: Wenn für die SAP HANA-Datenbank kein HDB Secure User Store Key konfiguriert ist, wird neben der Ressource ein rotes Vorhängeschlosssymbol angezeigt.  Wenn sich bei einem nachfolgenden Erkennungsvorgang herausstellt, dass der konfigurierte HDB Secure User Store Key falsch ist oder keinen Zugriff auf die Datenbank selbst gewährt, wird das rote Vorhängeschlosssymbol erneut angezeigt.
+
+
+IMPORTANT: Sie müssen die Ressourcen aktualisieren, wenn die Datenbanken außerhalb von SnapCenter umbenannt werden.
+
+.Nach Abschluss
+Sie müssen den HDB Secure User Store Key und den HDBSQL OS User konfigurieren, um die Datenbank schützen zu können, oder sie der Ressourcengruppe hinzufügen, um Datenschutzvorgänge durchzuführen.
+
+link:task_configure_hdb_user_store_key_and_hdbsql_os_user_for_the_sap_hana_database.html["Konfigurieren Sie den HDB User Store Key und den HDBSQL OS User für die SAP HANA-Datenbank"]

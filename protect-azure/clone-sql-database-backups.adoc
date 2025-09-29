@@ -1,0 +1,81 @@
+---
+permalink: protect-azure/clone-sql-database-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server Database, clone, database, backups 
+summary: Sie können SnapCenter verwenden, um ein Backup zu klonen. 
+---
+= Klonen Sie die SQL Server-Datenbanksicherung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um eine SQL-Datenbank mithilfe der Sicherung der Datenbank zu klonen.  Bei den erstellten Klonen handelt es sich um dicke Klone, die im übergeordneten Kapazitätspool erstellt werden.
+
+.Informationen zu diesem Vorgang
+Sie sollten sicherstellen, dass die Zielinstanz für den Klon mit einem Active Directory-Benutzer konfiguriert ist, der zur Active Directory-Domäne SMB AD gehört und über die Berechtigung verfügt, die Dateiberechtigungen entsprechend festzulegen.  Sie sollten die Anmeldeinformationen in SnapCenter auf Instanzebene konfigurieren.
+
+Die SQL-Authentifizierung für die Zielinstanz wird für SMB-Konfigurationen nicht unterstützt.  Die Zielinstanz sollte in SnapCenter mit dem Active Directory-Benutzer konfiguriert werden, der über die erforderlichen Berechtigungen verfügt.
+
+Wenn das Dienstkonto der SnapCenter Plug-in-Dienste kein Active Directory-Benutzer ist, wird beim Klonen der Benutzer benötigt, der die vollständige Kontrolle über die Quellvolumes hat, damit seine Identität angenommen werden kann und der erforderliche Vorgang ausgeführt werden kann.
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder „Datenbank“ oder „Ressourcengruppe“ aus der Liste „Anzeigen“ aus.
+. Wählen Sie die Datenbank oder Ressourcengruppe aus.
+. Wählen Sie auf der Ansichtsseite *Kopien verwalten* die Sicherung vom primären Speichersystem aus.
+. Wählen Sie die Sicherung aus und wählen Sie dann *image:../media/clone_icon.gif["Klonsymbol"] *.
+. Geben Sie auf der Seite *Klonoptionen* alle erforderlichen Details ein.
+. Wählen Sie auf der Seite „Speicherort“ einen Speicherort aus, um einen Klon zu erstellen.
++
+Wenn die ANF-Volumes der SQL Server-Datenbank in einem manuellen QOS-Kapazitätspool konfiguriert sind, geben Sie die QOS für die geklonten Volumes an.
+
++
+Wenn die QOS für die geklonten Volumes nicht angegeben ist, wird die QOS des Quellvolumes verwendet.  Wenn der automatische QOS-Kapazitätspool verwendet wird, wird der angegebene QOS-Wert ignoriert.
+
+. Wählen Sie auf der Seite „Protokolle“ eine der folgenden Optionen aus:
++
+.. Wählen Sie *Keine*, wenn Sie nur die vollständige Sicherung ohne Protokolle klonen möchten.
+.. Wählen Sie *Alle Protokollsicherungen* aus, wenn Sie alle verfügbaren Protokollsicherungen mit Datum nach der vollständigen Sicherung klonen möchten.
+.. Wählen Sie *Nach Protokollsicherungen bis*, wenn Sie die Datenbank basierend auf den Sicherungsprotokollen klonen möchten, die bis zum Sicherungsprotokoll mit dem ausgewählten Datum erstellt wurden.
+.. Wählen Sie *Nach bestimmtem Datum bis* aus, wenn Sie die Transaktionsprotokolle nach dem angegebenen Datum und der angegebenen Uhrzeit nicht mehr anwenden möchten.
+
+
+. Geben Sie auf der Seite *Skript* das Skript-Timeout, den Pfad und die Argumente des Präskripts oder Postskripts ein, das vor bzw. nach dem Klonvorgang ausgeführt werden soll.
+. Wählen Sie auf der Seite *Benachrichtigung* aus der Dropdown-Liste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
+. Überprüfen Sie die Zusammenfassung und wählen Sie dann *Fertig*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie *Überwachen* > *Jobs* auswählen.
+
+
+
+
+== Klon-Lebenszyklus durchführen
+
+Mit SnapCenter können Sie Klone aus einer Ressourcengruppe oder Datenbank erstellen.  Sie können entweder einen On-Demand-Klon durchführen oder wiederkehrende Klonvorgänge einer Ressourcengruppe oder Datenbank planen.  Wenn Sie regelmäßig ein Backup klonen, können Sie den Klon zum Entwickeln von Anwendungen, Auffüllen von Daten oder Wiederherstellen von Daten verwenden.
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder „Datenbank“ oder „Ressourcengruppe“ aus der Liste „Anzeigen“ aus.
+. Wählen Sie die Datenbank oder Ressourcengruppe aus.
+. Wählen Sie auf der Ansichtsseite *Kopien verwalten* die Sicherung vom primären Speichersystem aus.
+. Wählen Sie die Sicherung aus und wählen Sie dann *image:../media/clone_icon.gif["Klonsymbol"] *.
+. Geben Sie auf der Seite *Klonoptionen* alle erforderlichen Details ein.
+. Wählen Sie auf der Seite „Speicherort“ einen Speicherort aus, um einen Klon zu erstellen.
++
+Wenn die ANF-Volumes der SQL Server-Datenbank in einem manuellen QOS-Kapazitätspool konfiguriert sind, geben Sie die QOS für die geklonten Volumes an.
+
++
+Wenn die QOS für die geklonten Volumes nicht angegeben ist, wird die QOS des Quellvolumes verwendet.  Wenn der automatische QOS-Kapazitätspool verwendet wird, wird der angegebene QOS-Wert ignoriert.
+
+. Geben Sie auf der Seite *Skript* das Skript-Timeout, den Pfad und die Argumente des Präskripts oder Postskripts ein, das vor bzw. nach dem Klonvorgang ausgeführt werden soll.
+. Führen Sie auf der Seite „Planen“ eine der folgenden Aktionen aus:
++
+** Wählen Sie *Jetzt ausführen*, wenn Sie den Klonauftrag sofort ausführen möchten.
+** Wählen Sie *Zeitplan konfigurieren* aus, wenn Sie festlegen möchten, wie häufig der Klonvorgang erfolgen soll, wann der Klonzeitplan beginnen soll, an welchem Tag der Klonvorgang erfolgen soll, wann der Zeitplan ablaufen soll und ob die Klone nach Ablauf des Zeitplans gelöscht werden müssen.
+
+
+. Wählen Sie auf der Seite *Benachrichtigung* aus der Dropdown-Liste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
+. Überprüfen Sie die Zusammenfassung und wählen Sie dann *Fertig*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie *Überwachen* > *Jobs* auswählen.
+

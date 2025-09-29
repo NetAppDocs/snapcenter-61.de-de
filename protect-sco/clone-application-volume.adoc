@@ -1,0 +1,101 @@
+---
+permalink: protect-sco/clone-application-volume.html 
+sidebar: sidebar 
+keywords: application volume, clone, split a clone 
+summary: Sie können SnapCenter verwenden, um die Backups des Anwendungsvolumes zu klonen, den Klon aufzuteilen und den Klon zu löschen. 
+---
+= Klonen Sie die Datenträgersicherung der Anwendung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um die Anwendungsvolume-Backups zu klonen.
+
+*Bevor Sie beginnen*
+
+Wenn Sie das Plug-In als Nicht-Root-Benutzer installiert haben, sollten Sie die Ausführungsberechtigungen für die Verzeichnisse „prescript“ und „postscript“ manuell zuweisen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Oracle Database-Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Anwendungsvolumen“ aus.
+. Wählen Sie das Anwendungsvolume entweder aus der Detailansicht des Anwendungsvolumes oder aus der Detailansicht der Ressourcengruppe aus.
++
+Die Seite mit der Anwendungsvolume-Topologie wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ die Sicherungen entweder aus „Lokale Kopien“ (primär), „Spiegelkopien“ (sekundär) oder „Tresorkopien“ (sekundär) aus.
+. Wählen Sie das Backup aus der Tabelle aus und klicken Sie dann auf *image:../media/clone_icon.gif["Klonsymbol"] *.
+. Führen Sie auf der Seite „Standort“ die folgenden Aktionen aus:
++
+|===
+
+
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Plug-in-Host
+ a| 
+Wählen Sie den Host aus, auf dem Sie den Klon erstellen möchten.
+
+
+
+ a| 
+Name der Zielressource
+ a| 
+Geben Sie den Ressourcennamen an.
+
+|===
+. Geben Sie auf der Seite „Skripte“ die Namen der Skripte an, die vor dem Klonen ausgeführt werden sollen, Befehle zum Mounten eines Dateisystems und die Namen der Skripte, die nach dem Klonen ausgeführt werden sollen.
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den durchgeführten Klonvorgang anhängen möchten, wählen Sie *Jobbericht anhängen*.
+
++
+
+NOTE: Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl „Set-SmSmtpServer“ angegeben haben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+
+
+
+
+== Aufteilen eines Anwendungsvolume-Klons
+
+Sie können SnapCenter verwenden, um eine geklonte Ressource von der übergeordneten Ressource zu trennen.  Der geteilte Klon wird unabhängig von der übergeordneten Ressource.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Oracle Database-Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Anwendungsvolumen“ aus.
+. Wählen Sie die geklonte Ressource aus und klicken Sie aufimage:../media/split_clone.gif["geteilter Klon"] .
+. Überprüfen Sie die geschätzte Größe des aufzuteilenden Klons und den erforderlichen verfügbaren Speicherplatz auf dem Aggregat und klicken Sie dann auf *Start*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+
+
+
+
+== Löschen eines Anwendungsvolume-Klons
+
+Sie können Klone löschen, wenn Sie sie nicht mehr benötigen.  Sie können keine Klone löschen, die als Quelle für andere Klone fungieren.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Oracle Database-Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Anwendungsvolumen“ aus.
+. Wählen Sie die Ressource oder Ressourcengruppe aus der Liste aus.
++
+Die Topologieseite der Ressource oder Ressourcengruppe wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Klone* entweder aus dem primären oder sekundären (gespiegelten oder replizierten) Speichersystem aus.
+. Wählen Sie den Klon aus und klicken Sie dann aufimage:../media/delete_icon.gif["Symbol „Löschen“"] .
+. Führen Sie auf der Seite „Klon löschen“ die folgenden Aktionen aus:
++
+.. Geben Sie im Feld *Pre clone delete* die Namen der Skripte ein, die vor dem Löschen des Klons ausgeführt werden sollen.
+.. Geben Sie im Feld *Unmount* die Befehle zum Unmounten des Klons ein, bevor Sie ihn löschen.
+
+
+. Klicken Sie auf *OK*.
+

@@ -1,0 +1,46 @@
+---
+permalink: protect-scsql/task_back_up_sql_server_resource_groups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server 
+summary: Sie können eine Ressourcengruppe bei Bedarf von der Seite „Ressourcen“ aus sichern.  Wenn einer Ressourcengruppe eine Richtlinie zugeordnet und ein Zeitplan konfiguriert ist, werden die Sicherungen automatisch gemäß dem Zeitplan durchgeführt. 
+---
+= Sichern von SQL Server-Ressourcengruppen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können eine Ressourcengruppe bei Bedarf von der Seite „Ressourcen“ aus sichern.  Wenn einer Ressourcengruppe eine Richtlinie zugeordnet und ein Zeitplan konfiguriert ist, werden die Sicherungen automatisch gemäß dem Zeitplan durchgeführt.
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Ressourcengruppe“ aus.
++
+Sie können die Ressourcengruppe suchen, indem Sie entweder den Namen der Ressourcengruppe in das Suchfeld eingeben oder indem Sieimage:../media/filter_icon.gif["Filtersymbol"] und wählen Sie dann das Tag aus.  Sie können dann auswählenimage:../media/filter_icon.gif["Filtersymbol"] , um den Filterbereich zu schließen.
+
+. Wählen Sie auf der Seite „Ressourcengruppen“ die Ressourcengruppe aus, die Sie sichern möchten, und wählen Sie dann *Jetzt sichern* aus.
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn Sie der Ressourcengruppe mehrere Richtlinien zugeordnet haben, wählen Sie aus der Dropdownliste *Richtlinie* die Richtlinie aus, die Sie für die Sicherung verwenden möchten.
++
+Wenn die für die On-Demand-Sicherung ausgewählte Richtlinie mit einem Sicherungszeitplan verknüpft ist, werden die On-Demand-Sicherungen basierend auf den für den Zeitplantyp angegebenen Aufbewahrungseinstellungen aufbewahrt.
+
+.. Wählen Sie nach der Sicherung „Überprüfen“ aus, um die On-Demand-Sicherung zu überprüfen.
++
+Die Option *Überprüfen* in der Richtlinie gilt nur für geplante Jobs.
+
+.. Wählen Sie *Backup*.
+
+
+. Überwachen Sie den Vorgangsfortschritt, indem Sie *Überwachen* > *Jobs* auswählen.
+
+
+.Ähnliche Informationen
+link:task_create_backup_policies_for_sql_server_databases.html["Erstellen von Sicherungsrichtlinien für SQL Server-Datenbanken"]
+
+link:task_create_resource_groups_and_attach_policies_for_sql_server.html["Erstellen von Ressourcengruppen und Anfügen von Richtlinien für SQL Server"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["Sicherungsvorgänge schlagen aufgrund der Verzögerung im TCP_TIMEOUT mit einem MySQL-Verbindungsfehler fehl"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Backup_fails_with_Windows_scheduler_error["Die Sicherung schlägt mit einem Windows-Planerfehler fehl"]

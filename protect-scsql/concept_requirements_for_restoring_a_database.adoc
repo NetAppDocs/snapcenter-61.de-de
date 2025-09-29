@@ -1,0 +1,48 @@
+---
+permalink: protect-scsql/concept_requirements_for_restoring_a_database.html 
+sidebar: sidebar 
+keywords: Requirements 
+summary: Bevor Sie eine SQL Server-Datenbank aus einem SnapCenter -Plug-in für Microsoft SQL Server-Backup wiederherstellen, müssen Sie sicherstellen, dass mehrere Anforderungen erfüllt sind. 
+---
+= Voraussetzungen für die Wiederherstellung einer Datenbank
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie eine SQL Server-Datenbank aus einem SnapCenter -Plug-in für Microsoft SQL Server-Backup wiederherstellen, müssen Sie sicherstellen, dass mehrere Anforderungen erfüllt sind.
+
+* Die SQL Server-Zielinstanz muss online und ausgeführt werden, bevor Sie eine Datenbank wiederherstellen können.
++
+Dies gilt sowohl für die Wiederherstellung von Benutzerdatenbanken als auch für die Wiederherstellung von Systemdatenbanken.
+
+* SnapCenter -Vorgänge, die für die Ausführung mit den wiederherzustellenden SQL Server-Daten geplant sind, müssen deaktiviert werden. Dies gilt auch für alle auf Remoteverwaltungs- oder Remoteüberprüfungsservern geplanten Jobs.
+* Wenn Systemdatenbanken nicht funktionsfähig sind, müssen Sie die Systemdatenbanken zunächst mit einem SQL Server-Dienstprogramm neu erstellen.
+* Wenn Sie das Plug-In installieren, stellen Sie sicher, dass Sie anderen Rollen Berechtigungen zum Wiederherstellen der Sicherungen der Verfügbarkeitsgruppe (AG) erteilen.
++
+Das Wiederherstellen der AG schlägt fehl, wenn eine der folgenden Bedingungen erfüllt ist:
+
++
+** Wenn das Plug-In von einem RBAC-Benutzer installiert wird und ein Administrator versucht, eine AG-Sicherung wiederherzustellen
+** Wenn das Plug-In von einem Administrator installiert wird und ein RBAC-Benutzer versucht, eine AG-Sicherung wiederherzustellen
+
+
+* Wenn Sie benutzerdefinierte Protokollverzeichnissicherungen auf einem alternativen Host wiederherstellen, muss auf dem SnapCenter Server und dem Plug-In-Host dieselbe SnapCenter Version installiert sein.
+* Sie müssen den Microsoft-Hotfix KB2887595 installiert haben.  Weitere Informationen zu KB2887595 finden Sie auf der Microsoft-Support-Site.
++
+https://support.microsoft.com/kb/2887595["Microsoft-Supportartikel 2887595: Updaterollup für Windows RT 8.1, Windows 8.1 und Windows Server 2012 R2: November 2013"]
+
+* Sie müssen die Ressourcengruppen oder die Datenbank gesichert haben.
+* Wenn Sie Snapshots auf einen Spiegel oder Tresor replizieren, muss Ihnen der SnapCenter Administrator die virtuellen Speichermaschinen (SVMs) sowohl für die Quell- als auch für die Zielvolumes zugewiesen haben.
++
+Informationen dazu, wie Administratoren Benutzern Ressourcen zuweisen, finden Sie in den Installationsinformationen zu SnapCenter .
+
+* Alle Sicherungs- und Klonjobs müssen vor der Wiederherstellung der Datenbank gestoppt werden.
+* Bei der Wiederherstellung kann es zu einer Zeitüberschreitung kommen, wenn die Datenbankgröße im Terabyte-Bereich (TB) liegt.
++
+Sie müssen den Wert des RESTTimeout-Parameters von SnapCenter Server auf 20000000 ms erhöhen, indem Sie den folgenden Befehl ausführen: Set-SmConfigSettings -Agent -configSettings @{"RESTTimeout" = "20000000"}.  Je nach Größe der Datenbank kann der Timeout-Wert geändert werden. Der maximal einstellbare Wert beträgt 86400000 ms.
+
+
+
+Wenn Sie die Datenbanken wiederherstellen möchten, während sie online sind, muss die Option „Online-Wiederherstellung“ auf der Seite „Wiederherstellen“ aktiviert sein.

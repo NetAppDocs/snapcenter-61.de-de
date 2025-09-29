@@ -1,0 +1,138 @@
+---
+permalink: admin/concept_manage_the_storage_system.html 
+sidebar: sidebar 
+keywords: Manage storage system 
+summary: Nachdem Sie das Speichersystem hinzugefügt haben, können Sie die Konfiguration und Verbindungen des Speichersystems ändern oder das Speichersystem löschen. 
+---
+= Verwalten des Speichersystems
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nachdem Sie das Speichersystem hinzugefügt haben, können Sie die Konfiguration und Verbindungen des Speichersystems ändern oder das Speichersystem löschen.
+
+
+
+== Ändern der Speichersystemkonfiguration
+
+Sie können SnapCenter verwenden, um die Konfiguration Ihres Speichersystems zu ändern, wenn Sie den Benutzernamen, das Kennwort, die Plattform, den Port, das Protokoll, die Zeitüberschreitungsdauer, die bevorzugte IP-Adresse oder die Nachrichtenoptionen ändern möchten.
+
+*Über diese Aufgabe*
+
+Sie können Speicherverbindungen für einen einzelnen Benutzer oder für eine Gruppe ändern.  Wenn Sie zu einer oder mehreren Gruppen mit Berechtigung für dasselbe Speichersystem gehören, wird der Name der Speicherverbindung in der Speicherverbindungsliste mehrmals angezeigt, einmal für jede Gruppe mit Berechtigung für das Speichersystem.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Speichersysteme*.
+. Führen Sie auf der Seite „Speichersysteme“ im Dropdown-Menü *Typ* eine der folgenden Aktionen aus:
++
+|===
+| Wählen... | Schritte... 
+
+
+ a| 
+ONTAP SVMs
+ a| 
+Um alle hinzugefügten virtuellen Speichermaschinen (SVMs) anzuzeigen und die erforderliche SVM-Konfiguration zu ändern.
+
+.. Klicken Sie auf der Seite „Speicherverbindungen“ auf den entsprechenden SVM-Namen.
+.. Führen Sie eine der folgenden Aktionen aus:
++
+*** Wenn die SVM nicht Teil eines Clusters ist, ändern Sie auf der Seite „Speichersystem ändern“ die Konfigurationen wie Benutzername, Kennwort, EMS- und AutoSupport -Einstellungen, Plattform, Protokoll, Port, Timeout und bevorzugte IP.
+*** Wenn die SVM Teil eines Clusters ist, wählen Sie auf der Seite „Speichersystem ändern“ die Option „SVM unabhängig verwalten“ und ändern Sie die Konfigurationen wie Benutzername, Kennwort, EMS- und AutoSupport -Einstellungen, Plattform, Protokoll, Port, Timeout und bevorzugte IP.
++
+Wenn Sie sich nach der Änderung der SVM für eine unabhängige Verwaltung für die Verwaltung über einen Cluster entscheiden, sollten Sie die SVM löschen und dann auf „Neu erkennen“ klicken.  Die SVM wird dem ONTAP Cluster hinzugefügt.
+
++
+
+NOTE: Wenn ein Speichersystemkennwort auf der SnapCenter -GUI aktualisiert wird, sollten Sie die SMCore-Dienste des jeweiligen Plug-Ins oder des Serverhosts neu starten, da das aktualisierte Kennwort nicht in SMCore angezeigt wird und die Sicherungsaufträge mit einem Fehler bezüglich falscher Anmeldeinformationen fehlschlagen.
+
+
+
+
+
+
+
+ a| 
+ONTAP Cluster
+ a| 
+Um alle hinzugefügten Cluster anzuzeigen und die erforderliche Clusterkonfiguration zu ändern.
+
+.. Klicken Sie auf der Seite „Speicherverbindungen“ auf den Clusternamen.
+.. Klicken Sie auf der Seite „Speichersystem ändern“ auf das Bearbeitungssymbol neben „Benutzername“ und ändern Sie den Benutzernamen und das Kennwort.
+.. Wählen oder löschen Sie die EMS- und AutoSupport -Einstellungen.
+.. Klicken Sie auf *Weitere Optionen* und ändern Sie andere Konfigurationen wie Plattform, Protokoll, Port, Timeout und bevorzugte IP.
+
+
+|===
+. Klicken Sie auf *Senden*.
+
+
+
+
+== Löschen Sie das Speichersystem
+
+Mit SnapCenter können Sie alle nicht verwendeten Speichersysteme löschen.
+
+*Über diese Aufgabe*
+
+Sie können Speicherverbindungen für einen einzelnen Benutzer oder für eine Gruppe löschen.  Wenn Sie zu einer oder mehreren Gruppen mit Berechtigung für dasselbe Speichersystem gehören, wird der Name des Speichersystems in der Speicherverbindungsliste mehrmals angezeigt, einmal für jede Gruppe mit Berechtigung für das Speichersystem.
+
+
+IMPORTANT: Wenn Sie ein Speichersystem löschen, schlagen alle auf diesem Speichersystem ausgeführten Vorgänge fehl.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Speichersysteme*.
+. Wählen Sie auf der Seite „Speichersysteme“ aus der Dropdown-Liste *Typ* entweder * ONTAP SVMs* oder * ONTAP Clusters* aus.
+. Aktivieren Sie auf der Seite „Speicherverbindungen“ entweder das Kontrollkästchen neben der SVM oder dem Cluster, den Sie löschen möchten.
++
+
+NOTE: Sie können die SVM, die Teil eines Clusters ist, nicht auswählen.
+
+. Klicken Sie auf *Löschen*.
+. Klicken Sie auf der Seite „Verbindungseinstellungen des Speichersystems löschen“ auf *OK*.
++
+
+NOTE: Wenn ein SVM mithilfe der ONTAP -GUI aus dem ONTAP Cluster gelöscht wird, klicken Sie in der SnapCenter -GUI auf *Neu erkennen*, um die SVM-Liste zu aktualisieren.
+
+
+
+
+
+== REST-API-Unterstützung
+
+Alle ASA, AFF oder FAS -Systemverbindungen zu ONTAP erfolgen standardmäßig über ZAPI.  REST API kann für bestimmte ONTAP Versionen aktiviert werden.
+
+SnapCenter nutzt REST-APIs, um alle Vorgänge auf ASA r2-Systemen auszuführen, die ZAPIs nicht unterstützen.
+
+Sie können die Konfigurationsschlüssel in den folgenden Konfigurationsdateien ändern:
+
+* IsRestEnabledForStorageConnection
++
+Der Standardwert ist „false“.
+
+* MinOntapVersionToUseREST
++
+Der Standardwert ist 9.13.1.
+
+
+
+.Verbindung über REST-API aktivieren
+. Setzen Sie IsRestEnabledForStorageConnection auf „true“.
+. Fügen Sie den Schlüssel in SMCoreServiceHost.dll.config und SnapDriveService.dll.config sowohl auf dem Server als auch auf den Windows-Plug-In-Hosts hinzu.
++
+_<add key="IsRestEnabledForStorageConnection" value="true" />_
+
+
+
+.Beschränken Sie die Verbindung über die REST-API auf eine bestimmte ONTAP Version.
+. Setzen Sie den Konfigurationsparameter MinOntapVersionToUseREST auf „true“.
+. Fügen Sie den Schlüssel in SMCoreServiceHost.dll.config und SnapDriveService.dll.config sowohl auf dem Server als auch auf den Windows-Plug-In-Hosts hinzu.
++
+_<add key="MinOntapVersionToUseREST" value="9.13.1" />_
+
+. Starten Sie den Dienst für SmCore auf dem Server und den Plug-In- und SnapDrive -Dienst auf der Plug-In-Maschine neu.
+

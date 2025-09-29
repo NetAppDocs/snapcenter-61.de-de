@@ -1,0 +1,56 @@
+---
+permalink: protect-sce/task_reseed_a_passive_exchange_node_replica.html 
+sidebar: sidebar 
+keywords:  
+summary: Wenn Sie eine Replikatkopie neu initialisieren müssen, beispielsweise wenn eine Kopie beschädigt ist, können Sie mithilfe der Reseed-Funktion in SnapCenter ein Reseed auf die neueste Sicherung durchführen. 
+---
+= Reseed einer passiven Exchange-Knotenreplik
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie eine Replikatkopie neu initialisieren müssen, beispielsweise wenn eine Kopie beschädigt ist, können Sie mithilfe der Reseed-Funktion in SnapCenter ein Reseed auf die neueste Sicherung durchführen.
+
+.Bevor Sie beginnen
+Sie müssen eine Sicherungskopie der Datenbank erstellt haben, die Sie neu befüllen möchten.
+
++ Um Verzögerungen zwischen Knoten zu vermeiden, können Sie entweder vor der Durchführung eines Reseed-Vorgangs ein neues Backup erstellen oder den Host mit dem neuesten Backup auswählen.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann *Microsoft Exchange Server-Plug-In* aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ die entsprechende Option aus der Liste „Anzeigen“ aus:
++
+|===
+| Option | Beschreibung 
+
+
+ a| 
+So führen Sie ein erneutes Seeding für eine einzelne Datenbank durch
+ a| 
+Wählen Sie *Datenbank* aus der Ansichtsliste.
+
+
+
+ a| 
+So führen Sie ein erneutes Seeding von Datenbanken in einer DAG durch
+ a| 
+Wählen Sie *Datenbankverfügbarkeitsgruppe* aus der Liste „Anzeigen“ aus.
+
+|===
+. Wählen Sie die Ressource aus, die Sie neu säen möchten.
+. Klicken Sie auf der Seite „Kopien verwalten“ auf *Neu säen*.
+. Wählen Sie im Reseed-Assistenten aus der Liste der fehlerhaften Datenbankkopien diejenige aus, für die Sie ein Reseed durchführen möchten, und klicken Sie dann auf *Weiter*.
+. Wählen Sie im Host-Fenster den Host mit dem Backup aus, von dem Sie ein Reseed durchführen möchten, und klicken Sie dann auf *Weiter*.
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Sie können den Status des Auftrags anzeigen, indem Sie das Aktivitätsfenster unten auf der Seite erweitern.
++
+
+NOTE: Der Reseed-Vorgang wird nicht unterstützt, wenn sich die passive Datenbankkopie auf einem Nicht- NetApp -Speicher befindet.
+
+

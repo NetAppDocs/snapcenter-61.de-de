@@ -1,0 +1,304 @@
+---
+permalink: protect-sco/task_define_a_backup_strategy_for_oracle_databases.html 
+sidebar: sidebar 
+keywords: backup type, preferred nodes, catalog backups, schedules, backup name format, retention, verification 
+summary: Durch die Definition einer Sicherungsstrategie wird sichergestellt, dass Sie über die Mittel verfügen, Ihre Datenbanken erfolgreich wiederherzustellen oder zu klonen. 
+---
+= Definieren Sie eine Sicherungsstrategie für Oracle-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Definieren Sie eine Sicherungsstrategie, um sicherzustellen, dass Sie über die Mittel verfügen, Ihre Datenbanken erfolgreich wiederherzustellen oder zu klonen.
+
+Ihre Sicherungsstrategie wird weitgehend durch Ihr Service-Level-Agreement (SLA), Ihr Recovery Time Objective (RTO) und Ihr Recovery Point Objective (RPO) bestimmt.
+
+* SLA definiert das erwartete Serviceniveau und befasst sich mit servicebezogenen Problemen wie der Verfügbarkeit und Leistung des Dienstes.
+* RTO definiert die Zeit, die ein Geschäftsprozess nach einer Dienstunterbrechung wiederhergestellt werden muss.
+* RPO definiert das Alter der Dateien, die aus dem Sicherungsspeicher wiederhergestellt werden müssen, damit der reguläre Betrieb nach einem Fehler wieder aufgenommen werden kann.
+
+
+
+
+== Unterstützte Oracle-Datenbankkonfigurationen für Backups
+
+SnapCenter unterstützt die Sicherung verschiedener Oracle-Datenbankkonfigurationen.
+
+* Oracle Standalone
+* Oracle Real Application Clusters (RAC)
+* Oracle Standalone Legacy
+* Oracle Standalone Container Database (CDB)
+* Oracle Data Guard-Standby
++
+Sie können nur Offline-Mount-Backups von Data Guard-Standbydatenbanken erstellen.  Offline-Shutdown-Backup, reine Archivprotokoll-Backup und vollständige Backups werden nicht unterstützt.
+
+* Oracle Active Data Guard-Standby
++
+Sie können nur Online-Backups von Active Data Guard-Standbydatenbanken erstellen.  Nur Archivprotokollsicherungen und vollständige Sicherungen werden nicht unterstützt.
+
++
+
+NOTE: Vor dem Erstellen einer Sicherung der Data Guard-Standby- oder Active Data Guard-Standby-Datenbank wird der verwaltete Wiederherstellungsprozess (MRP) gestoppt und nach der Erstellung der Sicherung wird MRP gestartet.
+
+* Automatisches Speichermanagement (ASM)
++
+** ASM Standalone und ASM RAC auf Virtual Machine Disk (VMDK)
++
+
+NOTE: Unter allen für Oracle-Datenbanken unterstützten Wiederherstellungsmethoden können Sie auf VMDK nur eine Connect-and-Copy-Wiederherstellung von ASM RAC-Datenbanken durchführen.
+
+** ASM Standalone und ASM RAC auf Raw Device Mapping (RDM) Sie können Sicherungs-, Wiederherstellungs- und Klonvorgänge für Oracle-Datenbanken auf ASM durchführen, mit oder ohne ASMLib.
+** Oracle ASM-Filtertreiber (ASMFD)
++
+
+NOTE: PDB-Migrations- und PDB-Klonvorgänge werden nicht unterstützt.
+
+** Oracle Flex ASM
+
+
+
+
+Die neuesten Informationen zu unterstützten Oracle-Versionen finden Sie im https://imt.netapp.com/matrix/imt.jsp?components=121071;&solution=1259&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"^] .
+
+
+
+== Unterstützte Sicherungstypen für Oracle-Datenbanken
+
+Der Sicherungstyp gibt den Sicherungstyp an, den Sie erstellen möchten.  SnapCenter unterstützt Online- und Offline-Sicherungstypen für Oracle-Datenbanken.
+
+
+
+=== Online-Backup
+
+Eine Sicherung, die erstellt wird, wenn sich die Datenbank im Online-Zustand befindet, wird als Online-Sicherung bezeichnet.  Mit einem Online-Backup, auch Hot-Backup genannt, können Sie eine Sicherung der Datenbank erstellen, ohne diese herunterzufahren.
+
+Im Rahmen der Online-Sicherung können Sie eine Sicherung der folgenden Dateien erstellen:
+
+* Nur Datendateien und Steuerdateien
+* Nur Protokolldateien archivieren (die Datenbank wird in diesem Szenario nicht in den Sicherungsmodus versetzt)
+* Vollständige Datenbank, die Datendateien, Steuerdateien und Archivprotokolldateien enthält
+
+
+
+
+=== Offline-Backup
+
+Eine Sicherung, die erstellt wird, während sich die Datenbank entweder im gemounteten oder heruntergefahrenen Zustand befindet, wird als Offline-Sicherung bezeichnet.  Ein Offline-Backup wird auch als Cold Backup bezeichnet.  Sie können in Offline-Backups nur Datendateien und Steuerdateien einschließen.  Sie können entweder eine Offline-Mount- oder eine Offline-Shutdown-Sicherung erstellen.
+
+* Beim Erstellen einer Offline-Mount-Sicherung müssen Sie sicherstellen, dass sich die Datenbank in einem gemounteten Zustand befindet.
++
+Wenn sich die Datenbank in einem anderen Zustand befindet, schlägt der Sicherungsvorgang fehl.
+
+* Beim Erstellen einer Offline-Shutdown-Sicherung kann sich die Datenbank in einem beliebigen Zustand befinden.
++
+Der Datenbankstatus wird in den erforderlichen Status geändert, um eine Sicherung zu erstellen.  Nach dem Erstellen des Backups wird der Datenbankzustand in den ursprünglichen Zustand zurückgesetzt.
+
+
+
+
+
+== So erkennt SnapCenter Oracle-Datenbanken
+
+„Ressourcen“ sind Oracle-Datenbanken auf dem Host, die von SnapCenter verwaltet werden.  Sie können diese Datenbanken zu Ressourcengruppen hinzufügen, um Datenschutzvorgänge durchzuführen, nachdem Sie die verfügbaren Datenbanken ermittelt haben.  Sie sollten sich des Prozesses bewusst sein, den SnapCenter befolgt, um verschiedene Typen und Versionen von Oracle-Datenbanken zu erkennen.
+
+|===
+| Für Oracle-Versionen 11__g__ bis 12__c__R1 | Für Oracle-Versionen 12__c__R2 bis 18__c__ 
+
+
+ a| 
+*RAC-Datenbank*: Die RAC-Datenbanken werden nur auf der Grundlage von /etc/oratab-Einträgen erkannt.
+
+Sie sollten die Datenbankeinträge in der Datei /etc/oratab haben.
+ a| 
+*RAC-Datenbank*: Die RAC-Datenbanken werden mit dem Befehl „srvctl config“ ermittelt.
+
+
+
+ a| 
+*Standalone*: Die Standalone-Datenbanken werden nur auf der Grundlage von /etc/oratab-Einträgen erkannt.
+
+Sie sollten die Datenbankeinträge in der Datei /etc/oratab haben.
+ a| 
+*Standalone*: Die Standalone-Datenbanken werden anhand der Einträge in der Datei /etc/oratab und der Ausgabe des Befehls „srvctl config“ erkannt.
+
+
+
+ a| 
+*ASM*: Der ASM-Instanzeintrag sollte in der Datei /etc/oratab verfügbar sein.
+ a| 
+*ASM*: Der ASM-Instanzeintrag muss nicht in der Datei /etc/oratab enthalten sein.
+
+
+
+ a| 
+*RAC One Node*: Die RAC One Node-Datenbanken werden nur auf der Grundlage von /etc/oratab-Einträgen erkannt.
+
+Die Datenbanken sollten sich entweder im Status _nomount_, _mount_ oder _open_ befinden.  Sie sollten die Datenbankeinträge in der Datei /etc/oratab haben.
+
+Der Datenbankstatus von RAC One Node wird als umbenannt oder gelöscht markiert, wenn die Datenbank bereits erkannt wurde und Sicherungen mit der Datenbank verknüpft sind.
+
+Bei einer Datenbankverlagerung sollten Sie folgende Schritte durchführen:
+
+. Fügen Sie den verschobenen Datenbankeintrag manuell in die Datei /etc/oratab auf dem fehlgeschlagenen RAC-Knoten ein.
+. Aktualisieren Sie die Ressourcen manuell.
+. Wählen Sie auf der Ressourcenseite die RAC One Node-Datenbank aus und klicken Sie dann auf *Datenbankeinstellungen*.
+. Konfigurieren Sie die Datenbank, um die bevorzugten Clusterknoten auf den RAC-Knoten festzulegen, der derzeit die Datenbank hostet.
+. Führen Sie die SnapCenter -Vorgänge durch.
+
+
+
+NOTE: Wenn Sie eine Datenbank von einem Knoten auf einen anderen Knoten verschoben haben und der oratab-Eintrag im vorherigen Knoten nicht gelöscht wurde, sollten Sie den oratab-Eintrag manuell löschen, um zu vermeiden, dass dieselbe Datenbank zweimal angezeigt wird.
+ a| 
+*RAC One Node*: Die RAC One Node-Datenbanken werden nur mit dem Befehl „srvctl config“ erkannt.
+
+Die Datenbanken sollten sich entweder im Status _nomount_, _mount_ oder _open_ befinden.  Der Datenbankstatus von RAC One Node wird als umbenannt oder gelöscht markiert, wenn die Datenbank bereits erkannt wurde und Sicherungen mit der Datenbank verknüpft sind.
+
+Bei einer Datenbankverlagerung sollten Sie folgende Schritte durchführen:
+
+. Aktualisieren Sie die Ressourcen manuell.
+. Wählen Sie auf der Ressourcenseite die RAC One Node-Datenbank aus und klicken Sie dann auf **Datenbankeinstellungen**.
+. Konfigurieren Sie die Datenbank, um die bevorzugten Clusterknoten auf den RAC-Knoten festzulegen, der derzeit die Datenbank hostet.
+. Führen Sie die SnapCenter -Vorgänge durch.
+
+
+|===
+
+NOTE: Wenn in der Datei /etc/oratab Oracle 12__c__R2- und 18__c__-Datenbankeinträge vorhanden sind und dieselbe Datenbank mit dem Befehl srvctl config registriert ist, entfernt SnapCenter die doppelten Datenbankeinträge.  Wenn veraltete Datenbankeinträge vorhanden sind, wird die Datenbank zwar erkannt, ist jedoch nicht erreichbar und hat den Status „Offline“.
+
+
+
+== Bevorzugte Knoten im RAC-Setup
+
+Beim Einrichten von Oracle Real Application Clusters (RAC) können Sie die bevorzugten Knoten angeben, auf denen der Sicherungsvorgang ausgeführt wird.  Wenn Sie den bevorzugten Knoten nicht angeben, weist SnapCenter automatisch einen Knoten als bevorzugten Knoten zu und die Sicherung wird auf diesem Knoten erstellt.
+
+Bei den bevorzugten Knoten kann es sich um einen oder alle Clusterknoten handeln, auf denen die RAC-Datenbankinstanzen vorhanden sind.  Der Sicherungsvorgang wird nur auf diesen bevorzugten Knoten in der Reihenfolge der Präferenz ausgelöst.
+
+Beispiel: Die RAC-Datenbank cdbrac hat drei Instanzen: cdbrac1 auf Knoten1, cdbrac2 auf Knoten2 und cdbrac3 auf Knoten3.  Die Instanzen node1 und node2 werden als bevorzugte Knoten konfiguriert, wobei node2 die erste Präferenz und node1 die zweite Präferenz ist.  Wenn Sie einen Sicherungsvorgang durchführen, wird der Vorgang zuerst auf Knoten2 versucht, da dies der erste bevorzugte Knoten ist.  Wenn sich Knoten2 nicht im erforderlichen Status für die Sicherung befindet (was mehrere Gründe haben kann), z. B. dass der Plug-in-Agent auf dem Host nicht ausgeführt wird, die Datenbankinstanz auf dem Host sich nicht im erforderlichen Status für den angegebenen Sicherungstyp befindet oder die Datenbankinstanz auf Knoten2 in einer FlexASM-Konfiguration nicht von der lokalen ASM-Instanz bedient wird), wird der Vorgang auf Knoten1 versucht.  Der Knoten3 wird nicht für die Sicherung verwendet, da er nicht auf der Liste der bevorzugten Knoten steht.
+
+In einem Flex ASM-Setup werden Leaf-Knoten nicht als bevorzugte Knoten aufgeführt, wenn die Kardinalität geringer ist als die Anzahl der Knoten im RAC-Cluster.  Wenn sich die Knotenrollen des Flex ASM-Clusters ändern, sollten Sie dies manuell feststellen, damit die bevorzugten Knoten aktualisiert werden.
+
+
+
+=== Erforderlicher Datenbankstatus
+
+Die RAC-Datenbankinstanzen auf den bevorzugten Knoten müssen sich im erforderlichen Zustand befinden, damit die Sicherung erfolgreich abgeschlossen werden kann:
+
+* Eine der RAC-Datenbankinstanzen in den konfigurierten bevorzugten Knoten muss sich im offenen Zustand befinden, um eine Onlinesicherung zu erstellen.
+* Eine der RAC-Datenbankinstanzen in den konfigurierten bevorzugten Knoten muss sich im Mount-Status befinden und alle anderen Instanzen, einschließlich anderer bevorzugter Knoten, müssen sich im Mount-Status oder niedriger befinden, um eine Offline-Mount-Sicherung zu erstellen.
+* RAC-Datenbankinstanzen können sich in jedem beliebigen Zustand befinden, Sie müssen jedoch die bevorzugten Knoten angeben, um eine Offline-Shutdown-Sicherung zu erstellen.
+
+
+
+
+== So katalogisieren Sie Backups mit Oracle Recovery Manager
+
+Die Sicherungen von Oracle-Datenbanken können mit Oracle Recovery Manager (RMAN) katalogisiert werden, um die Sicherungsinformationen im Oracle RMAN-Repository zu speichern.
+
+Die katalogisierten Sicherungen können später für die Wiederherstellung auf Blockebene oder für Point-in-Time-Wiederherstellungsvorgänge im Tablespace verwendet werden.  Wenn Sie diese katalogisierten Sicherungen nicht benötigen, können Sie die Kataloginformationen entfernen.
+
+Für die Katalogisierung muss die Datenbank im gemounteten oder höheren Zustand sein.  Sie können Datensicherungen, Archivprotokollsicherungen und vollständige Sicherungen katalogisieren.  Wenn die Katalogisierung für die Sicherung einer Ressourcengruppe mit mehreren Datenbanken aktiviert ist, wird die Katalogisierung für jede Datenbank durchgeführt.  Bei Oracle RAC-Datenbanken wird die Katalogisierung auf dem bevorzugten Knoten durchgeführt, auf dem sich die Datenbank zumindest im gemounteten Zustand befindet.
+
+
+NOTE: Wenn Sie Sicherungen einer RAC-Datenbank katalogisieren möchten, stellen Sie sicher, dass für diese Datenbank kein anderer Job ausgeführt wird.  Wenn ein anderer Job ausgeführt wird, schlägt der Katalogisierungsvorgang fehl, anstatt in die Warteschlange gestellt zu werden.
+
+Standardmäßig wird die Steuerdatei der Zieldatenbank für die Katalogisierung verwendet.  Wenn Sie eine externe Katalogdatenbank hinzufügen möchten, können Sie diese konfigurieren, indem Sie die Anmeldeinformationen und den Transparent Network Substrate (TNS)-Namen des externen Katalogs mithilfe des Datenbankeinstellungsassistenten der grafischen Benutzeroberfläche (GUI) von SnapCenter angeben.  Sie können die externe Katalogdatenbank auch über die CLI konfigurieren, indem Sie den Befehl Configure-SmOracleDatabase mit den Optionen -OracleRmanCatalogCredentialName und -OracleRmanCatalogTnsName ausführen.
+
+Wenn Sie die Katalogisierungsoption beim Erstellen einer Oracle-Sicherungsrichtlinie über die SnapCenter -GUI aktiviert haben, werden die Sicherungen im Rahmen des Sicherungsvorgangs mit Oracle RMAN katalogisiert.  Sie können auch eine verzögerte Katalogisierung von Sicherungen durchführen, indem Sie den Befehl Catalog-SmBackupWithOracleRMAN ausführen.  Nachdem Sie die Sicherungen katalogisiert haben, können Sie den Befehl „Get-SmBackupDetails“ ausführen, um die katalogisierten Sicherungsinformationen abzurufen, z. B. das Tag für katalogisierte Datendateien, den Katalogpfad der Steuerdatei und die Speicherorte der katalogisierten Archivprotokolle.
+
+Wenn der Name der ASM-Datenträgergruppe größer oder gleich 16 Zeichen ist, lautet das für die Sicherung verwendete Namensformat ab SnapCenter 3.0 SC_HASHCODEofDISKGROUP_DBSID_BACKUPID.  Wenn der Name der Datenträgergruppe jedoch weniger als 16 Zeichen umfasst, lautet das für die Sicherung verwendete Namensformat DISKGROUPNAME_DBSID_BACKUPID. Dies ist dasselbe Format, das in SnapCenter 2.0 verwendet wird.
+
+
+NOTE: Der HASHCODEofDISKGROUP ist eine automatisch generierte Nummer (2 bis 10 Ziffern), die für jede ASM-Datenträgergruppe eindeutig ist.
+
+Sie können Gegenprüfungen durchführen, um veraltete RMAN-Repository-Informationen zu Sicherungen zu aktualisieren, deren Repository-Datensätze nicht mit ihrem physischen Status übereinstimmen.  Wenn ein Benutzer beispielsweise archivierte Protokolle mit einem Betriebssystembefehl von der Festplatte entfernt, zeigt die Steuerdatei immer noch an, dass sich die Protokolle auf der Festplatte befinden, obwohl dies in Wirklichkeit nicht der Fall ist.  Durch die Gegenprüfung können Sie die Steuerdatei mit den Informationen aktualisieren.  Sie können die Gegenprüfung aktivieren, indem Sie den Befehl „Set-SmConfigSettings“ ausführen und dem Parameter „ENABLE_CROSSCHECK“ den Wert „TRUE“ zuweisen.  Der Standardwert ist auf FALSE gesetzt.
+
+`sccli Set-SmConfigSettings-ConfigSettingsTypePlugin-PluginCodeSCO-ConfigSettings "KEY=ENABLE_CROSSCHECK, VALUE=TRUE"`
+
+Sie können die Kataloginformationen entfernen, indem Sie den Befehl Uncatalog-SmBackupWithOracleRMAN ausführen.  Sie können die Kataloginformationen nicht über die SnapCenter -GUI entfernen.  Allerdings werden Informationen zu einer katalogisierten Sicherung entfernt, wenn die Sicherung gelöscht wird oder wenn die mit dieser katalogisierten Sicherung verknüpfte Aufbewahrungs- und Ressourcengruppe gelöscht wird.
+
+
+NOTE: Wenn Sie das Löschen des SnapCenter -Hosts erzwingen, werden die Informationen der mit diesem Host verknüpften katalogisierten Sicherungen nicht entfernt.  Sie müssen Informationen aller katalogisierten Sicherungen für diesen Host entfernen, bevor Sie die Löschung des Hosts erzwingen.
+
+Wenn das Katalogisieren und Entkatalogisieren fehlschlägt, weil die Vorgangszeit den für den Parameter ORACLE_PLUGIN_RMAN_CATALOG_TIMEOUT angegebenen Timeout-Wert überschritten hat, sollten Sie den Wert des Parameters ändern, indem Sie den folgenden Befehl ausführen:
+
+`/opt/Netapp/snapcenter/spl/bin/sccli Set-SmConfigSettings-ConfigSettingsType Plugin -PluginCode SCO-ConfigSettings "KEY=ORACLE_PLUGIN_RMAN_CATALOG_TIMEOUT,VALUE=user_defined_value"`
+
+Nachdem Sie den Wert des Parameters geändert haben, starten Sie den Dienst SnapCenter Plug-in Loader (SPL) neu, indem Sie den folgenden Befehl ausführen:
+
+`/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+Informationen zu den mit dem Befehl verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von Get-Help command_name. Alternativ können Sie auch auf die https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenter Software-Befehlsreferenzhandbuch"^] .
+
+
+
+== Sicherungszeitpläne
+
+Die Sicherungshäufigkeit (Zeitplantyp) wird in Richtlinien angegeben; ein Sicherungszeitplan wird in der Ressourcengruppenkonfiguration angegeben.  Der wichtigste Faktor bei der Festlegung einer Sicherungshäufigkeit oder eines Sicherungsplans ist die Änderungsrate der Ressource und die Wichtigkeit der Daten.  Sie können eine häufig genutzte Ressource stündlich sichern, während Sie eine selten genutzte Ressource einmal täglich sichern.  Weitere Faktoren sind die Bedeutung der Ressource für Ihr Unternehmen, Ihr Service Level Agreement (SLA) und Ihr Recover Point Objective (RPO).
+
+Ein SLA definiert das erwartete Serviceniveau und behandelt viele servicebezogene Probleme, einschließlich der Verfügbarkeit und Leistung des Dienstes.  Ein RPO definiert die Strategie für das Alter der Dateien, die aus dem Sicherungsspeicher wiederhergestellt werden müssen, damit der reguläre Betrieb nach einem Fehler wieder aufgenommen werden kann.  SLA und RPO tragen zur Datenschutzstrategie bei.
+
+Selbst bei stark genutzten Ressourcen ist es nicht erforderlich, öfter als ein- oder zweimal täglich eine vollständige Sicherung durchzuführen.  Beispielsweise können regelmäßige Sicherungen des Transaktionsprotokolls ausreichen, um sicherzustellen, dass Sie über die erforderlichen Sicherungen verfügen.  Je häufiger Sie Ihre Datenbanken sichern, desto weniger Transaktionsprotokolle muss SnapCenter zum Zeitpunkt der Wiederherstellung verwenden, was zu schnelleren Wiederherstellungsvorgängen führen kann.
+
+Sicherungszeitpläne bestehen aus den folgenden zwei Teilen:
+
+* Sicherungshäufigkeit
++
+Die Sicherungshäufigkeit (wie oft Sicherungen durchgeführt werden sollen), bei einigen Plug-Ins als _Zeitplantyp_ bezeichnet, ist Teil einer Richtlinienkonfiguration.  Sie können als Sicherungshäufigkeit für die Richtlinie stündlich, täglich, wöchentlich oder monatlich auswählen.  Wenn Sie keine dieser Frequenzen auswählen, handelt es sich bei der erstellten Richtlinie um eine Nur-On-Demand-Richtlinie.  Sie können auf die Richtlinien zugreifen, indem Sie auf *Einstellungen* > *Richtlinien* klicken.
+
+* Sicherungszeitpläne
++
+Sicherungszeitpläne (genauer Zeitpunkt der Durchführung von Sicherungen) sind Teil einer Ressourcengruppenkonfiguration.  Wenn Sie beispielsweise über eine Ressourcengruppe verfügen, für die eine Richtlinie für wöchentliche Sicherungen konfiguriert ist, können Sie den Zeitplan so konfigurieren, dass jeden Donnerstag um 22:00 Uhr eine Sicherung durchgeführt wird.  Sie können auf Ressourcengruppenpläne zugreifen, indem Sie auf *Ressourcen* > *Ressourcengruppen* klicken.
+
+
+
+
+
+== Namenskonventionen für Backups
+
+Sie können entweder die standardmäßige Snapshot-Benennungskonvention oder eine benutzerdefinierte Benennungskonvention verwenden.  Die standardmäßige Namenskonvention für Backups fügt den Snapshot-Namen einen Zeitstempel hinzu, der Ihnen hilft, den Zeitpunkt der Erstellung der Kopien zu identifizieren.
+
+Der Snapshot verwendet die folgende Standardbenennungskonvention:
+
+`resourcegroupname_hostname_timestamp`
+
+Sie sollten Ihre Backup-Ressourcengruppen logisch benennen, wie im folgenden Beispiel:
+
+[listing]
+----
+dts1_mach1x88_03-12-2015_23.17.26
+----
+In diesem Beispiel haben die Syntaxelemente folgende Bedeutung:
+
+* _dts1_ ist der Name der Ressourcengruppe.
+* _mach1x88_ ist der Hostname.
+* _03-12-2015_23.17.26_ ist das Datum und der Zeitstempel.
+
+
+Alternativ können Sie das Snapshot-Namensformat beim Schützen von Ressourcen oder Ressourcengruppen angeben, indem Sie *Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden* auswählen.  Beispiel: customtext_resourcegroup_policy_hostname oder resourcegroup_hostname.  Standardmäßig wird dem Snapshot-Namen das Zeitstempel-Suffix hinzugefügt.
+
+
+
+== Optionen zur Backup-Aufbewahrung
+
+Sie können entweder die Anzahl der Tage auswählen, für die Sicherungskopien aufbewahrt werden sollen, oder die Anzahl der Sicherungskopien angeben, die Sie aufbewahren möchten, bis zu einem ONTAP Maximum von 255 Kopien.  Beispielsweise kann es in Ihrer Organisation erforderlich sein, dass Sie Sicherungskopien für 10 Tage oder 130 Sicherungskopien aufbewahren.
+
+Beim Erstellen einer Richtlinie können Sie die Aufbewahrungsoptionen für den Sicherungstyp und den Zeitplantyp angeben.
+
+Wenn Sie die SnapMirror Replikation einrichten, wird die Aufbewahrungsrichtlinie auf dem Zielvolume gespiegelt.
+
+SnapCenter löscht die aufbewahrten Sicherungen, deren Aufbewahrungsbezeichnungen dem Zeitplantyp entsprechen.  Wenn der Zeitplantyp für die Ressource oder Ressourcengruppe geändert wurde, verbleiben möglicherweise noch Sicherungen mit der alten Zeitplantypbezeichnung auf dem System.
+
+
+NOTE: Für die langfristige Aufbewahrung von Sicherungskopien sollten Sie SnapVault Backup verwenden.
+
+
+
+== Überprüfen der Sicherungskopie mithilfe des primären oder sekundären Speichervolumes
+
+Sie können Sicherungskopien auf dem primären Speichervolume oder auf dem sekundären Speichervolume von SnapMirror oder SnapVault überprüfen.  Durch die Überprüfung mithilfe eines sekundären Speichervolumens wird die Belastung des primären Speichervolumens reduziert.
+
+Wenn Sie eine Sicherung überprüfen, die sich entweder auf dem primären oder sekundären Speichervolume befindet, werden alle primären und sekundären Snapshots als überprüft markiert.
+
+Zum Überprüfen von Sicherungskopien auf dem sekundären Speichervolume von SnapMirror und SnapVault ist eine SnapRestore -Lizenz erforderlich.

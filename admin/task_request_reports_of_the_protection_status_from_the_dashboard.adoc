@@ -1,0 +1,35 @@
+---
+permalink: admin/task_request_reports_of_the_protection_status_from_the_dashboard.html 
+sidebar: sidebar 
+keywords: dashboard 
+summary: Sie können über das Dashboard Schutzdetails für Ressourcen anfordern, die von bestimmten Plug-ins verwaltet werden. 
+---
+= Fordern Sie Berichte zum Schutzstatus vom Dashboard an
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können über das Dashboard Schutzdetails für Ressourcen anfordern, die von bestimmten Plug-ins verwaltet werden.  Für die Datenschutzzusammenfassung werden ausschließlich Datensicherungen berücksichtigt.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Dashboard*.
+. Suchen Sie im Dashboard nach der Kachel „Neueste Schutzzusammenfassung“ und wählen Sie über das Pulldown-Menü ein Plug-In aus.
++
+Das Dashboard zeigt ein Ringdiagramm für im primären Speicher gesicherte Ressourcen und, falls für das Plug-In zutreffend, ein Ringdiagramm für im sekundären Speicher gesicherte Ressourcen an.
+
++
+
+NOTE: Datenschutzberichte sind nur für bestimmte Plug-In-Typen verfügbar.  Die Angabe von *Alle Plug-ins* wird nicht unterstützt.
+
+. Klicken Sie auf das Donut-Segment, das den Status darstellt, für den Sie einen Bericht wünschen.
++
+Wenn Sie auf das Ringdiagramm klicken, werden Sie von der Dashboard-Seite zu den Berichten und dann zur Plug-in-Seite weitergeleitet.  Der Bericht zeigt nur den Status für das von Ihnen ausgewählte Plug-In an.  Sie können den Bericht überprüfen oder auf Ihr lokales System herunterladen.
+
++
+
+NOTE: Die Umleitung zur Berichtsseite für SnapMirror -Ringdiagramme und dateibasierte SAP HANA-Sicherungen wird nicht unterstützt.
+
+

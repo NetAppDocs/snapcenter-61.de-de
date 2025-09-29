@@ -1,0 +1,30 @@
+---
+permalink: protect-azure/protect-applications-azure-netapp-files.html 
+sidebar: sidebar 
+keywords: azure netapp files, ANF, back up, restore, clone, ANF backup, Azure Blob storage 
+summary: Sie können auf Azure NetApp Files ausgeführte Anwendungen sichern, wiederherstellen und klonen. 
+---
+= Schützen von Anwendungen, die auf Azure NetApp Files ausgeführt werden
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter unterstützt den Schutz Ihrer Anwendungen wie Oracle, SQL und SAP HANA, die sich auf Azure NetApp Files befinden.  Ab Version 6.0.1 unterstützt SnapCenter die Azure NetApp Files -Sicherungsfunktion, die die Datenschutzfunktionen von Azure NetApp Files erweitert, indem sie eine vollständig verwaltete Sicherungslösung für langfristige Wiederherstellung, Archivierung und Compliance bietet.
+
+Azure NetApp Files ist eine Premium-Speicherlösung, deren langfristige Aufbewahrung von Backups teuer sein kann.  Um die Kosten zu optimieren, können Sie die Sicherungen vom Azure NetApp Files -Speicher in einen Azure-Objektspeicher verschieben.  Ab SnapCenter 6.0.1 können Sie Anwendungen, die sich auf Azure NetApp Files befinden, in Azure Blob Storage (Objektspeicher) sichern und klonen.  Sie können zwei Kopien Ihrer Daten aufbewahren: Volume-Snapshot-Kopien im Azure NetApp Files -Speicher für die kurzfristige Wiederherstellung und eine weitere Kopie im Azure Blob Storage für die langfristige Wiederherstellung.
+
+Wenn eine Richtlinie mit Azure NetApp Files -Sicherung aktiviert und einer Ressource zugeordnet ist, übernimmt SnapCenter die Erstellung von Volume-Snapshots und deren Sicherung in Azure Blob Storage.  SnapCenter erstellt den Backup-Tresor und aktiviert die Sicherung für das Volume.  Wenn Sie die Sicherung für das Volume aktiviert haben, verwendet SnapCenter den vorhandenen Tresor.
+
+
+
+== Einschränkungen
+
+* Objektspeicherfunktionen für FAS, ASA oder AFF ONTAP und Amazon FSx for NetApp ONTAP Speichersysteme werden nicht unterstützt.
+* Mount- und Katalog-Workflows von Oracle und SAP HANA werden für Objektspeicher-Backups nicht unterstützt, für Snapshots jedoch schon.
+* Oracle PDB-Klone werden für Objektspeichersicherungen nicht unterstützt, für Snapshots jedoch schon.
+* Die Sicherungsüberprüfung aus dem Objektspeicher, die REST-API-Unterstützung, die Verwaltung des Klon-Lebenszyklus aus dem Objektspeicher und die Berichtsfunktionen für Objektspeicher-Sicherungen werden nicht unterstützt.
+* Die Wiederherstellung von Sicherungen auf Azure Blob Storage in Azure NetApp Files wird nicht unterstützt.  Alternativ können Sie die Klonoption verwenden.
+* Klonaufteilung wird nicht unterstützt.
+

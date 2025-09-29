@@ -1,0 +1,41 @@
+---
+permalink: install/task_enable_ca_certificates_for_snapcenter.html 
+sidebar: sidebar 
+keywords: SnapCenter, enable CA, certificate 
+summary: Sie sollten die CA-Zertifikate konfigurieren und die CA-Zertifikatvalidierung für den SnapCenter -Server aktivieren. 
+---
+= Aktivieren von CA-Zertifikaten für SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie sollten die CA-Zertifikate konfigurieren und die CA-Zertifikatvalidierung für den SnapCenter -Server aktivieren.
+
+.Bevor Sie beginnen
+* Sie können die CA-Zertifikate mit dem Cmdlet „Set-SmCertificateSettings“ aktivieren oder deaktivieren.
+* Sie können den Zertifikatsstatus für den SnapCenter -Server mit dem Cmdlet Get-SmCertificateSettings anzeigen.
+
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie sich an die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+*Schritte*
+
+. Navigieren Sie auf der Seite „Einstellungen“ zu *Einstellungen* > *Globale Einstellungen* > *CA-Zertifikateinstellungen*.
+. Wählen Sie *Zertifikatvalidierung aktivieren*.
+. Klicken Sie auf *Übernehmen*.
+
+
+*Nachdem Sie fertig sind*
+
+Auf der Registerkarte „Managed Hosts“ wird ein Vorhängeschloss angezeigt und die Farbe des Vorhängeschlosses zeigt den Status der Verbindung zwischen SnapCenter Server und dem Plug-in-Host an.
+
+* *image:../media/enable_ca_issues_icon.png["Problemsymbol"] * zeigt an, dass für den Plug-In-Host kein CA-Zertifikat aktiviert oder zugewiesen ist.
+* *image:../media/enable_ca_good_icon.png["gutes Symbol"] * zeigt an, dass das CA-Zertifikat erfolgreich validiert wurde.
+* *image:../media/enable_ca_failed_icon.png["Fehlgeschlagenes Symbol"] * zeigt an, dass das CA-Zertifikat nicht validiert werden konnte.
+* *image:../media/enable_ca_undefined_icon.png["undefiniertes Symbol"] * zeigt an, dass die Verbindungsinformationen nicht abgerufen werden konnten.
+
+
+
+NOTE: Wenn der Status gelb oder grün ist, wurden die Datenschutzvorgänge erfolgreich abgeschlossen.

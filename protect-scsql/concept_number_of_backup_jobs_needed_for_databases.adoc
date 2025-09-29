@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_number_of_backup_jobs_needed_for_databases.html 
+sidebar: sidebar 
+keywords: Number of backup jobs 
+summary: 'Zu den Faktoren, die die Anzahl der benötigten Sicherungsaufträge bestimmen, gehören die Größe der Datenbank, die Anzahl der verwendeten Volumes, die Änderungsrate der Datenbank und Ihr Service Level Agreement (SLA).' 
+---
+= Anzahl der für Datenbanken benötigten Sicherungsaufträge
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Zu den Faktoren, die die Anzahl der benötigten Sicherungsaufträge bestimmen, gehören die Größe der Datenbank, die Anzahl der verwendeten Volumes, die Änderungsrate der Datenbank und Ihr Service Level Agreement (SLA).
+
+Bei Datenbanksicherungen hängt die Anzahl der von Ihnen ausgewählten Sicherungsaufträge normalerweise von der Anzahl der Datenträger ab, auf denen Sie Ihre Datenbanken platziert haben.  Wenn Sie beispielsweise eine Gruppe kleiner Datenbanken auf einem Volume und eine große Datenbank auf einem anderen Volume platziert haben, können Sie einen Sicherungsauftrag für die kleinen Datenbanken und einen Sicherungsauftrag für die große Datenbank erstellen.

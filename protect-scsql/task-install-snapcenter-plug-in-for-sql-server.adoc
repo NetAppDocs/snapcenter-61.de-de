@@ -1,0 +1,52 @@
+---
+permalink: protect-scsql/task-install-snapcenter-plug-in-for-sql-server.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Enthält Anweisungen zur Installation des SnapCenter -Plug-Ins für Microsoft SQL Server. 
+---
+= Installieren Sie das SnapCenter -Plug-in für Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bietet eine komprimierte Reihe von Installationsanweisungen für das SnapCenter -Plug-in für Microsoft SQL Server.
+
+
+
+== Schritt 1: Richten Sie „Ausführen als“-Anmeldeinformationen ein, um das Plug-in für Microsoft SQL Server zu installieren
+
+. Klicken Sie im linken Bereich auf *Einstellungen > Anmeldeinformationen > Neu*.
+. Geben Sie die Anmeldeinformationen ein.
++
+Verwenden Sie für ein integriertes Domänenadministrator-Benutzernamenformat: _NetBIOS\<Benutzername>_ oder _<Benutzername>@<Domäne>_ oder _<Domänen-FQDN>\<Benutzername>_.
+
++
+Verwenden Sie für ein integriertes lokales Administrator-Benutzernamenformat _<Benutzername>_.
+
+
+
+
+
+== Schritt 2: Host hinzufügen und Plug-in für Microsoft SQL Server installieren
+
+. Klicken Sie im linken Bereich der SnapCenter -GUI auf *Hosts > Verwaltete Hosts > Hinzufügen*.
+. Führen Sie auf der Seite „Hosts“ des Assistenten Folgendes aus:
++
+.. Hosttyp: Wählen Sie den Windows-Hosttyp.
+.. Hostname: Verwenden Sie den SQL-Host oder geben Sie den FQDN eines dedizierten Windows-Hosts an.
+.. Anmeldeinformationen: Wählen Sie den gültigen Anmeldenamen des von Ihnen erstellten Hosts aus oder erstellen Sie neue Anmeldeinformationen.
+
+
+. Wählen Sie im Abschnitt „Zu installierende Plug-ins auswählen“ *Microsoft SQL Server* aus.
+. Klicken Sie auf *Weitere Optionen*, um die folgenden Details anzugeben:
++
+.. Port: Behalten Sie entweder die Standard-Portnummer bei oder geben Sie die Portnummer an.
+.. Installationspfad: Der Standardpfad ist _C:\Programme\ NetApp\SnapCenter_.  Optional können Sie den Pfad anpassen.
+.. Alle Hosts im Cluster hinzufügen: Aktivieren Sie dieses Kontrollkästchen, wenn Sie SQL in WSFC verwenden.
+.. Vorinstallationsprüfungen überspringen: Aktivieren Sie dieses Kontrollkästchen, wenn Sie die Plug-ins bereits manuell installiert haben oder nicht überprüfen möchten, ob der Host die Anforderungen für die Installation des Plug-ins erfüllt.
+
+
+. Klicken Sie auf *Senden*.
+

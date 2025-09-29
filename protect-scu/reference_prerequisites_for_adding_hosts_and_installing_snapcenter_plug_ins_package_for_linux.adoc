@@ -1,0 +1,81 @@
+---
+permalink: protect-scu/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux.html 
+sidebar: sidebar 
+keywords: prerequisites, iSCSI, host requirement for Linux, sudo privileges, non-root user, credentials, authenticate, domain administrator, local administrator, workgroup, sudo, root user 
+summary: Bevor Sie einen Host hinzufügen und die Plug-In-Pakete installieren, müssen Sie alle Anforderungen erfüllen. 
+---
+= Voraussetzungen für das Hinzufügen von Hosts und die Installation des Plug-In-Pakets für Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie einen Host hinzufügen und das Plug-In-Paket für Linux installieren, müssen Sie alle Anforderungen erfüllen.
+
+* Wenn Sie iSCSI verwenden, muss der iSCSI-Dienst ausgeführt werden.
+* Sie können entweder die passwortbasierte Authentifizierung für den Root- oder Nicht-Root-Benutzer oder die SSH-Schlüssel-basierte Authentifizierung verwenden.
++
+Das SnapCenter Plug-in für Unix-Dateisysteme kann von einem Nicht-Root-Benutzer installiert werden.  Sie sollten jedoch die Sudo-Berechtigungen für den Nicht-Root-Benutzer konfigurieren, um den Plug-In-Prozess zu installieren und zu starten.  Nach der Installation des Plug-Ins werden die Prozesse effektiv als Nicht-Root-Benutzer ausgeführt.
+
+* Erstellen Sie Anmeldeinformationen mit dem Authentifizierungsmodus „Linux“ für den Installationsbenutzer.
+* Sie müssen Java 11 auf Ihrem Linux-Host installiert haben.
++
+
+NOTE: Stellen Sie sicher, dass Sie nur die zertifizierte Edition von JAVA 11 auf dem Linux-Host installiert haben.
+
++
+Informationen zum Herunterladen von JAVA finden Sie unter: http://www.java.com/en/download/manual.jsp["Java-Downloads für alle Betriebssysteme"^]
+
+* Sie sollten *bash* als Standard-Shell für die Plug-In-Installation haben.
+
+
+
+
+== Linux-Hostanforderungen
+
+Sie sollten sicherstellen, dass der Host die Anforderungen erfüllt, bevor Sie das SnapCenter Plug-Ins-Paket für Linux installieren.
+
+|===
+| Artikel | Anforderungen 
+
+
+ a| 
+Betriebssysteme
+ a| 
+* Red Hat Enterprise Linux
+* Oracle Linux
+* SUSE Linux Enterprise Server (SLES)
+
+
+
+
+ a| 
+Mindest-RAM für das SnapCenter -Plug-In auf dem Host
+ a| 
+2 GB
+
+
+
+ a| 
+Minimaler Installations- und Protokollspeicherplatz für das SnapCenter -Plug-In auf dem Host
+ a| 
+2 GB
+
+
+NOTE: Sie sollten ausreichend Speicherplatz zuweisen und den Speicherverbrauch des Protokollordners überwachen.  Der erforderliche Protokollspeicherplatz variiert je nach Anzahl der zu schützenden Entitäten und der Häufigkeit der Datenschutzvorgänge.  Wenn nicht genügend Speicherplatz vorhanden ist, werden die Protokolle für die kürzlich ausgeführten Vorgänge nicht erstellt.
+
+
+
+ a| 
+Erforderliche Softwarepakete
+ a| 
+Java 11 Oracle Java und OpenJDK
+
+
+NOTE: Stellen Sie sicher, dass Sie nur die zertifizierte Edition von JAVA 11 auf dem Linux-Host installiert haben.
+
+Wenn Sie JAVA auf die neueste Version aktualisiert haben, müssen Sie sicherstellen, dass die Option JAVA_HOME unter /var/opt/snapcenter/spl/etc/spl.properties auf die richtige JAVA-Version und den richtigen Pfad eingestellt ist.
+
+|===
+Die neuesten Informationen zu unterstützten Versionen finden Sie im https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"^] .

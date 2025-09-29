@@ -1,0 +1,38 @@
+---
+permalink: protect-scsql/task_restore_a_sql_server_database_from_secondary_storage.html 
+sidebar: sidebar 
+keywords: restore operation 
+summary: 'Sie können die gesicherten SQL Server-Datenbanken von den physischen LUNs (RDM, iSCSI oder FCP) auf einem sekundären Speichersystem wiederherstellen.  Die Wiederherstellungsfunktion ist ein mehrphasiger Prozess, der alle Daten und Protokollseiten aus einer angegebenen SQL Server-Sicherung auf dem sekundären Speichersystem in eine angegebene Datenbank kopiert.' 
+---
+= Wiederherstellen einer SQL Server-Datenbank aus dem sekundären Speicher
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die gesicherten SQL Server-Datenbanken von den physischen LUNs (RDM, iSCSI oder FCP) auf einem sekundären Speichersystem wiederherstellen.  Die Wiederherstellungsfunktion ist ein mehrphasiger Prozess, der alle Daten und Protokollseiten aus einer angegebenen SQL Server-Sicherung auf dem sekundären Speichersystem in eine angegebene Datenbank kopiert.
+
+.Bevor Sie beginnen
+* Sie müssen die Snapshots vom primären auf das sekundäre Speichersystem repliziert haben.
+* Sie müssen sicherstellen, dass der SnapCenter Server und der Plug-In-Host eine Verbindung zum sekundären Speichersystem herstellen können.
+* Die meisten Felder auf den Seiten des Wiederherstellungsassistenten werden im grundlegenden Wiederherstellungsprozess erklärt.  Die folgenden Informationen beschreiben einige der Felder, für die Sie möglicherweise Anleitungen benötigen.
+
+
+.Informationen zu diesem Vorgang
+Wenn Sie für SnapLock -fähige Richtlinien für ONTAP 9.12.1 und niedrigere Versionen eine Snapshot-Sperrdauer angeben, erben die im Rahmen der Wiederherstellung aus den manipulationssicheren Snapshots erstellten Klone die SnapLock Ablaufzeit. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann * SnapCenter Plug-in für SQL Server* aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ aus der Dropdownliste „Anzeigen“ die Option „Datenbank“ oder „Ressourcengruppe“ aus.
+. Wählen Sie die Datenbank oder Ressourcengruppe aus.
++
+Die Seite mit der Datenbank- oder Ressourcengruppentopologie wird angezeigt.
+
+. Wählen Sie im Abschnitt „Kopien verwalten“ *Backups* aus dem sekundären Speichersystem (gespiegelt oder Tresor) aus.
+. Wählen Sie das Backup aus der Liste aus und klicken Sie dann aufimage:../media/restore_icon.gif["Wiederherstellungssymbol"] .
+. Wählen Sie auf der Seite „Speicherort“ das Zielvolume für die Wiederherstellung der ausgewählten Ressource aus.
+. Schließen Sie den Wiederherstellungsassistenten ab, überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+
+
+Wenn Sie eine Datenbank in einem anderen Pfad wiederhergestellt haben, der von anderen Datenbanken gemeinsam genutzt wird, sollten Sie eine vollständige Sicherung und Sicherungsüberprüfung durchführen, um sicherzustellen, dass Ihre wiederhergestellte Datenbank keine Beschädigungen auf physischer Ebene aufweist.

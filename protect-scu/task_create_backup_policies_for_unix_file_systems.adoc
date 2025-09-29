@@ -1,0 +1,128 @@
+---
+permalink: protect-scu/task_create_backup_policies_for_unix_file_systems.html 
+sidebar: sidebar 
+keywords: backup policies, policies, unix file systems, file systems 
+summary: Erstellen Sie eine Sicherungsrichtlinie für die Unix-Dateisysteme, die Sie sichern möchten. 
+---
+= Erstellen Sie Sicherungsrichtlinien für Unix-Dateisysteme
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie SnapCenter zum Sichern von Unix-Dateisystemen verwenden, müssen Sie eine Sicherungsrichtlinie für die Ressource oder die Ressourcengruppe erstellen, die Sie sichern möchten.  Eine Sicherungsrichtlinie ist ein Satz von Regeln, der regelt, wie Sie Sicherungen verwalten, planen und aufbewahren.  Sie können auch die Replikations-, Skript- und Sicherungstypeinstellungen angeben.  Das Erstellen einer Richtlinie spart Zeit, wenn Sie die Richtlinie für eine andere Ressource oder Ressourcengruppe wiederverwenden möchten.
+
+.Bevor Sie beginnen
+* Sie müssen sich auf den Datenschutz vorbereitet haben, indem Sie Aufgaben wie die Installation von SnapCenter, das Hinzufügen von Hosts, das Erkennen der Dateisysteme und das Erstellen von Speichersystemverbindungen abgeschlossen haben.
+* Wenn Sie Snapshots auf einen Spiegel- oder Tresor-Sekundärspeicher replizieren, muss der SnapCenter Administrator Ihnen die SVMs sowohl für das Quell- als auch für das Zielvolume zugewiesen haben.
+* Überprüfen Sie die spezifischen Voraussetzungen und Einschränkungen der SnapMirror Active Sync. Weitere Informationen finden Sie unter https://docs.netapp.com/us-en/ontap/smbc/considerations-limits.html#volumes["Objektlimits für SnapMirror Active Sync"] .
+
+
+.Informationen zu diesem Vorgang
+* SnapLock
++
+** Wenn die Option „Sicherungskopien für eine bestimmte Anzahl von Tagen aufbewahren“ ausgewählt ist, muss die SnapLock -Aufbewahrungsdauer kleiner oder gleich der angegebenen Aufbewahrungsdauer in Tagen sein.
++
+Durch die Angabe einer Snapshot-Sperrfrist wird das Löschen der Snapshots verhindert, bis die Aufbewahrungsfrist abgelaufen ist. Dies kann dazu führen, dass mehr Snapshots aufbewahrt werden als in der Richtlinie angegeben.
+
++
+Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+
+
+
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Richtlinien*.
+. Wählen Sie *Unix-Dateisysteme* aus der Dropdownliste.
+. Klicken Sie auf *Neu*.
+. Geben Sie auf der Seite „Name“ den Richtliniennamen und die Details ein.
+. Führen Sie auf der Seite „Sicherung und Replikation“ die folgenden Aktionen aus:
++
+.. Geben Sie die Sicherungseinstellungen an.
+.. Geben Sie die Zeitplanhäufigkeit an, indem Sie *Auf Anfrage*, *Stündlich*, *Täglich*, *Wöchentlich* oder *Monatlich* auswählen.
+.. Wählen Sie im Abschnitt „Sekundäre Replikationsoptionen auswählen“ eine oder beide der folgenden sekundären Replikationsoptionen aus:
+
+
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Aktualisieren Sie SnapMirror , nachdem Sie eine lokale Snapshot-Kopie erstellt haben
+ a| 
+Wählen Sie dieses Feld aus, um Spiegelkopien der Sicherungssätze auf einem anderen Volume zu erstellen (SnapMirror -Replikation).
+
+Diese Option sollte für die aktive Synchronisierung von SnapMirror aktiviert werden.
+
+
+
+ a| 
+Aktualisieren Sie SnapVault , nachdem Sie eine lokale Snapshot-Kopie erstellt haben
+ a| 
+Wählen Sie diese Option, um eine Backup-Replikation von Festplatte zu Festplatte durchzuführen (SnapVault -Backups).
+
+
+
+ a| 
+Fehleranzahl der Wiederholungsversuche
+ a| 
+Geben Sie die maximale Anzahl an Replikationsversuchen ein, die zulässig sind, bevor der Vorgang beendet wird.
+
+|===
+. Geben Sie auf der Seite „Aufbewahrung“ die Aufbewahrungseinstellungen für den Sicherungstyp und den Zeitplantyp an, die auf der Seite „Sicherung und Replikation“ ausgewählt wurden:
++
+|===
+
+
+| Wenn Sie wollen... | Dann... 
+
+
+ a| 
+Behalten Sie eine bestimmte Anzahl von Snapshots
+ a| 
+Wählen Sie *Zu behaltende Kopien* und geben Sie dann die Anzahl der Snapshots an, die Sie behalten möchten.
+
+Wenn die Anzahl der Snapshots die angegebene Anzahl überschreitet, werden die Snapshots gelöscht, wobei die ältesten Kopien zuerst gelöscht werden.
+
+
+NOTE: Der maximale Aufbewahrungswert beträgt 1018. Sicherungen schlagen fehl, wenn die Aufbewahrung auf einen höheren Wert eingestellt ist, als von der zugrunde liegenden ONTAP Version unterstützt wird.
+
+
+IMPORTANT: Sie müssen die Aufbewahrungsanzahl auf 2 oder höher einstellen, wenn Sie die SnapVault -Replikation aktivieren möchten.  Wenn Sie die Aufbewahrungsanzahl auf 1 setzen, schlägt der Aufbewahrungsvorgang möglicherweise fehl, da der erste Snapshot der Referenz-Snapshot für die SnapVault -Beziehung ist, bis ein neuerer Snapshot auf das Ziel repliziert wird.
+
+
+
+ a| 
+Bewahren Sie die Snapshots für eine bestimmte Anzahl von Tagen auf
+ a| 
+Wählen Sie *Kopien aufbewahren für* und geben Sie dann die Anzahl der Tage an, für die Sie die Snapshots aufbewahren möchten, bevor sie gelöscht werden.
+
+
+
+ a| 
+Sperrzeitraum für Snapshot-Kopien
+ a| 
+Wählen Sie *Sperrzeitraum für Snapshot-Kopien* und geben Sie die Dauer in Tagen, Monaten oder Jahren an.
+
+Die Aufbewahrungsdauer von Snaplock sollte weniger als 100 Jahre betragen.
+
+|===
+. Wählen Sie die Richtlinienbezeichnung aus.
++
+
+NOTE: Sie können primären Snapshots SnapMirror Labels für die Remote-Replikation zuweisen, sodass die primären Snapshots den Snapshot-Replikationsvorgang von SnapCenter auf sekundäre ONTAP -Systeme auslagern können. Dies kann erfolgen, ohne die Option SnapMirror oder SnapVault auf der Richtlinienseite zu aktivieren.
+
+. Geben Sie auf der Seite „Skript“ den Pfad und die Argumente des Präskripts oder Postskripts ein, das Sie vor bzw. nach dem Sicherungsvorgang ausführen möchten.
++
+
+NOTE: Sie sollten überprüfen, ob die Befehle in der Befehlsliste vorhanden sind, die auf dem Plug-In-Host im Pfad _ /opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_ verfügbar ist.
+
++
+Sie können auch den Timeout-Wert des Skripts angeben. Der Standardwert beträgt 60 Sekunden.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+

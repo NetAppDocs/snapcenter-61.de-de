@@ -1,0 +1,93 @@
+---
+sidebar: sidebar 
+permalink: sc-automation/concept_basic_operational_characteristics.html 
+keywords: request and response, object identifiers, synchronous, asynchronous 
+summary: REST bietet zwar einen gemeinsamen Satz an Technologien und Best Practices, die Details der einzelnen APIs können jedoch je nach Designentscheidung variieren. 
+---
+= Grundlegende Betriebsmerkmale
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+REST bietet zwar einen gemeinsamen Satz an Technologien und Best Practices, die Details der einzelnen APIs können jedoch je nach Designentscheidung variieren.
+
+
+
+== Anforderungs- und Antwort-API-Transaktion
+
+Jeder REST-API-Aufruf wird als HTTP-Anfrage an das SnapCenter -Serversystem ausgeführt, das eine zugehörige Antwort an den Client generiert.  Dieses Anforderungs- und Antwortpaar wird als API-Transaktion betrachtet.
+
+Bevor Sie die API verwenden, sollten Sie mit den zur Steuerung einer Anfrage verfügbaren Eingabevariablen und dem Inhalt der Antwortausgabe vertraut sein.
+
+
+
+== Unterstützung für CRUD-Operationen
+
+Der Zugriff auf jede der über die SnapCenter REST-API verfügbaren Ressourcen erfolgt basierend auf dem CRUD-Modell:
+
+* Erstellen
+* Lesen
+* Aktualisieren
+* Löschen
+
+
+Für einige Ressourcen wird nur eine Teilmenge der Vorgänge unterstützt.
+
+
+
+== Objektkennungen
+
+Jede Ressourceninstanz oder jedes Objekt erhält bei der Erstellung eine eindeutige Kennung. In den meisten Fällen ist die Kennung eine 128-Bit-UUID.  Diese Kennungen sind innerhalb eines bestimmten SnapCenter Servers global eindeutig.
+
+Nach dem Ausführen eines API-Aufrufs, der eine neue Objektinstanz erstellt, wird dem Aufrufer im Location-Header der HTTP-Antwort eine URL mit der zugehörigen ID zurückgegeben. Sie können die Kennung extrahieren und sie bei nachfolgenden Aufrufen verwenden, wenn Sie auf die Ressourceninstanz verweisen.
+
+
+IMPORTANT: Inhalt und interne Struktur der Objektkennungen können sich jederzeit ändern. Sie sollten die Kennungen bei den entsprechenden API-Aufrufen nur nach Bedarf verwenden, wenn Sie auf die zugehörigen Objekte verweisen.
+
+
+
+== Objektinstanzen und Sammlungen
+
+Abhängig vom Ressourcenpfad und der HTTP-Methode kann ein API-Aufruf für eine bestimmte Objektinstanz oder eine Sammlung von Objekten gelten.
+
+
+
+== Synchrone und asynchrone Vorgänge
+
+SnapCenter führt eine von einem Client empfangene HTTP-Anfrage entweder synchron oder asynchron aus.
+
+
+
+=== Synchrone Verarbeitung
+
+SnapCenter führt die Anfrage sofort aus und antwortet bei Erfolg mit einem HTTP-Statuscode von 200 oder 201.
+
+Jede Anfrage mit der Methode GET wird immer synchron ausgeführt.  Darüber hinaus sind Anfragen, die POST verwenden, so konzipiert, dass sie synchron ausgeführt werden, wenn ihre Fertigstellung in weniger als zwei Sekunden erwartet wird.
+
+
+
+=== Asynchrone Verarbeitung
+
+Wenn eine asynchrone Anforderung gültig ist, erstellt SnapCenter eine Hintergrundaufgabe zur Verarbeitung der Anforderung und ein Jobobjekt zur Verankerung der Aufgabe.  Der HTTP-Statuscode 202 wird zusammen mit dem Jobobjekt an den Anrufer zurückgegeben.  Sie sollten den Status des Auftrags abrufen, um Erfolg oder Misserfolg festzustellen.
+
+Anfragen, die die Methoden POST und DELETE verwenden, werden asynchron ausgeführt, wenn ihre Ausführung voraussichtlich mehr als zwei Sekunden dauert.
+
+
+
+== Sicherheit
+
+Die mit der REST-API bereitgestellte Sicherheit basiert hauptsächlich auf den vorhandenen Sicherheitsfunktionen, die mit SnapCenter verfügbar sind.  Die API verwendet die folgende Sicherheit:
+
+
+
+=== Transportschichtsicherheit
+
+Der gesamte über das Netzwerk zwischen dem SnapCenter -Server und dem Client gesendete Datenverkehr wird normalerweise basierend auf den SnapCenter -Konfigurationseinstellungen mit TLS verschlüsselt.
+
+
+
+=== HTTP-Authentifizierung
+
+Auf HTTP-Ebene wird für die API-Transaktionen eine grundlegende Authentifizierung verwendet.  Jeder Anfrage wird ein HTTP-Header mit dem Benutzernamen und dem Passwort in einer Base64-Zeichenfolge hinzugefügt.

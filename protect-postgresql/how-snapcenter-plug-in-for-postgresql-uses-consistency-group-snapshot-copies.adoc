@@ -1,0 +1,16 @@
+---
+permalink: protect-postgresql/how-snapcenter-plug-in-for-postgresql-uses-consistency-group-snapshot-copies.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL 
+summary: Sie können das Plug-In verwenden, um Konsistenzgruppen-Snapshots für Ressourcengruppen zu erstellen.  Eine Konsistenzgruppe ist ein Container, der mehrere Volumes aufnehmen kann, sodass Sie sie als eine Einheit verwalten können.  Eine Konsistenzgruppe besteht aus gleichzeitigen Snapshots mehrerer Volumes und bietet konsistente Kopien einer Volumegruppe. 
+---
+= So verwendet das SnapCenter Plug-in für PostgreSQL Konsistenzgruppen-Snapshots
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können das Plug-In verwenden, um Konsistenzgruppen-Snapshots für Ressourcengruppen zu erstellen.  Eine Konsistenzgruppe ist ein Container, der mehrere Volumes aufnehmen kann, sodass Sie sie als eine Einheit verwalten können.  Eine Konsistenzgruppe besteht aus gleichzeitigen Snapshots mehrerer Volumes und bietet konsistente Kopien einer Volumegruppe.
+
+Sie können auch die Wartezeit angeben, die der Speichercontroller benötigt, um Snapshots konsistent zu gruppieren.  Die verfügbaren Wartezeitoptionen sind *Dringend*, *Mittel* und *Entspannt*.  Sie können die WAFL-Synchronisierung (Write Anywhere File Layout) auch während des konsistenten Gruppen-Snapshot-Vorgangs aktivieren oder deaktivieren.  Die WAFL Synchronisierung verbessert die Leistung eines Konsistenzgruppen-Snapshots.

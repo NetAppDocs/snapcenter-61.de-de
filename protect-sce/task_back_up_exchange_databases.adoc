@@ -1,0 +1,223 @@
+---
+permalink: protect-sce/task_back_up_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Wenn eine Datenbank nicht Teil einer Ressourcengruppe ist, können Sie die Datenbank oder die Datenbankverfügbarkeitsgruppe auf der Seite „Ressourcen“ sichern. 
+---
+= Sichern Sie Exchange-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn eine Datenbank nicht Teil einer Ressourcengruppe ist, können Sie die Datenbank oder die Datenbankverfügbarkeitsgruppe auf der Seite „Ressourcen“ sichern.
+
+.Bevor Sie beginnen
+* Sie müssen eine Sicherungsrichtlinie erstellt haben.
+* Sie müssen das vom Sicherungsvorgang verwendete Aggregat der von der Datenbank verwendeten SVM zugewiesen haben.
+* Wenn Sie eine Ressource sichern möchten, die über eine SnapMirror -Beziehung mit einem sekundären Speicher verfügt, sollte die dem Speicherbenutzer zugewiesene Rolle das Privileg „snapmirror all“ enthalten.  Wenn Sie jedoch die Rolle „vsadmin“ verwenden, ist das Privileg „snapmirror all“ nicht erforderlich.
+* Wenn Sie eine Sicherung einer Datenbank oder einer Datenbankverfügbarkeitsgruppe durchführen möchten, die über eine aktive/passive Datenbankkopie auf einem NetApp und Nicht- NetApp -Speicher verfügt, und Sie in der Richtlinie die Option *Aktive Kopien sichern* oder *Kopien auf Servern sichern, die während der Erstellungszeit des Sicherungsauftrags ausgewählt werden sollen* ausgewählt haben, wechseln die Sicherungsaufträge in den Warnzustand.  Die Sicherung ist für die aktive/passive Datenbankkopie auf NetApp -Speicher erfolgreich, für die aktive/passive Datenbankkopie auf Nicht- NetApp -Speicher schlägt die Sicherung fehl.
++
+|===
+
+
+| *Best Practice:* Führen Sie nicht gleichzeitig Backups von aktiven und passiven Datenbanken durch.  Es kann zu einem Race Condition kommen und eine der Sicherungen kann fehlschlagen. 
+|===
+
+
+[role="tabbed-block"]
+====
+.SnapCenter -Benutzeroberfläche
+--
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das *Microsoft Exchange Server-Plug-In* aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder „Datenbank“ oder „Datenbankverfügbarkeitsgruppe“ aus der Liste „Anzeigen“ aus.
++
+Auf der Seite „Ressourcen“ wirdimage:../media/not_supported_icon.gif["Symbol „Nicht unterstützt“"] Das Symbol zeigt an, dass sich die Datenbank auf einem Nicht- NetApp -Speicher befindet.
+
++
+
+NOTE: Wenn sich in einer DAG eine aktive Datenbankkopie auf einem Nicht- NetApp -Speicher befindet und mindestens eine passive Datenbankkopie auf einem NetApp -Speicher liegt, können Sie die Datenbank schützen.
+
++
+Klicken Sie auf *image:../media/filter_icon.gif["Filtersymbol"] * und wählen Sie dann den Hostnamen und den Datenbanktyp aus, um die Ressourcen zu filtern.  Sie können dann auf * klicken.image:../media/filter_icon.gif["Filtersymbol"] *, um den Filterbereich zu schließen.
+
++
+** Wenn Sie eine Datenbank sichern möchten, klicken Sie auf den Datenbanknamen.
++
+... Wenn die Topologieansicht angezeigt wird, klicken Sie auf *Schützen*.
+... Wenn der Assistent „Datenbank – Ressource schützen“ angezeigt wird, fahren Sie mit Schritt 3 fort.
+
+
+** Wenn Sie eine Datenbankverfügbarkeitsgruppe sichern möchten, klicken Sie auf den Namen der Datenbankverfügbarkeitsgruppe.
+
+
+. Wenn Sie einen benutzerdefinierten Snapshot-Namen angeben möchten, aktivieren Sie auf der Seite „Ressourcen“ das Kontrollkästchen *Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden* und geben Sie dann ein benutzerdefiniertes Namensformat ein, das Sie für den Snapshot-Namen verwenden möchten.
++
+Beispiel: _customtext_policy_hostname_ oder _resource_hostname_.  Standardmäßig wird dem Snapshot-Namen ein Zeitstempel angehängt.
+
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Schritte aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
++
+
+NOTE: Sie können auch eine Richtlinie erstellen, indem Sie auf * klicken.image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] *.
+
++
+
+NOTE: Wenn eine Richtlinie die Option *Sicherungskopien auf Servern, die bei der Erstellung des Sicherungsauftrags ausgewählt werden sollen* enthält, wird eine Serverauswahloption angezeigt, um einen oder mehrere Server auszuwählen.  Die Serverauswahloption listet nur den Server auf, auf dem sich die ausgewählte Datenbank auf einem NetApp -Speicher befindet.
+
+
+
++
+Im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ werden die ausgewählten Richtlinien aufgelistet.
+
++
+.. Klicken Sie auf *image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] * in der Spalte „Zeitpläne konfigurieren“ für die Richtlinie, für die Sie einen Zeitplan konfigurieren möchten.
+.. Konfigurieren Sie im Fenster „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan und klicken Sie dann auf *OK*.
++
+Dabei ist _Richtlinienname_ der Name der von Ihnen ausgewählten Richtlinie.
+
++
+Die konfigurierten Zeitpläne werden in der Spalte „Angewandte Zeitpläne“ aufgelistet.
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den für die Ressource durchgeführten Sicherungsvorgang anhängen möchten, wählen Sie *Jobbericht anhängen*.
+
++
+
+NOTE: Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl „Set-SmSmtpServer“ angegeben haben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
++
+Die Seite „Datenbanktopologie“ wird angezeigt.
+
+. Klicken Sie auf *Jetzt sichern*.
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn Sie mehrere Richtlinien auf die Ressource angewendet haben, wählen Sie aus der Dropdownliste *Richtlinie* die Richtlinie aus, die Sie für die Sicherung verwenden möchten.
++
+Wenn die für die On-Demand-Sicherung ausgewählte Richtlinie mit einem Sicherungszeitplan verknüpft ist, werden die On-Demand-Sicherungen basierend auf den für den Zeitplantyp angegebenen Aufbewahrungseinstellungen aufbewahrt.
+
+.. Klicken Sie auf *Sichern*.
+
+
+. Überwachen Sie den Fortschritt der Sicherung, indem Sie im Aktivitätsbereich unten auf der Seite auf den Auftrag doppelklicken, um die Seite mit den Auftragsdetails anzuzeigen.
++
+** In MetroCluster -Konfigurationen kann SnapCenter nach einem Failover möglicherweise keine Schutzbeziehung erkennen.
++
+Weitere Informationen finden Sie unter: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["SnapMirror oder SnapVault -Beziehung kann nach MetroCluster Failover nicht erkannt werden"^]
+
+** Wenn Sie Anwendungsdaten auf VMDKs sichern und die Java-Heap-Größe für das SnapCenter Plug-in for VMware vSphere nicht groß genug ist, schlägt die Sicherung möglicherweise fehl.
++
+Um die Java-Heap-Größe zu erhöhen, suchen Sie die Skriptdatei _/opt/netapp/init_scripts/scvservice_.  In diesem Skript startet der Befehl _do_start method_ den SnapCenter VMware-Plug-in-Dienst.  Aktualisieren Sie diesen Befehl wie folgt: _Java -jar -Xmx8192M -Xms4096M_
+
+
+
+
+
+--
+.PowerShell-Cmdlets
+--
+.Schritte
+. Initiieren Sie mithilfe des Cmdlets Open-SmConnection eine Verbindungssitzung mit dem SnapCenter -Server für einen angegebenen Benutzer.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
++
+Die Eingabeaufforderung für Benutzername und Kennwort wird angezeigt.
+
+. Erstellen Sie eine Sicherungsrichtlinie mithilfe des Cmdlets Add-SmPolicy.
++
+In diesem Beispiel wird eine neue Sicherungsrichtlinie mit einem vollständigen Backup und einem Protokoll-Backup vom Exchange-Sicherungstyp erstellt:
+
++
+[listing]
+----
+C:\PS> Add-SmPolicy -PolicyName SCE_w2k12_Full_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType FullBackupAndLogBackup -BackupActiveCopies
+----
++
+In diesem Beispiel wird eine neue Sicherungsrichtlinie mit einem stündlichen vollständigen Backup und einem Protokoll-Backup vom Exchange-Sicherungstyp erstellt:
+
++
+[listing]
+----
+C:\PS> Add-SmPolicy -PolicyName SCE_w2k12_Hourly_Full_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType FullBackupAndLogBackup -BackupActiveCopies -ScheduleType Hourly -RetentionSettings @{'BackupType'='DATA';'ScheduleType'='Hourly';'RetentionCount'='10'}
+----
++
+In diesem Beispiel wird eine neue Sicherungsrichtlinie erstellt, um nur Exchange-Protokolle zu sichern:
+
++
+[listing]
+----
+Add-SmPolicy -PolicyName SCE_w2k12_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType LogBackup -BackupActiveCopies
+----
+. Ermitteln Sie Hostressourcen mithilfe des Cmdlets „Get-SmResources“.
++
+Dieses Beispiel ermittelt die Ressourcen für das Microsoft Exchange Server-Plug-In auf dem angegebenen Host:
+
++
+[listing]
+----
+C:\PS> Get-SmResources -HostName vise-f6.sddev.mycompany.com -PluginCode SCE
+----
+. Fügen Sie SnapCenter mithilfe des Cmdlets Add-SmResourceGroup eine neue Ressourcengruppe hinzu.
++
+In diesem Beispiel wird eine neue Exchange Server-Datenbanksicherungsressourcengruppe mit der angegebenen Richtlinie und den angegebenen Ressourcen erstellt:
+
++
+[listing]
+----
+C:\PS> Add-SmResourceGroup -ResourceGroupName SCE_w2k12_bkp_RG -Description 'Backup ResourceGroup with Full and Log backup policy' -PluginCode SCE -Policies SCE_w2k12_Full_bkp_Policy,SCE_w2k12_Full_Log_bkp_Policy,SCE_w2k12_Log_bkp_Policy -Resources @{'Host'='sce-w2k12-exch';'Type'='Exchange Database';'Names'='sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_1,sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2'}
+----
++
+In diesem Beispiel wird eine neue Backup-Ressourcengruppe für die Exchange Database Availability Group (DAG) mit der angegebenen Richtlinie und den angegebenen Ressourcen erstellt:
+
++
+[listing]
+----
+Add-SmResourceGroup -ResourceGroupName SCE_w2k12_bkp_RG -Description 'Backup ResourceGroup with Full and Log backup policy' -PluginCode SCE -Policies SCE_w2k12_Full_bkp_Policy,SCE_w2k12_Full_Log_bkp_Policy,SCE_w2k12_Log_bkp_Policy -Resources @{"Host"="DAGSCE0102";"Type"="Database Availability Group";"Names"="DAGSCE0102"}
+----
+. Starten Sie einen neuen Sicherungsauftrag mithilfe des Cmdlets New-SmBackup.
++
+[listing]
+----
+C:\PS> New-SmBackup -ResourceGroupName SCE_w2k12_bkp_RG -Policy SCE_w2k12_Full_Log_bkp_Policy
+----
++
+In diesem Beispiel wird eine neue Sicherung auf einem sekundären Speicher erstellt:
+
++
+[listing]
+----
+New-SMBackup -DatasetName ResourceGroup1 -Policy Secondary_Backup_Policy4
+----
+. Zeigen Sie den Status des Sicherungsauftrags mithilfe des Cmdlets Get-SmBackupReport an.
++
+In diesem Beispiel wird ein Job-Zusammenfassungsbericht aller Jobs angezeigt, die am angegebenen Datum ausgeführt wurden:
+
++
+[listing]
+----
+C:\PS> Get-SmJobSummaryReport -Date ?1/27/2018?
+----
++
+In diesem Beispiel wird ein Auftragszusammenfassungsbericht für eine bestimmte Auftrags-ID angezeigt:
+
++
+[listing]
+----
+C:\PS> Get-SmJobSummaryReport -JobId 168
+----
+
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_.  Alternativ siehe https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+--
+====

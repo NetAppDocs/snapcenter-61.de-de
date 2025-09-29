@@ -1,0 +1,30 @@
+---
+permalink: protect-scsql/task_install_snapcenter_plug_in_package_for_windows_server_on_multiple_remote_hosts_using_cmdlets_scsql.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Sie können das SnapCenter Plug-in für Microsoft SQL Server mithilfe des PowerShell-Cmdlets „Install-SmHostPackage“ gleichzeitig auf mehreren Hosts installieren. 
+---
+= Installieren Sie das SnapCenter -Plug-in für Microsoft SQL Server mithilfe von Cmdlets auf mehreren Remotehosts
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können das SnapCenter Plug-in für Microsoft SQL Server mithilfe des PowerShell-Cmdlets „Install-SmHostPackage“ gleichzeitig auf mehreren Hosts installieren.
+
+.Bevor Sie beginnen
+Sie müssen sich auf jedem Host, auf dem Sie das Plug-In-Paket installieren möchten, als Domänenbenutzer mit lokalen Administratorrechten bei SnapCenter angemeldet haben.
+
+.Schritte
+. Starten Sie PowerShell.
+. Richten Sie auf dem SnapCenter Server-Host mit dem Cmdlet „Open-SmConnection“ eine Sitzung ein und geben Sie dann Ihre Anmeldeinformationen ein.
+. Installieren Sie das SnapCenter -Plug-in für Microsoft SQL Server auf mehreren Remote-Hosts mithilfe des Cmdlets Install-SmHostPackage und der erforderlichen Parameter.
++
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
++
+Sie können die Option -skippercheck verwenden, wenn Sie die Plug-Ins bereits manuell installiert haben und nicht überprüfen möchten, ob der Host die Anforderungen für die Installation des Plug-Ins erfüllt.
+
+. Geben Sie Ihre Anmeldeinformationen für die Remote-Installation ein.
+

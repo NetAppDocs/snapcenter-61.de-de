@@ -1,0 +1,28 @@
+---
+permalink: protect-scsql/task_disaster_recovery_scsql.html 
+sidebar: sidebar 
+keywords: disaster recovery 
+summary: Wenn das SnapCenter -Plug-In für SQL Server ausgefallen ist, führen Sie die folgenden manuellen Schritte aus, um das Plug-In wiederherzustellen. 
+---
+= Notfallwiederherstellung des SnapCenter -Plug-ins für SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn das SnapCenter -Plug-in für SQL Server ausgefallen ist, führen Sie die folgenden Schritte aus, um zu einem anderen SQL-Host zu wechseln und die Daten wiederherzustellen.
+
+.Bevor Sie beginnen
+* Der sekundäre Host sollte dasselbe Betriebssystem, dieselbe Anwendung und denselben Hostnamen wie der primäre Host haben.
+* Übertragen Sie das SnapCenter -Plug-in für SQL Server mithilfe der Seite *Host hinzufügen* oder *Host ändern* auf einen alternativen Host. Sehen link:https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_hosts.html["Hosts verwalten"] für weitere Informationen.
+
+
+.Schritte
+. Wählen Sie den Host auf der Seite *Hosts* aus, um das SnapCenter -Plug-In für SQL Server zu ändern und zu installieren.
+. (Optional) Ersetzen Sie die Konfigurationsdateien des SnapCenter -Plug-ins für SQL Server aus der Notfallwiederherstellungssicherung (DR) auf dem neuen Computer.
+. Importieren Sie Windows- und SQL-Zeitpläne aus dem Ordner „SnapCenter Plug-in für SQL Server“ aus der DR-Sicherung.
+
+
+.Ähnliche Informationen
+Siehe dielink:https://www.youtube.com/watch?v=_8NG-tTGy8k&list=PLdXI3bZJEw7nofM6lN44eOe4aOSoryckg["APIs zur Notfallwiederherstellung"^] Video.

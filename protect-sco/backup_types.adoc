@@ -1,0 +1,43 @@
+---
+permalink: protect-sco/backup_types.html 
+sidebar: sidebar 
+keywords: backup type, preferred nodes, catalog backups, schedules, backup name format, retention, verification 
+summary: Für Oracle-Datenbanken unterstützte Sicherungstypen. 
+---
+= Unterstützte Sicherungstypen für Oracle-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Sicherungstyp gibt den Sicherungstyp an, den Sie erstellen möchten.  SnapCenter unterstützt Online- und Offline-Sicherungstypen für Oracle-Datenbanken.
+
+
+
+== Online-Backup
+
+Eine Sicherung, die erstellt wird, wenn sich die Datenbank im Online-Zustand befindet, wird als Online-Sicherung bezeichnet.  Mit einem Online-Backup, auch Hot-Backup genannt, können Sie eine Sicherung der Datenbank erstellen, ohne diese herunterzufahren.
+
+Im Rahmen der Online-Sicherung können Sie eine Sicherung der folgenden Dateien erstellen:
+
+* Nur Datendateien und Steuerdateien
+* Nur Protokolldateien archivieren (die Datenbank wird in diesem Szenario nicht in den Sicherungsmodus versetzt)
+* Vollständige Datenbank, die Datendateien, Steuerdateien und Archivprotokolldateien enthält
+
+
+
+
+== Offline-Backup
+
+Eine Sicherung, die erstellt wird, während sich die Datenbank entweder im gemounteten oder heruntergefahrenen Zustand befindet, wird als Offline-Sicherung bezeichnet.  Ein Offline-Backup wird auch als Cold Backup bezeichnet.  Sie können in Offline-Backups nur Datendateien und Steuerdateien einschließen.  Sie können entweder eine Offline-Mount- oder eine Offline-Shutdown-Sicherung erstellen.
+
+* Beim Erstellen einer Offline-Mount-Sicherung müssen Sie sicherstellen, dass sich die Datenbank in einem gemounteten Zustand befindet.
++
+Wenn sich die Datenbank in einem anderen Zustand befindet, schlägt der Sicherungsvorgang fehl.
+
+* Beim Erstellen einer Offline-Shutdown-Sicherung kann sich die Datenbank in einem beliebigen Zustand befinden.
++
+Der Datenbankstatus wird in den erforderlichen Status geändert, um eine Sicherung zu erstellen.  Nach dem Erstellen des Backups wird der Datenbankzustand in den ursprünglichen Zustand zurückgesetzt.
+
+

@@ -1,0 +1,67 @@
+---
+permalink: protect-scu/task_restore_unix_file_systems.html 
+sidebar: sidebar 
+keywords: restore, recover, Unix file systems 
+summary: Im Falle eines Datenverlusts können Sie SnapCenter zur Datenwiederherstellung verwenden. 
+---
+= Stellen Sie Unix-Dateisysteme wieder her
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Im Falle eines Datenverlusts können Sie SnapCenter verwenden, um Unix-Dateisysteme wiederherzustellen.
+
+*Über diese Aufgabe*
+
+* Sie sollten die folgenden Befehle ausführen, um die Verbindung mit dem SnapCenter -Server herzustellen, die Sicherungen aufzulisten, ihre Informationen abzurufen und die Sicherung wiederherzustellen.
++
+Informationen zu den mit dem Befehl verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von Get-Help _command_name_. Alternativ können Sie auch auf die https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenter Software-Befehlsreferenzhandbuch"^] .
+
+* Für den Wiederherstellungsvorgang mit SnapMirror Active Sync müssen Sie die Sicherung vom primären Speicherort auswählen.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder „Pfad“ oder „Ressourcengruppe“ aus der Liste „Ansicht“ aus.
+. Wählen Sie das Dateisystem entweder aus der Detailansicht oder der Detailansicht der Ressourcengruppe aus.
++
+Die Topologieseite wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Backups* entweder vom primären oder vom sekundären (gespiegelten oder replizierten) Speichersystem aus.
+. Wählen Sie das Backup aus der Tabelle aus und klicken Sie dann auf *image:../media/restore_icon.gif["Wiederherstellungssymbol"] *.
+. Gehen Sie auf der Seite „Wiederherstellungsbereich“ wie folgt vor:
++
+** Für NFS-Dateisysteme ist standardmäßig die Wiederherstellung mit *Verbinden und Kopieren* ausgewählt.  Sie können auch *Volume Revert* oder *Fast Restore* auswählen.
+** Bei Nicht-NFS-Dateisystemen wird der Wiederherstellungsumfang je nach Layout ausgewählt.
++
+Die nach der Sicherung neu erstellten Dateien sind je nach Dateisystemtyp und -layout nach der Wiederherstellung möglicherweise nicht verfügbar.
+
+
+
+. Geben Sie auf der Seite „PreOps“ Befehle zur Vorwiederherstellung ein, die vor der Durchführung eines Wiederherstellungsauftrags ausgeführt werden sollen.
+. Geben Sie auf der Seite „PostOps“ Post-Restore-Befehle ein, die nach der Durchführung eines Wiederherstellungsauftrags ausgeführt werden sollen.
++
+
+NOTE: Sie sollten überprüfen, ob die Befehle in der Befehlsliste vorhanden sind, die auf dem Plug-In-Host am Speicherort _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_ path verfügbar ist.
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mail-Benachrichtigungen senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den durchgeführten Wiederherstellungsvorgang anhängen möchten, müssen Sie *Jobbericht anhängen* auswählen.
+
++
+
+NOTE: Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl „Set-SmSmtpServer“ angegeben haben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
++
+
+IMPORTANT: Wenn der Wiederherstellungsvorgang fehlschlägt, wird ein Rollback nicht unterstützt.
+
++
+
+NOTE: Bei der Wiederherstellung eines Dateisystems, das sich auf einer Datenträgergruppe befindet, werden die alten Inhalte des Dateisystems nicht gelöscht.  Nur der Inhalt des geklonten Dateisystems wird in das Quelldateisystem kopiert.  Dies ist anwendbar, wenn sich in der Datenträgergruppe mehrere Dateisysteme befinden und das Standard-NFS-Dateisystem wiederhergestellt wird.
+
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+

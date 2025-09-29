@@ -1,0 +1,95 @@
+---
+permalink: admin/concept_manage_backups.html 
+sidebar: sidebar 
+keywords: Manage backups 
+summary: Sie können Backups umbenennen und löschen.  Sie können auch mehrere Backups gleichzeitig löschen. 
+---
+= Backups verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Backups umbenennen und löschen.  Sie können auch mehrere Backups gleichzeitig löschen.
+
+
+
+== Backups umbenennen
+
+Sie können Sicherungen umbenennen, wenn Sie einen besseren Namen angeben möchten, um die Suchbarkeit zu verbessern.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder die Ressource oder die Ressourcengruppe aus der Dropdownliste *Anzeigen* aus.
+. Wählen Sie die Ressource oder Ressourcengruppe aus der Liste aus.
++
+Die Topologieseite der Ressource oder Ressourcengruppe wird angezeigt.  Wenn die Ressource oder Ressourcengruppe nicht für den Datenschutz konfiguriert ist, wird anstelle der Topologieseite der Schutzassistent angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Backups* aus den primären Speichersystemen aus.
++
+Sie können die Sicherungen, die sich auf dem sekundären Speichersystem befinden, nicht umbenennen.
+
++
+Wenn Sie die Sicherungen von Oracle-Datenbanken mit Oracle Recovery Manager (RMAN) katalogisiert haben, können Sie diese katalogisierten Sicherungen nicht umbenennen.
+
+. Wählen Sie die Sicherung aus und klicken Sie dann aufimage:../media/rename_icon.gif["Symbol zum Umbenennen"] .
+. Geben Sie im Feld *Backup umbenennen in* einen neuen Namen ein und klicken Sie auf *OK*.
+
+
+
+
+== Backups löschen
+
+Sie können Sicherungen löschen, wenn Sie die Sicherung für andere Datenschutzvorgänge nicht mehr benötigen.
+
+.Bevor Sie beginnen
+Vor dem Löschen eines Backups müssen Sie die zugehörigen Klone gelöscht haben.
+
+
+NOTE: Wenn eine Sicherung mit einer geklonten Ressource verknüpft ist, können Sie die Sicherung nicht löschen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder die Ressource oder die Ressourcengruppe aus der Dropdownliste *Anzeigen* aus.
+. Wählen Sie die Ressource oder Ressourcengruppe aus der Liste aus.
++
+Die Topologieseite der Ressource oder Ressourcengruppe wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Backups* aus den primären Speichersystemen aus.
++
+Sie können die Sicherungen, die sich auf dem sekundären Speichersystem befinden, nicht löschen.
+
+. Wählen Sie die Sicherung aus und klicken Sie dann aufimage:../media/delete_icon.gif["Symbol „Löschen“"] .
++
+Wenn Sie eine SAP HANA-Datenbanksicherung löschen, werden auch die zugehörigen SAP HANA-Kataloge der Sicherung gelöscht.
+
++
+
+NOTE: Wenn die letzte verbleibende Sicherung gelöscht wird, können die zugehörigen HANA-Katalogeinträge nicht gelöscht werden.
+
+. Klicken Sie auf *OK*.
++
+
+NOTE: Wenn Sie in SnapCenter über veraltete Datenbanksicherungen verfügen, für die es keine entsprechenden Sicherungen auf dem Speichersystem gibt, müssen Sie den Befehl „remove-smbackup“ verwenden, um diese veralteten Sicherungseinträge zu bereinigen.  Wenn die veralteten Sicherungen katalogisiert wurden, werden sie aus der Wiederherstellungskatalogdatenbank dekatalogisiert.
+
+
+
+
+
+== Schutz entfernen
+
+Durch Entfernen des Schutzes werden alle Sicherungen gelöscht und alle Richtlinien getrennt.  Bevor Sie den Schutz entfernen, sollten Sie sicherstellen, dass die Sicherungen nicht gemountet sind und keine Klone mit der Sicherung verknüpft sind.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder die Ressource oder die Ressourcengruppe aus der Dropdownliste *Anzeigen* aus.
+. Wählen Sie die Ressource oder Ressourcengruppe aus der Liste aus.
++
+Die Topologieseite der Ressource oder Ressourcengruppe wird angezeigt.
+
+. Wählen Sie die Sicherung aus und klicken Sie auf *Schutz entfernen*.
+

@@ -1,0 +1,121 @@
+---
+permalink: protect-scu/task_configure_CA_certificate_with_SPL_on_Linux_host.html 
+sidebar: sidebar 
+keywords: SnapCenter, SPL, Plug-in loader service, CA certificate, certificate 
+summary: Konfigurieren Sie das CA-Zertifikat mit dem SnapCenter Plug-in Loader -Dienst auf dem Linux-Host 
+---
+= Konfigurieren Sie das CA-Zertifikat mit dem SnapCenter Plug-in Loader (SPL)-Dienst auf dem Linux-Host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie sollten das Kennwort des SPL-Schlüsselspeichers und seines Zertifikats verwalten, das CA-Zertifikat konfigurieren, Stamm- oder Zwischenzertifikate für den SPL-Truststore konfigurieren und das von der CA signierte Schlüsselpaar für den SPL-Truststore mit dem SnapCenter Plug-in Loader -Dienst konfigurieren, um das installierte digitale Zertifikat zu aktivieren.
+
+
+IMPORTANT: SPL verwendet die Datei „keystore.jks“, die sich unter „/var/opt/snapcenter/spl/etc“ befindet, sowohl als Truststore als auch als Keystore.
+
+
+
+== Verwalten Sie das Kennwort für den SPL-Schlüsselspeicher und den Alias des verwendeten CA-signierten Schlüsselpaars
+
+*Schritte*
+
+. Sie können das Standardkennwort für den SPL-Schlüsselspeicher aus der SPL-Eigenschaftendatei abrufen.
++
+Dies ist der Wert, der dem Schlüssel „SPL_KEYSTORE_PASS“ entspricht.
+
+. Ändern Sie das Keystore-Passwort:
++
+ keytool -storepasswd -keystore keystore.jks
+. Ändern Sie das Kennwort für alle Aliase der privaten Schlüsseleinträge im Schlüsselspeicher in dasselbe Kennwort, das für den Schlüsselspeicher verwendet wird:
++
+ keytool -keypasswd -alias "<alias_name>" -keystore keystore.jks
++
+Aktualisieren Sie dasselbe für den Schlüssel SPL_KEYSTORE_PASS in der Datei spl.properties.
+
+. Starten Sie den Dienst nach der Änderung des Kennworts neu.
+
+
+
+NOTE: Das Kennwort für den SPL-Schlüsselspeicher und für alle zugehörigen Aliaskennwörter des privaten Schlüssels müssen identisch sein.
+
+
+
+== Konfigurieren Sie Stamm- oder Zwischenzertifikate für den SPL-Truststore
+
+Sie sollten die Stamm- oder Zwischenzertifikate ohne den privaten Schlüssel für den SPL-Truststore konfigurieren.
+
+*Schritte*
+
+. Navigieren Sie zum Ordner, der den SPL-Schlüsselspeicher enthält: _/var/opt/snapcenter/spl/etc_.
+. Suchen Sie die Datei „keystore.jks“.
+. Listen Sie die hinzugefügten Zertifikate im Schlüsselspeicher auf:
++
+ keytool -list -v -keystore keystore.jks
+. Fügen Sie ein Stamm- oder Zwischenzertifikat hinzu:
++
+ keytool -import -trustcacerts -alias <AliasNameForCerticateToBeImported> -file /<CertificatePath> -keystore keystore.jks
+. Starten Sie den Dienst neu, nachdem Sie die Stamm- oder Zwischenzertifikate für den SPL-Truststore konfiguriert haben.
+
+
+
+NOTE: Sie sollten das Stamm-CA-Zertifikat und dann die Zwischen-CA-Zertifikate hinzufügen.
+
+
+
+== Konfigurieren Sie das von der Zertifizierungsstelle signierte Schlüsselpaar für den SPL-Vertrauensspeicher
+
+Sie sollten das von der CA signierte Schlüsselpaar für den SPL-Truststore konfigurieren.
+
+*Schritte*
+
+. Navigieren Sie zum Ordner mit dem SPL-Schlüsselspeicher /var/opt/snapcenter/spl/etc.
+. Suchen Sie die Datei „keystore.jks“.
+. Listen Sie die hinzugefügten Zertifikate im Schlüsselspeicher auf:
++
+ keytool -list -v -keystore keystore.jks
+. Fügen Sie das CA-Zertifikat mit privatem und öffentlichem Schlüssel hinzu.
++
+ keytool -importkeystore -srckeystore <CertificatePathToImport> -srcstoretype pkcs12 -destkeystore keystore.jks -deststoretype JKS
+. Listen Sie die hinzugefügten Zertifikate im Schlüsselspeicher auf.
++
+ keytool -list -v -keystore keystore.jks
+. Überprüfen Sie, ob der Schlüsselspeicher den Alias enthält, der dem neuen CA-Zertifikat entspricht, das dem Schlüsselspeicher hinzugefügt wurde.
+. Ändern Sie das hinzugefügte private Schlüsselkennwort für das CA-Zertifikat in das Schlüsselspeicherkennwort.
++
+Das Standardkennwort für den SPL-Schlüsselspeicher ist der Wert des Schlüssels SPL_KEYSTORE_PASS in der Datei spl.properties.
+
++
+ keytool -keypasswd -alias "<aliasNameOfAddedCertInKeystore>" -keystore keystore.jks
+. Wenn der Aliasname im CA-Zertifikat lang ist und Leerzeichen oder Sonderzeichen („*“, „,“) enthält, ändern Sie den Aliasnamen in einen einfachen Namen:
++
+ keytool -changealias -alias "<OrignalAliasName>" -destalias "<NewAliasName>" -keystore keystore.jks
+. Konfigurieren Sie den Aliasnamen aus dem Schlüsselspeicher in der Datei spl.properties.
++
+Aktualisieren Sie diesen Wert anhand des Schlüssels SPL_CERTIFICATE_ALIAS.
+
+. Starten Sie den Dienst neu, nachdem Sie das von der Zertifizierungsstelle signierte Schlüsselpaar für den SPL-Truststore konfiguriert haben.
+
+
+
+
+== Konfigurieren der Zertifikatsperrliste (CRL) für SPL
+
+Sie sollten die CRL für SPL konfigurieren
+
+*Über diese Aufgabe*
+
+* SPL sucht in einem vorkonfigurierten Verzeichnis nach den CRL-Dateien.
+* Das Standardverzeichnis für die CRL-Dateien für SPL ist _/var/opt/snapcenter/spl/etc/crl_.
+
+
+*Schritte*
+
+. Sie können das Standardverzeichnis in der Datei spl.properties anhand des Schlüssels SPL_CRL_PATH ändern und aktualisieren.
+. Sie können mehr als eine CRL-Datei in diesem Verzeichnis ablegen.
++
+Die eingehenden Zertifikate werden anhand der einzelnen CRLs überprüft.
+
+

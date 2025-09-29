@@ -1,0 +1,132 @@
+---
+permalink: protect-sce/task_define_a_backup_strategy_for_exchange_server_resources.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 'Durch die Definition einer Sicherungsstrategie vor dem Erstellen Ihrer Sicherungsaufträge können Sie sicherstellen, dass Sie über die Sicherungen verfügen, die Sie für eine erfolgreiche Wiederherstellung Ihrer Datenbanken benötigen.  Ihre Sicherungsstrategie wird weitgehend durch Ihr Service Level Agreement (SLA), Ihr Recovery Time Objective (RTO) und Ihr Recovery Point Objective (RPO) bestimmt.' 
+---
+= Definieren Sie eine Sicherungsstrategie für Exchange Server-Ressourcen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Durch die Definition einer Sicherungsstrategie vor dem Erstellen Ihrer Sicherungsaufträge können Sie sicherstellen, dass Sie über die Sicherungen verfügen, die Sie für eine erfolgreiche Wiederherstellung Ihrer Datenbanken benötigen.  Ihre Sicherungsstrategie wird weitgehend von Ihrem Service Level Agreement (SLA), Recovery Time Objective (RTO) und Recovery Point Objective (RPO) bestimmt.
+
+Ein SLA definiert das erwartete Serviceniveau und behandelt viele servicebezogene Probleme, einschließlich der Verfügbarkeit und Leistung des Dienstes.  Die RTO ist die Zeit, bis zu der ein Geschäftsprozess nach einer Dienstunterbrechung wiederhergestellt sein muss.  Ein RPO definiert die Strategie für das Alter der Dateien, die aus dem Sicherungsspeicher wiederhergestellt werden müssen, damit der reguläre Betrieb nach einem Fehler wieder aufgenommen werden kann.  SLA, RTO und RPO tragen zur Backup-Strategie bei.
+
+
+
+== Für die Exchange-Datenbank unterstützte Sicherungstypen
+
+Zum Sichern von Exchange-Postfächern mit SnapCenter müssen Sie den Ressourcentyp auswählen, z. B. Datenbanken und Database Availability Groups (DAG).  Mithilfe der Snapshot-Technologie werden schreibgeschützte Onlinekopien der Volumes erstellt, auf denen sich die Ressourcen befinden.
+
+|===
+| Sicherungstyp | Beschreibung 
+
+
+ a| 
+Vollständige Sicherung und Protokollsicherung
+ a| 
+Sichert die Datenbanken und alle Transaktionsprotokolle, einschließlich der gekürzten Protokolle.
+
+Nach Abschluss einer vollständigen Sicherung kürzt der Exchange Server die Transaktionsprotokolle, die bereits in der Datenbank gespeichert sind.
+
+Normalerweise sollten Sie diese Option wählen.  Wenn Ihre Sicherungszeit jedoch kurz ist, können Sie bei einer vollständigen Sicherung auf die Ausführung einer Transaktionsprotokollsicherung verzichten.
+
+
+
+ a| 
+Vollständige Sicherung
+ a| 
+Sichert Datenbanken und Transaktionsprotokolle.
+
+Die gekürzten Transaktionsprotokolle werden nicht gesichert.
+
+
+
+ a| 
+Protokollsicherung
+ a| 
+Sichert alle Transaktionsprotokolle.
+
+Die gekürzten Protokolle, die bereits in der Datenbank gespeichert sind, werden nicht gesichert.  Wenn Sie zwischen vollständigen Datenbanksicherungen häufige Transaktionsprotokollsicherungen planen, können Sie granulare Wiederherstellungspunkte auswählen.
+
+|===
+
+
+== Sicherungszeitpläne für Datenbank-Plugins
+
+Die Sicherungshäufigkeit (Zeitplantyp) wird in Richtlinien angegeben; ein Sicherungszeitplan wird in der Ressourcengruppenkonfiguration angegeben.  Der wichtigste Faktor bei der Festlegung einer Sicherungshäufigkeit oder eines Sicherungsplans ist die Änderungsrate der Ressource und die Wichtigkeit der Daten.  Sie können eine häufig genutzte Ressource stündlich sichern, während Sie eine selten genutzte Ressource einmal täglich sichern.  Weitere Faktoren sind die Bedeutung der Ressource für Ihr Unternehmen, Ihr Service Level Agreement (SLA) und Ihr Recover Point Objective (RPO).
+
+Ein SLA definiert das erwartete Serviceniveau und behandelt viele servicebezogene Probleme, einschließlich der Verfügbarkeit und Leistung des Dienstes.  Ein RPO definiert die Strategie für das Alter der Dateien, die aus dem Sicherungsspeicher wiederhergestellt werden müssen, damit der reguläre Betrieb nach einem Fehler wieder aufgenommen werden kann.  SLA und RPO tragen zur Datenschutzstrategie bei.
+
+Selbst bei stark genutzten Ressourcen ist es nicht erforderlich, öfter als ein- oder zweimal täglich eine vollständige Sicherung durchzuführen.  Beispielsweise können regelmäßige Sicherungen des Transaktionsprotokolls ausreichen, um sicherzustellen, dass Sie über die erforderlichen Sicherungen verfügen.  Je häufiger Sie Ihre Datenbanken sichern, desto weniger Transaktionsprotokolle muss SnapCenter zum Zeitpunkt der Wiederherstellung verwenden, was zu schnelleren Wiederherstellungsvorgängen führen kann.
+
+Sicherungszeitpläne bestehen aus den folgenden zwei Teilen:
+
+* Sicherungshäufigkeit
++
+Die Sicherungshäufigkeit (wie oft Sicherungen durchgeführt werden sollen), bei einigen Plug-Ins als _Zeitplantyp_ bezeichnet, ist Teil einer Richtlinienkonfiguration.  Sie können als Sicherungshäufigkeit für die Richtlinie stündlich, täglich, wöchentlich oder monatlich auswählen.  Wenn Sie keine dieser Frequenzen auswählen, handelt es sich bei der erstellten Richtlinie um eine Nur-On-Demand-Richtlinie.  Sie können auf die Richtlinien zugreifen, indem Sie auf *Einstellungen* > *Richtlinien* klicken.
+
+* Sicherungszeitpläne
++
+Sicherungszeitpläne (genauer Zeitpunkt der Durchführung von Sicherungen) sind Teil einer Ressourcengruppenkonfiguration.  Wenn Sie beispielsweise über eine Ressourcengruppe verfügen, für die eine Richtlinie für wöchentliche Sicherungen konfiguriert ist, können Sie den Zeitplan so konfigurieren, dass jeden Donnerstag um 22:00 Uhr eine Sicherung durchgeführt wird.  Sie können auf Ressourcengruppenpläne zugreifen, indem Sie auf *Ressourcen* > *Ressourcengruppen* klicken.
+
+
+
+
+
+== Anzahl der für Datenbanken benötigten Sicherungsaufträge
+
+Zu den Faktoren, die die Anzahl der benötigten Sicherungsaufträge bestimmen, gehören die Größe der Ressource, die Anzahl der verwendeten Volumes, die Änderungsrate der Ressource und Ihr Service Level Agreement (SLA).
+
+
+
+== Namenskonventionen für Backups
+
+Sie können entweder die standardmäßige Snapshot-Benennungskonvention oder eine benutzerdefinierte Benennungskonvention verwenden.  Die standardmäßige Namenskonvention für Backups fügt den Snapshot-Namen einen Zeitstempel hinzu, der Ihnen hilft, den Zeitpunkt der Erstellung der Kopien zu identifizieren.
+
+Der Snapshot verwendet die folgende Standardbenennungskonvention:
+
+`resourcegroupname_hostname_timestamp`
+
+Sie sollten Ihre Backup-Ressourcengruppen logisch benennen, wie im folgenden Beispiel:
+
+[listing]
+----
+dts1_mach1x88_03-12-2015_23.17.26
+----
+In diesem Beispiel haben die Syntaxelemente folgende Bedeutung:
+
+* _dts1_ ist der Name der Ressourcengruppe.
+* _mach1x88_ ist der Hostname.
+* _03-12-2015_23.17.26_ ist das Datum und der Zeitstempel.
+
+
+Alternativ können Sie das Snapshot-Namensformat beim Schützen von Ressourcen oder Ressourcengruppen angeben, indem Sie *Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden* auswählen.  Beispiel: customtext_resourcegroup_policy_hostname oder resourcegroup_hostname.  Standardmäßig wird dem Snapshot-Namen das Zeitstempel-Suffix hinzugefügt.
+
+
+
+== Optionen zur Backup-Aufbewahrung
+
+Sie können entweder die Anzahl der Tage auswählen, für die Sicherungskopien aufbewahrt werden sollen, oder die Anzahl der Sicherungskopien angeben, die Sie aufbewahren möchten, bis zu einem ONTAP Maximum von 255 Kopien.  Beispielsweise kann es in Ihrer Organisation erforderlich sein, dass Sie Sicherungskopien für 10 Tage oder 130 Sicherungskopien aufbewahren.
+
+Beim Erstellen einer Richtlinie können Sie die Aufbewahrungsoptionen für den Sicherungstyp und den Zeitplantyp angeben.
+
+Wenn Sie die SnapMirror Replikation einrichten, wird die Aufbewahrungsrichtlinie auf dem Zielvolume gespiegelt.
+
+SnapCenter löscht die aufbewahrten Sicherungen, deren Aufbewahrungsbezeichnungen dem Zeitplantyp entsprechen.  Wenn der Zeitplantyp für die Ressource oder Ressourcengruppe geändert wurde, verbleiben möglicherweise noch Sicherungen mit der alten Zeitplantypbezeichnung auf dem System.
+
+
+NOTE: Für die langfristige Aufbewahrung von Sicherungskopien sollten Sie SnapVault Backup verwenden.
+
+
+
+== Wie lange sollen Transaktionsprotokollsicherungen auf dem Quellspeichervolume für Exchange Server aufbewahrt werden?
+
+Das SnapCenter Plug-in für Microsoft Exchange Server benötigt Transaktionsprotokollsicherungen, um aktuelle Wiederherstellungsvorgänge durchzuführen, die Ihre Datenbank auf einen Zeitpunkt zwischen zwei vollständigen Sicherungen wiederherstellen.
+
+Wenn Plug-in for Exchange beispielsweise um 8:00 Uhr eine vollständige Sicherung plus Transaktionsprotokoll und um 17:00 Uhr eine weitere vollständige Sicherung plus Transaktionsprotokoll erstellt hat, kann es die neueste Transaktionsprotokollsicherung verwenden, um die Datenbank auf einen beliebigen Zeitpunkt zwischen 8:00 und 17:00 Uhr wiederherzustellen. Wenn keine Transaktionsprotokolle verfügbar sind, kann Plug-in for Exchange nur zeitpunktbezogene Wiederherstellungsvorgänge durchführen, die eine Datenbank auf den Zeitpunkt wiederherstellen, zu dem Plug-in for Exchange eine vollständige Sicherung abgeschlossen hat.
+
+Normalerweise benötigen Sie aktuelle Wiederherstellungsvorgänge nur für ein oder zwei Tage.  Standardmäßig behält SnapCenter mindestens zwei Tage.

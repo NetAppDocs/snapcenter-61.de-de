@@ -1,0 +1,35 @@
+---
+permalink: protect-sco/reference_requirements_for_restoring_an_oracle_database.html 
+sidebar: sidebar 
+keywords:  
+summary: Bevor Sie eine Oracle-Datenbank wiederherstellen, sollten Sie sicherstellen, dass die Voraussetzungen erfüllt sind. 
+---
+= Voraussetzungen für die Wiederherstellung einer Oracle-Datenbank
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie eine Oracle-Datenbank wiederherstellen, sollten Sie sicherstellen, dass die Voraussetzungen erfüllt sind.
+
+* Sie sollten Ihre Wiederherstellungs- und Recovery-Strategie definiert haben.
+* Der SnapCenter Administrator sollte Ihnen die virtuellen Speichermaschinen (SVMs) sowohl für die Quell- als auch für die Zielvolumes zugewiesen haben, wenn Sie Snapshots auf einen Spiegel oder Tresor replizieren.
+* Wenn Archivprotokolle im Rahmen der Sicherung bereinigt werden, sollten Sie die erforderlichen Archivprotokollsicherungen manuell bereitgestellt haben.
+* Wenn Sie Oracle-Datenbanken wiederherstellen möchten, die sich auf einer Virtual Machine Disk (VMDK) befinden, sollten Sie sicherstellen, dass die Gastmaschine über die erforderliche Anzahl freier Steckplätze für die Zuweisung der geklonten VMDKs verfügt.
+* Sie sollten sicherstellen, dass alle zur Datenbank gehörenden Datenvolumes und Archivprotokollvolumes geschützt sind, wenn für diese Datenbank der sekundäre Schutz aktiviert ist.
+* Sie sollten sicherstellen, dass sich die RAC One Node-Datenbank im Status „nomount“ befindet, um eine Steuerdatei oder eine vollständige Datenbankwiederherstellung durchzuführen.
+* Wenn Sie über eine ASM-Datenbankinstanz in einer NFS-Umgebung verfügen, sollten Sie den ASM-Festplattenpfad _/var/opt/snapcenter/scu/clones/*/*_ zum vorhandenen Pfad hinzufügen, der im Parameter asm_diskstring definiert ist, um die ASM-Protokollsicherungen als Teil des Wiederherstellungsvorgangs erfolgreich bereitzustellen.
+* Im Parameter asm_diskstring sollten Sie _AFD:*_ konfigurieren, wenn Sie ASMFD verwenden, oder _ORCL:*_, wenn Sie ASMLIB verwenden.
++
+
+NOTE: Informationen zum Bearbeiten des Parameters asm_diskstring finden Sie unter https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Disk_paths_are_not_added_to_the_asm_diskstring_database_parameter["So fügen Sie Datenträgerpfade zu asm_diskstring hinzu"^]
+
+* Sie sollten den statischen Listener in der Datei *listener.ora* konfigurieren, die unter _$ORACLE_HOME/network/admin_ für Nicht-ASM-Datenbanken und unter _$GRID_HOME/network/admin_ für ASM-Datenbanken verfügbar ist, wenn Sie die Betriebssystemauthentifizierung deaktiviert und die Oracle-Datenbankauthentifizierung für eine Oracle-Datenbank aktiviert haben und die Datendateien und Steuerdateien dieser Datenbank wiederherstellen möchten.
+* Sie sollten den Wert des SCORestoreTimeout-Parameters erhöhen, indem Sie den Befehl Set-SmConfigSettings ausführen, wenn die Datenbankgröße in Terabyte (TB) angegeben ist.
+* Sie sollten sicherstellen, dass alle für vCenter erforderlichen Lizenzen installiert und auf dem neuesten Stand sind.
++
+Wenn die Lizenzen nicht installiert oder nicht auf dem neuesten Stand sind, wird eine Warnmeldung angezeigt.  Wenn Sie die Warnung ignorieren und fortfahren, schlägt die Wiederherstellung von RDM fehl.
+
+* Sie sollten sicherstellen, dass die LUN nicht mithilfe einer iGroup, die aus gemischten Protokollen iSCSI und FC besteht, auf den AIX-Host abgebildet wird. Weitere Informationen finden Sie unter  https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_Plug-in_for_Oracle_operations_fail_with_error_Unable_to_discover_the_device_for_LUN_LUN_PATH["Der Vorgang schlägt mit dem Fehler „Gerät für LUN konnte nicht erkannt werden“ fehl."^] .
+

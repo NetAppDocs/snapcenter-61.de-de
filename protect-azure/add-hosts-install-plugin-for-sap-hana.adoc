@@ -1,0 +1,41 @@
+---
+permalink: protect-azure/add-hosts-install-plugin-for-sap-hana.html 
+sidebar: sidebar 
+keywords: add host, install, install plug-in, SAP HANA 
+summary: Fügen Sie Hosts hinzu und installieren Sie dann die Plug-In-Pakete. 
+---
+= Hosts hinzufügen und SnapCenter Plug-In für SAP HANA-Datenbank installieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie müssen die SnapCenter -Seite „Host hinzufügen“ verwenden, um Hosts hinzuzufügen und dann die Plug-In-Pakete zu installieren.  Die Plug-Ins werden automatisch auf den Remote-Hosts installiert.
+
+.Bevor Sie beginnen
+* Sie müssen ein Benutzer sein, dem eine Rolle mit den Berechtigungen zum Installieren und Deinstallieren von Plug-Ins zugewiesen ist, beispielsweise die SnapCenter Administratorrolle.
+* Wenn Sie beim Installieren eines Plug-Ins auf einem Windows-Host Anmeldeinformationen angeben, die nicht integriert sind, oder wenn der Benutzer zu einem lokalen Arbeitsgruppenbenutzer gehört, müssen Sie die Benutzerkontensteuerung auf dem Host deaktivieren.
+* Wenn Sie die Installation auf dem zentralen Host durchführen, stellen Sie sicher, dass die SAP HANA-Clientsoftware auf diesem Host installiert ist, und öffnen Sie die erforderlichen Ports auf dem SAP HANA-Datenbankhost, um die HDB-SQL-Abfragen remote auszuführen.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Stellen Sie sicher, dass die Registerkarte *Verwaltete Hosts* ausgewählt ist.
+. Klicken Sie auf *Hinzufügen*.
+. Führen Sie auf der Seite „Hosts“ die folgenden Aktionen aus:
++
+.. Wählen Sie im Feld Hosttyp den Hosttyp aus.
+.. Geben Sie im Feld „Hostname“ den vollqualifizierten Domänennamen (FQDN) oder die IP-Adresse des Hosts ein.
+.. Geben Sie im Feld „Anmeldeinformationen“ die von Ihnen erstellten Anmeldeinformationen ein.
+
+
+. Wählen Sie im Abschnitt „Zu installierende Plug-ins auswählen“ die zu installierenden Plug-ins aus.
+. (Optional) Klicken Sie auf *Weitere Optionen* und geben Sie die Details an.
+. Klicken Sie auf *Senden*.
+. Wenn der Hosttyp Linux ist, überprüfen Sie den Fingerabdruck und klicken Sie dann auf *Bestätigen und senden*.
++
+In einer Cluster-Konfiguration sollten Sie den Fingerabdruck jedes Knotens im Cluster überprüfen.
+
+. Überwachen Sie den Installationsfortschritt.
+

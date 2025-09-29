@@ -1,0 +1,92 @@
+---
+permalink: protect-postgresql/create-a-storage-system-connection-and-a-run-as-account-using-powershell-cmdlets-for-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL 
+summary: 'Sie müssen eine Verbindung zur Storage Virtual Machine (SVM) und Anmeldeinformationen erstellen, bevor Sie PowerShell-Cmdlets zum Sichern, Wiederherstellen oder Klonen von PostgreSQL-Clustern verwenden.' 
+---
+= Erstellen Sie eine Speichersystemverbindung und eine Anmeldeinformation mit PowerShell-Cmdlets für PostgreSQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie müssen eine Verbindung zur Storage Virtual Machine (SVM) und Anmeldeinformationen erstellen, bevor Sie PowerShell-Cmdlets zum Sichern, Wiederherstellen oder Klonen von PostgreSQL-Clustern verwenden.
+
+.Bevor Sie beginnen
+* Sie sollten die PowerShell-Umgebung für die Ausführung der PowerShell-Cmdlets vorbereitet haben.
+* Sie sollten über die erforderlichen Berechtigungen in der Rolle „Infrastrukturadministrator“ verfügen, um Speicherverbindungen zu erstellen.
+* Sie sollten sicherstellen, dass die Plug-In-Installationen nicht im Gange sind.
++
+Während des Hinzufügens einer Speichersystemverbindung dürfen keine Host-Plug-In-Installationen ausgeführt werden, da der Host-Cache möglicherweise nicht aktualisiert wird und der Clusterstatus in der SnapCenter -GUI möglicherweise als „Nicht für Sicherung verfügbar“ oder „Nicht auf NetApp -Speicher“ angezeigt wird.
+
+* Speichersystemnamen sollten eindeutig sein.
++
+SnapCenter unterstützt nicht mehrere Speichersysteme mit demselben Namen auf verschiedenen Clustern.  Jedes von SnapCenter unterstützte Speichersystem sollte einen eindeutigen Namen und eine eindeutige Daten-LIF-IP-Adresse haben.
+
+
+
+.Schritte
+. Initiieren Sie eine PowerShell Core-Verbindungssitzung mithilfe des Cmdlets Open-SmConnection.
++
+[listing]
+----
+PS C:\> Open-SmConnection
+----
+. Erstellen Sie mithilfe des Cmdlets Add-SmStorageConnection eine neue Verbindung zum Speichersystem.
++
+[listing]
+----
+PS C:\> Add-SmStorageConnection -Storage test_vs1 -Protocol Https
+-Timeout 60
+----
+. Erstellen Sie mithilfe des Cmdlets Add-SmCredential neue Anmeldeinformationen.
++
+Dieses Beispiel zeigt, wie Sie mit Windows-Anmeldeinformationen neue Anmeldeinformationen mit dem Namen „FinanceAdmin“ erstellen:
+
++
+[listing]
+----
+PS C:> Add-SmCredential -Name FinanceAdmin -AuthMode Windows
+-Credential sddev\administrator
+----
+. Fügen Sie den PostgreSQL-Kommunikationshost zum SnapCenter -Server hinzu.
++
+[listing]
+----
+PS C:> Add-SmHost -HostName 10.232.204.61 -OSType Windows -RunAsName FinanceAdmin -PluginCode PostgreSQL
+----
+. Installieren Sie das Paket und das SnapCenter -Plug-in für PostgreSQL auf dem Host.
++
+Für Linux:
+
++
+[listing]
+----
+PS C:> Install-SmHostPackage -HostNames 10.232.204.61 -ApplicationCode PostgreSQL
+----
++
+Für Windows:
+
++
+[listing]
+----
+Install-SmHostPackage -HostNames 10.232.204.61 -ApplicationCode PostgreSQL -FilesystemCode scw -RunAsName FinanceAdmin
+----
+. Legen Sie den Pfad zur SQLLIB fest.
++
+Für Windows verwendet das PostgreSQL-Plug-In den Standardpfad für den SQLLIB-Ordner: „C:\Programme\IBM\SQLLIB\BIN“.
+
++
+Wenn Sie den Standardpfad überschreiben möchten, verwenden Sie den folgenden Befehl.
+
++
+[listing]
+----
+PS C:> Set-SmConfigSettings -Plugin -HostName 10.232.204.61 -PluginCode
+PostgreSQL -configSettings @{“PostgreSQL_SQLLIB_CMD” = “<custom_path>\IBM\SQLLIB\BIN”}
+
+----
+
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .

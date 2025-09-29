@@ -1,0 +1,211 @@
+---
+permalink: protect-sco/task_clone_a_pluggable_database.html 
+sidebar: sidebar 
+keywords: clone, pluggable database, PDB 
+summary: 'Sie können eine Pluggable-Datenbank (PDB) auf eine andere oder dieselbe Ziel-CDB auf demselben oder einem alternativen Host klonen.  Sie können die geklonte PDB auch zu einem gewünschten SCN oder Datum und einer gewünschten Uhrzeit wiederherstellen.' 
+---
+= Klonen einer steckbaren Datenbank
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können eine Pluggable Database (PDB) auf eine andere oder dieselbe Ziel-CDB auf demselben Host oder einem alternativen Host klonen.  Sie können die geklonte PDB auch zu einem gewünschten SCN oder Datum und einer gewünschten Uhrzeit wiederherstellen.
+
+*Bevor Sie beginnen*
+
+Wenn Sie das Plug-In als Nicht-Root-Benutzer installiert haben, sollten Sie die Ausführungsberechtigungen für die Verzeichnisse „prescript“ und „postscript“ manuell zuweisen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder „Datenbank“ oder „Ressourcengruppe“ aus der Liste „Anzeigen“ aus.
+. Wählen Sie die Datenbank vom Typ „Einzelinstanz (mehrere Mandanten)“ entweder aus der Datenbankdetailansicht oder aus der Ressourcengruppendetailansicht aus.
++
+Die Seite „Datenbanktopologie“ wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ die Sicherungen entweder aus „Lokale Kopien“ (primär), „Spiegelkopien“ (sekundär) oder „Tresorkopien“ (sekundär) aus.
+. Wählen Sie das Backup aus der Tabelle aus und klicken Sie dann auf *image:../media/clone_icon.gif["Klonsymbol"] *.
+. Führen Sie auf der Seite „Name“ die folgenden Aktionen aus:
++
+.. Wählen Sie *PDB-Klon*.
+.. Geben Sie die PDB an, die Sie klonen möchten.
++
+
+NOTE: Sie können jeweils nur eine PDB klonen.
+
+.. Geben Sie den Namen der geklonten PDB an.
+
+
+. Führen Sie auf der Seite „Standorte“ die folgenden Aktionen aus:
++
+|===
+
+
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Klonhost
+ a| 
+Standardmäßig wird der Quelldatenbankhost ausgefüllt.
+
+Wenn Sie den Klon auf einem alternativen Host erstellen möchten, wählen Sie den Host mit derselben Oracle- und Betriebssystemversion wie der Host der Quelldatenbank.
+
+
+
+ a| 
+Ziel-CDB
+ a| 
+Wählen Sie die CDB aus, in die Sie die geklonte PDB einfügen möchten.
+
+Sie sollten sicherstellen, dass die Ziel-CDB ausgeführt wird.
+
+
+
+ a| 
+Datenbankstatus
+ a| 
+Aktivieren Sie das Kontrollkästchen *Öffnen Sie die geklonte PDB im LESE-/SCHREIB-Modus*, wenn Sie die PDB im LESE-/SCHREIB-Modus öffnen möchten.
+
+
+
+ a| 
+Speicherorte der Datendateien
+ a| 
+Standardmäßig ist der Speicherort der Datendatei ausgefüllt.
+
+Die SnapCenter -Standardbenennungskonvention für SAN- oder NFS-Dateisysteme lautet „FileSystemNameofsourcedatabase_SCJOBID“.
+
+Die SnapCenter -Standardbenennungskonvention für ASM-Datenträgergruppen lautet SC_HASHCODEofDISKGROUP_SCJOBID.  Der HASHCODEofDISKGROUP ist eine automatisch generierte Nummer (2 bis 10 Ziffern), die für jede ASM-Datenträgergruppe eindeutig ist.
+
+
+NOTE: Wenn Sie den Namen der ASM-Datenträgergruppe anpassen, stellen Sie sicher, dass die Namenslänge der von Oracle unterstützten Maximallänge entspricht.
+
+Wenn Sie einen anderen Pfad angeben möchten, müssen Sie die Datendatei-Mount-Punkte oder ASM-Datenträgergruppennamen für die Klondatenbank eingeben.
+
+|===
++
+Die Oracle-Home-, Benutzername- und Gruppendetails werden automatisch aus der Quelldatenbank übernommen.  Sie können die Werte basierend auf der Oracle-Umgebung des Hosts ändern, auf dem der Klon erstellt wird.
+
+. Führen Sie auf der Seite „PreOps“ die folgenden Schritte aus:
++
+.. Geben Sie den Pfad und die Argumente des Präskripts ein, das Sie vor dem Klonvorgang ausführen möchten.
++
+Sie sollten das Prescript entweder in /var/opt/snapcenter/spl/scripts oder in einem beliebigen Ordner innerhalb dieses Pfads speichern.  Standardmäßig ist der Pfad /var/opt/snapcenter/spl/scripts ausgefüllt.  Wenn Sie das Skript in einem beliebigen Ordner innerhalb dieses Pfads abgelegt haben, müssen Sie den vollständigen Pfad bis zu dem Ordner angeben, in dem das Skript abgelegt ist.
+
++
+SnapCenter ermöglicht Ihnen die Verwendung der vordefinierten Umgebungsvariablen, wenn Sie das Prescript und Postscript ausführen.link:../protect-sco/predefined-environment-variables-prescript-postscript-clone.html["Mehr erfahren"^]
+
+.. Ändern Sie im Abschnitt „Einstellungen der Hilfsdatenbankparameter für CDB-Klone“ die Werte der vorab ausgefüllten Datenbankparameter, die zum Initialisieren der Datenbank verwendet werden.
+
+
+. Klicken Sie auf *Zurücksetzen*, um die Standardeinstellungen der Datenbankparameter wiederherzustellen.
+. Auf der Seite „PostOps“ ist standardmäßig „*Bis Abbrechen*“ ausgewählt, um die Wiederherstellung der geklonten Datenbank durchzuführen.
++
+Die Option *Bis Abbrechen* wird nicht ausgewählt, wenn SnapCenter die entsprechenden Protokollsicherungen nicht finden kann.  Sie können den externen Archivprotokollspeicherort angeben, wenn unter *Externe Archivprotokollspeicherorte angeben* keine Protokollsicherung verfügbar ist.  Sie können mehrere Protokollspeicherorte angeben.
+
++
+
+NOTE: Wenn Sie eine Quelldatenbank klonen möchten, die für die Unterstützung von Flash Recovery Area (FRA) und Oracle Managed Files (OMF) konfiguriert ist, muss das Protokollziel für die Wiederherstellung auch der OMF-Verzeichnisstruktur entsprechen.
+
++
+|===
+| Feldname | Beschreibung 
+
+
+ a| 
+Bis Abbrechen
+ a| 
+SnapCenter führt die Wiederherstellung durch, indem es die neueste Protokollsicherung mit der ununterbrochenen Sequenz von Archivprotokollen nach der zum Klonen ausgewählten Datensicherung bereitstellt.
+
+Um den Klon auf dem Primärspeicher durchzuführen, sollten sich die Protokoll- und Datensicherung auf dem Primärspeicher befinden, und um den Klon auf dem Sekundärspeicher durchzuführen, sollten sich die Protokoll- und Datensicherung auf dem Sekundärspeicher befinden.  Die geklonte Datenbank wird bis auf die fehlende oder beschädigte Protokolldatei wiederhergestellt.
+
+
+
+ a| 
+Datum und Uhrzeit
+ a| 
+SnapCenter stellt die Datenbank bis zu einem angegebenen Datum und einer angegebenen Uhrzeit wieder her.
+
+
+NOTE: Die Zeit kann im 24-Stunden-Format angegeben werden.
+
+
+
+ a| 
+Bis SCN (System Change Number)
+ a| 
+SnapCenter stellt die Datenbank bis zu einer angegebenen Systemänderungsnummer (SCN) wieder her.
+
+
+
+ a| 
+Angeben externer Speicherorte für Archivprotokolle
+ a| 
+Geben Sie den Speicherort des externen Archivprotokolls an.
+
+
+
+ a| 
+Neue DBID erstellen
+ a| 
+Standardmäßig ist das Kontrollkästchen *Neue DBID erstellen* für die Hilfsklondatenbank nicht aktiviert.
+
+Aktivieren Sie das Kontrollkästchen, wenn Sie für die geklonte Hilfsdatenbank eine eindeutige Nummer (DBID) generieren möchten, die sie von der Quelldatenbank unterscheidet.
+
+
+
+ a| 
+Tempfile für temporären Tablespace erstellen
+ a| 
+Aktivieren Sie das Kontrollkästchen, wenn Sie eine temporäre Datei für den temporären Standardtabellenbereich der geklonten Datenbank erstellen möchten.
+
+Wenn das Kontrollkästchen nicht aktiviert ist, wird der Datenbankklon ohne die temporäre Datei erstellt.
+
+
+
+ a| 
+Geben Sie SQL-Einträge ein, die beim Erstellen des Klons angewendet werden sollen
+ a| 
+Fügen Sie die SQL-Einträge hinzu, die Sie beim Erstellen des Klons anwenden möchten.
+
+
+
+ a| 
+Geben Sie Skripts ein, die nach dem Klonvorgang ausgeführt werden sollen
+ a| 
+Geben Sie den Pfad und die Argumente des Postscripts an, das Sie nach dem Klonvorgang ausführen möchten.
+
+Sie sollten das Postscript entweder in _/var/opt/snapcenter/spl/scripts_ oder in einem beliebigen Ordner innerhalb dieses Pfads speichern.
+
+Standardmäßig wird der Pfad _/var/opt/snapcenter/spl/scripts_ ausgefüllt.  Wenn Sie das Skript in einem beliebigen Ordner innerhalb dieses Pfads abgelegt haben, müssen Sie den vollständigen Pfad bis zu dem Ordner angeben, in dem das Skript abgelegt ist.
+
+
+NOTE: Wenn der Klonvorgang fehlschlägt, werden Postscripts nicht ausgeführt und Bereinigungsaktivitäten werden direkt ausgelöst.
+
+|===
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den durchgeführten Klonvorgang anhängen möchten, wählen Sie *Jobbericht anhängen*.
+
++
+
+NOTE: Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl „Set-SmSmtpServer“ angegeben haben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+
+
+*Nachdem Sie fertig sind*
+
+Wenn Sie eine Sicherung der geklonten PDB erstellen möchten, sollten Sie die Ziel-CDB sichern, in der die PDB geklont wird, da es nicht möglich ist, nur die geklonte PDB zu sichern.  Sie sollten eine sekundäre Beziehung für die Ziel-CDB erstellen, wenn Sie das Backup mit sekundärer Beziehung erstellen möchten.
+
+In einem RAC-Setup wird der Speicher für geklonte PDBs nur an den Knoten angeschlossen, auf dem der PDB-Klon durchgeführt wurde.  Die PDBs auf den anderen Knoten des RAC befinden sich im MOUNT-Status.  Wenn Sie möchten, dass die geklonte PDB von den anderen Knoten aus zugänglich ist, sollten Sie den Speicher manuell an die anderen Knoten anhängen.
+
+*Weitere Informationen finden*
+
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/ORA-00308%3A_cannot_open_archived_log_ORA_LOG_arch1_123_456789012.arc["Wiederherstellung oder Klonen schlägt mit der Fehlermeldung ORA-00308 fehl"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/What_are_the_customizable_parameters_for_backup_restore_and_clone_operations_on_AIX_systems["Anpassbare Parameter für Sicherungs-, Wiederherstellungs- und Klonvorgänge auf AIX-Systemen"^]
+

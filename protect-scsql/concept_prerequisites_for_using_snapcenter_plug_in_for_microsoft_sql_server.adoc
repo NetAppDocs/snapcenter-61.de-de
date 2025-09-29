@@ -1,0 +1,40 @@
+---
+permalink: protect-scsql/concept_prerequisites_for_using_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: credential 
+summary: Bevor Sie mit der Verwendung des Plug-ins für SQL Server beginnen, muss der SnapCenter Administrator SnapCenter Server installieren und konfigurieren und die erforderlichen Aufgaben ausführen. 
+---
+= Voraussetzungen für die Verwendung des SnapCenter -Plug-ins für Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie mit der Verwendung des Plug-ins für SQL Server beginnen, muss der SnapCenter Administrator SnapCenter Server installieren und konfigurieren und die erforderlichen Aufgaben ausführen.
+
+* Installieren und konfigurieren Sie SnapCenter Server.
+* Melden Sie sich bei SnapCenter an.
+* Konfigurieren Sie die SnapCenter -Umgebung, indem Sie Speichersystemverbindungen hinzufügen oder zuweisen und Anmeldeinformationen erstellen.
++
+
+NOTE: SnapCenter unterstützt nicht mehrere SVMs mit demselben Namen auf verschiedenen Clustern.  Jede von SnapCenter unterstützte SVM muss einen eindeutigen Namen haben.
+
+* Fügen Sie Hosts hinzu, installieren Sie die Plug-Ins, ermitteln (aktualisieren) Sie die Ressourcen und konfigurieren Sie die Plug-Ins.
+* Verschieben Sie eine vorhandene Microsoft SQL Server-Datenbank von einer lokalen Festplatte auf eine NetApp LUN oder umgekehrt, indem Sie Invoke-SmConfigureResources ausführen.
++
+Informationen zum Ausführen des Cmdlets finden Sie im https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"]
+
+* Wenn Sie SnapCenter Server zum Schutz von SQL-Datenbanken verwenden, die sich auf VMware RDM LUNs oder VMDKs befinden, müssen Sie das SnapCenter Plug-in for VMware vSphere bereitstellen und das Plug-in bei SnapCenter registrieren.  Weitere Informationen finden Sie in der Dokumentation zum SnapCenter Plug-in for VMware vSphere .
++
+https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphere Dokumentation"]
+
+* Führen Sie die hostseitige Speicherbereitstellung mit dem SnapCenter -Plug-in für Microsoft Windows durch.
+* Richten Sie SnapMirror und SnapVault -Beziehungen ein, wenn Sie eine Backup-Replikation wünschen.
+
+
+Weitere Informationen finden Sie in den Installationsinformationen zu SnapCenter .
+
+Für Benutzer von SnapCenter 4.1.1 enthält die Dokumentation zum SnapCenter Plug-in for VMware vSphere 4.1.1 Informationen zum Schutz virtualisierter Datenbanken und Dateisysteme.  Für Benutzer von SnapCenter 4.2.x sowie NetApp Data Broker 1.0 und 1.0.1 enthält die Dokumentation Informationen zum Schutz virtualisierter Datenbanken und Dateisysteme mithilfe des SnapCenter Plug-in for VMware vSphere, das von der Linux-basierten virtuellen NetApp Data Broker-Appliance (Open Virtual Appliance-Format) bereitgestellt wird.  Für Benutzer von SnapCenter 4.3.x enthält die Dokumentation zum SnapCenter Plug-in for VMware vSphere 4.3 Informationen zum Schutz virtualisierter Datenbanken und Dateisysteme mithilfe des Linux-basierten SnapCenter Plug-in for VMware vSphere (Open Virtual Appliance-Format).
+
+https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphere Dokumentation"]

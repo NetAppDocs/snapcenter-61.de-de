@@ -1,0 +1,55 @@
+---
+permalink: protect-scsql/task_cancel_the_snapcenter_plug_in_for_sql_server_operations.html 
+sidebar: sidebar 
+keywords: cancel, backup 
+summary: Sie können Sicherungsvorgänge abbrechen, die ausgeführt werden, in der Warteschlange stehen oder nicht reagieren.  Wenn Sie einen Sicherungsvorgang abbrechen, stoppt der SnapCenter Server den Vorgang und entfernt alle Snapshots aus dem Speicher, wenn die erstellte Sicherung nicht beim SnapCenter -Server registriert ist.  Wenn die Sicherung bereits beim SnapCenter Server registriert ist, wird der bereits erstellte Snapshot auch nach dem Auslösen des Abbruchs nicht zurückgesetzt. 
+---
+= Abbrechen des SnapCenter -Plug-ins für Microsoft SQL Server-Sicherungsvorgänge
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Sicherungsvorgänge abbrechen, die ausgeführt werden, in der Warteschlange stehen oder nicht reagieren.  Wenn Sie einen Sicherungsvorgang abbrechen, stoppt der SnapCenter Server den Vorgang und entfernt alle Snapshots aus dem Speicher, wenn die erstellte Sicherung nicht beim SnapCenter -Server registriert ist.  Wenn die Sicherung bereits beim SnapCenter Server registriert ist, wird der bereits erstellte Snapshot auch nach dem Auslösen des Abbruchs nicht zurückgesetzt.
+
+.Bevor Sie beginnen
+* Sie müssen als SnapCenter Administrator oder Auftragseigentümer angemeldet sein, um Wiederherstellungsvorgänge abzubrechen.
+* Sie können nur Protokoll- oder vollständige Sicherungsvorgänge abbrechen, die sich in der Warteschlange befinden oder ausgeführt werden.
+* Sie können den Vorgang nicht mehr abbrechen, nachdem die Überprüfung begonnen hat.
++
+Wenn Sie den Vorgang vor der Überprüfung abbrechen, wird der Vorgang abgebrochen und der Überprüfungsvorgang wird nicht durchgeführt.
+
+* Sie können einen Sicherungsvorgang entweder auf der Seite „Überwachen“ oder im Aktivitätsbereich abbrechen.
+* Zusätzlich zur Verwendung der SnapCenter -GUI können Sie PowerShell-Cmdlets verwenden, um Vorgänge abzubrechen.
+* Die Schaltfläche *Auftrag abbrechen* ist für Vorgänge deaktiviert, die nicht abgebrochen werden können.
+* Wenn Sie beim Erstellen einer Rolle auf der Seite „Benutzer\Gruppen“ die Option *Alle Mitglieder dieser Rolle können die Objekte anderer Mitglieder sehen und bearbeiten* ausgewählt haben, können Sie die in die Warteschlange gestellten Sicherungsvorgänge anderer Mitglieder abbrechen, während Sie diese Rolle verwenden.
+
+
+.Schritte
+Führen Sie eine der folgenden Aktionen aus:
+
+|===
+| Von der... | Aktion 
+
+
+ a| 
+Monitorseite
+ a| 
+. Wählen Sie im linken Navigationsbereich *Monitor* > *Jobs* aus.
+. Wählen Sie den Auftrag aus und wählen Sie *Auftrag abbrechen*.
+
+
+
+
+ a| 
+Aktivitätsbereich
+ a| 
+. Nachdem Sie den Sicherungsauftrag gestartet haben, wählen Sieimage:../media/activity_pane_icon.gif["Symbol für den Aktivitätsbereich"] im Aktivitätsbereich, um die fünf letzten Vorgänge anzuzeigen.
+. Wählen Sie den Vorgang aus.
+. Wählen Sie auf der Seite „Auftragsdetails“ die Option „Auftrag abbrechen“ aus.
+
+
+|===
+.Ergebnis
+Der Vorgang wird abgebrochen und die Ressource in den vorherigen Zustand zurückversetzt.  Wenn der Vorgang, den Sie abgebrochen haben, im Status „Abbrechen“ oder „Ausführen“ nicht reagiert, sollten Sie den `Cancel-SmJob -JobID <int> -Force` Cmdlet, um den Sicherungsvorgang zwangsweise zu beenden.

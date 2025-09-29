@@ -1,0 +1,39 @@
+---
+permalink: protect-azure/add-hosts-install-plugin-for-sql.html 
+sidebar: sidebar 
+keywords: add host, install, install plug-in, SQL 
+summary: Fügen Sie Hosts hinzu und installieren Sie dann die Plug-In-Pakete. 
+---
+= Hosts hinzufügen und SnapCenter Plug-In für SQL Server-Datenbank installieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter unterstützt den Datenschutz von SQL-Instanzen auf SMB-Freigaben auf Azure NetApp Files.  Die eigenständigen und Verfügbarkeitsgruppenkonfigurationen (AG) werden unterstützt.
+
+Sie müssen die SnapCenter -Seite „Host hinzufügen“ verwenden, um Hosts hinzuzufügen, und dann das Plug-In-Paket installieren.  Die Plug-Ins werden automatisch auf den Remote-Hosts installiert.
+
+.Bevor Sie beginnen
+* Sie müssen ein Benutzer sein, dem eine Rolle mit den Berechtigungen zum Installieren und Deinstallieren von Plug-Ins zugewiesen ist, beispielsweise die SnapCenter Administratorrolle.
+* Wenn Sie beim Installieren eines Plug-Ins auf einem Windows-Host Anmeldeinformationen angeben, die nicht integriert sind, oder wenn der Benutzer zu einem lokalen Arbeitsgruppenbenutzer gehört, müssen Sie die Benutzerkontensteuerung auf dem Host deaktivieren.
+
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Hosts* aus.
+. Stellen Sie sicher, dass oben die Registerkarte *Verwaltete Hosts* ausgewählt ist.
+. Wählen Sie *Hinzufügen*.
+. Führen Sie auf der Seite „Hosts“ die folgenden Schritte aus:
++
+.. Wählen Sie im Feld Hosttyp den Hosttyp aus.
+.. Geben Sie im Feld „Hostname“ den vollqualifizierten Domänennamen (FQDN) oder die IP-Adresse des Hosts ein.
+.. Geben Sie im Feld „Anmeldeinformationen“ die von Ihnen erstellten Anmeldeinformationen ein.
+
+
+. Wählen Sie im Abschnitt *Zu installierende Plug-ins auswählen* die zu installierenden Plug-ins aus.
+. (Optional) Klicken Sie auf *Weitere Optionen* und geben Sie die Details an.
+. Wählen Sie *Senden*.
+. Wählen Sie *Protokollverzeichnis konfigurieren*, geben Sie auf der Seite „Host-Protokollverzeichnis konfigurieren“ den SMB-Pfad des Host-Protokollverzeichnisses ein und klicken Sie auf *Speichern*.
+. Klicken Sie auf *Senden* und überwachen Sie den Installationsfortschritt.
+

@@ -1,0 +1,25 @@
+---
+permalink: protect-sco/clone-workflow.html 
+sidebar: sidebar 
+keywords: clone operation, clone, workflow 
+summary: Der Klon-Workflow umfasst die Planung, Durchführung und Überwachung des Klonvorgangs. 
+---
+= Klon-Workflow
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Klon-Workflow umfasst die Planung, Durchführung und Überwachung des Klonvorgangs.
+
+Sie können Datenbanken aus den folgenden Gründen klonen:
+
+* Zum Testen von Funktionen, die während der Anwendungsentwicklungszyklen mithilfe der aktuellen Datenbankstruktur und des aktuellen Datenbankinhalts implementiert werden müssen.
+* Zum Befüllen von Data Warehouses mithilfe von Tools zur Datenextraktion und -bearbeitung.
+* Um Daten wiederherzustellen, die versehentlich gelöscht oder geändert wurden.
+
+
+Der folgende Arbeitsablauf zeigt die Reihenfolge, in der Sie den Klonvorgang durchführen müssen:
+
+image::../media/sco_scc_wfs_clone_workflow.gif[Klon-Workflow]

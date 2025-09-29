@@ -1,0 +1,106 @@
+---
+permalink: protect-postgresql/minimum-privileges-required-for-postgresql.html 
+sidebar: sidebar 
+keywords: Minimum ONTAP privileges 
+summary: Die erforderlichen Mindestberechtigungen für ONTAP variieren je nach den SnapCenter Plug-Ins, die Sie für den Datenschutz verwenden. 
+---
+= Für das PostgreSQL-Plug-In sind mindestens ONTAP Berechtigungen erforderlich
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die erforderlichen Mindestberechtigungen für ONTAP variieren je nach den SnapCenter Plug-Ins, die Sie für den Datenschutz verwenden.
+
+* All-Access-Befehle: Mindestberechtigungen für ONTAP 9.12.1 und höher
++
+** Ereignis generieren-Autosupport-Protokoll
+** Jobverlauf anzeigen
+** Jobstopp
+** Montag
+** LUN erstellen
+** LUN erstellen
+** LUN erstellen
+** LUN löschen
+** lun igroup hinzufügen
+** lun igroup erstellen
+** LUN-Igroup löschen
+** LUN-Igroup umbenennen
+** LUN-Igroup umbenennen
+** lun igroup show
+** LUN-Zuordnung Add-Reporting-Nodes
+** LUN-Zuordnung erstellen
+** LUN-Zuordnung löschen
+** LUN-Zuordnung zum Entfernen von Berichtsknoten
+** LUN-Mapping-Show
+** LUN ändern
+** LUN-Einzugsvolumen
+** lun offline
+** lun online
+** LUN persistent-reservation clear
+** LUN-Größe ändern
+** LUN-Seriennummer
+** Lun-Show
+** Snapmirror-Richtlinie Add-Rule
+** Snapmirror-Richtlinienänderungsregel
+** Snapmirror-Richtlinie zum Entfernen der Regel
+** Snapmirror-Richtlinien-Show
+** Snapmirror-Wiederherstellung
+** Snapmirror-Show
+** Snapmirror-Showverlauf
+** Snapmirror-Update
+** Snapmirror-Update-LS-Set
+** Snapmirror-Listenziele
+** Version
+** Volume-Klon erstellen
+** Lautstärke Klon Show
+** Volume klonen, Aufteilen, Start
+** Volumen klonen, teilen, stoppen
+** Volume erstellen
+** Lautstärke zerstören
+** Volume-Datei klonen erstellen
+** Volume-Datei Show-Disk-Usage
+** Volume offline
+** Volumen online
+** Lautstärke ändern
+** Volume-Qtree erstellen
+** Volume-Qtree löschen
+** Volume-Qtree ändern
+** Volumen Qtree zeigen
+** Lautstärkebegrenzung
+** Lautstärke anzeigen
+** Volume-Snapshot erstellen
+** Volume-Snapshot löschen
+** Volume-Snapshot ändern
+** Volume-Snapshot-Modify-Snaplock-Ablaufzeit
+** Volume-Snapshot umbenennen
+** Volume-Snapshot wiederherstellen
+** Volume-Snapshot-Wiederherstellungsdatei
+** Volume-Snapshot anzeigen
+** Volume aushängen
+** VServer-CIFS
+** vServer CIFS-Freigabe erstellen
+** VServer CIFS-Freigabe löschen
+** vServer CIFS Shadowcopy anzeigen
+** VServer CIFS-Freigabe anzeigen
+** VServer CIFS anzeigen
+** VServer-Exportrichtlinie
+** vServer-Exportrichtlinie erstellen
+** VServer-Exportrichtlinie löschen
+** VServer-Exportrichtlinienregel erstellen
+** VServer-Exportrichtlinienregel anzeigen
+** VServer-Exportrichtlinie anzeigen
+** VServer-ISCSI
+** VServer-ISCSI-Verbindung anzeigen
+** vServer anzeigen
+
+
+* Schreibgeschützte Befehle: Mindestberechtigungen für ONTAP 8.3.0 und höher
++
+** Netzwerkschnittstelle
+** Netzwerkschnittstelle anzeigen
+** vServer
+
+
+

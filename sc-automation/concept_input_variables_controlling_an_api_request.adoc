@@ -1,0 +1,221 @@
+---
+sidebar: sidebar 
+permalink: sc-automation/concept_input_variables_controlling_an_api_request.html 
+keywords: http methods, request headers, request body, filtering objects, size, pagination 
+summary: Sie können die Verarbeitung eines API-Aufrufs über in der HTTP-Anforderung festgelegte Parameter und Variablen steuern. 
+---
+= Eingabevariablen, die eine API-Anfrage steuern
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Verarbeitung eines API-Aufrufs über in der HTTP-Anforderung festgelegte Parameter und Variablen steuern.
+
+
+
+== HTTP-Methoden
+
+Die von der SnapCenter REST-API unterstützten HTTP-Methoden sind in der folgenden Tabelle aufgeführt.
+
+
+NOTE: Nicht alle HTTP-Methoden sind an jedem REST-Endpunkt verfügbar.
+
+|===
+| HTTP-Methode | Beschreibung 
+
+
+| ERHALTEN | Ruft Objekteigenschaften einer Ressourceninstanz oder -sammlung ab. 
+
+
+| POST | Erstellt eine neue Ressourceninstanz basierend auf der bereitgestellten Eingabe. 
+
+
+| LÖSCHEN | Löscht eine vorhandene Ressourceninstanz. 
+
+
+| SETZEN | Ändert eine vorhandene Ressourceninstanz. 
+|===
+
+
+== Anforderungsheader
+
+Sie sollten mehrere Header in die HTTP-Anfrage aufnehmen.
+
+
+
+=== Inhaltstyp
+
+Wenn der Anforderungstext JSON enthält, sollte dieser Header auf _application/json_ gesetzt werden.
+
+
+
+=== Akzeptieren
+
+Dieser Header sollte auf _application/json_ gesetzt werden.
+
+
+
+=== Genehmigung
+
+Die Basisauthentifizierung sollte mit dem als Base64-Zeichenfolge codierten Benutzernamen und Kennwort eingerichtet werden.
+
+
+
+== Anforderungstext
+
+Der Inhalt des Anforderungstexts variiert je nach Aufruf. Der HTTP-Anforderungstext besteht aus einem der folgenden Elemente:
+
+* JSON-Objekt mit Eingabevariablen
+* Leer
+
+
+
+
+== Objekte filtern
+
+Wenn Sie einen API-Aufruf mit GET ausführen, können Sie die zurückgegebenen Objekte basierend auf einem beliebigen Attribut einschränken oder filtern. Sie können beispielsweise einen genauen Wert angeben, der übereinstimmen soll:
+
+`<field>=<query value>`
+
+Zusätzlich zu einer exakten Übereinstimmung stehen weitere Operatoren zur Verfügung, um eine Menge von Objekten über einen Wertebereich zurückzugeben.  Die SnapCenter REST API unterstützt die in der folgenden Tabelle aufgeführten Filteroperatoren.
+
+|===
+| Operator | Beschreibung 
+
+
+| = | Gleich 
+
+
+| < | Weniger als 
+
+
+| > | Größer als 
+
+
+| <= | Kleiner oder gleich 
+
+
+| >= | Größer als oder gleich 
+
+
+| AKTUALISIEREN | Oder 
+
+
+| ! | Ungleich 
+
+
+| * | Gieriger Platzhalter 
+|===
+Sie können auch eine Sammlung von Objekten zurückgeben, basierend darauf, ob ein bestimmtes Feld festgelegt ist oder nicht, indem Sie das Schlüsselwort *null* oder seine Negation *!null* als Teil der Abfrage verwenden.
+
+
+NOTE: Alle nicht festgelegten Felder werden grundsätzlich von übereinstimmenden Abfragen ausgeschlossen.
+
+
+
+== Anfordern bestimmter Objektfelder
+
+Standardmäßig gibt ein API-Aufruf mit GET nur die Attribute zurück, die das Objekt bzw. die Objekte eindeutig identifizieren. Dieser Mindestsatz an Feldern dient als Schlüssel für jedes Objekt und variiert je nach Objekttyp. Weitere Objekteigenschaften können Sie über die `fields` Abfrageparameter auf folgende Weise:
+
+
+
+=== Gemeinsame oder Standardfelder
+
+Geben Sie *fields=** an, um die am häufigsten verwendeten Objektfelder abzurufen.  Diese Felder werden normalerweise im lokalen Serverspeicher verwaltet oder erfordern nur eine geringe Verarbeitung für den Zugriff.  Dies sind dieselben Eigenschaften, die für ein Objekt zurückgegeben werden, nachdem GET mit einem URL-Pfadschlüssel (UUID) verwendet wurde.
+
+
+
+=== Alle Felder
+
+Geben Sie *fields=*** an, um alle Objektfelder abzurufen, einschließlich derjenigen, für deren Zugriff zusätzliche Serververarbeitung erforderlich ist.
+
+
+
+=== Benutzerdefinierte Feldauswahl
+
+Verwenden Sie *fields=<Feldname>*, um das gewünschte Feld genau anzugeben. Wenn Sie mehrere Felder anfordern, müssen die Werte durch Kommas und ohne Leerzeichen getrennt werden.
+
+
+IMPORTANT: Als Best Practice sollten Sie immer die gewünschten Felder angeben. Sie sollten den Satz gemeinsamer Felder oder alle Felder nur bei Bedarf abrufen.  Welche Felder als gemeinsam klassifiziert und mit _fields=*_ zurückgegeben werden, wird von NetApp anhand einer internen Leistungsanalyse ermittelt.  Die Klassifizierung eines Feldes kann sich in zukünftigen Versionen ändern.
+
+
+
+== Sortieren von Objekten im Ausgabesatz
+
+Die Datensätze einer Ressourcensammlung werden in der vom Objekt definierten Standardreihenfolge zurückgegeben. Sie können die Reihenfolge ändern, indem Sie `order_by` Abfrageparameter mit dem Feldnamen und der Sortierrichtung wie folgt:
+
+`order_by=<field name> asc|desc`
+
+Sie können beispielsweise das Typfeld in absteigender Reihenfolge und anschließend die ID in aufsteigender Reihenfolge sortieren:
+
+`order_by=type desc, id asc`
+
+* Wenn Sie ein Sortierfeld angeben, aber keine Richtung angeben, werden die Werte in aufsteigender Reihenfolge sortiert.
+* Wenn Sie mehrere Parameter angeben, müssen Sie die Felder durch ein Komma trennen.
+
+
+
+
+== Seitennummerierung beim Abrufen von Objekten in einer Sammlung
+
+Wenn Sie einen API-Aufruf mit GET ausgeben, um auf eine Sammlung von Objekten desselben Typs zuzugreifen, versucht SnapCenter , basierend auf zwei Einschränkungen so viele Objekte wie möglich zurückzugeben.  Sie können jede dieser Einschränkungen mithilfe zusätzlicher Abfrageparameter in der Anfrage steuern.  Die erste für eine bestimmte GET-Anforderung erreichte Einschränkung beendet die Anforderung und begrenzt daher die Anzahl der zurückgegebenen Datensätze.
+
+
+NOTE: Wenn eine Anfrage endet, bevor alle Objekte durchlaufen wurden, enthält die Antwort den Link, der zum Abrufen des nächsten Datensatzstapels erforderlich ist.
+
+
+
+=== Begrenzung der Anzahl der Objekte
+
+Standardmäßig gibt SnapCenter maximal 10.000 Objekte für eine GET-Anfrage zurück.  Sie können dieses Limit mit dem Abfrageparameter _max_records_ ändern. Beispiel:
+
+`max_records=20`
+
+Die Anzahl der tatsächlich zurückgegebenen Objekte kann unter dem geltenden Maximum liegen, abhängig von der jeweiligen Zeitbeschränkung und der Gesamtzahl der Objekte im System.
+
+
+
+=== Begrenzung der zum Abrufen der Objekte benötigten Zeit
+
+Standardmäßig gibt SnapCenter so viele Objekte wie möglich innerhalb der für die GET-Anfrage zulässigen Zeit zurück.  Das Standard-Timeout beträgt 15 Sekunden.  Sie können dieses Limit mit dem Abfrageparameter _return_timeout_ ändern. Beispiel:
+
+`return_timeout=5`
+
+Die Anzahl der tatsächlich zurückgegebenen Objekte kann geringer sein als das geltende Maximum, basierend auf der entsprechenden Einschränkung der Objektanzahl sowie der Gesamtzahl der Objekte im System.
+
+
+
+=== Eingrenzen des Ergebnissatzes
+
+Bei Bedarf können Sie diese beiden Parameter mit zusätzlichen Abfrageparametern kombinieren, um den Ergebnissatz einzugrenzen.  Beispielsweise gibt Folgendes bis zu 10 EMS-Ereignisse zurück, die nach der angegebenen Zeit generiert wurden:
+
+`time=> 2018-04-04T15:41:29.140265Z&max_records=10`
+
+Sie können mehrere Anfragen stellen, um durch die Objekte zu blättern. Jeder nachfolgende API-Aufruf sollte einen neuen Zeitwert basierend auf dem letzten Ereignis im letzten Ergebnissatz verwenden.
+
+
+
+== Größeneigenschaften
+
+Die bei einigen API-Aufrufen sowie bestimmten Abfrageparametern verwendeten Eingabewerte sind numerisch.  Anstatt eine Ganzzahl in Bytes anzugeben, können Sie optional ein Suffix verwenden, wie in der folgenden Tabelle gezeigt.
+
+|===
+| Suffix | Beschreibung 
+
+
+| KB | KB Kilobyte (1024 Byte) oder Kibibyte 
+
+
+| MB | MB Megabyte (KB x 1024 Bytes) oder Mebibyte 
+
+
+| GB | GB Gigabyte (MB x 1024 Bytes) oder Gibibyte 
+
+
+| TB | TB Terabyte (GB x 1024 Byte) oder Tebibyte 
+
+
+| PB | PB Petabyte (TB x 1024 Bytes) oder Pebibyte 
+|===

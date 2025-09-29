@@ -1,0 +1,203 @@
+---
+permalink: protect-sce/task_restore_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Sie können SnapCenter verwenden, um gesicherte Exchange-Datenbanken wiederherzustellen. 
+---
+= Wiederherstellen von Exchange-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um gesicherte Exchange-Datenbanken wiederherzustellen.
+
+.Bevor Sie beginnen
+* Sie müssen die Ressourcengruppen, Datenbanken oder Datenbankverfügbarkeitsgruppen (DAGs) gesichert haben.
+* Wenn die Exchange-Datenbank an einen anderen Speicherort migriert wird, funktioniert der Wiederherstellungsvorgang für alte Sicherungen nicht.
+* Wenn Sie Snapshots auf einen Spiegel oder Tresor replizieren, muss Ihnen der SnapCenter Administrator die SVMs sowohl für die Quell- als auch für die Zielvolumes zugewiesen haben.
+* Wenn sich in einer DAG eine aktive Datenbankkopie auf einem Nicht- NetApp -Speicher befindet und Sie eine Wiederherstellung aus der Sicherung der passiven Datenbankkopie durchführen möchten, die sich auf einem NetApp -Speicher befindet, machen Sie die passive Kopie (NetApp -Speicher) zur aktiven Kopie, aktualisieren Sie die Ressourcen und führen Sie den Wiederherstellungsvorgang durch.
++
+Führen Sie den `Move-ActiveMailboxDatabase` Befehl, um die passive Datenbankkopie als aktive Datenbankkopie zu erstellen.
+
++
+Der https://docs.microsoft.com/en-us/powershell/module/exchange/move-activemailboxdatabase?view=exchange-ps["Microsoft-Dokumentation"^] enthält Informationen zu diesem Befehl.
+
+
+
+.Informationen zu diesem Vorgang
+* Wenn ein Wiederherstellungsvorgang für eine Datenbank ausgeführt wird, wird die Datenbank wieder auf demselben Host bereitgestellt und es wird kein neues Volume erstellt.
+* Sicherungen auf DAG-Ebene müssen aus einzelnen Datenbanken wiederhergestellt werden.
+* Die vollständige Datenträgerwiederherstellung wird nicht unterstützt, wenn andere Dateien als die Exchange-Datenbankdatei (.edb) vorhanden sind.
++
+Das Plug-in für Exchange führt keine vollständige Wiederherstellung einer Festplatte durch, wenn die Festplatte Exchange-Dateien enthält, wie sie beispielsweise für die Replikation verwendet werden.  Wenn eine vollständige Wiederherstellung die Exchange-Funktionalität beeinträchtigen könnte, führt das Plug-in für Exchange einen einzelnen Dateiwiederherstellungsvorgang durch.
+
+* Das Plug-in für Exchange kann mit BitLocker verschlüsselte Laufwerke nicht wiederherstellen.
+* Der SCRIPTS_PATH wird mithilfe des Schlüssels „PredefinedWindowsScriptsDirectory“ definiert, der sich in der Datei „SMCoreServiceHost.exe.Config“ des Plug-In-Hosts befindet.
++
+Bei Bedarf können Sie diesen Pfad ändern und den SMcore-Dienst neu starten.  Aus Sicherheitsgründen wird empfohlen, den Standardpfad zu verwenden.
+
++
+Der Wert des Schlüssels kann von Swagger über die API angezeigt werden: API /4.7/configsettings
+
++
+Sie können die GET-API verwenden, um den Wert des Schlüssels anzuzeigen.  SET-API wird nicht unterstützt.
+
+* Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+* Für den Wiederherstellungsvorgang mit SnapMirror Active Sync müssen Sie die Sicherung vom primären Speicherort auswählen.
+
+
+[role="tabbed-block"]
+====
+.SnapCenter -Benutzeroberfläche
+--
+.Schritte
+. Klicken Sie im linken Navigationsbereich oben links auf der Ressourcenseite auf *Ressourcen*.
+. Wählen Sie das Exchange Server-Plug-In aus der Dropdown-Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Ansicht“ die Option „Datenbank“ aus.
+. Wählen Sie die Datenbank aus der Liste aus.
+. Wählen Sie in der Ansicht „Kopien verwalten“ in der Tabelle „Primäre Sicherungen“ die Option „Sicherungen“ aus und klicken Sie dann auf „*“.image:../media/restore_icon.gif["Wiederherstellungssymbol"] *.
+. Wählen Sie auf der Seite „Optionen“ eine der folgenden Protokollsicherungsoptionen aus:
++
+|===
+| Option | Beschreibung 
+
+
+ a| 
+Alle Protokollsicherungen
+ a| 
+Wählen Sie *Alle Protokollsicherungen*, um einen minutengenauen Sicherungswiederherstellungsvorgang durchzuführen und alle verfügbaren Protokollsicherungen nach der vollständigen Sicherung wiederherzustellen.
+
+
+
+ a| 
+Durch Log-Backups bis
+ a| 
+Wählen Sie *Nach Protokollsicherungen bis*, um eine zeitpunktbezogene Wiederherstellung durchzuführen, bei der die Datenbank basierend auf Protokollsicherungen bis zum ausgewählten Protokoll wiederhergestellt wird.
+
+
+NOTE: Die Anzahl der in der Dropdown-Liste angezeigten Protokolle basiert auf UTM.  Wenn beispielsweise die vollständige Sicherungsaufbewahrung 5 und die UTM-Aufbewahrung 3 beträgt, ist die Anzahl der verfügbaren Protokollsicherungen 5, aber in der Dropdown-Liste werden nur 3 Protokolle aufgelistet, um den Wiederherstellungsvorgang durchzuführen.
+
+
+
+ a| 
+Nach einem bestimmten Datum bis
+ a| 
+Wählen Sie *Nach bestimmtem Datum bis*, um das Datum und die Uhrzeit anzugeben, bis zu der Transaktionsprotokolle auf die wiederhergestellte Datenbank angewendet werden.  Dieser Point-in-Time-Wiederherstellungsvorgang stellt Transaktionsprotokolleinträge wieder her, die bis zur letzten Sicherung am angegebenen Datum und zur angegebenen Uhrzeit aufgezeichnet wurden.
+
+
+
+ a| 
+Keine
+ a| 
+Wählen Sie *Keine*, wenn Sie nur die vollständige Sicherung ohne Protokollsicherungen wiederherstellen müssen.
+
+|===
++
+Sie können eine der folgenden Aktionen ausführen:
+
++
+** *Datenbank nach der Wiederherstellung wiederherstellen und mounten* – Diese Option ist standardmäßig ausgewählt.
+** *Überprüfen Sie vor der Wiederherstellung nicht die Integrität der Transaktionsprotokolle im Backup.* – Standardmäßig überprüft SnapCenter die Integrität der Transaktionsprotokolle in einem Backup, bevor ein Wiederherstellungsvorgang durchgeführt wird.
++
+|===
+
+
+| *Best Practice:* Sie sollten diese Option nicht auswählen. 
+|===
+
+
+. Geben Sie auf der Seite „Skript“ den Pfad und die Argumente des Präskripts oder Postskripts ein, das vor bzw. nach dem Wiederherstellungsvorgang ausgeführt werden soll.
++
+Zu den Argumenten des Wiederherstellungsvorskripts gehören $Database und $ServerInstance.
+
++
+Zu den Postscript-Argumenten für die Wiederherstellung gehören $Database, $ServerInstance, $BackupName, $LogDirectory und $TargetServerInstance.
+
++
+Sie können ein Skript ausführen, um SNMP-Traps zu aktualisieren, Warnungen zu automatisieren, Protokolle zu senden usw.
+
++
+
+NOTE: Der Prescripts- oder Postscripts-Pfad sollte keine Laufwerke oder Freigaben enthalten.  Der Pfad sollte relativ zum SCRIPTS_PATH sein.
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Sie können den Status des Wiederherstellungsauftrags anzeigen, indem Sie das Aktivitätsfenster unten auf der Seite erweitern.
++
+Sie sollten den Wiederherstellungsprozess mithilfe der Seite *Überwachen* > *Jobs* überwachen.
+
+
+
+Wenn Sie eine aktive Datenbank aus einer Sicherung wiederherstellen, kann die passive Datenbank in den Zustand „Angehalten“ oder „Fehler“ wechseln, wenn zwischen dem Replikat und der aktiven Datenbank eine Verzögerung auftritt.
+
+Die Statusänderung kann auftreten, wenn sich die Protokollkette der aktiven Datenbank verzweigt und einen neuen Zweig beginnt, der die Replikation unterbricht.  Exchange Server versucht, das Replikat zu reparieren. Wenn dies jedoch nicht gelingt, sollten Sie nach der Wiederherstellung eine neue Sicherung erstellen und dann das Replikat erneut initialisieren.
+
+--
+.PowerShell-Cmdlets
+--
+.Schritte
+. Initiieren Sie eine Verbindungssitzung mit dem SnapCenter -Server für einen angegebenen Benutzer mithilfe der `Open-SmConnection` Cmdlet.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
+. Rufen Sie die Informationen zu den Backups ab, die Sie wiederherstellen möchten, indem Sie die `Get-SmBackup` Cmdlet.
++
+Dieses Beispiel zeigt Informationen zu allen verfügbaren Backups an:
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+341                           ResourceGroup_36304978_UTM... 12/8/2017 4:13:24 PM          Full Backup
+342                           ResourceGroup_36304978_UTM... 12/8/2017 4:16:23 PM          Full Backup
+355                           ResourceGroup_06140588_UTM... 12/8/2017 6:32:36 PM          Log Backup
+356                           ResourceGroup_06140588_UTM... 12/8/2017 6:36:20 PM          Full Backup
+----
+. Stellen Sie Daten aus der Sicherung wieder her, indem Sie das `Restore-SmBackup` Cmdlet.
++
+In diesem Beispiel wird eine aktuelle Sicherung wiederhergestellt:
+
++
+[listing]
+----
+C:\PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true
+----
++
+In diesem Beispiel wird eine zeitpunktbezogene Sicherung wiederhergestellt:
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true -LogRestoreType ByTransactionLogs -LogCount 2
+----
++
+In diesem Beispiel wird eine Sicherung auf dem sekundären Speicher im primären Speicher wiederhergestellt:
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode 'SCE' -AppObjectId 'DB2' -BackupId 81 -IsRecoverMount:$true -Confirm:$false
+-archive @{Primary="paw_vs:vol1";Secondary="paw_vs:vol1_mirror"} -logrestoretype All
+----
++
+Der `-archive` Mit dem Parameter „.exe“ können Sie die primären und sekundären Volumes angeben, die Sie für die Wiederherstellung verwenden möchten.
+
++
+Der `-IsRecoverMount:$true` Mit dem Parameter können Sie die Datenbank nach der Wiederherstellung mounten.
+
+
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+--
+====

@@ -1,0 +1,17 @@
+= 
+:allow-uri-read: 
+
+
+Sie können eine Zertifikatsignieranforderung (Certificate Signing Request, CSR) generieren und das Zertifikat importieren, das Sie mithilfe der generierten CSR von einer Zertifizierungsstelle (Certificate Authority, CA) erhalten können.  Dem Zertifikat ist ein privater Schlüssel zugeordnet.
+
+CSR ist ein Block verschlüsselten Textes, der einem autorisierten Zertifikatsanbieter übergeben wird, um das signierte CA-Zertifikat zu beschaffen.
+
+
+NOTE: Die RSA-Schlüssellänge des CA-Zertifikats muss mindestens 3072 Bit betragen.
+
+Informationen zum Generieren einer CSR finden Sie unter https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_generate_CA_Certificate_CSR_file["So generieren Sie eine CA-Zertifikat-CSR-Datei"^] .
+
+
+NOTE: Wenn Sie das CA-Zertifikat für Ihre Domäne (*.domain.company.com) oder Ihr System (machine1.domain.company.com) besitzen, können Sie das Generieren der CSR-Datei des CA-Zertifikats überspringen.  Sie können das vorhandene CA-Zertifikat mit SnapCenter bereitstellen.
+
+Bei Clusterkonfigurationen sollten der Clustername (virtueller Cluster-FQDN) und die jeweiligen Hostnamen im CA-Zertifikat erwähnt werden.  Das Zertifikat kann aktualisiert werden, indem vor dem Erwerb des Zertifikats das Feld „Subject Alternative Name (SAN)“ ausgefüllt wird.  Bei einem Wildcard-Zertifikat (*.domain.company.com) enthält das Zertifikat implizit alle Hostnamen der Domäne.

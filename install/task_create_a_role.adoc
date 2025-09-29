@@ -1,0 +1,37 @@
+---
+permalink: install/task_create_a_role.html 
+sidebar: sidebar 
+keywords: role, create, permission 
+summary: Zusätzlich zur Verwendung der vorhandenen SnapCenter -Rollen können Sie Ihre eigenen Rollen erstellen und die Berechtigungen anpassen. 
+---
+= Erstellen einer Rolle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Zusätzlich zur Verwendung der vorhandenen SnapCenter -Rollen können Sie Ihre eigenen Rollen erstellen und die Berechtigungen anpassen.
+
+Um eigene Rollen zu erstellen, ist eine Anmeldung mit der Rolle „SnapCenterAdmin“ erforderlich.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Rollen*.
+. Klickenimage:../media/add_icon_configure_database.gif["Symbol im Datenbankkonfigurationsbildschirm hinzufügen"] .
+. Geben Sie einen Namen und eine Beschreibung für die neue Rolle an.
++
+
+NOTE: In Benutzernamen und Gruppennamen dürfen nur die folgenden Sonderzeichen verwendet werden: Leerzeichen ( ), Bindestrich (-), Unterstrich (_) und Doppelpunkt (:).
+
+. Wählen Sie *Alle Mitglieder dieser Rolle können die Objekte anderer Mitglieder sehen* aus, um anderen Mitgliedern der Rolle das Anzeigen von Ressourcen wie Volumes und Hosts zu ermöglichen, nachdem sie die Ressourcenliste aktualisiert haben.
++
+Sie sollten diese Option deaktivieren, wenn Sie nicht möchten, dass Mitglieder dieser Rolle Objekte sehen, denen andere Mitglieder zugewiesen sind.
+
++
+
+NOTE: Wenn diese Option aktiviert ist, ist es nicht erforderlich, Benutzern Zugriff auf Objekte oder Ressourcen zuzuweisen, wenn die Benutzer derselben Rolle angehören wie der Benutzer, der die Objekte oder Ressourcen erstellt hat.
+
+. Wählen Sie auf der Seite „Berechtigungen“ die Berechtigungen aus, die Sie der Rolle zuweisen möchten, oder klicken Sie auf *Alle auswählen*, um der Rolle alle Berechtigungen zu erteilen.
+. Klicken Sie auf *Senden*.
+

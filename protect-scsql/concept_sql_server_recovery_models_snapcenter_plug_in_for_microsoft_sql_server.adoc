@@ -1,0 +1,30 @@
+---
+permalink: protect-scsql/concept_sql_server_recovery_models_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: Jedem Datenbanktyp werden standardmäßig bestimmte Wiederherstellungsmodelle zugewiesen.  Der SQL Server-Datenbankadministrator kann jeder Datenbank ein anderes Wiederherstellungsmodell zuweisen. 
+---
+= Von SnapCenter unterstützte SQL Server-Wiederherstellungsmodelle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Jedem Datenbanktyp werden standardmäßig bestimmte Wiederherstellungsmodelle zugewiesen.  Der SQL Server-Datenbankadministrator kann jeder Datenbank ein anderes Wiederherstellungsmodell zuweisen.
+
+SnapCenter unterstützt drei Arten von SQL Server-Wiederherstellungsmodellen:
+
+* Einfaches Wiederherstellungsmodell
++
+Wenn Sie das einfache Wiederherstellungsmodell verwenden, können Sie die Transaktionsprotokolle nicht sichern.
+
+* Vollständiges Wiederherstellungsmodell
++
+Wenn Sie das vollständige Wiederherstellungsmodell verwenden, können Sie eine Datenbank ab dem Fehlerpunkt in ihren vorherigen Zustand wiederherstellen.
+
+* Massenprotokolliertes Wiederherstellungsmodell
++
+Wenn Sie das massenprotokollierte Wiederherstellungsmodell verwenden, müssen Sie den massenprotokollierten Vorgang manuell erneut ausführen.  Sie müssen den Massenprotokollierungsvorgang ausführen, wenn das Transaktionsprotokoll, das den Commit-Datensatz des Vorgangs enthält, vor der Wiederherstellung nicht gesichert wurde.  Wenn durch den massenprotokollierten Vorgang 10 Millionen Zeilen in eine Datenbank eingefügt werden und die Datenbank ausfällt, bevor das Transaktionsprotokoll gesichert wird, enthält die wiederhergestellte Datenbank nicht die Zeilen, die durch den massenprotokollierten Vorgang eingefügt wurden.
+
+

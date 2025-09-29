@@ -1,0 +1,30 @@
+---
+permalink: protect-nsp/backup_schedules_of_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-in 
+summary: Der wichtigste Faktor bei der Festlegung eines Sicherungszeitplans ist die Änderungsrate der Ressource.  Je häufiger Sie Ihre Ressourcen sichern, desto weniger Archivprotokolle muss SnapCenter für die Wiederherstellung verwenden, was zu schnelleren Wiederherstellungsvorgängen führen kann. 
+---
+= Sicherungspläne für von NetApp unterstützte Plug-In-Ressourcen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der wichtigste Faktor bei der Festlegung eines Sicherungszeitplans ist die Änderungsrate der Ressource.  Je häufiger Sie Ihre Ressourcen sichern, desto weniger Archivprotokolle muss SnapCenter für die Wiederherstellung verwenden, was zu schnelleren Wiederherstellungsvorgängen führen kann.
+
+Sie können eine häufig genutzte Ressource stündlich sichern, während Sie eine selten genutzte Ressource einmal täglich sichern.  Weitere Faktoren sind die Bedeutung der Ressource für Ihr Unternehmen, Ihr Service-Level-Agreement (SLA) und Ihr Recovery Point Objective (RPO).
+
+SLA definiert das erwartete Serviceniveau und befasst sich mit vielen servicebezogenen Problemen, einschließlich der Verfügbarkeit und Leistung des Dienstes.  RPO definiert die Strategie für das Alter der Dateien, die aus dem Sicherungsspeicher wiederhergestellt werden müssen, damit der reguläre Betrieb nach einem Fehler wieder aufgenommen werden kann.  SLA und RPO tragen zur Datenschutzstrategie bei.
+
+Sicherungszeitpläne bestehen aus den folgenden zwei Teilen:
+
+* Sicherungshäufigkeit
++
+Die Sicherungshäufigkeit (wie oft Sicherungen durchgeführt werden sollen), bei einigen Plug-Ins auch Zeitplantyp genannt, ist Teil einer Richtlinienkonfiguration.  Sie können die Sicherungshäufigkeit beispielsweise auf stündlich, täglich, wöchentlich oder monatlich konfigurieren.  Sie können in der SnapCenter -GUI auf Richtlinien zugreifen, indem Sie auf *Einstellungen* > *Richtlinien* klicken.
+
+* Sicherungszeitpläne
++
+Sicherungszeitpläne (genauer Zeitpunkt der Durchführung von Sicherungen) sind Teil einer Ressourcen- oder Ressourcengruppenkonfiguration.  Wenn Sie beispielsweise eine Ressourcengruppe haben, für die eine Richtlinie für wöchentliche Sicherungen konfiguriert ist, können Sie den Zeitplan so konfigurieren, dass jeden Donnerstag um 22:00 Uhr eine Sicherung durchgeführt wird. Sie können in der SnapCenter -GUI auf die Zeitpläne der Ressourcengruppe zugreifen, indem Sie auf *Ressourcen* klicken, dann das entsprechende Plug-In auswählen und auf *Anzeigen* > *Ressourcengruppe* klicken.
+
+

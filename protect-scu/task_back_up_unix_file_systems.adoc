@@ -1,0 +1,83 @@
+---
+permalink: protect-scu/task_back_up_unix_file_systems.html 
+sidebar: sidebar 
+keywords: backup, Unix file system, policy, schedule, resources 
+summary: Wenn eine Ressource nicht Teil einer Ressourcengruppe ist, können Sie die Ressource von der Seite „Ressourcen“ aus sichern. 
+---
+= Sichern Sie Unix-Dateisysteme
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn eine Ressource nicht Teil einer Ressourcengruppe ist, können Sie die Ressource von der Seite „Ressourcen“ aus sichern.
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Ansicht“ die Option „*Pfad*“ aus.
+. Klickenimage:../media/filter_icon.gif["Filtersymbol"] und wählen Sie dann den Hostnamen und die Unix-Dateisysteme aus, um die Ressourcen zu filtern.
+. Wählen Sie das Dateisystem aus, das Sie sichern möchten.
+. Auf der Seite „Ressourcen“ können Sie die folgenden Schritte ausführen:
++
+.. Aktivieren Sie das Kontrollkästchen und geben Sie ein benutzerdefiniertes Namensformat ein, das Sie für den Snapshot-Namen verwenden möchten.
++
+Zum Beispiel, `customtext_policy_hostname` oder `resource_hostname` .  Dem Snapshot-Namen wird standardmäßig ein Zeitstempel angehängt.
+
+
+
+. Führen Sie auf der Seite „Anwendungseinstellungen“ die folgenden Schritte aus:
++
+** Wählen Sie den Pfeil „Skripts“ aus und geben Sie die Pre- und Post-Befehle für Quiesce-, Snapshot- und Unquiesce-Vorgänge ein.  Sie können auch die Vorbefehle eingeben, die im Falle eines Fehlers vor dem Beenden ausgeführt werden sollen.
+** Wählen Sie eine der Optionen zur Sicherungskonsistenz aus:
++
+*** Wählen Sie *Dateisystemkonsistent*, wenn Sie sicherstellen möchten, dass die zwischengespeicherten Daten des Dateisystems vor dem Erstellen der Sicherung geleert werden und während der Erstellung der Sicherung keine Vorgänge am Dateisystem ausgeführt werden.
+*** Wählen Sie *Absturzkonsistent*, wenn Sie sicherstellen möchten, dass die zwischengespeicherten Daten des Dateisystems vor dem Erstellen der Sicherung gelöscht werden.
+
+
+
+
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Schritte aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
++
+
+NOTE: Sie können eine Richtlinie erstellen, indem Sie aufimage:../media/add_policy_from_resourcegroup.gif["Symbol hinzufügen"] .
+
++
+Im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ werden die ausgewählten Richtlinien aufgelistet.
+
+.. Klickenimage:../media/add_policy_from_resourcegroup.gif["Symbol hinzufügen"] in der Spalte „Zeitpläne konfigurieren“, um einen Zeitplan für die gewünschte Richtlinie zu konfigurieren.
+.. Konfigurieren Sie im Fenster „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan und wählen Sie dann `OK` .
++
+_policy_name_ ist der Name der von Ihnen ausgewählten Richtlinie.
+
++
+Die konfigurierten Zeitpläne werden in der Spalte „Angewandte Zeitpläne“ aufgelistet.
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdown-Liste *E-Mail-Präferenz* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den für die Ressource durchgeführten Sicherungsvorgang anhängen möchten, wählen Sie *Jobbericht anhängen*.
+
++
+
+NOTE: Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl angegeben haben. `Set-SmSmtpServer` .
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
++
+Die Topologieseite wird angezeigt.
+
+. Klicken Sie auf *Jetzt sichern*.
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn Sie mehrere Richtlinien auf die Ressource angewendet haben, wählen Sie aus der Dropdownliste „Richtlinie“ die Richtlinie aus, die Sie für die Sicherung verwenden möchten.
++
+Wenn die für die On-Demand-Sicherung ausgewählte Richtlinie mit einem Sicherungszeitplan verknüpft ist, werden die On-Demand-Sicherungen basierend auf den für den Zeitplantyp angegebenen Aufbewahrungseinstellungen aufbewahrt.
+
+.. Klicken Sie auf *Sichern*.
+
+
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+

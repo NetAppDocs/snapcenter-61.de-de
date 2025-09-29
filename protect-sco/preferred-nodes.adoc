@@ -1,0 +1,42 @@
+---
+permalink: protect-sco/preferred-nodes.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: So erkennt SnapCenter Oracle-Datenbanken. 
+---
+= Bevorzugte Knoten im RAC-Setup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Beim Einrichten von Oracle Real Application Clusters (RAC) können Sie die bevorzugten Knoten angeben, die SnapCenter zum Ausführen des Sicherungsvorgangs verwendet.  Wenn Sie den bevorzugten Knoten nicht angeben, weist SnapCenter automatisch einen Knoten als bevorzugten Knoten zu und die Sicherung wird auf diesem Knoten erstellt.
+
+Bei den bevorzugten Knoten kann es sich um einen oder alle Clusterknoten handeln, auf denen die RAC-Datenbankinstanzen vorhanden sind.  Der Sicherungsvorgang wird nur auf diesen bevorzugten Knoten in der Reihenfolge der Präferenz ausgelöst.
+
+.Beispiel
+Die RAC-Datenbank cdbrac hat drei Instanzen: cdbrac1 auf Knoten1, cdbrac2 auf Knoten2 und cdbrac3 auf Knoten3.
+
+Die Instanzen node1 und node2 werden als bevorzugte Knoten konfiguriert, wobei node2 die erste Präferenz und node1 die zweite Präferenz ist.  Wenn Sie einen Sicherungsvorgang durchführen, wird der Vorgang zuerst auf Knoten2 versucht, da dies der erste bevorzugte Knoten ist.
+
+Wenn sich Knoten2 nicht im erforderlichen Status für die Sicherung befindet (was mehrere Gründe haben kann), z. B. dass der Plug-in-Agent auf dem Host nicht ausgeführt wird, die Datenbankinstanz auf dem Host sich nicht im erforderlichen Status für den angegebenen Sicherungstyp befindet oder die Datenbankinstanz auf Knoten2 in einer FlexASM-Konfiguration nicht von der lokalen ASM-Instanz bedient wird), wird der Vorgang auf Knoten1 versucht.
+
+Der Knoten3 wird nicht für die Sicherung verwendet, da er nicht auf der Liste der bevorzugten Knoten steht.
+
+
+
+== Flex ASM-Setup
+
+In einem Flex ASM-Setup werden Leaf-Knoten nicht als bevorzugte Knoten aufgeführt, wenn die Kardinalität geringer ist als die Anzahl der Knoten im RAC-Cluster.  Wenn sich die Knotenrollen des Flex ASM-Clusters ändern, sollten Sie dies manuell feststellen, damit die bevorzugten Knoten aktualisiert werden.
+
+
+
+== Erforderlicher Datenbankstatus
+
+Die RAC-Datenbankinstanzen auf den bevorzugten Knoten müssen sich im erforderlichen Zustand befinden, damit die Sicherung erfolgreich abgeschlossen werden kann:
+
+* Eine der RAC-Datenbankinstanzen in den konfigurierten bevorzugten Knoten muss sich im offenen Zustand befinden, um eine Onlinesicherung zu erstellen.
+* Eine der RAC-Datenbankinstanzen in den konfigurierten bevorzugten Knoten muss sich im Mount-Status befinden und alle anderen Instanzen, einschließlich anderer bevorzugter Knoten, müssen sich im Mount-Status oder niedriger befinden, um eine Offline-Mount-Sicherung zu erstellen.
+* RAC-Datenbankinstanzen können sich in jedem beliebigen Zustand befinden, Sie müssen jedoch die bevorzugten Knoten angeben, um eine Offline-Shutdown-Sicherung zu erstellen.
+

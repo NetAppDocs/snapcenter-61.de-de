@@ -1,0 +1,90 @@
+---
+permalink: upgrade/task_upgrade_snapcenter.html 
+sidebar: sidebar 
+keywords: upgrade, upgrade snapcenter server, windows 
+summary: Sie können die ausführbare Datei des SnapCenter Server-Installationsprogramms verwenden, um den SnapCenter Server zu aktualisieren. 
+---
+= Aktualisieren Sie den SnapCenter -Server auf dem Windows-Host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie sollten den SnapCenter -Server aktualisieren, um auf die neuesten Funktionen und Verbesserungen der neuesten Version zugreifen zu können.
+
+.Bevor Sie beginnen
+* Aktualisieren Sie den SnapCenter Server-Host mit den neuesten Windows-Updates und stellen Sie sicher, dass keine Systemneustarts ausstehen.
+* Stellen Sie sicher, dass keine anderen Vorgänge ausgeführt werden, bevor Sie mit dem Upgrade beginnen.
+* Installieren Sie ASP.NET Core Runtime 8.0.12 (und alle nachfolgenden 8.0.x-Patches) Hosting Bundle und PowerShell 7.4.2 oder höher.
+* Sichern Sie die SnapCenter -Repository-Datenbank (MySQL), nachdem Sie sichergestellt haben, dass keine Jobs ausgeführt werden. Dies wird vor dem Upgrade von SnapCenter Server und dem Exchange-Plug-In empfohlen.
++
+Weitere Informationen finden Sie unterlink:../admin/concept_manage_the_snapcenter_server_repository.html#back-up-the-snapcenter-repository["Sichern Sie das SnapCenter Repository"^] .
+
+* Sichern Sie alle geänderten SnapCenter -Konfigurationsdateien, die Sie entweder auf dem SnapCenter Server-Host oder dem Plug-In-Host geändert haben.
++
+Beispiele für SnapCenter -Konfigurationsdateien: SnapDriveService.exe.config, SMCoreServiceHost.exe.config usw.
+
+* Wenn Sie mehrere Versionen des benutzerdefinierten Plug-Ins in SnapCenter 5.0 installiert haben, sollten Sie vor dem Upgrade auf 6.0 oder höher die Powershell-Cmdlets ausführen, um alle früheren Versionen des benutzerdefinierten Plug-Ins (mit Ausnahme der neuesten) aus dem SnapCenter Repository (NSM-Datenbank) zu entfernen.
++
+** Laufen `Open-SmConnection` und melden Sie sich mit den Anmeldeinformationen der SnapCenterAdmin-Rolle an
+** Laufen `Remove-SmPluginPackage -PluginName M<plug-in name> -PluginVersion <version number>`
++
+Weitere Informationen finden Sie unter  https://kb.netapp.com/data-mgmt/SnapCenter/SC_KBs/SnapCenter_6.0_upgrade_fails_in_nsm_repository_upgrade_SQL_script_8["Das Upgrade auf SnapCenter 6.0 oder höher schlägt fehl"] .
+
+
+
+
+
+.Informationen zu diesem Vorgang
+* Während des Upgrades führt SnapCenter ein SQL-Skript aus, um die Exchange-Daten in der NSM-Datenbank zu aktualisieren und den DAG- und Host-Kurznamen in FQDN umzuwandeln. Dies gilt nur, wenn Sie SnapCenter Server mit dem Exchange-Plug-In verwenden.
+* Wenn Sie den Serverhost manuell in den Wartungsmodus versetzt haben, wählen Sie nach dem Upgrade *Hosts* > *Zeitplan aktivieren*, um den Serverhost aus dem Wartungsmodus zu holen.
+* Für die vorhandenen Sicherungs- und Überprüfungszeitpläne mit in der Richtlinie aktivierten Prescripts und Postscripts funktionieren die Sicherungsvorgänge nach dem Upgrade weiterhin.
++
+Auf der Seite *Auftragsdetails* wird in einer Warnmeldung empfohlen, dass der Kunde die Skripte in den SCRIPTS_PATH kopieren und die Richtlinie bearbeiten sollte, um einen Pfad bereitzustellen, der relativ zum SCRIPTS_PATH ist.  Beim Klon-Lebenszyklusjob wird die Warnmeldung auf der Ebene des Unterjobs angezeigt.
+
+
+
+.Schritte
+. Laden Sie das SnapCenter Server-Installationspaket von der NetApp Support-Site herunter.
++
+https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab[]
+
+. Erstellen Sie eine Kopie der Datei web.config unter C:\Programme\ NetApp\ SnapCenter WebApp.
+. Exportieren Sie die Host-Zeitpläne des SnapCenter -Plug-Ins aus dem Windows-Taskplaner, um sie wiederherzustellen, falls das Upgrade fehlschlägt.
++
+`md d:\\SCBackup``schtasks /query /xml /TN taskname >> "D:\SCBackup\taskname.xml"`
+
+. Erstellen Sie den SnapCenter MySQL-Datenbank-Dump, wenn die Repository-Sicherung nicht konfiguriert ist.
++
+`md d:\\SCBackup``mysqldump --all-databases --single-transaction --add-drop-database --triggers --routines --events -u root -p > D:\SCBackup\SCRepoBackup.dmp`
+
++
+Geben Sie bei der entsprechenden Aufforderung das Kennwort ein.
+
+. Doppelklicken Sie auf die heruntergeladene EXE-Datei, um das SnapCenter Server-Upgrade zu starten.
++
+Nachdem Sie das Upgrade gestartet haben, führt SnapCenter Vorprüfungen durch. Wenn das System die Mindestanforderungen nicht erfüllt, zeigt SnapCenter Fehler- oder Warnmeldungen an. Sie können Warnungen ignorieren und mit der Installation fortfahren, müssen jedoch alle Fehler beheben.
+
++
+
+NOTE: SnapCenter verwendet weiterhin das vorhandene Datenbankkennwort des MySQL Server-Repositorys, das bei der Installation der früheren Version von SnapCenter Server bereitgestellt wurde.
+
+. Wählen Sie *Upgrade*.
++
+Wenn Sie zu irgendeinem Zeitpunkt *Abbrechen* auswählen, stoppt SnapCenter das Upgrade. Der SnapCenter -Server wird nicht auf den vorherigen Zustand zurückgesetzt.
+
++
+*Best Practice:* Melden Sie sich ab und erneut an oder öffnen Sie einen neuen Browser, um auf die SnapCenter Benutzeroberfläche zuzugreifen.
+
+
+
+.Nach Abschluss
+* Wenn das Plug-In mit einem Sudo-Benutzer installiert wird, sollten Sie die unter _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_ verfügbaren SHA224-Schlüssel kopieren, um die Datei _/etc/sudoers_ zu aktualisieren.
+* Sie sollten eine neue Ermittlung der Ressourcen auf dem Serverhost durchführen.
++
+Wenn SnapCenter den Server-Hoststatus als „gestoppt“ anzeigt, warten Sie einige Zeit und führen Sie eine neue Erkennung durch. Sie können den Wert des Parameters *HostRefreshInterval* (Standardwert ist 3600 Sekunden) auch auf einen beliebigen Wert über 10 Minuten ändern.
+
+* Wenn das Upgrade fehlschlägt, bereinigen Sie die fehlgeschlagene Installation, installieren Sie die frühere Version von SnapCenter neu und stellen Sie den vorherigen Zustand der NSM-Datenbank wieder her.
+* Nach dem Upgrade des Serverhosts müssen Sie auch die Plug-Ins aktualisieren, bevor Sie ein Speichersystem hinzufügen.
+

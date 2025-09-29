@@ -1,0 +1,20 @@
+---
+permalink: install/reference_provision_storage_using_powershell_cmdlets.html 
+sidebar: sidebar 
+keywords: Provision storage, snapcenter 
+summary: Wenn Sie die SnapCenter -GUI nicht zum Ausführen von Hostbereitstellungs- und Speicherplatzrückgewinnungsaufträgen verwenden möchten, können Sie die PowerShell-Cmdlets verwenden, die vom SnapCenter -Plug-in für Microsoft Windows bereitgestellt werden.  Sie können Cmdlets direkt verwenden oder sie zu Skripten hinzufügen. 
+---
+= Bereitstellen von Speicher mithilfe von PowerShell-Cmdlets
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie die SnapCenter -GUI nicht zum Ausführen von Hostbereitstellungs- und Speicherplatzrückgewinnungsaufträgen verwenden möchten, können Sie die PowerShell-Cmdlets verwenden.  Sie können Cmdlets direkt verwenden oder sie zu Skripten hinzufügen.
+
+Wenn Sie die Cmdlets auf einem Remote-Plug-In-Host ausführen, müssen Sie das SnapCenter Open-SMConnection-Cmdlet ausführen, um eine Verbindung zum SnapCenter -Server zu öffnen.
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+Wenn SnapCenter PowerShell-Cmdlets aufgrund der Entfernung von SnapDrive für Windows vom Server beschädigt sind, lesen Sie https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_cmdlets_broken_when_SnapDrive_for_Windows_is_uninstalled["SnapCenter -Cmdlets funktionieren nicht mehr, wenn SnapDrive für Windows deinstalliert wird"^] .

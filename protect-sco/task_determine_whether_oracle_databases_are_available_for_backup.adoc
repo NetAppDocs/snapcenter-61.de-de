@@ -1,0 +1,105 @@
+---
+permalink: protect-sco/task_determine_whether_oracle_databases_are_available_for_backup.html 
+sidebar: sidebar 
+keywords: credentials,SnapCenter Plug-in for Oracle Databases, non-database entries, oratab 
+summary: Ressourcen sind Oracle-Datenbanken auf dem Host, die von SnapCenter verwaltet werden.  Sie können diese Datenbanken zu Ressourcengruppen hinzufügen, um Datenschutzvorgänge durchzuführen, nachdem Sie die verfügbaren Datenbanken ermittelt haben. 
+---
+= Entdecken Sie für die Sicherung verfügbare Oracle-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ressourcen sind Oracle-Datenbanken auf dem Host, die von SnapCenter verwaltet werden.  Sie können diese Datenbanken zu Ressourcengruppen hinzufügen, um Datenschutzvorgänge durchzuführen, nachdem Sie die verfügbaren Datenbanken ermittelt haben.
+
+.Bevor Sie beginnen
+* Sie müssen Aufgaben wie die Installation des SnapCenter -Servers, das Hinzufügen von Hosts, das Erstellen von Speichersystemverbindungen und das Hinzufügen von Anmeldeinformationen abgeschlossen haben.
+* Wenn sich die Datenbanken auf einer Virtual Machine Disk (VMDK) oder Raw Device Mapping (RDM) befinden, müssen Sie das SnapCenter Plug-in for VMware vSphere bereitstellen und das Plug-in bei SnapCenter registrieren.
++
+Weitere Informationen finden Sie unter  https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere.html["Bereitstellen des SnapCenter Plug-in for VMware vSphere"^] .
+
+* Wenn sich Datenbanken auf einem VMDK-Dateisystem befinden, müssen Sie sich bei vCenter angemeldet und zu *VM-Optionen* > *Erweitert* > *Konfiguration bearbeiten* navigiert haben, um den Wert von _disk.enableUUID_ für die VM auf „true“ zu setzen.
+* Sie müssen den Prozess überprüft haben, dem SnapCenter folgt, um verschiedene Typen und Versionen von Oracle-Datenbanken zu erkennen.
+
+
+
+
+== Schritt 1: Verhindern, dass SnapCenter Einträge erkennt, die nicht in der Datenbank enthalten sind
+
+Sie können verhindern, dass SnapCenter in der oratab-Datei hinzugefügte Einträge erkennt, die nicht zur Datenbank gehören.
+
+.Schritte
+. Nach der Installation des Plug-Ins für Oracle sollte der Root-Benutzer die Datei *sc_oratab.config* im Verzeichnis _/var/opt/snapcenter/sco/etc/_ erstellen.
++
+Erteilen Sie dem Oracle-Binärbesitzer und der Gruppe die Schreibberechtigung, damit die Datei in Zukunft verwaltet werden kann.
+
+. Der Datenbankadministrator sollte die Nicht-Datenbankeinträge in der Datei *sc_oratab.config* hinzufügen.
++
+Es wird empfohlen, dasselbe Format beizubehalten, das für die Nicht-Datenbankeinträge in der Datei _/etc/oratab_ definiert ist. Alternativ kann der Benutzer einfach die Nicht-Datenbank-Entitätszeichenfolge hinzufügen.
+
++
+
+NOTE: Bei der Zeichenfolge wird zwischen Groß- und Kleinschreibung unterschieden.  Jeder Text mit # am Anfang wird als Kommentar behandelt.  Der Kommentar kann nach dem Nicht-Datenbanknamen angehängt werden.
+
++
+....
+For example:
+--------------------------------------------
+# Sample entries
+# Each line can have only one non-database name
+# These are non-database name
+oratar  # Added by the admin group -1
+#Added by the script team
+NEWSPT
+DBAGNT:/ora01/app/oracle/product/agent:N
+-----------------------------------------------
+....
+. Entdecken Sie die Ressourcen.
++
+Die in *sc_oratab.config* hinzugefügten Nicht-Datenbankeinträge werden nicht auf der Ressourcenseite aufgeführt.
+
+
+
+
+IMPORTANT: Es wird immer empfohlen, vor dem Upgrade des SnapCenter -Plug-Ins eine Sicherungskopie der Datei sc_oratab.config zu erstellen.
+
+
+
+== Schritt 2: Ressourcen entdecken
+
+Nach der Installation des Plug-Ins werden alle Datenbanken auf diesem Host automatisch erkannt und auf der Ressourcenseite angezeigt.
+
+Damit die Erkennung der Datenbanken erfolgreich ist, sollten sich die Datenbanken mindestens im gemounteten Zustand oder höher befinden.  In einer Oracle Real Application Clusters (RAC)-Umgebung muss sich die RAC-Datenbankinstanz auf dem Host, auf dem die Erkennung durchgeführt wird, mindestens im gemounteten Zustand oder höher befinden, damit die Erkennung der Datenbankinstanz erfolgreich ist.  Nur die erfolgreich erkannten Datenbanken können den Ressourcengruppen hinzugefügt werden.
+
+Wenn Sie eine Oracle-Datenbank auf dem Host gelöscht haben, wird SnapCenter Server dies nicht bemerken und die gelöschte Datenbank auflisten.  Sie sollten die Ressourcen manuell aktualisieren, um die SnapCenter Ressourcenliste zu aktualisieren.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Ansicht“ die Option „Datenbank“ aus.
++
+Klickenimage:../media/filter_icon.gif["Filtersymbol"] Filtersymbol] und wählen Sie dann den Hostnamen und den Datenbanktyp aus, um die Ressourcen zu filtern.  Sie können dann auf das Symbol imagfilter_icon.gif[Filtersymbol]_icon.png[] klicken, um den Filterbereich zu schließen.
+
+. Klicken Sie auf *Ressourcen aktualisieren*.
++
+In einem RAC One Node-Szenario wird die Datenbank als RAC-Datenbank auf dem Knoten erkannt, auf dem sie derzeit gehostet wird.
+
+
+
+*Ergebnisse*
+
+Die Datenbanken werden zusammen mit Informationen wie Datenbanktyp, Host- oder Clustername, zugehörigen Ressourcengruppen und Richtlinien sowie Status angezeigt.
+
+
+IMPORTANT: Sie müssen die Ressourcen aktualisieren, wenn die Datenbanken außerhalb von SnapCenter umbenannt werden.
+
+* Wenn sich die Datenbank auf einem Nicht- NetApp -Speichersystem befindet, zeigt die Benutzeroberfläche in der Spalte „Gesamtstatus“ die Meldung „Nicht für Sicherung verfügbar“ an.
++
+Sie können keine Datenschutzvorgänge für die Datenbank durchführen, die sich auf einem Nicht- NetApp -Speichersystem befindet.
+
+* Wenn sich die Datenbank auf einem NetApp Speichersystem befindet und nicht geschützt ist, zeigt die Benutzeroberfläche in der Spalte „Gesamtstatus“ die Meldung „Nicht geschützt“ an.
+* Wenn sich die Datenbank auf einem NetApp Speichersystem befindet und geschützt ist, zeigt die Benutzeroberfläche in der Spalte „Gesamtstatus“ die Meldung „Für Sicherung verfügbar“ an.
+
+
+
+NOTE: Wenn Sie eine Oracle-Datenbankauthentifizierung aktiviert haben, wird in der Ressourcenansicht ein rotes Vorhängeschlosssymbol angezeigt.  Sie müssen Datenbankanmeldeinformationen konfigurieren, um die Datenbank schützen zu können, oder sie der Ressourcengruppe hinzufügen, um Datenschutzvorgänge durchzuführen.

@@ -1,0 +1,47 @@
+---
+permalink: protect-postgresql/storage-types-supported-by-snapcenter-plug-in-for-postgresql.html 
+sidebar: sidebar 
+keywords: storage types, 
+summary: 'SnapCenter unterstützt eine breite Palette von Speichertypen sowohl auf physischen Maschinen als auch auf virtuellen Maschinen (VMs).  Sie müssen die Unterstützung für Ihren Speichertyp überprüfen, bevor Sie das SnapCenter -Plug-in für PostgreSQL installieren.' 
+---
+= Vom SnapCenter Plug-in für PostgreSQL unterstützte Speichertypen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter unterstützt eine breite Palette von Speichertypen sowohl auf physischen Maschinen als auch auf virtuellen Maschinen (VMs).  Sie müssen die Unterstützung für Ihren Speichertyp überprüfen, bevor Sie das SnapCenter -Plug-in für PostgreSQL installieren.
+
+|===
+| Maschine | Speichertyp 
+
+
+ a| 
+Physischer Server
+ a| 
+* FC-verbundene LUNs
+* Über iSCSI verbundene LUNs
+* Über NFS verbundene Volumes
+
+
+
+
+ a| 
+VMware ESXi
+ a| 
+* RDM-LUNs, die über einen FC oder iSCSI ESXi HBA verbunden sind. Das Scannen von Host-Bus-Adaptern (HBAs) kann lange dauern, da SnapCenter alle im Host vorhandenen Host-Bus-Adapter scannt.
++
+Sie können die Datei *LinuxConfig.pm* unter _/opt/ NetApp/snapcenter/spl/plugins/scu/scucore/modules/SCU/Config_ bearbeiten, um den Wert des Parameters *SCSI_HOSTS_OPTIMIZED_RESCAN* auf 1 zu setzen und nur die HBAs erneut zu scannen, die in HBA_DRIVER_NAMES aufgeführt sind.
+
+* iSCSI-LUNs, die vom iSCSI-Initiator direkt mit dem Gastsystem verbunden sind
+* VMDKs auf NFS-Datenspeichern
+* VMDKs auf VMFS
+* NFS-Volumes, die direkt mit dem Gastsystem verbunden sind
+* vVol-Datenspeicher auf NFS und SAN
++
+vVol-Datenspeicher können nur mit ONTAP Tools für VMware vSphere bereitgestellt werden.
+
+
+
+|===

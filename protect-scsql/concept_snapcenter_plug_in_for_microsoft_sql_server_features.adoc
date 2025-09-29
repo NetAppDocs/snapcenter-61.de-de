@@ -1,0 +1,61 @@
+---
+permalink: protect-scsql/concept_snapcenter_plug_in_for_microsoft_sql_server_features.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: Das Plug-in für SQL Server lässt sich in Microsoft SQL Server auf dem Windows-Host und in die NetApp Snapshot-Technologie auf dem Speichersystem integrieren.  Um mit dem Plug-in für SQL Server zu arbeiten, verwenden Sie die SnapCenter Schnittstelle. 
+---
+= SnapCenter Plug-in für Microsoft SQL Server-Funktionen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das Plug-in für SQL Server lässt sich in Microsoft SQL Server auf dem Windows-Host und in die NetApp Snapshot-Technologie auf dem Speichersystem integrieren.  Um mit dem Plug-in für SQL Server zu arbeiten, verwenden Sie die SnapCenter Schnittstelle.
+
+Das Plug-in für SQL Server umfasst die folgenden Hauptfunktionen:
+
+* *Einheitliche grafische Benutzeroberfläche mit SnapCenter*
++
+Die SnapCenter Schnittstelle bietet Ihnen Standardisierung und Konsistenz über Plug-Ins und Umgebungen hinweg.  Über die SnapCenter Schnittstelle können Sie konsistente Sicherungs- und Wiederherstellungsprozesse über alle Plug-Ins hinweg durchführen, zentralisierte Berichte verwenden, übersichtliche Dashboard-Ansichten nutzen, eine rollenbasierte Zugriffskontrolle (RBAC) einrichten und Jobs über alle Plug-Ins hinweg überwachen.  SnapCenter bietet außerdem eine zentrale Planung und Richtlinienverwaltung zur Unterstützung von Sicherungs- und Klonvorgängen.
+
+* *Automatisierte zentrale Verwaltung*
++
+Sie können routinemäßige SQL Server-Sicherungen planen, die richtlinienbasierte Aufbewahrung von Sicherungen konfigurieren und zeitpunktbezogene und minutengenaue Wiederherstellungsvorgänge einrichten.  Sie können Ihre SQL Server-Umgebung auch proaktiv überwachen, indem Sie SnapCenter so konfigurieren, dass E-Mail-Benachrichtigungen gesendet werden.
+
+* *Unterbrechungsfreie NetApp Snapshot-Technologie*
++
+Das Plug-in für SQL Server verwendet die NetApp Snapshot-Technologie mit dem NetApp SnapCenter Plug-in für Microsoft Windows.  Auf diese Weise können Sie Datenbanken in Sekundenschnelle sichern und schnell wiederherstellen, ohne SQL Server offline zu nehmen.  Snapshots verbrauchen nur minimalen Speicherplatz.
+
+
+
+Zusätzlich zu diesen Hauptfunktionen bietet das Plug-in für SQL Server die folgenden Vorteile:
+
+* Unterstützung für Sicherungs-, Wiederherstellungs-, Klon- und Überprüfungs-Workflows
+* RBAC-gestützte Sicherheit und zentralisierte Rollendelegierung
+* Erstellung platzsparender Point-in-Time-Kopien von Produktionsdatenbanken zum Testen oder zur Datenextraktion mithilfe der NetApp FlexClone -Technologie
++
+Auf dem Speichersystem, auf dem sich der Klon befindet, ist eine FlexClone -Lizenz erforderlich.
+
+* Unterbrechungsfreie und automatisierte Backup-Verifizierung
+* Möglichkeit, mehrere Backups gleichzeitig auf mehreren Servern auszuführen
+* PowerShell-Cmdlets zum Skripting von Sicherungs-, Überprüfungs-, Wiederherstellungs- und Klonvorgängen
+* Unterstützung für AlwaysOn-Verfügbarkeitsgruppen (AGs) in SQL Server zur Beschleunigung der Einrichtung, Sicherung und Wiederherstellung von AGs
+* In-Memory-Datenbank und Buffer Pool Extension (BPE) als Teil von SQL Server 2014
+* Unterstützung für die Sicherung von LUNs und virtuellen Maschinenfestplatten (VMDKs)
+* Unterstützung für physische und virtualisierte Infrastrukturen
+* Unterstützung für iSCSI, Fibre Channel, FCoE, Raw Device Mapping (RDM) und VMDK über NFS und VMFS
++
+
+NOTE: NAS-Volumes sollten über eine Standardexportrichtlinie in der Storage Virtual Machine (SVM) verfügen.
+
+* Unterstützung für FileStream und Dateigruppen in eigenständigen SQL Server-Datenbanken.
+* Unterstützung für Non-Volatile Memory Express (NVMe) auf Windows Server 2022
++
+** Sicherungs-, Wiederherstellungs-, Klon- und Überprüfungs-Workflows auf VMDK-Layout, das auf NVMe über TCP/IP erstellt wurde.
+** Unterstützt NVMe-Firmwareversion 1.3 ab ESX 8.0 Update 2 und erfordert virtuelle Hardwareversion 21.
+** Windows Server Failover Clustering (WSFC) wird für Anwendungen über VMDK auf NVMe über TCP/IP nicht unterstützt.
+
+
+* Unterstützt SnapMirror Active Sync (ursprünglich veröffentlicht als SnapMirror Business Continuity [SM-BC]), wodurch Geschäftsdienste auch bei einem vollständigen Site-Ausfall weiter ausgeführt werden können und Anwendungen mithilfe einer sekundären Kopie transparent ausfallen können.  Um mit SnapMirror Active Sync ein Failover auszulösen, sind weder manuelle Eingriffe noch zusätzliche Skripts erforderlich.
+

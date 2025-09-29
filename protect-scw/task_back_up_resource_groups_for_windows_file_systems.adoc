@@ -1,0 +1,57 @@
+---
+permalink: protect-scw/task_back_up_resource_groups_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backing up 
+summary: Eine Ressourcengruppe ist eine Sammlung von Ressourcen auf einem Host oder Cluster.  Ein Sicherungsvorgang für die Ressourcengruppe wird für alle in der Ressourcengruppe definierten Ressourcen ausgeführt.  Sie können eine Ressourcengruppe bei Bedarf von der Seite „Ressourcen“ aus sichern.  Wenn einer Ressourcengruppe eine Richtlinie zugeordnet und ein Zeitplan konfiguriert ist, werden die Sicherungen automatisch gemäß dem Zeitplan durchgeführt. 
+---
+= Sichern von Ressourcengruppen für Windows-Dateisysteme
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine Ressourcengruppe ist eine Sammlung von Ressourcen auf einem Host oder Cluster.  Ein Sicherungsvorgang für die Ressourcengruppe wird für alle in der Ressourcengruppe definierten Ressourcen ausgeführt.  Sie können eine Ressourcengruppe bei Bedarf von der Seite „Ressourcen“ aus sichern.  Wenn einer Ressourcengruppe eine Richtlinie zugeordnet und ein Zeitplan konfiguriert ist, werden die Sicherungen automatisch gemäß dem Zeitplan durchgeführt.
+
+.Bevor Sie beginnen
+* Sie müssen eine Ressourcengruppe mit einer angehängten Richtlinie erstellt haben.
+* Wenn Sie eine Ressource mit einer SnapMirror -Beziehung zum sekundären Speicher sichern möchten, sollte die dem Speicherbenutzer zugewiesene Rolle das Privileg „snapmirror all“ enthalten.  Wenn Sie jedoch die Rolle „vsadmin“ verwenden, ist das Privileg „snapmirror all“ nicht erforderlich.
+* Wenn eine Ressourcengruppe über mehrere Datenbanken von verschiedenen Hosts verfügt, kann es sein, dass der Sicherungsvorgang auf einigen Hosts aufgrund von Netzwerkproblemen verspätet ausgelöst wird.  Sie sollten den Wert von MaxRetryForUninitializedHosts in web.config mithilfe des PowerShell-Cmdlets Set-SmConfigSettings konfigurieren.
+
+
+
+NOTE: Beim Sichern eines Dateisystems sichert SnapCenter keine LUNs, die auf einem Volume Mount Point (VMP) im zu sichernden Dateisystem gemountet sind.
+
+
+IMPORTANT: Wenn Sie im Kontext eines Windows-Dateisystems arbeiten, sichern Sie keine Datenbankdateien.  Dadurch entsteht eine inkonsistente Sicherung und es kann beim Wiederherstellen zu Datenverlust kommen.  Zum Schutz von Datenbankdateien müssen Sie das entsprechende SnapCenter -Plug-in für die Datenbank verwenden (z. B. SnapCenter -Plug-in für Microsoft SQL Server oder SnapCenter -Plug-in für Microsoft Exchange Server).
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Ressourcengruppe“ aus.
++
+Sie können die Ressourcengruppe suchen, indem Sie entweder den Namen der Ressourcengruppe in das Suchfeld eingeben oder aufimage:../media/filter_icon.gif["Filtersymbol"] und wählen Sie das Tag aus.  Sie können dann aufimage:../media/filter_icon.gif["Filtersymbol"] , um den Filterbereich zu schließen.
+
+. Wählen Sie auf der Seite „Ressourcengruppen“ die Ressourcengruppe aus, die Sie sichern möchten, und klicken Sie dann auf *Jetzt sichern*.
++
+
+NOTE: Wenn Sie beim SnapCenter Plug-in für Oracle Database über eine föderierte Ressourcengruppe mit zwei Datenbanken verfügen und eine der Datenbanken eine Datendatei auf einem Nicht- NetApp -Speicher hat, wird der Sicherungsvorgang abgebrochen, obwohl sich die andere Datenbank auf einem NetApp -Speicher befindet.
+
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn Sie der Ressourcengruppe mehrere Richtlinien zugeordnet haben, wählen Sie aus der Dropdownliste *Richtlinie* die Richtlinie aus, die Sie für die Sicherung verwenden möchten.
++
+Wenn die für die On-Demand-Sicherung ausgewählte Richtlinie mit einem Sicherungszeitplan verknüpft ist, werden die On-Demand-Sicherungen basierend auf den für den Zeitplantyp angegebenen Aufbewahrungseinstellungen aufbewahrt.
+
+.. Klicken Sie auf *Sichern*.
+
+
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
++
+** In MetroCluster -Konfigurationen kann SnapCenter nach einem Failover möglicherweise keine Schutzbeziehung erkennen.
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["SnapMirror oder SnapVault -Beziehung kann nach MetroCluster Failover nicht erkannt werden"^]
+
+** Wenn Sie Anwendungsdaten auf VMDKs sichern und die Java-Heap-Größe für das SnapCenter Plug-in for VMware vSphere nicht groß genug ist, schlägt die Sicherung möglicherweise fehl.  Um die Größe des Java-Heaps zu erhöhen, suchen Sie die Skriptdatei `/opt/netapp/init_scripts/scvservice` .  In diesem Skript `do_start method` Der Befehl startet den SnapCenter VMware-Plug-In-Dienst.  Aktualisieren Sie diesen Befehl wie folgt: `Java -jar -Xmx8192M -Xms4096M` .
+
+
+

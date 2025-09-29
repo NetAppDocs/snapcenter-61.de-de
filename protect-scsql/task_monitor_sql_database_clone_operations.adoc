@@ -1,0 +1,42 @@
+---
+permalink: protect-scsql/task_monitor_sql_database_clone_operations.html 
+sidebar: sidebar 
+keywords: clone 
+summary: Sie können den Fortschritt der SnapCenter -Klonvorgänge auf der Seite „Jobs“ überwachen.  Möglicherweise möchten Sie den Fortschritt eines Vorgangs überprüfen, um festzustellen, wann er abgeschlossen ist oder ob ein Problem vorliegt. 
+---
+= Überwachen von SQL-Datenbankklonvorgängen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den Fortschritt der SnapCenter -Klonvorgänge auf der Seite „Jobs“ überwachen.  Möglicherweise möchten Sie den Fortschritt eines Vorgangs überprüfen, um festzustellen, wann er abgeschlossen ist oder ob ein Problem vorliegt.
+
+.Informationen zu diesem Vorgang
+Die folgenden Symbole werden auf der Seite „Jobs“ angezeigt und geben den Status des Vorgangs an:
+
+* image:../media/progress_icon.gif["Symbol „In Bearbeitung“"]Im Gange
+* image:../media/success_icon.gif["Symbol „Abgeschlossen“"]Erfolgreich abgeschlossen
+* image:../media/failed_icon.gif["Fehlgeschlagenes Symbol"]Fehlgeschlagen
+* image:../media/warning_icon.gif["Abgeschlossen mit Warnsymbol"]Mit Warnungen abgeschlossen oder konnte aufgrund von Warnungen nicht gestartet werden
+* image:../media/verification_job_in_queue.gif["Der Überprüfungsauftrag befindet sich in der Warteschlange."]In der Warteschlange
+* image:../media/cancel_icon.gif["Symbol „Abbrechen“"]Abgesagt
+
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Monitor*.
+. Klicken Sie auf der Seite *Überwachen* auf *Jobs*.
+. Führen Sie auf der Seite *Jobs* die folgenden Schritte aus:
++
+.. Klickenimage:../media/filter_icon.gif["Filtersymbol"] um die Liste so zu filtern, dass nur Klonvorgänge aufgelistet werden.
+.. Geben Sie das Start- und Enddatum an.
+.. Wählen Sie aus der Dropdownliste *Typ* die Option *Klon* aus.
+.. Wählen Sie aus der Dropdown-Liste *Status* den Klonstatus aus.
+.. Klicken Sie auf *Übernehmen*, um die erfolgreich abgeschlossenen Vorgänge anzuzeigen.
+
+
+. Wählen Sie den Klonauftrag aus und klicken Sie dann auf *Details*, um die Auftragsdetails anzuzeigen.
+. Klicken Sie auf der Seite „Auftragsdetails“ auf *Protokolle anzeigen*.
+

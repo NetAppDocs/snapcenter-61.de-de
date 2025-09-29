@@ -1,0 +1,55 @@
+---
+permalink: protect-sco/task_back_up_oracle_database_resource_groups.html 
+sidebar: sidebar 
+keywords: backup, resource group 
+summary: Eine Ressourcengruppe ist eine Sammlung von Ressourcen auf einem Host oder Cluster.  Ein Sicherungsvorgang für die Ressourcengruppe wird für alle in der Ressourcengruppe definierten Ressourcen ausgeführt. 
+---
+= Sichern von Oracle-Datenbankressourcengruppen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine Ressourcengruppe ist eine Sammlung von Ressourcen auf einem Host oder Cluster.  Der Sicherungsvorgang wird für alle in der Ressourcengruppe definierten Ressourcen ausgeführt.
+
+Sie können eine Ressourcengruppe bei Bedarf von der Seite „Ressourcen“ aus sichern.  Wenn einer Ressourcengruppe eine Richtlinie zugeordnet und ein Zeitplan konfiguriert ist, werden Sicherungen gemäß dem Zeitplan erstellt.
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Ressourcengruppe“ aus.
+. Geben Sie den Namen der Ressourcengruppe in das Suchfeld ein oder klicken Sie aufimage:../media/filter_icon.gif["Filtersymbol"] und wählen Sie das Tag aus.
++
+Klickenimage:../media/filter_icon.gif["Filtersymbol"] , um den Filterbereich zu schließen.
+
+. Wählen Sie auf der Seite „Ressourcengruppe“ die zu sichernde Ressourcengruppe aus.
++
+
+NOTE: Wenn Sie über eine föderierte Ressourcengruppe mit zwei Datenbanken verfügen und eine davon Daten auf einem Nicht- NetApp -Speicher enthält, wird der Sicherungsvorgang abgebrochen, obwohl sich die andere Datenbank auf einem NetApp -Speicher befindet.
+
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn der Ressourcengruppe mehrere Richtlinien zugeordnet sind, wählen Sie aus der Dropdownliste *Richtlinie* die gewünschte Sicherungsrichtlinie aus.
++
+Wenn die für die On-Demand-Sicherung ausgewählte Richtlinie mit einem Sicherungszeitplan verknüpft ist, werden die On-Demand-Sicherungen basierend auf den für den Zeitplantyp angegebenen Aufbewahrungseinstellungen aufbewahrt.
+
+.. Wählen Sie *Backup*.
+
+
+. Überwachen Sie den Fortschritt, indem Sie *Überwachen > Jobs* auswählen.
+
+
+.Nach Abschluss
+* Im AIX-Setup können Sie die `lkdev` Befehl zum Sperren und die `rendev` Befehl zum Umbenennen der Datenträger, auf denen sich die gesicherte Datenbank befand.
++
+Das Sperren oder Umbenennen von Geräten hat keine Auswirkungen auf den Wiederherstellungsvorgang, wenn Sie die Wiederherstellung mithilfe dieser Sicherung durchführen.
+
+* Wenn der Sicherungsvorgang fehlschlägt, weil die Ausführungszeit der Datenbankabfrage den Timeout-Wert überschritten hat, sollten Sie den Wert der Parameter ORACLE_SQL_QUERY_TIMEOUT und ORACLE_PLUGIN_SQL_QUERY_TIMEOUT ändern, indem Sie den `Set-SmConfigSettings` Cmdlet:
++
+Nachdem Sie den Wert der Parameter geändert haben, starten Sie den SnapCenter Plug-in Loader (SPL)-Dienst neu, indem Sie den folgenden Befehl ausführen `/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+* Wenn während des Überprüfungsprozesses nicht auf die Datei zugegriffen werden kann und der Einhängepunkt nicht verfügbar ist, schlägt der Vorgang möglicherweise mit dem Fehlercode DBV-00100 für die angegebene Datei fehl.  Sie sollten die Werte der Parameter VERIFICATION_DELAY_ und VERIFICATION_RETRY_COUNT in sco.properties ändern.
++
+Nachdem Sie den Wert der Parameter geändert haben, starten Sie den SnapCenter Plug-in Loader (SPL)-Dienst neu, indem Sie den folgenden Befehl ausführen `/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+

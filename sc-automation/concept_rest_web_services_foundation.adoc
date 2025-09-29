@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: sc-automation/concept_rest_web_services_foundation.html 
+keywords: uri endpoints, http messages, json format 
+summary: REST ist ein Stil zum Erstellen verteilter Webanwendungen. Bei der Entwicklung einer Webservice-API etabliert es eine Reihe von Technologien und Best Practices für die Bereitstellung serverbasierter Ressourcen und die Verwaltung ihrer Zustände.  Es verwendet gängige Protokolle und Standards, um eine flexible Grundlage für die Verwaltung von SnapCenter bereitzustellen. 
+---
+= REST-Webdienstgrundlagen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Representational State Transfer (REST) ist ein Stil zur Erstellung verteilter Webanwendungen. Bei der Entwicklung einer Webservice-API etabliert es eine Reihe von Technologien und Best Practices für die Bereitstellung serverbasierter Ressourcen und die Verwaltung ihrer Zustände. Es verwendet gängige Protokolle und Standards, um eine flexible Grundlage für die Verwaltung von SnapCenter bereitzustellen.
+
+
+
+== Ressourcen und staatliche Vertretung
+
+Ressourcen sind die grundlegenden Komponenten eines webbasierten Systems. Zu den ersten Entwurfsaufgaben beim Erstellen einer REST-Webdienstanwendung gehören:
+
+
+
+=== Identifizierung system- oder serverbasierter Ressourcen
+
+Jedes System verwendet und verwaltet Ressourcen. Eine Ressource kann eine Datei, eine Geschäftstransaktion, ein Prozess oder eine Verwaltungseinheit sein. Eine der ersten Aufgaben beim Entwurf einer Anwendung auf Basis von REST-Webdiensten ist die Identifizierung der Ressourcen.
+
+
+
+=== Definition von Ressourcenzuständen und zugehörigen Zustandsoperationen
+
+Ressourcen befinden sich immer in einem von einer begrenzten Anzahl von Zuständen.  Die Zustände sowie die zugehörigen Operationen, die zur Beeinflussung der Zustandsänderungen verwendet werden, sollten klar definiert sein.
+
+
+
+== URI-Endpunkte
+
+Jede REST-Ressource muss mithilfe eines klar definierten Adressierungsschemas definiert und bereitgestellt werden. Die Endpunkte, an denen die Ressourcen lokalisiert und identifiziert werden, verwenden einen Uniform Resource Identifier (URI).
+
+Der URI bietet einen allgemeinen Rahmen für die Erstellung eines eindeutigen Namens für jede Ressource im Netzwerk. Der Uniform Resource Locator (URL) ist ein URI-Typ, der in Webdiensten zur Identifizierung und zum Zugriff auf Ressourcen verwendet wird. Ressourcen werden typischerweise in einer hierarchischen Struktur ähnlich einem Dateiverzeichnis bereitgestellt.
+
+
+
+== HTTP-Nachrichten
+
+HTTP (Hypertext Transfer Protocol) ist das Protokoll, das vom Webdienst-Client und -Server zum Austausch von Anforderungs- und Antwortnachrichten zu Ressourcen verwendet wird.
+
+Beim Entwurf einer Webdienstanwendung werden HTTP-Methoden den Ressourcen und den entsprechenden Aktionen zur Statusverwaltung zugeordnet. HTTP ist zustandslos.  Um eine Reihe zusammengehöriger Anfragen und Antworten als Teil einer Transaktion zu verknüpfen, müssen daher zusätzliche Informationen in die HTTP-Header aufgenommen werden, die mit den Anfrage- und Antwortdatenflüssen übertragen werden.
+
+
+
+== JSON-Formatierung
+
+Informationen können auf verschiedene Weise strukturiert und zwischen einem Webdienst-Client und einem Server übertragen werden, die beliebteste Option ist jedoch JavaScript Object Notation (JSON).
+
+JSON ist ein Industriestandard für die Darstellung einfacher Datenstrukturen in Klartext und wird zur Übertragung von Statusinformationen verwendet, die die Ressourcen beschreiben. Die SnapCenter REST-API verwendet JSON, um die im Text jeder HTTP-Anfrage und -Antwort enthaltenen Daten zu formatieren.

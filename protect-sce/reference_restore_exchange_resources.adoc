@@ -1,0 +1,20 @@
+---
+permalink: protect-sce/reference_restore_exchange_resources.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: Sie können SnapCenter verwenden, um Exchange-Datenbanken wiederherzustellen, indem Sie eine oder mehrere Sicherungen in Ihrem aktiven Dateisystem wiederherstellen. 
+---
+= Wiederherstellungs-Workflow
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um Exchange-Datenbanken wiederherzustellen, indem Sie eine oder mehrere Sicherungen in Ihrem aktiven Dateisystem wiederherstellen.
+
+Der folgende Arbeitsablauf zeigt die Reihenfolge, in der Sie die Wiederherstellungsvorgänge für die Exchange-Datenbank durchführen müssen:
+
+image:../media/all_plug_ins_restore_workflow.gif["Wiederherstellungs-Workflow"]
+
+Sie können PowerShell-Cmdlets auch manuell oder in Skripts verwenden, um Sicherungs- und Wiederherstellungsvorgänge durchzuführen.  Ausführliche Informationen zu PowerShell-Cmdlets finden Sie in der Hilfe zu SnapCenter -Cmdlets oder unter https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .

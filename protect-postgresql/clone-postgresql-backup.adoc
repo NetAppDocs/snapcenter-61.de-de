@@ -1,0 +1,191 @@
+---
+permalink: protect-postgresql/clone-postgresql-backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL,run as 
+summary: Sie können SnapCenter verwenden, um ein Backup zu klonen.  Sie können von einer primären oder sekundären Sicherung klonen. 
+---
+= Klonen einer PostgreSQL-Sicherung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um ein Backup zu klonen.  Sie können von einer primären oder sekundären Sicherung klonen.
+
+.Bevor Sie beginnen
+* Sie sollten die Ressourcen oder Ressourcengruppe gesichert haben.
+* Sie sollten sicherstellen, dass die Aggregate, die die Volumes hosten, in der Liste der zugewiesenen Aggregate der Storage Virtual Machine (SVM) enthalten sind.
+* Bei Befehlen vor oder nach dem Klonen sollten Sie überprüfen, ob die Befehle in der Befehlsliste vorhanden sind, die auf dem Plug-In-Host unter den folgenden Pfaden verfügbar ist:
++
+** Standardspeicherort auf dem Windows-Host: _C:\Programme\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Standardspeicherort auf dem Linux-Host: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: Wenn die Befehle nicht in der Befehlsliste vorhanden sind, schlägt der Vorgang fehl.
+
+.Informationen zu diesem Vorgang
+* Informationen zu FlexClone -Volume-Split-Vorgängen finden Sie unterhttps://docs.netapp.com/us-en/ontap/volumes/split-flexclone-from-parent-task.html["Teilen Sie ein FlexClone -Volume von seinem übergeordneten Volume"] .
+* Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+
+
+[role="tabbed-block"]
+====
+.SnapCenter -Benutzeroberfläche
+--
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Filtern Sie auf der Seite „Ressourcen“ die Ressourcen aus der Dropdown-Liste *Anzeigen* basierend auf dem Ressourcentyp.
++
+Die Ressourcen werden zusammen mit Informationen wie Typ, Host, zugehörigen Ressourcengruppen und Richtlinien sowie Status angezeigt.
+
+. Wählen Sie die Ressource oder Ressourcengruppe aus.
++
+Sie müssen eine Ressource auswählen, wenn Sie eine Ressourcengruppe auswählen.
+
++
+Die Topologieseite der Ressource oder Ressourcengruppe wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Backups* entweder aus dem primären oder sekundären (gespiegelten oder im Tresor gespeicherten) Speichersystem aus.
+. Wählen Sie die Datensicherung aus der Tabelle aus und klicken Sie anschließend aufimage:../media/clone_icon.gif["Klonsymbol"] .
+. Führen Sie auf der Seite „Standort“ die folgenden Aktionen aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Server klonen
+ a| 
+Wählen Sie einen Host aus, auf dem der Klon erstellt werden soll.
+
+
+
+ a| 
+Zielport
+ a| 
+Geben Sie den PostgreSQL-Zielport ein, um aus den vorhandenen Sicherungen zu klonen.
+
+
+
+ a| 
+NFS-Export-IP-Adresse
+ a| 
+Geben Sie die IP-Adressen oder Hostnamen ein, auf die die geklonten Volumes exportiert werden.
+
+Dies gilt nur für Ressourcen des NFS-Speichertyps.
+
+
+
+ a| 
+Max. Durchsatz des Kapazitätspools (MiB/s)
+ a| 
+Geben Sie den maximalen Durchsatz eines Kapazitätspools ein.
+
+Dies gilt nur für Ressourcen des Speichertyps ANF.
+
+|===
+. Führen Sie auf der Seite „Skripts“ die folgenden Schritte aus:
++
+
+NOTE: Die Skripte werden auf dem Plug-in-Host ausgeführt.
+
++
+.. Geben Sie die Befehle für „Pre-Clone“ oder „Post-Clone“ ein, die vor bzw. nach dem Klonvorgang ausgeführt werden sollen.
++
+*** Befehl vor dem Klonen: Löschen Sie vorhandene Cluster mit demselben Namen
+*** Befehl nach dem Klonen: Überprüfen Sie einen Cluster oder starten Sie einen Cluster.
+
+
+.. Geben Sie den Mount-Befehl ein, um ein Dateisystem auf einem Host zu mounten.
++
+Mount-Befehl für ein Volume oder einen Qtree auf einer Linux-Maschine:
+
++
+Beispiel für NFS: `mount VSERVER_DATA_IP:%VOLUME_NAME_Clone /mnt`
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+
+
+--
+.PowerShell-Cmdlets
+--
+.Schritte
+. Initiieren Sie mithilfe des Cmdlets Open-SmConnection eine Verbindungssitzung mit dem SnapCenter -Server für einen angegebenen Benutzer.
++
+[listing]
+----
+PS C:\> Open-SmConnection
+----
+. Rufen Sie die Sicherungen ab, um den Klonvorgang mithilfe des Cmdlets „Get-SmBackup“ durchzuführen.
++
+Dieses Beispiel zeigt, dass zwei Sicherungen zum Klonen verfügbar sind:
+
++
+[listing]
+----
+ C:\PS> Get-SmBackup
+
+        BackupId                      BackupName                    BackupTime                    BackupType
+        --------                      ----------                    ----------                    ----------
+         1                     Payroll Dataset_vise-f6_08... 8/4/2015 11:02:32 AM          Full Backup
+         2                     Payroll Dataset_vise-f6_08... 8/4/2015 11:23:17 AM
+----
+. Starten Sie einen Klonvorgang von einer vorhandenen Sicherung und geben Sie die NFS-Export-IP-Adressen an, auf die die geklonten Volumes exportiert werden.
++
+Dieses Beispiel zeigt, dass das zu klonende Backup eine NFSExportIPs-Adresse von 10.32.212.14 hat:
+
++
+Für PostgreSQL-Cluster:
+
++
+[listing]
+----
+PS C:\> New-SmClone -AppPluginCode PostgreSQL -BackupName " scpostgresql01_ openenglab_netapp_com_PostgreSQL_postgres_5432_06-26-2024_00_33_41_1570" -Resources @{"Host"=" 10.32.212.13";"Uid"="postgres_5432"} -port 2345 -CloneToHost 10.32.212.14
+----
++
+
+NOTE: Wenn NFSExportIPs nicht angegeben ist, wird der Standardwert auf den Klonzielhost exportiert.
+
+. Überprüfen Sie, ob die Sicherungen erfolgreich geklont wurden, indem Sie mit dem Cmdlet „Get-SmCloneReport“ die Details des Klonauftrags anzeigen.
++
+Sie können Details wie Klon-ID, Startdatum und -uhrzeit sowie Enddatum und -uhrzeit anzeigen.
+
++
+[listing]
+----
+PS C:\> Get-SmCloneReport -JobId 186
+
+    SmCloneId           : 1
+    SmJobId             : 186
+    StartDateTime       : 8/3/2015 2:43:02 PM
+    EndDateTime         : 8/3/2015 2:44:08 PM
+    Duration            : 00:01:06.6760000
+    Status              : Completed
+    ProtectionGroupName : Draper
+    SmProtectionGroupId : 4
+    PolicyName          : OnDemand_Clone
+    SmPolicyId          : 4
+    BackupPolicyName    : OnDemand_Full_Log
+    SmBackupPolicyId    : 1
+    CloneHostName       : SCSPR0054212005.mycompany.com
+    CloneHostId         : 4
+    CloneName           : Draper__clone__08-03-2015_14.43.53
+    SourceResources     : {Don, Betty, Bobby, Sally}
+    ClonedResources     : {Don_DRAPER, Betty_DRAPER, Bobby_DRAPER, Sally_DRAPER}
+    SmJobError          :
+----
+
+
+--
+====

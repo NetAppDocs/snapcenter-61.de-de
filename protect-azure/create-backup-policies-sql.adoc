@@ -1,0 +1,71 @@
+---
+permalink: protect-azure/create-backup-policies-sql.html 
+sidebar: sidebar 
+keywords: create policies, sql, backup policies 
+summary: Erstellen Sie eine Sicherungsrichtlinie für die Ressource oder Ressourcengruppe, die Sie sichern möchten. 
+---
+= Erstellen von Sicherungsrichtlinien für SQL Server-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können eine Sicherungsrichtlinie für die Ressource oder die Ressourcengruppe erstellen, bevor Sie SnapCenter zum Sichern von SQL Server-Ressourcen verwenden, oder Sie können eine Sicherungsrichtlinie erstellen, wenn Sie eine Ressourcengruppe erstellen oder eine einzelne Ressource sichern.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Richtlinien*.
+. Klicken Sie auf *Neu*.
+. Geben Sie auf der Seite „Name“ den Richtliniennamen und eine Beschreibung ein.
+. Führen Sie auf der Seite „Richtlinientyp“ die folgenden Schritte aus:
++
+.. Wählen Sie als Speichertyp * Azure NetApp Files* aus.
+.. Wählen Sie den Sicherungstyp aus.
++
+... Wählen Sie *Vollständige Sicherung und Protokollsicherung*, wenn Sie Datenbankdateien und Transaktionsprotokolle sichern möchten.
+... Wählen Sie *Vollständige Sicherung*, wenn Sie nur die Datenbankdateien sichern möchten.
+... Wählen Sie *Protokollsicherung*, wenn Sie nur die Transaktionsprotokolle sichern möchten.
+... Wählen Sie *Nur Backup kopieren*, wenn Sie Ihre Ressourcen mithilfe einer anderen Anwendung sichern möchten.
+
+
+.. Führen Sie im Abschnitt „Einstellungen der Verfügbarkeitsgruppe“ die folgenden Aktionen aus:
++
+... Wählen Sie „Auf bevorzugter Sicherungsreplik sichern“, wenn Sie nur auf der Replik sichern möchten.
+... Wählen Sie das primäre AG-Replikat oder das sekundäre AG-Replikat für die Sicherung aus.
+... Wählen Sie die Sicherungspriorität aus.
+
+
+
+
+. Führen Sie auf der Seite „Snapshot und Sicherung“ die folgenden Schritte aus:
++
+.. Wählen Sie die Häufigkeit der geplanten Sicherung aus.
+.. Geben Sie die Aufbewahrungseinstellungen je nach ausgewähltem Sicherungstyp an.
+.. Wenn Sie die Azure NetApp Files -Sicherung aktivieren möchten, wählen Sie *Sicherung aktivieren* und geben Sie die Aufbewahrungseinstellungen an.
+
+
+. Führen Sie auf der Seite „Verifizierung“ die folgenden Schritte aus:
++
+.. Wählen Sie im Abschnitt „Überprüfung für folgende Sicherungszeitpläne ausführen“ die Zeitplanhäufigkeit aus.
+.. Führen Sie im Abschnitt „Optionen zur Datenbankkonsistenzprüfung“ die folgenden Aktionen aus:
++
+... Wählen Sie *Integritätsstruktur auf die physische Struktur der Datenbank beschränken (NUR_PHYSIKALISCH)* aus, um die Integritätsprüfung auf die physische Struktur der Datenbank zu beschränken und zerrissene Seiten, Prüfsummenfehler und allgemeine Hardwarefehler zu erkennen, die sich auf die Datenbank auswirken.
+... Wählen Sie *Alle Informationsmeldungen unterdrücken (NO_INFOMSGS)*, um alle Informationsmeldungen zu unterdrücken.
++
+Standardmäßig ausgewählt.
+
+... Wählen Sie *Alle gemeldeten Fehlermeldungen pro Objekt anzeigen (ALL_ERRORMSGS)*, um alle gemeldeten Fehler pro Objekt anzuzeigen.
+... Wählen Sie *Nicht gruppierte Indizes nicht prüfen (NOINDEX)* aus, wenn Sie keine nicht gruppierten Indizes prüfen möchten.
++
+Die SQL Server-Datenbank verwendet den Microsoft SQL Server Database Consistency Checker (DBCC), um die logische und physische Integrität der Objekte in der Datenbank zu überprüfen.
+
+... Wählen Sie *Beschränken Sie die Prüfungen und erhalten Sie die Sperren, anstatt eine interne Datenbank-Snapshot-Kopie zu verwenden (TABLOCK)* aus, um die Prüfungen zu begrenzen und Sperren zu erhalten, anstatt einen internen Datenbank-Snapshot zu verwenden.
+
+
+.. Wählen Sie im Abschnitt *Protokollsicherung* die Option *Protokollsicherung nach Abschluss überprüfen* aus, um die Protokollsicherung nach Abschluss zu überprüfen.
+.. Geben Sie im Abschnitt *Einstellungen des Überprüfungsskripts* den Pfad und die Argumente des Präskripts oder Postskripts ein, das vor bzw. nach dem Überprüfungsvorgang ausgeführt werden soll.
+
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie auf *Fertig*.
+

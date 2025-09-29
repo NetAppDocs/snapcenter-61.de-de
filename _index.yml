@@ -1,0 +1,94 @@
+---
+indexpage:
+  title: SnapCenter software Softwaredokumentation
+  keywords: snapcenter server, plug-in, data protection, applications, databases,
+    host file systems, VmWare, backup, restore, clone, asa r2
+  lead: Die SnapCenter software ist eine einfache, zentralisierte und skalierbare
+    Plattform, die anwendungskonsistenten Datenschutz für Anwendungen, Datenbanken,
+    Host-Dateisysteme und VMs bietet, die überall in der Hybrid Cloud auf ONTAP -Systemen
+    ausgeführt werden. Diese Dokumentationsbibliothek enthält Informationen zur Version
+    6.1.
+  tiles:
+  - title: Erste Schritte
+    links:
+    - title: Versionshinweise
+      url: https://library.netapp.com/ecm/ecm_download_file/ECMLP3337665
+    - title: Erfahren Sie mehr über SnapCenter
+      url: "/get-started/concept_snapcenter_overview.html"
+    - title: Unterstützte SnapCenter -Vorgänge für ASA r2-Systeme
+      url: "/get-started/learn-about-snapcenter-support-for-asa-r2-systems.html"
+    - title: Schnellstart für die SnapCenter software
+      url: "/get-started/quick-start-snapcenter.html"
+    - title: Aktualisieren Sie SnapCenter Server und SnapCenter -Plug-Ins
+      url: "/upgrade/upgrade_workflow.html"
+  - title: Installieren Sie SnapCenter Server
+    links:
+    - title: Installieren Sie den SnapCenter -Server auf einem Windows-Host
+      url: "/install/task_install_the_snapcenter_server_using_the_install_wizard.html"
+    - title: Installieren Sie den SnapCenter -Server auf einem Linux-Host
+      url: "/install/install_snapcenter_server_linux.html"
+    - title: Konfigurieren der Hochverfügbarkeit mit F5
+      url: "/install/concept_configure_snapcenter_servers_for_high_availabiity_using_f5.html"
+    - title: Notfallwiederherstellung von SnapCenter Server
+      url: "/tech-refresh/task_tech_refresh_server_host.html"
+  - title: Schützen Sie Microsoft SQL Server-Datenbanken
+    links:
+    - title: Installieren Sie das SnapCenter -Plug-in für die Microsoft SQL Server-Datenbank
+      url: "/protect-scsql/task_add_hosts_and_install_snapcenter_plug_ins_package_for_windows.html"
+    - title: Erstellen Sie Richtlinien zum Sichern von SQL Server-Datenbanken
+      url: "/protect-scsql/task_create_backup_policies_for_sql_server_databases.html"
+    - title: Sichern von SQL Server-Datenbanken
+      url: "/protect-scsql/task_back_up_sql_resources.html"
+    - title: Notfallwiederherstellung des SnapCenter -Plug-ins für SQL Server
+      url: "/protect-scsql/task_disaster_recovery_scsql.html"
+  - title: Schützen Sie SAP HANA-Datenbanken
+    links:
+    - title: Installieren Sie das SnapCenter -Plug-in für die SAP HANA-Datenbank
+      url: "/protect-hana/task_add_hosts_and_install_plug_in_packages_on_remote_hosts_sap_hana.html"
+    - title: Erstellen Sie Richtlinien zum Sichern von SAP HANA-Datenbanken
+      url: "/protect-hana/task_create_backup_policies_for_sap_hana_databases.html"
+    - title: Sichern Sie SAP HANA-Datenbanken
+      url: "/protect-hana/task_back_up_sap_hana_databases.html"
+  - title: Schützen Sie Oracle-Datenbanken
+    links:
+    - title: Installieren Sie das SnapCenter Plug-in für die Oracle-Datenbank
+      url: "/protect-sco/task_add_hosts_and_installing_the_snapcenter_plug_ins_package_for_linux_or_aix.html"
+    - title: Erstellen Sie Richtlinien zum Sichern von Oracle-Datenbanken
+      url: "/protect-sco/task_create_backup_policies_for_oracle_database.html"
+    - title: Sichern Sie Oracle-Datenbanken
+      url: "/protect-sco/task_back_up_oracle_resources.html"
+  - title: Schützen Sie Datenbanken auf VMware
+    links:
+    - title: Erfahren Sie mehr über das SnapCenter Plug-in for VMware vSphere
+      url: https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/index.html
+    - title: Bereitstellen des SnapCenter Plug-in for VMware vSphere
+      url: https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere.html
+  - title: Schützen von Anwendungen, die auf Azure NetApp Files ausgeführt werden
+    links:
+    - title: Installieren von SnapCenter auf einer virtuellen Azure-Maschine
+      url: "/protect-azure/install-snapcenter-azure-virtual-machine.html"
+    - title: Sichern von SAP HANA-Datenbanken, die auf Azure NetApp Files ausgeführt
+        werden
+      url: "/protect-azure/backup-sap-hana-databases.html"
+    - title: Sichern von SQL Server-Datenbanken, die auf Azure NetApp Files ausgeführt
+        werden
+      url: "/protect-azure/backup-sql-server-databases.html"
+    - title: Sichern von Oracle-Datenbanken, die auf Azure NetApp Files ausgeführt
+        werden
+      url: "/protect-azure/backup-oracle-databases.html"
+  - title: Blogs und Community
+    links:
+    - title: NetApp -Blog – SnapCenter
+      url: https://blog.netapp.com/tag/snapcenter/
+    - title: NetApp -Community – SnapCenter
+      url: https://community.netapp.com/t5/forums/filteredbylabelpage/board-id/backup-and-restore-discussions/label-name/snapcenter
+  - title: Weitere Ressourcen
+    links:
+    - title: Cmdlet-Referenzhandbuch
+      url: https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html
+    - title: Befehlsreferenzhandbuch
+      url: https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666
+    - title: Dokumentation für frühere Versionen von SnapCenter
+      url: https://www.netapp.com/data-protection/backup-recovery/snapcenter-backup-management/documentation/#ProseArticleLinkList13
+    - title: NetApp Wissensdatenbank – SnapCenter
+      url: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter

@@ -1,0 +1,68 @@
+---
+permalink: get-started/reference_data_security.html 
+sidebar: sidebar 
+keywords: security, authentication, CA certificates, FIPS, SSL, AES, TLS, RBAC, MFA, multi-factor authentication 
+summary: SnapCenter verwendet strenge Sicherheits- und Authentifizierungsfunktionen, damit Ihre Daten geschützt bleiben. 
+---
+= Sicherheitsfunktionen in SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter verwendet strenge Sicherheits- und Authentifizierungsfunktionen, damit Ihre Daten geschützt bleiben.
+
+SnapCenter umfasst die folgenden Sicherheitsfunktionen:
+
+* Die gesamte Kommunikation mit SnapCenter erfolgt über HTTP über SSL (HTTPS).
+* Alle Anmeldeinformationen in SnapCenter sind durch die Verschlüsselung Advanced Encryption Standard (AES) geschützt.
+* Unterstützt Sicherheitsalgorithmen, die dem Federal Information Processing Standard (FIPS) entsprechen.
+* Unterstützt die Verwendung der vom Kunden bereitgestellten autorisierten CA-Zertifikate.
+* Unterstützt Transport Layer Security (TLS) 1.3 für die Kommunikation mit ONTAP.  Sie können TLS 1.2 auch für die Kommunikation zwischen Clients und Servern verwenden.
+* Unterstützt einen bestimmten Satz von SSL-Verschlüsselungssammlungen, um Sicherheit bei der Netzwerkkommunikation zu gewährleisten. https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_configure_the_supported_SSL_Cipher_Suite["Mehr erfahren"] .
+* SnapCenter wird innerhalb der Firewall Ihres Unternehmens installiert, um den Zugriff auf den SnapCenter -Server und die Kommunikation zwischen dem SnapCenter -Server und den Plug-Ins zu ermöglichen.
+* Für den Zugriff auf die SnapCenter -API und -Operationen werden mit AES-Verschlüsselung verschlüsselte Token verwendet, die nach 24 Stunden ablaufen.
+* SnapCenter lässt sich in Windows Active Directory integrieren, um die Anmeldung und die rollenbasierte Zugriffskontrolle (RBAC) zu ermöglichen, die die Zugriffsberechtigungen regelt.
+* IPsec wird mit SnapCenter auf ONTAP für Windows- und Linux-Hostmaschinen unterstützt. https://docs.netapp.com/us-en/ontap/networking/configure_ip_security_@ipsec@_over_wire_encryption.html#use-ipsec-identities["Mehr erfahren"] .
+* SnapCenter PowerShell-Cmdlets sind sitzungsgesichert.
+* Nach einer standardmäßigen Inaktivitätszeit von 15 Minuten warnt Sie SnapCenter , dass Sie in 5 Minuten abgemeldet werden.
++
+Nach 20 Minuten Inaktivität meldet SnapCenter Sie ab und Sie müssen sich erneut anmelden.  Sie können den Abmeldezeitraum ändern.
+
+* Nach 5 falschen Anmeldeversuchen wird die Anmeldung vorübergehend deaktiviert.
+* Unterstützt die CA-Zertifikatauthentifizierung zwischen SnapCenter Server und ONTAP. https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_securely_connect_SnapCenter_with_ONTAP_using_CA_certificate["Mehr erfahren"] .
+* Integrity Verifier wird dem SnapCenter -Server und den Plug-Ins hinzugefügt und validiert alle mitgelieferten Binärdateien während Neuinstallations- und Upgradevorgängen.
+
+
+
+
+== CA-Zertifikatübersicht
+
+Das SnapCenter Server-Installationsprogramm aktiviert während der Installation die zentrale SSL-Zertifikatunterstützung.  Um die sichere Kommunikation zwischen dem Server und dem Plug-in zu verbessern, unterstützt SnapCenter die Verwendung der vom Kunden bereitgestellten autorisierten CA-Zertifikate.
+
+Sie sollten CA-Zertifikate nach der Installation des SnapCenter -Servers und der entsprechenden Plug-Ins bereitstellen. Weitere Informationen finden Sie unter link:../install/reference_generate_CA_certificate_CSR_file.html["CA-Zertifikat-CSR-Datei generieren"] .
+
+Sie können auch ein CA-Zertifikat für das SnapCenter -Plug-In für VMware vSphere bereitstellen. Weitere Informationen finden Sie unter  https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_and_import_certificates.html["Zertifikate erstellen und importieren"^] .
+
+
+
+== Zweiwege-SSL-Kommunikation
+
+Die bidirektionale SSL-Kommunikation sichert die gegenseitige Kommunikation zwischen SnapCenter Server und den Plug-Ins.
+
+
+
+== Übersicht über die zertifikatbasierte Authentifizierung
+
+Die zertifikatsbasierte Authentifizierung überprüft die Authentizität der jeweiligen Benutzer, die versuchen, auf den SnapCenter -Plug-In-Host zuzugreifen.  Der Benutzer sollte das SnapCenter -Server-Zertifikat ohne privaten Schlüssel exportieren und in den vertrauenswürdigen Speicher des Plug-In-Hosts importieren.  Die zertifikatsbasierte Authentifizierung funktioniert nur, wenn die bidirektionale SSL-Funktion aktiviert ist.
+
+
+
+== Multi-Faktor-Authentifizierung (MFA)
+
+MFA verwendet einen Identitätsanbieter (IdP) eines Drittanbieters über die Security Assertion Markup Language (SAML), um Benutzersitzungen zu verwalten.  Diese Funktion verbessert die Authentifizierungssicherheit durch die Möglichkeit, neben dem vorhandenen Benutzernamen und Kennwort mehrere Faktoren wie TOTP, Biometrie, Push-Benachrichtigungen usw. zu verwenden.  Darüber hinaus ermöglicht es dem Kunden, seine eigenen Benutzeridentitätsanbieter zu verwenden, um eine einheitliche Benutzeranmeldung (SSO) für sein gesamtes Portfolio zu erhalten.
+
+MFA ist nur für die Anmeldung bei der SnapCenter Server-Benutzeroberfläche anwendbar.  Die Anmeldungen werden über die IdP Active Directory Federation Services (AD FS) authentifiziert.  Sie können bei AD FS verschiedene Authentifizierungsfaktoren konfigurieren.  SnapCenter ist der Dienstanbieter und Sie sollten SnapCenter als vertrauende Partei in AD FS konfigurieren.  Um MFA in SnapCenter zu aktivieren, benötigen Sie die AD FS-Metadaten.
+
+Informationen zum Aktivieren von MFA finden Sie unterlink:../install/enable_multifactor_authentication.html["Aktivieren Sie die Multi-Faktor-Authentifizierung"] .

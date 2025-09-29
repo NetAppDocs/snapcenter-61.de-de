@@ -1,0 +1,133 @@
+---
+permalink: protect-sce/task_create_resource_groups_and_attach_policies_for_exchange_servers.html 
+sidebar: sidebar 
+keywords: resource group 
+summary: Für jeden Datenschutzjob ist eine Ressourcengruppe erforderlich.  Sie müssen der Ressourcengruppe außerdem eine oder mehrere Richtlinien zuordnen, um die Art des Datenschutzauftrags, den Sie ausführen möchten, und den Schutzzeitplan zu definieren. 
+---
+= Erstellen Sie Ressourcengruppen und fügen Sie Richtlinien für Exchange-Server hinzu
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Für jeden Datenschutzjob ist eine Ressourcengruppe erforderlich.  Sie müssen der Ressourcengruppe außerdem eine oder mehrere Richtlinien zuordnen, um die Art des Datenschutzauftrags, den Sie ausführen möchten, und den Schutzzeitplan zu definieren.
+
+.Informationen zu diesem Vorgang
+* Der SCRIPTS_PATH wird mithilfe des Schlüssels „PredefinedWindowsScriptsDirectory“ definiert, der sich in der Datei „SMCoreServiceHost.exe.Config“ des Plug-In-Hosts befindet.
++
+Bei Bedarf können Sie diesen Pfad ändern und den SMcore-Dienst neu starten.  Aus Sicherheitsgründen wird empfohlen, den Standardpfad zu verwenden.
+
++
+Der Wert des Schlüssels kann von Swagger über die API angezeigt werden: API /4.7/configsettings
+
++
+Sie können die GET-API verwenden, um den Wert des Schlüssels anzuzeigen.  SET-API wird nicht unterstützt.
+
+* Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+* Das Hinzufügen neuer Datenbanken ohne SnapMirror Active Sync zu einer vorhandenen Ressourcengruppe, die Ressourcen mit SnapMirror Active Sync enthält, wird nicht unterstützt.
+* Das Hinzufügen neuer Datenbanken zu einer vorhandenen Ressourcengruppe im Failover-Modus von SnapMirror Active Sync wird nicht unterstützt.  Sie können der Ressourcengruppe nur im regulären oder Failback-Zustand Ressourcen hinzufügen.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Microsoft Exchange Server-Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Ansicht“ die Option „Datenbank“ aus.
++
+
+NOTE: Wenn Sie SnapCenter kürzlich eine Ressource hinzugefügt haben, klicken Sie auf *Ressourcen aktualisieren*, um die neu hinzugefügte Ressource anzuzeigen.
+
+. Klicken Sie auf *Neue Ressourcengruppe*.
+. Führen Sie auf der Seite „Name“ die folgenden Aktionen aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Name
+ a| 
+Geben Sie den Namen der Ressourcengruppe ein.
+
+
+NOTE: Der Name der Ressourcengruppe sollte nicht länger als 250 Zeichen sein.
+
+
+
+ a| 
+Schlagwörter
+ a| 
+Geben Sie eine oder mehrere Bezeichnungen ein, die Ihnen später bei der Suche nach der Ressourcengruppe helfen.
+
+Wenn Sie beispielsweise „HR“ als Tag zu mehreren Ressourcengruppen hinzufügen, können Sie später alle mit dem HR-Tag verknüpften Ressourcengruppen finden.
+
+
+
+ a| 
+Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden
+ a| 
+Optional: Geben Sie einen benutzerdefinierten Snapshot-Namen und ein benutzerdefiniertes Format ein.
+
+Beispiel: _customtext_resourcegroup_policy_hostname_ oder _resourcegroup_hostname_.  Standardmäßig wird dem Snapshot-Namen ein Zeitstempel angehängt.
+
+|===
+. Führen Sie auf der Seite „Ressourcen“ die folgenden Schritte aus:
++
+.. Wählen Sie den Ressourcentyp und die Datenbankverfügbarkeitsgruppe aus Dropdown-Listen aus, um die Liste der verfügbaren Ressourcen zu filtern.
++
+
+NOTE: Wenn Sie kürzlich Ressourcen hinzugefügt haben, werden diese erst in der Liste der verfügbaren Ressourcen angezeigt, nachdem Sie Ihre Ressourcenliste aktualisiert haben.
+
+
+
++
+In den Abschnitten „Verfügbare Ressourcen“ und „Ausgewählte Ressourcen“ wird der Datenbankname mit dem FQDN des Hosts angezeigt.  Dieser FQDN zeigt nur an, dass die Datenbank auf diesem bestimmten Host aktiv ist und möglicherweise keine Sicherung auf diesem Host durchführt.  Sie sollten aus der Serverauswahloption einen oder mehrere Sicherungsserver auswählen, auf denen Sie eine Sicherung durchführen möchten, falls Sie in der Richtlinie die Option *Sicherungskopien auf Servern, die bei der Erstellung des Sicherungsauftrags ausgewählt werden sollen* ausgewählt haben.
+
++
+.. Geben Sie den Namen der Ressource in das Suchtextfeld ein oder scrollen Sie, um eine Ressource zu finden.
+.. Um Ressourcen aus dem Abschnitt „Verfügbare Ressourcen“ in den Abschnitt „Ausgewählte Ressourcen“ zu verschieben, führen Sie einen der folgenden Schritte aus:
++
+*** Wählen Sie *Alle Ressourcen auf demselben Speichervolume automatisch auswählen*, um alle Ressourcen auf demselben Volume in den Abschnitt „Ausgewählte Ressourcen“ zu verschieben.
+*** Wählen Sie die Ressourcen aus dem Abschnitt „Verfügbare Ressourcen“ aus und klicken Sie dann auf den Rechtspfeil, um sie in den Abschnitt „Ausgewählte Ressourcen“ zu verschieben.
++
+Ressourcengruppen von SnapCenter für Microsoft Exchange Server können nicht mehr als 30 Datenbanken pro Snapshot haben.  Wenn in einer Ressourcengruppe mehr als 30 Datenbanken vorhanden sind, wird für die zusätzlichen Datenbanken ein zweiter Snapshot erstellt.  Daher werden unter dem Hauptsicherungsjob zwei Unterjobs erstellt.  Bei Sicherungen mit sekundärer Replikation kann es während der Ausführung einer SnapMirror oder SnapVault -Aktualisierung zu Szenarien kommen, in denen sich die Aktualisierung für beide Unteraufträge überschneidet.  Der Hauptsicherungsauftrag wird für immer weiter ausgeführt, auch wenn die Protokolle anzeigen, dass der Auftrag abgeschlossen ist.
+
+
+
+
+
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Schritte aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
++
+
+NOTE: Sie können auch eine Richtlinie erstellen, indem Sie auf * klicken.image:../media/add_policy_from_resourcegroup.gif["Plus-Symbol"] *.
+
++
+
+NOTE: Wenn eine Richtlinie die Option *Sicherungskopien auf Servern, die bei der Erstellung des Sicherungsauftrags ausgewählt werden sollen* enthält, wird eine Serverauswahloption angezeigt, um einen oder mehrere Server auszuwählen.  Die Serverauswahloption listet nur den Server auf, auf dem sich die ausgewählte Datenbank im NetApp -Speicher befindet.
+
++
+Im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ werden die ausgewählten Richtlinien aufgelistet.
+
+.. Klicken Sie im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ auf *image:../media/add_policy_from_resourcegroup.gif["Plus-Symbol"] * in der Spalte *Zeitpläne konfigurieren* für die Richtlinie, für die Sie den Zeitplan konfigurieren möchten.
+.. Konfigurieren Sie im Dialogfeld „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan, indem Sie das Startdatum, das Ablaufdatum und die Häufigkeit angeben, und klicken Sie dann auf *OK*.
++
+Sie müssen dies für jede in der Richtlinie aufgeführte Frequenz tun.  Die konfigurierten Zeitpläne werden in der Spalte *Angewandte Zeitpläne* im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ aufgelistet.
+
++
+Sicherungspläne von Drittanbietern werden nicht unterstützt, wenn sie sich mit den Sicherungsplänen von SnapCenter überschneiden.
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den an der Ressourcengruppe durchgeführten Vorgang anhängen möchten, wählen Sie *Jobbericht anhängen*.
+
++
+Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl angegeben haben. `Set-SmSmtpServer` .
+
++
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+

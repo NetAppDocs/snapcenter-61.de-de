@@ -1,0 +1,72 @@
+---
+permalink: install/task_enable_two_way_ssl.html 
+sidebar: sidebar 
+keywords: security,disable two-way SSL,enable two-way SSL, windows host 
+summary: Sie können die bidirektionale SSL-Kommunikation aktivieren, um die gegenseitige Kommunikation zwischen SnapCenter Server auf dem Windows-Host und den Plug-Ins mithilfe von PowerShell-Befehlen zu sichern. 
+---
+= Aktivieren Sie die bidirektionale SSL-Kommunikation auf dem Windows-Host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die bidirektionale SSL-Kommunikation aktivieren, um die gegenseitige Kommunikation zwischen SnapCenter Server auf dem Windows-Host und den Plug-Ins mithilfe von PowerShell-Befehlen zu sichern.
+
+*Bevor Sie beginnen*
+
+Führen Sie zuerst die Befehle für alle Plug-Ins und den SMCore-Agenten und dann für den Server aus.
+
+*Schritte*
+
+. Um die bidirektionale SSL-Kommunikation zu aktivieren, führen Sie die folgenden Befehle auf dem SnapCenter -Server für die Plug-Ins, den Server und für jeden der Agenten aus, für die die bidirektionale SSL-Kommunikation erforderlich ist.
++
+`> Set-SmConfigSettings -Agent -configSettings @{"EnableTwoWaySSL"="true"} -HostName <Plugin_HostName>`
+
++
+`> Set-SmConfigSettings -Agent -configSettings @{"EnableTwoWaySSL"="true"} -HostName localhost`
+
++
+`> Set-SmConfigSettings -Server -configSettings @{"EnableTwoWaySSL"="true"}`
+
+. Führen Sie den Recyclingvorgang des IIS SnapCenter -Anwendungspools mit dem folgenden Befehl durch.
+`> Restart-WebAppPool -Name "SnapCenter"`
+. Starten Sie für Windows-Plug-Ins den SMCore-Dienst neu, indem Sie den folgenden PowerShell-Befehl ausführen:
++
+`> Restart-Service -Name SnapManagerCoreService`
+
+
+
+
+
+== Deaktivieren Sie die bidirektionale SSL-Kommunikation
+
+Sie können die bidirektionale SSL-Kommunikation mithilfe von PowerShell-Befehlen deaktivieren.
+
+*Über diese Aufgabe*
+
+* Führen Sie zuerst die Befehle für alle Plug-Ins und den SMCore-Agenten und dann für den Server aus.
+* Wenn Sie die bidirektionale SSL-Kommunikation deaktivieren, werden das CA-Zertifikat und seine Konfiguration nicht entfernt.
+* Um einen neuen Host zum SnapCenter -Server hinzuzufügen, müssen Sie das bidirektionale SSL für alle Plug-In-Hosts deaktivieren.
+* NLB und F5 werden nicht unterstützt.
+
+
+*Schritte*
+
+. Um die bidirektionale SSL-Kommunikation zu deaktivieren, führen Sie die folgenden Befehle auf dem SnapCenter -Server für alle Plug-In-Hosts und den SnapCenter Host aus.
++
+`> Set-SmConfigSettings -Agent -configSettings @{"EnableTwoWaySSL"="false"} -HostName <Agent_HostName>`
+
++
+`> Set-SmConfigSettings -Agent -configSettings @{"EnableTwoWaySSL"="false"} -HostName localhost`
+
++
+`> Set-SmConfigSettings -Server -configSettings @{"EnableTwoWaySSL"="false"}`
+
+. Führen Sie den Recyclingvorgang des IIS SnapCenter -Anwendungspools mit dem folgenden Befehl durch.
+`> Restart-WebAppPool -Name "SnapCenter"`
+. Starten Sie für Windows-Plug-Ins den SMCore-Dienst neu, indem Sie den folgenden PowerShell-Befehl ausführen:
++
+`> Restart-Service -Name SnapManagerCoreService`
+
+

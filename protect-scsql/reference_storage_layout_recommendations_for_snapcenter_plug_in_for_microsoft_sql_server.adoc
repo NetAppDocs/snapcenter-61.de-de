@@ -1,0 +1,55 @@
+---
+permalink: protect-scsql/reference_storage_layout_recommendations_for_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: Storage layout 
+summary: Ein gut konzipiertes Speicherlayout ermöglicht es SnapCenter Server, Ihre Datenbanken zu sichern, um Ihre Wiederherstellungsziele zu erreichen.  Beim Definieren Ihres Speicherlayouts sollten Sie mehrere Faktoren berücksichtigen, darunter die Größe der Datenbank, die Änderungsrate der Datenbank und die Häufigkeit, mit der Sie Sicherungen durchführen. 
+---
+= Empfehlungen zum Speicherlayout für das SnapCenter -Plug-in für Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein gut konzipiertes Speicherlayout ermöglicht es SnapCenter Server, Ihre Datenbanken zu sichern, um Ihre Wiederherstellungsziele zu erreichen.  Beim Definieren Ihres Speicherlayouts sollten Sie mehrere Faktoren berücksichtigen, darunter die Größe der Datenbank, die Änderungsrate der Datenbank und die Häufigkeit, mit der Sie Sicherungen durchführen.
+
+In den folgenden Abschnitten werden die Empfehlungen und Einschränkungen zum Speicherlayout für LUNs und virtuelle Maschinendatenträger (VMDKs) mit dem in Ihrer Umgebung installierten SnapCenter Plug-in für Microsoft SQL Server definiert.
+
+In diesem Fall können LUNs VMware RDM-Festplatten und direkt angeschlossene iSCSI-LUNs umfassen, die dem Gast zugeordnet sind.
+
+
+
+== LUN- und VMDK-Anforderungen
+
+Sie können optional dedizierte LUNs oder VMDKs für optimale Leistung und Verwaltung für die folgenden Datenbanken verwenden:
+
+* Master- und Modellsystemdatenbanken
+* Tempdb
+* Benutzerdatenbankdateien (.mdf und .ndf)
+* Transaktionsprotokolldateien der Benutzerdatenbank (.ldf)
+* Protokollverzeichnis
+
+
+Zum Wiederherstellen großer Datenbanken empfiehlt es sich, dedizierte LUNs oder VMDKs zu verwenden.  Die Wiederherstellung einer vollständigen LUN oder VMDK dauert kürzer als die Wiederherstellung der einzelnen Dateien, die in der LUN oder VMDK gespeichert sind.
+
+Für das Protokollverzeichnis sollten Sie eine separate LUN oder VMDK erstellen, damit auf den Datenträgern für die Daten oder Protokolldateien ausreichend freier Speicherplatz vorhanden ist.
+
+
+
+== LUN- und VMDK-Beispiellayouts
+
+Die folgende Grafik zeigt, wie Sie das Speicherlayout für große Datenbanken auf LUNs konfigurieren können:
+
+image::../media/smsql_storage_layout_mult_vols_snapcenter.gif[Diagramm mit mehreren LUNs]
+
+Die folgende Grafik zeigt, wie Sie das Speicherlayout für mittlere oder kleine Datenbanken auf LUNs konfigurieren können:
+
+image::../media/smsql_storage_layout_mult_dbs_luns_snapcenter.gif[Diagramm „Mehrere Datenbanken pro LUN“]
+
+Die folgende Grafik zeigt, wie Sie das Speicherlayout für große Datenbanken auf VMDKs konfigurieren können:
+
+image::../media/smsql_storage_layout_large_dbs_vmdk.gif[Speicherlayout für große Datenbanken auf VMDKs]
+
+Die folgende Grafik zeigt, wie Sie das Speicherlayout für mittlere oder kleine Datenbanken auf VMDKs konfigurieren können:
+
+image::../media/smsql_storage_layout_med_small_dbs_vmdk.gif[Speicherlayout für mittlere oder kleine Datenbanken auf VMDKs]

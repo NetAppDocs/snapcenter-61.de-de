@@ -1,0 +1,41 @@
+---
+permalink: uninstall/task_uninstalling_the_snapcenter_server.html 
+sidebar: sidebar 
+keywords: uninstall, snapcenter server, windows 
+summary: Wenn Sie den SnapCenter Server nicht mehr zum Verwalten von Datenschutzaufträgen verwenden möchten, können Sie den SnapCenter Server über die Systemsteuerung „Programme und Funktionen“ auf dem SnapCenter Server-Host deinstallieren.  Durch die Deinstallation des SnapCenter -Servers werden alle seine Komponenten entfernt. 
+---
+= Deinstallieren Sie den SnapCenter -Server auf dem Windows-Host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie den SnapCenter Server nicht mehr zum Verwalten von Datenschutzaufträgen verwenden möchten, können Sie den SnapCenter Server über die Systemsteuerung „Programme und Funktionen“ auf dem SnapCenter Server-Host deinstallieren.  Durch die Deinstallation des SnapCenter -Servers werden alle seine Komponenten entfernt.
+
+.Bevor Sie beginnen
+* Stellen Sie sicher, dass auf dem Laufwerk, auf dem der SnapCenter -Server installiert ist, mindestens 2 GB freier Speicherplatz vorhanden sind.
+* Stellen Sie sicher, dass die Domäne, in der der SnapCenter -Server installiert ist, nicht entfernt wird.
++
+Wenn Sie die Domäne entfernen, in der der SnapCenter -Server installiert war, und dann versuchen, ihn zu deinstallieren, schlägt der Vorgang fehl.
+
+* Sie sollten die Repository-Datenbank gesichert haben, da die Repository-Datenbank bereinigt und deinstalliert wird.
+
+
+.Schritte
+. Navigieren Sie auf dem SnapCenter Server-Host zur Systemsteuerung.
+. Stellen Sie sicher, dass Sie sich in der *Kategorie*-Ansicht befinden.
+. Klicken Sie unter „Programme“ auf „Programm deinstallieren“.
++
+Das Fenster „Programme und Funktionen“ wird geöffnet.
+
+. Wählen Sie NetApp SnapCenter Server aus und klicken Sie dann auf *Deinstallieren*.
++
+Wenn Sie ab SnapCenter 4.2 den SnapCenter -Server deinstallieren, werden alle seine Komponenten einschließlich der MySQL-Server-Repository-Datenbank deinstalliert.
+
++
+** Zum Entfernen des NLB-Knotens aus einem NLB-Cluster müssen Sie den SnapCenter Server-Host neu starten.  Wenn Sie den Host nicht neu starten, kann es beim Versuch, den SnapCenter -Server neu zu installieren, zu einem Fehler kommen.
+** Sie sollten .NET Framework manuell deinstallieren, da es bei der Deinstallation nicht entfernt wird.
+
+
+

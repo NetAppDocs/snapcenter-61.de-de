@@ -1,0 +1,67 @@
+---
+permalink: protect-db2/view-ibm-db2-database-backups-and-clones-in-the-topology-page.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: Wenn Sie die Sicherung oder das Klonen einer Ressource vorbereiten, kann es hilfreich sein, eine grafische Darstellung aller Sicherungen und Klone auf dem primären und sekundären Speicher anzuzeigen. 
+---
+= Anzeigen von IBM Db2-Sicherungen und -Klonen auf der Seite „Topologie“
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie die Sicherung oder das Klonen einer Ressource vorbereiten, kann es hilfreich sein, eine grafische Darstellung aller Sicherungen und Klone auf dem primären und sekundären Speicher anzuzeigen.
+
+.Informationen zu diesem Vorgang
+Sie können die folgenden Symbole in der Ansicht „Kopien verwalten“ überprüfen, um festzustellen, ob die Sicherungen und Klone auf dem primären oder sekundären Speicher verfügbar sind (Spiegelkopien oder Tresorkopien).
+
+* image:../media/topology_primary_storage.gif["Symbol für den primären Speicher"]zeigt die Anzahl der Backups und Klone an, die auf dem primären Speicher verfügbar sind.
+* image:../media/topology_mirror_secondary_storage.gif["Sekundärspeicher-Spiegelsymbol"]zeigt die Anzahl der Backups und Klone an, die mithilfe der SnapMirror -Technologie auf dem sekundären Speicher gespiegelt werden.
+* image:../media/topology_vault_secondary_storage.gif["Symbol für sekundären Tresor"]zeigt die Anzahl der Backups und Klone an, die mithilfe der SnapVault -Technologie auf dem sekundären Speicher repliziert werden.
++
+
+NOTE: Die angezeigte Anzahl der Backups umfasst die aus dem sekundären Speicher gelöschten Backups.  Wenn Sie beispielsweise 6 Sicherungen mit einer Richtlinie zum Aufbewahren von nur 4 Sicherungen erstellt haben, wird die Anzahl der angezeigten Sicherungen mit 6 angegeben.
+
+
+
+
+NOTE: Klone einer Sicherung eines versionsflexiblen Spiegels auf einem Volume vom Typ „Mirror-Vault“ werden in der Topologieansicht angezeigt, die Anzahl der Spiegelsicherungen in der Topologieansicht umfasst jedoch nicht die versionsflexible Sicherung.
+
+Auf der Seite „Topologie“ können Sie alle Sicherungen und Klone sehen, die für die ausgewählte Ressource oder Ressourcengruppe verfügbar sind.  Sie können die Details dieser Sicherungen und Klone anzeigen und sie dann auswählen, um Datenschutzvorgänge durchzuführen.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder die Ressource oder die Ressourcengruppe aus der Dropdownliste *Anzeigen* aus.
+. Wählen Sie die Ressource entweder aus der Ressourcendetailansicht oder aus der Ressourcengruppendetailansicht aus.
++
+Wenn die Ressource geschützt ist, wird die Topologieseite der ausgewählten Ressource angezeigt.
+
+. Überprüfen Sie die *Zusammenfassungskarte*, um eine Zusammenfassung der Anzahl der auf dem primären und sekundären Speicher verfügbaren Backups und Klone anzuzeigen.
++
+Der Abschnitt *Zusammenfassungskarte* zeigt die Gesamtzahl der auf Snapshot-Kopien basierenden Backups und Klone an.
+
++
+Durch Klicken auf die Schaltfläche *Aktualisieren* wird eine Abfrage des Speichers gestartet, um eine genaue Anzahl anzuzeigen.
+
++
+Wenn eine SnapLock -fähige Sicherung durchgeführt wird, wird durch Klicken auf die Schaltfläche *Aktualisieren* die von ONTAP abgerufene Ablaufzeit des primären und sekundären SnapLock aktualisiert.  Ein wöchentlicher Zeitplan aktualisiert auch die von ONTAP abgerufene Ablaufzeit des primären und sekundären SnapLock .
+
++
+Wenn die Anwendungsressource auf mehrere Volumes verteilt ist, entspricht die SnapLock -Ablaufzeit für die Sicherung der längsten SnapLock -Ablaufzeit, die für einen Snapshot in einem Volume festgelegt ist.  Die längste SnapLock -Ablaufzeit wird von ONTAP abgerufen.
+
++
+Nach der On-Demand-Sicherung werden durch Klicken auf die Schaltfläche *Aktualisieren* die Details der Sicherung oder des Klons aktualisiert.
+
+. Klicken Sie in der Ansicht „Kopien verwalten“ auf *Backups* oder *Klone* vom primären oder sekundären Speicher, um Details zu einem Backup oder Klon anzuzeigen.
++
+Die Details der Backups und Klone werden in einem Tabellenformat angezeigt.
+
+. Wählen Sie die Sicherung aus der Tabelle aus und klicken Sie dann auf die Datenschutzsymbole, um Wiederherstellungs-, Klon- und Löschvorgänge durchzuführen.
++
+
+NOTE: Sie können Sicherungen, die sich auf dem sekundären Speicher befinden, weder umbenennen noch löschen.
+
+. Wenn Sie einen Klon löschen möchten, wählen Sie den Klon aus der Tabelle aus und klicken Sie dann aufimage:../media/delete_icon.gif["Symbol „Löschen“"] .
+. Wenn Sie einen Klon teilen möchten, wählen Sie den Klon aus der Tabelle aus und klicken Sie dann aufimage:../media/split_clone.gif["Symbol zum Klonen von geteilten Objekten"] .
+

@@ -1,0 +1,57 @@
+---
+permalink: protect-postgresql/host-requirements-to-install-snapcenter-plug-in-package-for-linux.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Bevor Sie das SnapCenter Plug-Ins-Paket für Linux installieren, sollten Sie mit einigen grundlegenden Anforderungen an Speicherplatz und Größe des Hostsystems vertraut sein. 
+---
+= Hostanforderungen für die Installation des SnapCenter Plug-Ins-Pakets für Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie das SnapCenter Plug-Ins-Paket für Linux installieren, sollten Sie mit einigen grundlegenden Anforderungen an Speicherplatz und Größe des Hostsystems vertraut sein.
+
+|===
+| Artikel | Anforderungen 
+
+
+ a| 
+Betriebssysteme
+ a| 
+* Red Hat Enterprise Linux
+* SUSE Linux Enterprise Server (SLES)
+
+
+Die neuesten Informationen zu unterstützten Versionen finden Sie im https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"] .
+
+
+
+ a| 
+Mindest-RAM für das SnapCenter -Plug-In auf dem Host
+ a| 
+1 GB
+
+
+
+ a| 
+Minimaler Installations- und Protokollspeicherplatz für das SnapCenter -Plug-In auf dem Host
+ a| 
+2 GB
+
+
+NOTE: Sie sollten ausreichend Speicherplatz zuweisen und den Speicherverbrauch des Protokollordners überwachen.  Der erforderliche Protokollspeicherplatz variiert je nach Anzahl der zu schützenden Entitäten und der Häufigkeit der Datenschutzvorgänge.  Wenn nicht genügend Speicherplatz vorhanden ist, werden die Protokolle für die kürzlich ausgeführten Vorgänge nicht erstellt.
+
+
+
+ a| 
+Erforderliche Softwarepakete
+ a| 
+Java 11 Oracle Java und OpenJDK
+
+Wenn Sie JAVA auf die neueste Version aktualisiert haben, müssen Sie sicherstellen, dass die Option JAVA_HOME unter /var/opt/snapcenter/spl/etc/spl.properties auf die richtige JAVA-Version und den richtigen Pfad eingestellt ist.
+
+Die neuesten Informationen zu unterstützten Versionen finden Sie im https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"] .
+
+|===

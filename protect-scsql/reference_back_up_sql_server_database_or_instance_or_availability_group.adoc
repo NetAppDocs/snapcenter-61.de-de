@@ -1,0 +1,48 @@
+---
+permalink: protect-scsql/reference_back_up_sql_server_database_or_instance_or_availability_group.html 
+sidebar: sidebar 
+keywords: Backup workflow 
+summary: Wenn Sie das SnapCenter -Plug-in für Microsoft SQL Server in Ihrer Umgebung installieren, können Sie SnapCenter zum Sichern der SQL Server-Ressourcen verwenden. 
+---
+= Sicherungsworkflow
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie das SnapCenter -Plug-in für Microsoft SQL Server in Ihrer Umgebung installieren, können Sie SnapCenter zum Sichern der SQL Server-Ressourcen verwenden.
+
+Sie können mehrere Sicherungen so planen, dass sie gleichzeitig auf mehreren Servern ausgeführt werden.
+
+Sicherungs- und Wiederherstellungsvorgänge können nicht gleichzeitig auf derselben Ressource ausgeführt werden.
+
+Der folgende Arbeitsablauf zeigt die Reihenfolge, in der Sie die Sicherungsvorgänge durchführen müssen:
+
+image::../media/scsql_backup_workflow.gif[SCSQL-Sicherungsworkflow]
+
+
+NOTE: Die Optionen „Jetzt sichern“, „Wiederherstellen“, „Sicherungen verwalten“ und „Klonen“ auf der Seite „Ressourcen“ sind deaktiviert, wenn Sie eine Nicht- NetApp -LUN, eine beschädigte Datenbank oder eine Datenbank auswählen, die wiederhergestellt wird.
+
+Sie können PowerShell-Cmdlets auch manuell oder in Skripts verwenden, um Sicherungs-, Wiederherstellungs-, Überprüfungs- und Klonvorgänge durchzuführen.  Ausführliche Informationen zu PowerShell-Cmdlets finden Sie in der SnapCenter -Cmdlet-Hilfe oder im https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"]
+
+
+
+== So sichert SnapCenter Datenbanken
+
+SnapCenter verwendet Snapshot-Technologie, um die SQL Server-Datenbanken zu sichern, die sich auf LUNs oder VMDKs befinden.  SnapCenter erstellt das Backup, indem es Snapshots der Datenbanken erstellt.
+
+Wenn Sie auf der Seite „Ressourcen“ eine Datenbank für eine vollständige Datenbanksicherung auswählen, wählt SnapCenter automatisch alle anderen Datenbanken aus, die sich auf demselben Speichervolume befinden.  Wenn die LUN oder VMDK nur eine einzige Datenbank speichert, können Sie die Datenbank einzeln löschen oder erneut auswählen.  Wenn die LUN oder VMDK mehrere Datenbanken enthält, müssen Sie die Datenbanken als Gruppe löschen oder erneut auswählen.
+
+Alle Datenbanken, die sich auf einem einzelnen Volume befinden, werden gleichzeitig mithilfe von Snapshots gesichert.  Wenn die maximale Anzahl gleichzeitiger Sicherungsdatenbanken 35 beträgt und sich mehr als 35 Datenbanken in einem Speichervolume befinden, entspricht die Gesamtzahl der erstellten Snapshots der Anzahl der Datenbanken geteilt durch 35.
+
+
+NOTE: Sie können die maximale Anzahl von Datenbanken für jeden Snapshot in der Sicherungsrichtlinie konfigurieren.
+
+Wenn SnapCenter einen Snapshot erstellt, wird das gesamte Speichersystemvolume im Snapshot erfasst.  Allerdings ist die Sicherung nur für den SQL-Hostserver gültig, für den die Sicherung erstellt wurde.
+
+Wenn sich Daten von anderen SQL-Hostservern auf demselben Volume befinden, können diese Daten nicht aus dem Snapshot wiederhergestellt werden.
+
+*Weitere Informationen finden*
+
+link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Quiesce_or_grouping_resources_operations_fail["Vorgänge zum Stilllegen oder Gruppieren von Ressourcen schlagen fehl"]

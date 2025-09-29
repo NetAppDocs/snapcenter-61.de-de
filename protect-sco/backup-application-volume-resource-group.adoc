@@ -1,0 +1,44 @@
+---
+permalink: protect-sco/backup-application-volume-resource-group.html 
+sidebar: sidebar 
+keywords: application volume, resource group, back up, database 
+summary: Sie können die Ressourcengruppe sichern, die nur Anwendungsvolumes oder eine Mischung aus Anwendungsvolumes und Datenbank enthält. 
+---
+= Sichern der Anwendungsvolume-Ressourcengruppe
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Ressourcengruppe sichern, die nur Anwendungsvolumes oder eine Mischung aus Anwendungsvolumes und Datenbank enthält.  Ein Sicherungsvorgang für die Ressourcengruppe wird für alle in der Ressourcengruppe definierten Ressourcen ausgeführt.
+
+Wenn die Ressourcengruppe über mehrere Anwendungsvolumes verfügt, sollten alle Anwendungsvolumes entweder über die Replikationsrichtlinie SnapMirror oder SnapVault verfügen.
+
+*Über diese Aufgabe*
+
+Standardmäßig werden Konsistenzgruppen-Sicherungen (CG) erstellt.  Wenn Sie Volume-basierte Backups erstellen möchten, sollten Sie den Wert von *EnableOracleNdvVolumeBasedBackup* in der Datei _web.config_ auf „true“ setzen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Oracle Database-Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Ressourcengruppe“ aus.
++
+Sie können die Ressourcengruppe suchen, indem Sie entweder den Namen der Ressourcengruppe in das Suchfeld eingeben oder auf * klicken.image:../media/filter_icon.gif["Filtersymbol"] * und wählen Sie dann das Tag aus.  Sie können dann auf * klicken.image:../media/filter_icon.gif["Filtersymbol"] *, um den Filterbereich zu schließen.
+
+. Wählen Sie auf der Seite „Ressourcengruppen“ die Ressourcengruppe aus, die Sie sichern möchten, und klicken Sie dann auf *Jetzt sichern*.
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn Sie der Ressourcengruppe mehrere Richtlinien zugeordnet haben, wählen Sie aus der Dropdownliste *Richtlinie* die Richtlinie aus, die Sie für die Sicherung verwenden möchten.
++
+Wenn die für die On-Demand-Sicherung ausgewählte Richtlinie mit einem Sicherungszeitplan verknüpft ist, werden die On-Demand-Sicherungen basierend auf den für den Zeitplantyp angegebenen Aufbewahrungseinstellungen aufbewahrt.
+
+.. Klicken Sie auf *Sichern*.
+
+
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
++
+
+NOTE: Der Überprüfungsvorgang wird nur für die Datenbanken und nicht für die Anwendungsvolumes durchgeführt.
+
+

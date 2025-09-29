@@ -1,0 +1,38 @@
+---
+permalink: protect-hana/reference_types_of_restore_strategies_supported_for_auto_discovered_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Databases 
+summary: Sie müssen eine Strategie definieren, bevor Sie Wiederherstellungsvorgänge mit SnapCenter erfolgreich durchführen können.  Es gibt zwei Arten von Wiederherstellungsstrategien für automatisch erkannte SAP HANA-Datenbanken. 
+---
+= Unterstützte Wiederherstellungsstrategien für automatisch erkannte SAP HANA-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie müssen eine Strategie definieren, bevor Sie Wiederherstellungsvorgänge mit SnapCenter erfolgreich durchführen können.  Es gibt zwei Arten von Wiederherstellungsstrategien für automatisch erkannte SAP HANA-Datenbanken.
+
+
+
+== Vollständige Ressourcenwiederherstellung
+
+* Stellt alle Volumes, Qtrees und LUNs einer Ressource wieder her
++
+** Um das gesamte Volume wiederherzustellen, sollte die Option *Volume Revert* ausgewählt werden.
++
+
+NOTE: Wenn die Ressource Volumes oder Qtrees enthält, werden die Snapshots, die nach dem zur Wiederherstellung ausgewählten Snapshot auf diesen Volumes oder Qtrees erstellt wurden, gelöscht und können nicht wiederhergestellt werden.  Wenn außerdem eine andere Ressource auf denselben Volumes oder Qtrees gehostet wird, wird diese Ressource ebenfalls gelöscht.
+
+
+
+
+
+
+
+== Mandantendatenbank
+
+* Stellt die Mandantendatenbank wieder her
+
+
+Wenn die Option *Mandantendatenbank* ausgewählt ist, müssen für die Durchführung des Wiederherstellungsvorgangs externe HANA-Studio- oder HANA-Wiederherstellungsskripte von SnapCenter verwendet werden.

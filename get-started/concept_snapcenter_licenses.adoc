@@ -1,0 +1,105 @@
+---
+permalink: get-started/concept_snapcenter_licenses.html 
+sidebar: sidebar 
+keywords: licenses, FAS, AFF, ASA, SnapMirror, SnapVault, SnapRestore, FlexClone, SMBR, Single Mailbox Recovery 
+summary: SnapCenter erfordert mehrere Lizenzen, um Datenschutzvorgänge zu ermöglichen. Die Art der SnapCenter -Lizenzen, die Sie installieren, hängt von Ihrer Speicherumgebung und den Funktionen ab, die Sie verwenden möchten. 
+---
+= Von SnapCenter benötigte Lizenzen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter erfordert mehrere Lizenzen, um den Datenschutz von Anwendungen, Datenbanken, Dateisystemen und virtuellen Maschinen zu ermöglichen. Die Art der SnapCenter -Lizenzen, die Sie installieren, hängt von Ihrer Speicherumgebung und den Funktionen ab, die Sie verwenden möchten.
+
+|===
+| Lizenz | Wo erforderlich 
+
+
+ a| 
+SnapCenter Standard-Controller-basiert
+ a| 
+Erforderlich für FAS, AFF, ASA
+
+Die SnapCenter Standard-Lizenz ist eine Controller-basierte Lizenz und ist Teil von NetApp ONTAP One.  Wenn Sie über die SnapManager Suite-Lizenz verfügen, erhalten Sie auch die SnapCenter Standard-Lizenzberechtigung.  Wenn Sie SnapCenter auf Testbasis mit FAS, AFF oder ASA -Speicher installieren möchten, können Sie eine Evaluierungslizenz für NetApp ONTAP One erhalten, indem Sie sich an den Vertriebsmitarbeiter wenden.
+
+Informationen zu den in NetApp ONTAP One enthaltenen Lizenzen finden Sie unter https://docs.netapp.com/us-en/ontap/system-admin/manage-licenses-concept.html#licenses-included-with-ontap-one["In NetApp ONTAP One enthaltene Lizenzen"] .
+
+
+NOTE: SnapCenter wird auch als Teil eines Datenschutzpakets angeboten.  Wenn Sie A400 oder höher gekauft haben, sollten Sie das Datenschutzpaket erwerben.
+
+
+
+ a| 
+SnapMirror oder SnapVault
+ a| 
+ONTAP
+
+Wenn die Replikation in SnapCenter aktiviert ist, ist entweder eine SnapMirror oder eine SnapVault -Lizenz erforderlich.
+
+
+
+ a| 
+SnapRestore
+ a| 
+Erforderlich zum Wiederherstellen und Überprüfen von Sicherungen.
+
+Auf primären Speichersystemen
+
+* Erforderlich auf SnapVault -Zielsystemen, um eine Remote-Überprüfung durchzuführen und aus einer Sicherung wiederherzustellen.
+* Erforderlich auf SnapMirror Zielsystemen, um eine Remote-Verifizierung durchzuführen.
+
+
+
+
+ a| 
+FlexClone
+ a| 
+Erforderlich zum Klonen von Datenbanken und für Überprüfungsvorgänge.
+
+Auf primären und sekundären Speichersystemen
+
+* Erforderlich auf SnapVault -Zielsystemen, um Klone aus der sekundären Tresorsicherung zu erstellen.
+* Erforderlich auf SnapMirror Zielsystemen, um Klone aus sekundären SnapMirror Backups zu erstellen.
+
+
+
+
+ a| 
+Protokolllizenzen
+ a| 
+* iSCSI- oder FC-Lizenz für LUNs
+* CIFS-Lizenz für SMB-Freigaben
+* NFS-Lizenz für VMDKs vom Typ NFS
+* iSCSI- oder FC-Lizenz für VMDKs vom Typ VMFS
+
+
+Erforderlich auf SnapMirror Zielsystemen, um Daten bereitzustellen, wenn kein Quellvolume verfügbar ist.
+
+
+
+ a| 
+SnapCenter Standard-Lizenzen (optional)
+ a| 
+Sekundärziele
+
+
+NOTE: Es wird empfohlen, ist aber nicht erforderlich, dass Sie SnapCenter Standard-Lizenzen zu sekundären Zielen hinzufügen.  Wenn SnapCenter Standard-Lizenzen auf sekundären Zielen nicht aktiviert sind, können Sie SnapCenter nach der Durchführung eines Failover-Vorgangs nicht zum Sichern von Ressourcen auf dem sekundären Ziel verwenden.  Auf sekundären Zielen ist jedoch eine FlexClone -Lizenz erforderlich, um Klon- und Überprüfungsvorgänge durchzuführen.
+
+
+
+ a| 
+Single Mailbox Recovery (SMBR)-Lizenzen
+ a| 
+Wenn Sie das SnapCenter -Plug-in für Exchange zum Verwalten von Microsoft Exchange Server-Datenbanken und Single Mailbox Recovery (SMBR) verwenden, benötigen Sie eine zusätzliche Lizenz für SMBR, die je nach Benutzerpostfach separat erworben werden muss.
+
+Die Verfügbarkeit von NetApp® Single Mailbox Recovery (EOA) endet am 12. Mai 2023.  Weitere Informationen finden Sie unterlink:https://mysupport.netapp.com/info/communications/ECMLP2885729.html["CPC-00507"] .  NetApp wird Kunden, die Postfachkapazität, Wartung und Support über die am 24. Juni 2020 eingeführten Marketing-Teilenummern erworben haben, für die Dauer des Supportanspruchs weiterhin unterstützen.
+
+NetApp Single Mailbox Recovery ist ein Partnerprodukt von Ontrack.  Ontrack PowerControls bietet ähnliche Funktionen wie NetApp Single Mailbox Recovery.  Kunden können neue Ontrack PowerControls-Softwarelizenzen sowie Wartungs- und Supportverlängerungen für Ontrack PowerControls von Ontrack (über licensingteam@ontrack.com) für eine detaillierte Postfachwiederherstellung nach dem EOA-Datum (12. Mai 2023) erwerben.
+
+|===
+
+NOTE: Die Lizenzen für SnapCenter Advanced und SnapCenter NAS File Services sind veraltet und nicht mehr verfügbar.  Die Standardlizenz und die kapazitätsbasierte Lizenz sind für Amazon FSx for NetApp ONTAP, ONTAP Select, Cloud Volumes ONTAP und Azure NetApp Files nicht mehr erforderlich.
+
+Sie sollten eine oder mehrere SnapCenter -Lizenzen installieren.  Informationen zum Hinzufügen von Lizenzen finden Sie unterlink:../install/concept_snapcenter_standard_controller_based_licenses.html["Hinzufügen von Controller-basierten Lizenzen für SnapCenter Standard"] .

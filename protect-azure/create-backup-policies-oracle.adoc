@@ -1,0 +1,41 @@
+---
+permalink: protect-azure/create-backup-policies-oracle.html 
+sidebar: sidebar 
+keywords: create policies, Oracle, backup policies 
+summary: Erstellen Sie eine Sicherungsrichtlinie für die Ressource oder Ressourcengruppe, die Sie sichern möchten. 
+---
+= Erstellen von Sicherungsrichtlinien für Oracle-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie SnapCenter zum Sichern von Oracle-Datenbankressourcen verwenden, müssen Sie eine Sicherungsrichtlinie für die Ressource oder die Ressourcengruppe erstellen, die Sie sichern möchten.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Richtlinien*.
+. Wählen Sie „Oracle-Datenbank“ aus der Dropdownliste aus.
+. Klicken Sie auf *Neu*.
+. Geben Sie auf der Seite „Name“ den Richtliniennamen und eine Beschreibung ein.
+. Führen Sie auf der Seite „Richtlinientyp“ die folgenden Schritte aus:
++
+.. Wählen Sie als Speichertyp * Azure NetApp Files* aus.
+.. Wählen Sie als Sicherungstyp entweder Online- oder Offline-Sicherung aus.
+.. Wenn Sie die Sicherung mit Oracle Recovery Manager (RMAN) katalogisieren möchten, wählen Sie *Sicherung mit Oracle Recovery Manager (RMAN) katalogisieren*.
+.. Wenn Sie Archivprotokolle nach der Sicherung bereinigen möchten, wählen Sie *Archivprotokolle nach der Sicherung bereinigen*.
+.. Geben Sie die Einstellungen zum Löschen des Archivprotokolls an.
+
+
+. Führen Sie auf der Seite „Snapshot und Sicherung“ die folgenden Schritte aus:
++
+.. Wählen Sie die Häufigkeit der geplanten Sicherung aus.
+.. Geben Sie die Aufbewahrungseinstellungen an.
+.. Wenn Sie die Azure NetApp Files -Sicherung aktivieren möchten, wählen Sie *Sicherung aktivieren* und geben Sie die Aufbewahrungseinstellungen an.
+
+
+. Geben Sie auf der Seite „Skript“ den Pfad und die Argumente des Präskripts oder Postskripts ein, das Sie vor bzw. nach dem Sicherungsvorgang ausführen möchten.
+. Wählen Sie auf der Seite „Überprüfung“ den Sicherungszeitplan aus, für den Sie den Überprüfungsvorgang durchführen möchten, und geben Sie den Pfad und die Argumente des Präskripts oder Postskripts ein, das Sie vor bzw. nach dem Überprüfungsvorgang ausführen möchten.
+. Überprüfen Sie die Zusammenfassung und klicken Sie auf *Fertig*.
+

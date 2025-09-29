@@ -1,0 +1,42 @@
+---
+permalink: protect-sce/task_reseed_a_replica_using_powershell_cmdlets_for_exchange_database.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Sie können PowerShell-Cmdlets verwenden, um ein fehlerhaftes Replikat wiederherzustellen, indem Sie entweder die neueste Kopie auf demselben Host oder die neueste Kopie von einem anderen Host verwenden. 
+---
+= Führen Sie mithilfe von PowerShell-Cmdlets für die Exchange-Datenbank ein erneutes Seeding eines Replikats durch
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können PowerShell-Cmdlets verwenden, um ein fehlerhaftes Replikat wiederherzustellen, indem Sie entweder die neueste Kopie auf demselben Host oder die neueste Kopie von einem anderen Host verwenden.
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+.Schritte
+. Initiieren Sie eine Verbindungssitzung mit dem SnapCenter -Server für einen angegebenen Benutzer mithilfe der `Open-SmConnection` Cmdlet.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. Führen Sie ein erneutes Seeding der Datenbank durch, indem Sie `reseed-SmDagReplicaCopy` Cmdlet.
++
+In diesem Beispiel wird die fehlgeschlagene Kopie der Datenbank mit dem Namen „execdb“ auf dem Host „mva-rx200.netapp.com“ mithilfe der neuesten Sicherung auf diesem Host neu gestartet.
+
++
+[listing]
+----
+reseed-SmDagReplicaCopy -ReplicaHost "mva-rx200.netapp.com" -Database execdb
+----
++
+In diesem Beispiel wird für die fehlgeschlagene Kopie der Datenbank mit dem Namen „execdb“ ein neues Seeding durchgeführt. Dabei wird die neueste Sicherung der Datenbank (Produktion/Kopie) auf einem alternativen Host „mva-rx201.netapp.com“ verwendet.
+
++
+[listing]
+----
+reseed-SmDagReplicaCopy -ReplicaHost "mva-rx200.netapp.com" -Database  execdb -BackupHost "mva-rx201.netapp.com"
+----
+

@@ -1,0 +1,116 @@
+---
+permalink: protect-postgresql/restore-and-recover-an-auto-discovered-cluster-backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for postgresql 
+summary: Sie können SnapCenter verwenden, um Daten aus einem oder mehreren Backups wiederherzustellen. 
+---
+= Wiederherstellen und Wiederherstellen einer automatisch erkannten Clustersicherung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um Daten aus einem oder mehreren Backups wiederherzustellen.
+
+.Bevor Sie beginnen
+* Sie müssen die Ressource oder Ressourcengruppen gesichert haben.
+* Sie müssen alle derzeit laufenden Sicherungsvorgänge für die Ressource oder Ressourcengruppe, die Sie wiederherstellen möchten, abgebrochen haben.
+* Bei Befehlen vor und nach der Wiederherstellung sowie zum Einhängen und Aufheben der Einhängung sollten Sie prüfen, ob die Befehle in der Befehlsliste vorhanden sind, die auf dem Plug-In-Host unter den folgenden Pfaden verfügbar ist:
++
+** Standardspeicherort auf dem Windows-Host: _C:\Programme\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Standardspeicherort auf dem Linux-Host: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: Wenn die Befehle nicht in der Befehlsliste vorhanden sind, schlägt der Vorgang fehl.
+
+.Informationen zu diesem Vorgang
+* Dateibasierte Sicherungskopien können nicht aus SnapCenter wiederhergestellt werden.
+* Für automatisch erkannte Ressourcen wird die Wiederherstellung mit SFSR unterstützt.
+* Die automatische Wiederherstellung wird nicht unterstützt.
+* Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Filtern Sie auf der Seite „Ressourcen“ die Ressourcen aus der Dropdown-Liste *Anzeigen* basierend auf dem Ressourcentyp.
++
+Die Ressourcen werden zusammen mit Typ, Host, zugehörigen Ressourcengruppen und Richtlinien sowie Status angezeigt.
+
++
+
+NOTE: Obwohl eine Sicherung möglicherweise für eine Ressourcengruppe erfolgt, müssen Sie bei der Wiederherstellung die einzelnen Ressourcen auswählen, die Sie wiederherstellen möchten.
+
++
+Wenn die Ressource nicht geschützt ist, wird in der Spalte „Gesamtstatus“ „Nicht geschützt“ angezeigt.  Dies kann entweder bedeuten, dass die Ressource nicht geschützt ist oder dass die Ressource von einem anderen Benutzer gesichert wurde.
+
+. Wählen Sie die Ressource aus oder wählen Sie eine Ressourcengruppe und dann eine Ressource in dieser Gruppe aus.
++
+Die Seite „Ressourcentopologie“ wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Backups* entweder aus dem primären oder sekundären (gespiegelten oder im Tresor gespeicherten) Speichersystem aus.
+. Wählen Sie in der Tabelle „Primäre Sicherung(en)“ die Sicherung aus, aus der Sie wiederherstellen möchten, und klicken Sie dann auf *image:../media/restore_icon.gif["Wiederherstellungssymbol"] *.
++
+image::../media/restoring_resource.gif[Wiederherstellung von Ressourcen]
+
+. Wählen Sie auf der Seite „Wiederherstellungsbereich“ die Option „Vollständige Ressource“ aus, um die konfigurierten Datenvolumes des PostgreSQL-Clusters wiederherzustellen.
+. Wählen Sie auf der Seite „Wiederherstellungsbereich“ eine der folgenden Optionen aus:
++
+|===
+
+
+| Wenn du... | Machen Sie Folgendes... 
+
+
+ a| 
+Möchten Sie so nah wie möglich an die aktuelle Zeit zurückkehren
+ a| 
+Wählen Sie *Auf den letzten Zustand wiederherstellen*.  Geben Sie für einzelne Containerressourcen einen oder mehrere Protokoll- und Katalogsicherungsspeicherorte an.
+
+
+
+ a| 
+Möchten Sie den angegebenen Zeitpunkt wiederherstellen
+ a| 
+Wählen Sie *Zu einem bestimmten Zeitpunkt wiederherstellen*.
+
+.. Geben Sie Datum und Uhrzeit ein.  Geben Sie Datum und Uhrzeit ein.  Beispielsweise befindet sich der PostgreSQL-Linux-Host in Sunnyvale, Kalifornien, und der Benutzer in Raleigh, North Carolina, stellt die Protokolle in SnapCenter wieder her.
++
+Wenn der Benutzer eine Wiederherstellung auf 5 Uhr morgens in Sunnyvale, CA durchführen möchte, muss er die Zeitzone des Browsers auf die Zeitzone des PostgreSQL Linux-Hosts (GMT-07:00) einstellen und Datum und Uhrzeit als 5:00 Uhr morgens angeben.
+
+
+
+
+
+ a| 
+Will nicht erholen
+ a| 
+Wählen Sie *Keine Wiederherstellung*.
+
+|===
+
+
+
+NOTE: Sie können manuell hinzugefügte PostgreSQL-Ressourcen nicht wiederherstellen.
+
+
+NOTE: Das SnapCenter -Plug-in für PostgreSQL erstellt ein Backup-Label und eine Tablespace-Map im Ordner _/<OS_temp_folder>/postgresql_sc_recovery_<Restore_JobId>/_, um die manuelle Wiederherstellung zu erleichtern.
+
+. Geben Sie auf der Seite „Pre Ops“ die Befehle „Pre Restore“ und „Unmount“ ein, die vor der Durchführung eines Wiederherstellungsauftrags ausgeführt werden sollen.
++
+Für automatisch erkannte Ressourcen sind keine Befehle zum Aufheben der Bereitstellung verfügbar.
+
+. Geben Sie auf der Seite „Post Ops“ die Befehle „Mount“ und „Post Restore“ ein, die nach der Durchführung eines Wiederherstellungsauftrags ausgeführt werden sollen.
++
+Für automatisch erkannte Ressourcen sind keine Mount-Befehle verfügbar.
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  SMTP muss auch auf der Seite *Einstellungen* > *Globale Einstellungen* konfiguriert werden.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+

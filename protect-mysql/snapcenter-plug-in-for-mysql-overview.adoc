@@ -1,0 +1,24 @@
+---
+permalink: protect-mysql/snapcenter-plug-in-for-mysql-overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: Das SnapCenter -Plug-in für MySQL ist eine hostseitige Komponente der NetApp SnapCenter software , die eine anwendungsbewusste Datenschutzverwaltung von MySQL-Datenbanken ermöglicht.  Das Plug-in für MySQL-Datenbanken automatisiert die Sicherung, Wiederherstellung und das Klonen von MySQL-Datenbanken in Ihrer SnapCenter Umgebung. 
+---
+= Übersicht über das SnapCenter -Plug-in für MySQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das SnapCenter -Plug-in für MySQL-Datenbanken ist eine hostseitige Komponente der NetApp SnapCenter software , die eine anwendungsbewusste Datenschutzverwaltung von MySQL-Datenbanken ermöglicht.  Das Plug-in für MySQL-Datenbanken automatisiert die Sicherung, Wiederherstellung und das Klonen von MySQL-Datenbanken in Ihrer SnapCenter Umgebung.
+
+SnapCenter unterstützt MySQL-Setups mit einer Instanz.  Sie können das Plug-in für MySQL-Datenbanken sowohl in Linux- als auch in Windows-Umgebungen verwenden.  In Windows-Umgebungen wird MySQL als manuelle Ressource unterstützt.
+
+Wenn das Plug-in für MySQL-Datenbanken installiert ist, können Sie SnapCenter mit der NetApp SnapMirror -Technologie verwenden, um Spiegelkopien von Sicherungssätzen auf einem anderen Volume zu erstellen.  Sie können das Plug-in auch mit der NetApp SnapVault -Technologie verwenden, um eine Disk-to-Disk-Backup-Replikation zur Einhaltung von Standards durchzuführen.
+
+Das SnapCenter -Plug-in für MySQL unterstützt NFS und SAN auf ONTAP und Azure NetApp Dateispeicherlayouts.
+
+Das virtuelle Speicherlayout VMDK, vVol und RDM wird unterstützt.
+
+Symbolische Links werden nicht unterstützt.

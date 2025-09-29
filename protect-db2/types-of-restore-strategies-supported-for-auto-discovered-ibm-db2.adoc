@@ -1,0 +1,16 @@
+---
+permalink: protect-db2/types-of-restore-strategies-supported-for-auto-discovered-ibm-db2.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: Sie müssen eine Strategie definieren, bevor Sie Wiederherstellungsvorgänge mit SnapCenter erfolgreich durchführen können.  Es gibt zwei Arten von Wiederherstellungsstrategien für automatisch erkannte IBM Db2-Datenbanken. 
+---
+= Art der unterstützten Wiederherstellungsstrategie für automatisch erkanntes IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie müssen eine Strategie definieren, bevor Sie Wiederherstellungsvorgänge mit SnapCenter erfolgreich durchführen können.
+
+Die vollständige Ressourcenwiederherstellung ist die unterstützte Wiederherstellungsstrategie für automatisch erkannte IBM Db2-Datenbanken.  Dadurch werden alle Volumes, Qtrees und LUNs einer Ressource wiederhergestellt.

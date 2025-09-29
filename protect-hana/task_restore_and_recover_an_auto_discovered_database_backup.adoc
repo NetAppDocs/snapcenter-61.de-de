@@ -1,0 +1,166 @@
+---
+permalink: protect-hana/task_restore_and_recover_an_auto_discovered_database_backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Sie können SnapCenter verwenden, um Daten aus einem oder mehreren Backups wiederherzustellen. 
+---
+= Wiederherstellen und Wiederherstellen einer automatisch erkannten Datenbanksicherung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um Daten aus einem oder mehreren Backups wiederherzustellen.
+
+.Bevor Sie beginnen
+* Sie müssen die Ressource oder Ressourcengruppen gesichert haben.
+* Sie müssen alle derzeit laufenden Sicherungsvorgänge für die Ressource oder Ressourcengruppe, die Sie wiederherstellen möchten, abgebrochen haben.
+* Bei Befehlen vor und nach der Wiederherstellung sowie zum Einhängen und Aufheben der Einhängung sollten Sie prüfen, ob die Befehle in der Befehlsliste vorhanden sind, die auf dem Plug-In-Host unter den folgenden Pfaden verfügbar ist:
++
+** Standardspeicherort auf dem Windows-Host: _C:\Programme\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Standardspeicherort auf dem Linux-Host: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: Wenn die Befehle nicht in der Befehlsliste vorhanden sind, schlägt der Vorgang fehl.
+
+.Informationen zu diesem Vorgang
+* Dateibasierte Sicherungskopien können nicht aus SnapCenter wiederhergestellt werden.
+* Nach dem Upgrade auf SnapCenter 4.3 können die in SnapCenter 4.2 erstellten Sicherungen wiederhergestellt, jedoch nicht wiederhergestellt werden.  Sie müssen HANA Studio oder externe HANA-Wiederherstellungsskripte von SnapCenter verwenden, um die in SnapCenter 4.2 erstellten Sicherungen wiederherzustellen.
+* Bei ONTAP 9.12.1 und früheren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+* Für den Wiederherstellungsvorgang mit SnapMirror Active Sync müssen Sie die Sicherung vom primären Speicherort auswählen.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Filtern Sie auf der Seite „Ressourcen“ die Ressourcen aus der Dropdown-Liste *Anzeigen* basierend auf dem Ressourcentyp.
++
+Die Ressourcen werden zusammen mit Typ, Host, zugehörigen Ressourcengruppen und Richtlinien sowie Status angezeigt.
+
++
+
+NOTE: Obwohl eine Sicherung möglicherweise für eine Ressourcengruppe erfolgt, müssen Sie bei der Wiederherstellung die einzelnen Ressourcen auswählen, die Sie wiederherstellen möchten.
+
++
+Wenn die Ressource nicht geschützt ist, wird in der Spalte „Gesamtstatus“ „Nicht geschützt“ angezeigt.  Dies kann entweder bedeuten, dass die Ressource nicht geschützt ist oder dass die Ressource von einem anderen Benutzer gesichert wurde.
+
+. Wählen Sie die Ressource aus oder wählen Sie eine Ressourcengruppe und dann eine Ressource in dieser Gruppe aus.
++
+Die Seite „Ressourcentopologie“ wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Backups* entweder aus dem primären oder sekundären (gespiegelten oder im Tresor gespeicherten) Speichersystem aus.
+. Wählen Sie in der Tabelle „Primäre Sicherung(en)“ die Sicherung aus, aus der Sie wiederherstellen möchten, und klicken Sie dann auf *image:../media/restore_icon.gif["Wiederherstellungssymbol"] *.
++
+image::../media/restoring_resource.gif[Wiederherstellung von Ressourcen]
+
+. Wählen Sie auf der Seite „Wiederherstellungsbereich“ die Option „Vollständige Ressource“ aus, um die konfigurierten Datenvolumes der SAP HANA-Datenbank wiederherzustellen.
++
+
+NOTE: Sie können entweder *Complete Resource* (mit oder ohne *Volume Revert*) oder *Tenant Database* auswählen.
+
++
+Der Wiederherstellungsvorgang wird vom SnapCenter Server für mehrere Mandanten nicht unterstützt, wenn der Benutzer entweder die Option *Mandantendatenbank* oder *Vollständige Wiederherstellung* auswählt.  Sie müssen HANA Studio oder ein HANA-Python-Skript verwenden, um den Wiederherstellungsvorgang durchzuführen.
+
++
+.. Wählen Sie *Volume Revert*, wenn Sie das gesamte Volume wiederherstellen möchten.
++
+Diese Option ist für Sicherungen verfügbar, die in SnapCenter 4.3 in NFS-Umgebungen erstellt wurden.
+
++
+Wenn die Ressource Volumes oder Qtrees enthält, werden die Snapshots, die nach dem zur Wiederherstellung ausgewählten Snapshot auf diesen Volumes oder Qtrees erstellt wurden, gelöscht und können nicht wiederhergestellt werden.  Wenn außerdem eine andere Ressource auf denselben Volumes oder Qtrees gehostet wird, wird diese Ressource ebenfalls gelöscht.  Dies ist anwendbar, wenn für die Wiederherstellung die Option *Complete Resource* mit *Volume Revert* ausgewählt ist.
+
+.. Wählen Sie *Mandantendatenbank* aus.
++
+Diese Option ist nur für MDC-Ressourcen verfügbar.
+
++
+Stellen Sie sicher, dass Sie die Mandantendatenbank stoppen, bevor Sie den Wiederherstellungsvorgang durchführen.
+
++
+Wenn Sie die Option *Mandantendatenbank* auswählen, müssen Sie HANA Studio oder externe HANA-Wiederherstellungsskripts von SnapCenter verwenden, um den Wiederherstellungsvorgang durchzuführen.
+
+
+
+. Wählen Sie auf der Seite „Wiederherstellungsbereich“ eine der folgenden Optionen aus:
++
+|===
+| Wenn du... | Machen Sie Folgendes... 
+
+
+ a| 
+Möchten Sie so nah wie möglich an die aktuelle Zeit zurückkehren
+ a| 
+Wählen Sie *Auf den letzten Zustand wiederherstellen*.  Geben Sie für einzelne Containerressourcen einen oder mehrere Protokoll- und Katalogsicherungsspeicherorte an.
+
+Geben Sie für Multitenant-Datenbankcontainer-Ressourcen (MDC) einen oder mehrere Protokollsicherungsspeicherorte und den Speicherort des Sicherungskatalogs an.
+
+Bei MDC-Ressourcen sollte der Pfad sowohl Systemdatenbank- als auch Mandantendatenbankprotokolle enthalten.
+
+
+
+ a| 
+Möchten Sie den angegebenen Zeitpunkt wiederherstellen
+ a| 
+Wählen Sie *Zu einem bestimmten Zeitpunkt wiederherstellen*.
+
+.. Wählen Sie die Zeitzone aus.
++
+Die Zeitzone des Browsers ist standardmäßig ausgefüllt.
+
++
+Die ausgewählte Zeitzone wird zusammen mit der eingegebenen Zeit in absolute GMT umgerechnet.
+
+.. Geben Sie Datum und Uhrzeit ein.  Beispielsweise befindet sich der HANA Linux-Host in Sunnyvale, Kalifornien, und der Benutzer in Raleigh, North Carolina, stellt die Protokolle in SnapCenter wieder her.
++
+Der Zeitunterschied zwischen diesen beiden Standorten beträgt 3 Stunden und da sich der Benutzer von Raleigh, NC aus angemeldet hat, ist die in der GUI ausgewählte Standardzeitzone des Browsers GMT-04:00.
+
++
+Wenn der Benutzer eine Wiederherstellung auf 5 Uhr morgens in Sunnyvale, CA durchführen möchte, muss er die Zeitzone des Browsers auf die Zeitzone des HANA Linux-Hosts (GMT-07:00) einstellen und Datum und Uhrzeit als 5:00 Uhr morgens angeben.
+
++
+Geben Sie für einzelne Containerressourcen einen oder mehrere Protokoll- und Katalogsicherungsspeicherorte an.
+
++
+Geben Sie für MDC-Ressourcen einen oder mehrere Protokollsicherungsspeicherorte und den Speicherort des Sicherungskatalogs an.
+
++
+Bei MDC-Ressourcen sollte der Pfad sowohl Systemdatenbank- als auch Mandantendatenbankprotokolle enthalten.
+
+
+
+
+
+ a| 
+Möchten Sie eine bestimmte Datensicherung wiederherstellen
+ a| 
+Wählen Sie *Aus angegebener Datensicherung wiederherstellen*.
+
+
+
+ a| 
+Will nicht erholen
+ a| 
+Wählen Sie *Keine Wiederherstellung*.  Sie müssen den Wiederherstellungsvorgang manuell vom HANA-Studio aus durchführen.
+
+|===
++
+Sie können nur die Sicherungen wiederherstellen, die nach dem Upgrade auf SnapCenter 4.3 erstellt wurden, vorausgesetzt, sowohl der Host als auch das Plug-In werden auf SnapCenter 4.3 aktualisiert und die zur Wiederherstellung ausgewählten Sicherungen werden erstellt, nachdem die Ressource konvertiert oder als automatisch erkannte Ressource erkannt wurde.
+
+. Geben Sie auf der Seite „Pre Ops“ die Befehle „Pre Restore“ und „Unmount“ ein, die vor der Durchführung eines Wiederherstellungsauftrags ausgeführt werden sollen.
++
+Für automatisch erkannte Ressourcen sind keine Befehle zum Aufheben der Bereitstellung verfügbar.
+
+. Geben Sie auf der Seite „Post Ops“ die Befehle „Mount“ und „Post Restore“ ein, die nach der Durchführung eines Wiederherstellungsauftrags ausgeführt werden sollen.
++
+Für automatisch erkannte Ressourcen sind keine Mount-Befehle verfügbar.
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  SMTP muss auch auf der Seite *Einstellungen* > *Globale Einstellungen* konfiguriert werden.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+

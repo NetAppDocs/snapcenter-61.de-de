@@ -1,0 +1,123 @@
+---
+section: install
+title: Installieren und Konfigurieren von SnapCenter Server
+entries:
+- title: Vorbereiten der Installation des SnapCenter -Servers
+  entries:
+  - title: Anforderungen
+    url: "/install/requirements-to-install-snapcenter-server.html"
+  - title: Registrieren Sie sich auf der NetApp Support Site
+    url: "/install/register_enable_software_access.html"
+  - title: Multi-Faktor-Authentifizierung (MFA)
+    entries:
+    - title: Verwalten der Multi-Faktor-Authentifizierung (MFA)
+      url: "/install/enable_multifactor_authentication.html"
+    - title: Verwalten Sie die Multi-Faktor-Authentifizierung (MFA) mit Rest API,
+        PowerShell und SCCLI
+      url: "/install/enable_multifactor_authentication_using_RestAPI_PowerShell_SCCLI.html"
+    - title: Konfigurieren Sie MFA in SnapCenter Server mit PowerShell, SCCLI und
+        REST-API
+      url: "/install/configure_mfa_using_powershell_sccli_restapi.html"
+- title: Installieren des SnapCenter -Servers
+  entries:
+  - title: Installieren Sie den SnapCenter -Server auf einem Windows-Host
+    url: "/install/task_install_the_snapcenter_server_using_the_install_wizard.html"
+  - title: Installieren Sie den SnapCenter -Server auf einem Linux-Host
+    url: "/install/install_snapcenter_server_linux.html"
+  - title: SnapCenter registrieren
+    url: "/install/register-snapcenter-software.html"
+  - title: Melden Sie sich bei SnapCenter an
+    url: "/install/task_log_in_to_snapcenter.html"
+- title: Konfigurieren des SnapCenter -Servers
+  entries:
+  - title: Hinzufügen und Bereitstellen des Speichersystems
+    entries:
+    - title: Speichersysteme hinzufügen
+      url: "/install/task_add_storage_systems.html"
+    - title: Speicherverbindungen und Anmeldeinformationen
+      url: "/install/concept_svm_connections_and_credentials.html"
+    - title: Bereitstellen von Speicher auf Windows-Hosts
+      entries:
+      - title: Erstellen und Verwalten von igroups
+        url: "/install/concept_create_and_manage_igroups.html"
+      - title: Erstellen und Verwalten von Datenträgern
+        url: "/install/task_create_and_manage_disks.html"
+      - title: Erstellen und Verwalten von SMB-Freigaben
+        url: "/install/concept_create_and_manage_smb_shares.html"
+      - title: Speicherplatz auf dem Speichersystem freigeben
+        url: "/install/task_reclaim_space_on_the_storage_system.html"
+      - title: Bereitstellen von Speicher mithilfe von PowerShell-Cmdlets
+        url: "/install/reference_provision_storage_using_powershell_cmdlets.html"
+    - title: Bereitstellen von Speicher in VMware-Umgebungen
+      url: "/install/concept_provision_storage_in_vmware_environments.html"
+  - title: Hinzufügen von Controller-basierten Lizenzen für SnapCenter Standard
+    url: "/install/concept_snapcenter_standard_controller_based_licenses.html"
+  - title: Konfigurieren der Hochverfügbarkeit
+    entries:
+    - title: Konfigurieren Sie SnapCenter -Server für hohe Verfügbarkeit
+      url: "/install/concept_configure_snapcenter_servers_for_high_availabiity_using_f5.html"
+    - title: Hohe Verfügbarkeit für das SnapCenter MySQL-Repository
+      url: "/install/concept_high_availability_for_snapcenter_mysql_repository.html"
+  - title: Konfigurieren der rollenbasierten Zugriffssteuerung (RBAC)
+    entries:
+    - title: Erstellen einer Rolle
+      url: "/install/task_create_a_role.html"
+    - title: Fügen Sie eine ONTAP RBAC-Rolle mithilfe von Sicherheitsanmeldebefehlen
+        hinzu
+      url: "/install/task_add_an_rbac_role_using_security_login_commands.html"
+    - title: Erstellen Sie SVM-Rollen mit minimalen Berechtigungen
+      url: "/install/create-svm-roles-minimum-privileges.html"
+    - title: Erstellen Sie SVM-Rollen für ASA R2-Systeme
+      url: "/install/create-svm-roles-asa-r2-resources.html"
+    - title: Erstellen Sie ONTAP Clusterrollen mit minimalen Berechtigungen
+      url: "/install/task_create_an_ontap_cluster_role_with_minimum_privileges.html"
+    - title: Erstellen Sie ONTAP Clusterrollen für ASA R2-Systeme
+      url: "/install/create-cluster-roles-asa-r2-resources.html"
+    - title: Fügen Sie einen Benutzer oder eine Gruppe hinzu und weisen Sie Rollen
+        und Assets zu
+      url: "/install/task_add_a_user_or_group_and_assign_role_and_assets.html"
+  - title: Konfigurieren der Überwachungsprotokolleinstellungen
+    url: "/install/task_configure_audit_log_settings.html"
+  - title: Konfigurieren Sie sichere MySQL-Verbindungen mit SnapCenter Server
+    url: "/install/concept_configure_secured_mysql_connections_with_snapcenter_server.html"
+- title: Konfigurieren der zertifikatsbasierten Authentifizierung
+  url: "/install/configure_certificate_based_authentication.html"
+- title: Konfigurieren des CA-Zertifikats für den Windows-Host
+  entries:
+  - title: CA-Zertifikat-CSR-Datei generieren
+    url: "/install/reference_generate_CA_certificate_CSR_file.html"
+  - title: CA-Zertifikate importieren
+    url: "/install/task_import_CA_certificates.html"
+  - title: Abrufen des CA-Zertifikatfingerabdrucks
+    url: "/install/task_get_the_CA_certificate_thumbprint.html"
+  - title: Konfigurieren Sie das CA-Zertifikat mit den Windows-Host-Plug-In-Diensten
+    url: "/install/task_configure_CA_certificate_with_Windows_host_plug-in_services.html"
+  - title: Konfigurieren des CA-Zertifikats mit der SnapCenter -Site
+    url: "/install/task_configure_CA_certificate_with_snapcenter_site.html"
+  - title: Aktivieren Sie CA-Zertifikate für SnapCenter Server
+    url: "/install/task_enable_ca_certificates_for_snapcenter.html"
+- title: Konfigurieren des CA-Zertifikats für den Linux-Host
+  url: "/install/configure_ca_certificate_linux_host.html"
+- title: Konfigurieren und Aktivieren der bidirektionalen SSL-Kommunikation auf dem
+    Windows-Host
+  entries:
+  - title: Konfigurieren Sie die bidirektionale SSL-Kommunikation auf dem Windows-Host
+    url: "/install/task_configure_two_way_ssl.html"
+  - title: Aktivieren Sie die bidirektionale SSL-Kommunikation auf dem Windows-Host
+    url: "/install/task_enable_two_way_ssl.html"
+- title: Konfigurieren und Aktivieren der bidirektionalen SSL-Kommunikation auf dem
+    Linux-Host
+  entries:
+  - title: Konfigurieren Sie die bidirektionale SSL-Kommunikation auf dem Linux-Host
+    url: "/install/configure_two_way_ssl_linux.html"
+  - title: Aktivieren Sie die SSL-Kommunikation auf dem Linux-Host
+    url: "/install/enable_two_way_ssl_linux.html"
+- title: Konfigurieren von Active Directory, LDAP und LDAPS
+  entries:
+  - title: Registrieren nicht vertrauenswürdiger Active Directory-Domänen
+    url: "/install/task_register_untrusted_active_directory_domains.html"
+  - title: Konfigurieren Sie IIS-Anwendungspools, um Active Directory-Leseberechtigungen
+      zu aktivieren.
+    url: "/install/task_configure_iis_application_pools_to_enable_active_directory_read_permissions.html"
+  - title: Konfigurieren des CA-Client-Zertifikats für LDAPS
+    url: "/install/task_configure_CA_client_certificate_for_LDAPS.html"

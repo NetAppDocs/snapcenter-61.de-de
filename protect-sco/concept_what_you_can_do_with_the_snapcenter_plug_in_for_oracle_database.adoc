@@ -1,0 +1,39 @@
+---
+permalink: protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html 
+sidebar: sidebar 
+keywords: backup, restore, clone, oracle database 
+summary: 'Sie können das Plug-in für Oracle-Datenbanken verwenden, um Oracle-Datenbanken und ihre Ressourcen zu sichern, zu überprüfen, wiederherzustellen, zu mounten, zu unmounten und zu klonen.  Sie können die Datenbanksicherungen auch mit Oracle Recovery Manager (RMAN) katalogisieren oder dekatalogisieren.' 
+---
+= Was können Sie mit dem Plug-in für Oracle Database tun?
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das SnapCenter -Plug-in für Oracle-Datenbanken ist eine hostseitige Komponente der NetApp SnapCenter -Software, die eine anwendungsbewusste Datenschutzverwaltung von Oracle-Datenbanken ermöglicht.
+
+Das Plug-in für Oracle Database automatisiert die Sicherung, Katalogisierung und Dekatalogisierung mit Oracle Recovery Manager (RMAN), die Überprüfung, das Mounten, Unmounten, Wiederherstellen, Recovery und Klonen von Oracle-Datenbanken in Ihrer SnapCenter Umgebung.  Das Plug-in für Oracle-Datenbanken installiert das SnapCenter Plug-in für UNIX, um alle Datenschutzvorgänge durchzuführen.
+
+Mit dem Plug-in für Oracle-Datenbanken können Sie Sicherungen von Oracle-Datenbanken verwalten, auf denen SAP-Anwendungen ausgeführt werden.  Die SAP BR*Tools-Integration wird jedoch nicht unterstützt.
+
+* Sichern Sie Datendateien, Steuerdateien und archivieren Sie Protokolldateien.
++
+Die Sicherung wird nur auf Containerdatenbankebene (CDB) unterstützt.
+
+* Wiederherstellung und Wiedergewinnung von Datenbanken, CDBs und Pluggable Databases (PDBs).
++
+Unvollständige Wiederherstellungen von PDBs werden nicht unterstützt.
+
+* Erstellen Sie Klone von Produktionsdatenbanken bis zu einem bestimmten Zeitpunkt.
++
+Das Klonen wird nur auf CDB-Ebene unterstützt.
+
+* Überprüfen Sie die Sicherungen sofort.
+* Mounten und Unmounten von Daten und Protokollsicherungen für den Wiederherstellungsvorgang.
+* Planen Sie Sicherungs- und Überprüfungsvorgänge.
+* Überwachen Sie alle Vorgänge.
+* Zeigen Sie Berichte zu Sicherungs-, Wiederherstellungs- und Klonvorgängen an.
+* Automatisiert anwendungsorientierte Sicherungs-, Wiederherstellungs-, Überprüfungs-, Mount-, Unmount- und Klonvorgänge für Oracle-Datenbanken in Ihrer SnapCenter Umgebung
+* Unterstützt Oracle-Datenbanken für SAP, jedoch ist keine SAP BR*Tools-Integration vorgesehen
+

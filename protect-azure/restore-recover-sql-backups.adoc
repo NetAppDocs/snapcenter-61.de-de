@@ -1,0 +1,48 @@
+---
+permalink: protect-azure/restore-recover-sql-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server Database, restore, recover 
+summary: Sie können SnapCenter verwenden, um Daten aus einem oder mehreren Backups wiederherzustellen. 
+---
+= Wiederherstellen und Wiederherstellen von SQL Server-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um gesicherte SQL Server-Datenbanken wiederherzustellen.  Die Datenbankwiederherstellung ist ein mehrphasiger Prozess, bei dem alle Daten und Protokollseiten aus einer angegebenen SQL Server-Sicherung in eine angegebene Datenbank kopiert werden.
+
+.Informationen zu diesem Vorgang
+Sie sollten sicherstellen, dass die Zielinstanz für die Wiederherstellung mit einem Active Directory-Benutzer konfiguriert ist, der zur Active Directory-Domäne SMB AD gehört und über die Berechtigung verfügt, die Dateiberechtigungen entsprechend festzulegen.  Sie sollten die Anmeldeinformationen in SnapCenter auf Instanzebene konfigurieren.
+
+Die SQL-Authentifizierung für die Zielinstanz wird für SMB-Konfigurationen nicht unterstützt.  Die Zielinstanz sollte in SnapCenter mit dem Active Directory-Benutzer konfiguriert werden, der über die erforderlichen Berechtigungen verfügt.
+
+Wenn das Dienstkonto der SnapCenter Plug-in-Dienste kein Active Directory-Benutzer ist, wird beim Durchführen der Wiederherstellung auf einem alternativen Host der Benutzer benötigt, der die vollständige Kontrolle über die Quellvolumes hat, damit dieser seine Identität annehmen und den erforderlichen Vorgang ausführen kann.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Ansicht“ entweder „*Datenbank*“ oder „*Ressourcengruppe*“ aus.
+. Wählen Sie die Datenbank oder die Ressourcengruppe aus der Liste aus.
+. Wählen Sie in der Ansicht „Kopien verwalten“ die Option „*Backups* vom Speichersystem“ aus.
+. Wählen Sie das Backup aus der Tabelle aus und klicken Sie dann auf dasimage:../media/restore_icon.gif["Wiederherstellungssymbol"] Symbol.
+. Wählen Sie auf der Seite „Wiederherstellungsbereich“ eine der folgenden Optionen aus:
++
+.. Wählen Sie *Datenbank auf demselben Host wiederherstellen, auf dem die Sicherung erstellt wurde*, wenn Sie die Datenbank auf demselben SQL-Server wiederherstellen möchten, auf dem die Sicherungen erstellt wurden.
+.. Wählen Sie *Datenbank auf einem anderen Host wiederherstellen*, wenn die Datenbank auf einem anderen SQL-Server auf demselben oder einem anderen Host wiederhergestellt werden soll, auf dem die Sicherungen erstellt werden.
+
+
+. Wählen Sie auf der Seite „Wiederherstellungsbereich“ eine der folgenden Optionen aus:
++
+.. Wählen Sie *Keine*, wenn Sie nur die vollständige Sicherung ohne Protokolle wiederherstellen müssen.
+.. Wählen Sie den minutengenauen Wiederherstellungsvorgang „Alle Protokollsicherungen“ aus, um alle verfügbaren Protokollsicherungen nach der vollständigen Sicherung wiederherzustellen.
+.. Wählen Sie *Nach Protokollsicherungen* aus, um einen Wiederherstellungsvorgang zu einem bestimmten Zeitpunkt durchzuführen, bei dem die Datenbank basierend auf Sicherungsprotokollen bis zum Sicherungsprotokoll mit dem ausgewählten Datum wiederhergestellt wird.
+.. Wählen Sie *Bis zu einem bestimmten Datum bis* aus, um das Datum und die Uhrzeit anzugeben, nach denen Transaktionsprotokolle nicht mehr auf die wiederhergestellte Datenbank angewendet werden.
+.. Wenn Sie *Alle Protokollsicherungen*, *Nach Protokollsicherungen* oder *Nach bestimmtem Datum bis* ausgewählt haben und sich die Protokolle an einem benutzerdefinierten Speicherort befinden, wählen Sie *Benutzerdefiniertes Protokollverzeichnis verwenden* und geben Sie dann den Protokollspeicherort an.
+
+
+. Geben Sie auf der Seite „Pre-Ops“ und „Post-Ops“ die erforderlichen Details an.
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Überwachen Sie den Wiederherstellungsprozess mithilfe der Seite *Überwachen* > *Jobs*.
+

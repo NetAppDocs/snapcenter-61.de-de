@@ -1,0 +1,48 @@
+---
+permalink: protect-nsp/netapp_supported_plugins_features.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins features, MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB, Storage plug-in 
+summary: SnapCenter lässt sich in die Plug-in-Anwendung und in NetApp -Technologien auf dem Speichersystem integrieren.  Um mit von NetApp unterstützten Plug-Ins zu arbeiten, verwenden Sie die grafische Benutzeroberfläche von SnapCenter . 
+---
+= Von NetApp unterstützte Plug-In-Funktionen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter lässt sich in die Plug-in-Anwendung und in NetApp -Technologien auf dem Speichersystem integrieren.  Um mit von NetApp unterstützten Plug-ins wie MongoDB, ORASCPM (Oracle Applications), SAP ASE, SAP MaxDB und Storage-Plug-in zu arbeiten, verwenden Sie die grafische Benutzeroberfläche von SnapCenter .
+
+* *Einheitliche grafische Benutzeroberfläche*
++
+Die SnapCenter Schnittstelle bietet Standardisierung und Konsistenz über Plug-Ins und Umgebungen hinweg.  Über die SnapCenter Schnittstelle können Sie konsistente Sicherungs-, Wiederherstellungs- und Klonvorgänge über alle Plug-Ins hinweg durchführen, zentralisierte Berichte verwenden, übersichtliche Dashboard-Ansichten nutzen, eine rollenbasierte Zugriffskontrolle (RBAC) einrichten und Jobs über alle Plug-Ins hinweg überwachen.
+
+* *Automatisierte zentrale Verwaltung*
++
+Sie können Sicherungsvorgänge planen, die richtlinienbasierte Sicherungsaufbewahrung konfigurieren und Wiederherstellungsvorgänge durchführen.  Sie können Ihre Umgebung auch proaktiv überwachen, indem Sie SnapCenter so konfigurieren, dass E-Mail-Benachrichtigungen gesendet werden.
+
+* *Unterbrechungsfreie NetApp Snapshot-Technologie*
++
+SnapCenter verwendet die NetApp Snapshot-Technologie mit den von NetApp unterstützten Plug-Ins zum Sichern von Ressourcen.  Snapshots verbrauchen nur minimalen Speicherplatz.
+
+
+
+Die von NetApp unterstützten Plug-Ins bieten außerdem die folgenden Vorteile:
+
+* Unterstützung für Sicherungs-, Wiederherstellungs- und Klon-Workflows
+* RBAC-gestützte Sicherheit und zentralisierte Rollendelegierung
++
+Sie können die Anmeldeinformationen auch so festlegen, dass die autorisierten SnapCenter Benutzer über Berechtigungen auf Anwendungsebene verfügen.
+
+* Erstellung platzsparender und zeitpunktbezogener Kopien von Ressourcen zum Testen oder zur Datenextraktion mithilfe der NetApp FlexClone -Technologie
++
+Auf dem Speichersystem, auf dem Sie den Klon erstellen möchten, ist eine FlexClone -Lizenz erforderlich.
+
+* Unterstützung für die Consistency Group (CG) Snapshot-Funktion von ONTAP als Teil der Backup-Erstellung.
+* Möglichkeit, mehrere Backups gleichzeitig auf mehreren Ressourcenhosts auszuführen
++
+In einem einzigen Vorgang werden Snapshots konsolidiert, wenn Ressourcen in einem einzelnen Host dasselbe Volume gemeinsam nutzen.
+
+* Möglichkeit zum Erstellen von Snapshots mithilfe externer Befehle.
+* Möglichkeit zum Erstellen dateisystemkonsistenter Snapshots in Windows-Umgebungen.
+

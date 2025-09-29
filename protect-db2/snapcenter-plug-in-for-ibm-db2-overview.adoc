@@ -1,0 +1,29 @@
+---
+permalink: protect-db2/snapcenter-plug-in-for-ibm-db2-overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: Das SnapCenter -Plug-in für IBM Db2 ist eine hostseitige Komponente der NetApp SnapCenter software , die ein anwendungsbewusstes Datenschutzmanagement von IBM Db2-Datenbanken ermöglicht.  Das Plug-in für IBM Db2-Datenbanken automatisiert die Sicherung, Wiederherstellung und das Klonen von IBM Db2-Datenbanken in Ihrer SnapCenter Umgebung. 
+---
+= Übersicht über das SnapCenter -Plug-in für IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das SnapCenter Plug-in für IBM Db2-Datenbanken ist eine hostseitige Komponente der NetApp SnapCenter software , die eine anwendungsbewusste Datenschutzverwaltung von IBM Db2-Datenbanken ermöglicht.  Das Plug-in für IBM Db2-Datenbanken automatisiert die Sicherung, Wiederherstellung und das Klonen von IBM Db2-Datenbanken in Ihrer SnapCenter Umgebung.
+
+* SnapCenter 6.0 unterstützt IBM Db2 10.5 und höher.
+* SnapCenter 6.0.1 unterstützt IBM Db2 9.7.x und höher.  Ab SnapCenter 6.0.1 wird außerdem IBM Db2 auf AIX unterstützt.
+
+
+SnapCenter unterstützt Db2-Setups mit einer oder mehreren Instanzen.  Sie können das Plug-in für die IBM Db2-Datenbank sowohl in Linux- als auch in Windows-Umgebungen verwenden.  In Windows-Umgebungen wird Db2 als manuelle Ressource unterstützt.
+
+
+NOTE: Db2 pureScale-Umgebungen und Db2 Multi Node (DPF)-Systeme werden nicht unterstützt.
+
+Wenn das Plug-in für die IBM Db2-Datenbank installiert ist, können Sie SnapCenter mit der NetApp SnapMirror -Technologie verwenden, um Spiegelkopien von Sicherungssätzen auf einem anderen Volume zu erstellen.  Sie können das Plug-in auch mit der NetApp SnapVault -Technologie verwenden, um eine Disk-to-Disk-Backup-Replikation zur Einhaltung von Standards durchzuführen.
+
+Das SnapCenter -Plug-in für Db2 unterstützt NFS und SAN auf ONTAP und Azure NetApp Dateispeicherlayouts.
+
+Das virtuelle Speicherlayout VMDK, vVol und RDM wird unterstützt.

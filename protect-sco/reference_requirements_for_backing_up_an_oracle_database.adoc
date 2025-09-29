@@ -1,0 +1,26 @@
+---
+permalink: protect-sco/reference_requirements_for_backing_up_an_oracle_database.html 
+sidebar: sidebar 
+keywords: requirements, prerequisites 
+summary: Bevor Sie eine Oracle-Datenbank sichern, sollten Sie sicherstellen, dass die Voraussetzungen erfüllt sind. 
+---
+= Voraussetzungen für die Sicherung einer Oracle-Datenbank
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie eine Oracle-Datenbank sichern, sollten Sie sicherstellen, dass die Voraussetzungen erfüllt sind.
+
+* Sie müssen eine Ressourcengruppe mit einer angehängten Richtlinie erstellt haben.
+* Wenn Sie eine Ressource sichern möchten, die über eine SnapMirror -Beziehung mit einem sekundären Speicher verfügt, sollte die dem Speicherbenutzer zugewiesene ONTAP -Rolle das Privileg „snapmirror all“ enthalten.  Wenn Sie jedoch die Rolle „vsadmin“ verwenden, ist das Privileg „snapmirror all“ nicht erforderlich.
+* Sie müssen das vom Sicherungsvorgang verwendete Aggregat der von der Datenbank verwendeten Storage Virtual Machine (SVM) zugewiesen haben.
+* Sie sollten überprüft haben, dass alle zur Datenbank gehörenden Datenvolumes und Archivprotokollvolumes geschützt sind, wenn für diese Datenbank der sekundäre Schutz aktiviert ist.
+* Sie sollten überprüft haben, dass sich die Datenbank mit Dateien auf den ASM-Datenträgergruppen entweder im Status „MOUNT“ oder „OPEN“ befindet, um ihre Sicherungen mit dem Oracle-Dienstprogramm DBVERIFY zu überprüfen.
+* Sie sollten überprüft haben, dass die Länge des Volume-Mount-Punkts 240 Zeichen nicht überschreitet.
+* Sie sollten den RESTTimeout-Wert in der Datei _C:\Program Files\ NetApp \SMCore\SMCoreServiceHost.exe.config_ im SnapCenter Server-Host auf 86400000 ms erhöhen, wenn die zu sichernde Datenbank groß ist (Größe in TB).
++
+Stellen Sie beim Ändern der Werte sicher, dass keine Jobs ausgeführt werden, und starten Sie den SnapCenter SMCore-Dienst nach dem Erhöhen des Werts neu.
+
+

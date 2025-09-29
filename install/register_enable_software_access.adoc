@@ -1,0 +1,36 @@
+---
+permalink: install/register_enable_software_access.html 
+sidebar: sidebar 
+keywords: install, snapcenter software, install, register, new customer, NetApp account, enable, Amazon FSx for NetApp ONTAP, Azure NetApp Files 
+summary: Wenn Sie noch kein NetApp -Konto haben, sollten Sie diese Schritte befolgen, um sich für den Zugriff auf die Software zu registrieren. 
+---
+= Registrieren Sie sich, um auf die SnapCenter software zuzugreifen
+:allow-uri-read: 
+
+
+[role="lead"]
+Sie sollten sich für den Zugriff auf die SnapCenter software registrieren, wenn Sie neu bei Amazon FSx for NetApp ONTAP oder Azure NetApp Files sind und kein bestehendes NetApp Konto haben.
+
+.Bevor Sie beginnen
+* Sie sollten Zugriff auf die Unternehmens-E-Mail-ID haben.
+* Wenn Sie Azure NetApp Files verwenden, sollten Sie über die Azure-Abonnement-ID verfügen.
+* Wenn Sie Amazon FSx for NetApp ONTAP verwenden, sollten Sie die Dateisystem-ID Ihres FSx für ONTAP -Dateisystems haben.
+
+
+.Informationen zu diesem Vorgang
+Ihre Registrierung unterliegt der Validierung Ihrer Informationen und es kann bis zu einem Tag dauern, bis das neue NetApp Support Site (NSS)-Konto bestätigt und vom *Gast*-Zugriff auf *vollständigen* Zugriff aktualisiert wird.
+
+.Schritte
+. Klicken https://mysupport.netapp.com/site/user/registration[] zur Registrierung.
+. Geben Sie Ihre Unternehmens-E-Mail-ID ein, füllen Sie das Captcha aus, akzeptieren Sie die Datenschutzrichtlinie von NetApp und klicken Sie auf *Senden*.
+. Authentifizieren Sie die Registrierung, indem Sie das an Ihre E-Mail-ID gesendete OTP eingeben und auf *Weiter* klicken.
+. Geben Sie auf der Seite zum Abschluss der Registrierung die folgenden Details ein, um die Registrierung abzuschließen.
++
+.. Wählen Sie * NetApp -Kunde/Endbenutzer*.
+.. Geben Sie im Feld SERIENNUMMER entweder die Azure-Abonnement-ID ein, wenn Sie Azure NetApp Files verwenden, oder die Dateisystem-ID, wenn Sie Amazon FSx for NetApp ONTAP verwenden.
+
+
+
+
+
+NOTE: Sie können ein Ticket erstellen unter https://mysupport.netapp.com/site/help[] wenn Sie während der Registrierung auf ein Problem stoßen oder den Status erfahren möchten.

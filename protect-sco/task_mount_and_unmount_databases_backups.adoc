@@ -1,0 +1,102 @@
+---
+permalink: protect-sco/task_mount_and_unmount_databases_backups.html 
+sidebar: sidebar 
+keywords: mount, unmount, backup, ASM, asm_diskstring 
+summary: Sie können einzelne oder mehrere Daten bereitstellen und nur Backups protokollieren, wenn Sie auf die Dateien im Backup zugreifen möchten.  Sie können das Backup entweder auf demselben Host mounten, auf dem das Backup erstellt wurde, oder auf einem Remote-Host mit demselben Oracle- und Host-Konfigurationstyp.  Wenn Sie die Sicherungen manuell bereitgestellt haben, sollten Sie die Bereitstellung der Sicherungen nach Abschluss des Vorgangs manuell aufheben.  Sie können die Datenbanksicherung nur einmal auf einem Host für eine bestimmte Datenbank mounten.  Während der Ausführung eines Vorgangs können Sie nur eine einzige Sicherung mounten. 
+---
+= Mounten und Unmounten von Datenbanksicherungen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können einzelne oder mehrere Daten bereitstellen und nur Backups protokollieren, wenn Sie auf die Dateien im Backup zugreifen möchten.  Sie können das Backup entweder auf demselben Host mounten, auf dem das Backup erstellt wurde, oder auf einem Remote-Host mit demselben Oracle- und Host-Konfigurationstyp.  Wenn Sie die Sicherungen manuell bereitgestellt haben, sollten Sie die Bereitstellung der Sicherungen nach Abschluss des Vorgangs manuell aufheben.  Zu jedem beliebigen Zeitpunkt kann eine Sicherungskopie einer Datenbank auf einem beliebigen Host bereitgestellt werden.  Während der Ausführung eines Vorgangs können Sie nur eine einzige Sicherung mounten.
+
+
+NOTE: In einem Flex ASM-Setup können Sie keine Mount-Operationen auf Leaf-Knoten durchführen, wenn die Kardinalität kleiner ist als die Anzahl der Knoten im RAC-Cluster.
+
+
+
+== Mounten einer Datenbanksicherung
+
+Sie sollten eine Datenbanksicherung manuell mounten, wenn Sie auf die Dateien in der Sicherung zugreifen möchten.
+
+*Was Sie brauchen*
+
+* Wenn Sie über eine Automatic Storage Management (ASM)-Datenbankinstanz in einer NFS-Umgebung verfügen und die ASM-Sicherungen mounten möchten, sollten Sie den ASM-Festplattenpfad _/var/opt/snapcenter/sco/backup_*/_*_/_*_/_*_/_*_ zum vorhandenen Pfad hinzugefügt haben, der im Parameter asm_diskstring definiert ist.
+* Wenn Sie über eine ASM-Datenbankinstanz in einer NFS-Umgebung verfügen und die ASM-Protokollsicherungen als Teil eines Wiederherstellungsvorgangs bereitstellen möchten, sollten Sie den ASM-Festplattenpfad _/var/opt/snapcenter/scu/clones/_*_/_*_ zum vorhandenen Pfad hinzugefügt haben, der im Parameter asm_diskstring definiert ist.
+* Im Parameter asm_diskstring sollten Sie _AFD:*_ konfigurieren, wenn Sie ASMFD verwenden, oder _ORCL:*_, wenn Sie ASMLIB verwenden.
+
+
+
+NOTE: Informationen zum Bearbeiten des Parameters asm_diskstring finden Sie unter https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Disk_paths_are_not_added_to_the_asm_diskstring_database_parameter["So fügen Sie Datenträgerpfade zu asm_diskstring hinzu"^] .
+
+* Sie sollten die ASM-Anmeldeinformationen und den ASM-Port konfigurieren, wenn diese beim Mounten der Sicherung von denen des Quelldatenbankhosts abweichen.
+* Wenn Sie einen alternativen Host mounten möchten, müssen Sie überprüfen, ob der alternative Host die folgenden Anforderungen erfüllt:
++
+** Dieselbe UID und GID wie die des ursprünglichen Hosts
+** Dieselbe Oracle-Version wie die des ursprünglichen Hosts
+** Dieselbe Betriebssystemverteilung und -version wie die des ursprünglichen Hosts
+** Für NVMe sollte NVMe util installiert sein
+
+
+* Sie sollten sicherstellen, dass die LUN nicht mithilfe einer iGroup, die aus gemischten Protokollen iSCSI und FC besteht, auf den AIX-Host abgebildet wird. Weitere Informationen finden Sie unter  https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_Plug-in_for_Oracle_operations_fail_with_error_Unable_to_discover_the_device_for_LUN_LUN_PATH["Der Vorgang schlägt mit dem Fehler „Gerät für LUN konnte nicht erkannt werden“ fehl."^] .
+
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder „Datenbank“ oder „Ressourcengruppe“ aus der Liste „Anzeigen“ aus.
+. Wählen Sie die Datenbank entweder aus der Datenbankdetailansicht oder aus der Ressourcengruppendetailansicht aus.
++
+Die Seite „Datenbanktopologie“ wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Backups* entweder vom primären oder sekundären (gespiegelten oder replizierten) Speichersystem aus.
+. Wählen Sie das Backup aus der Tabelle aus und klicken Sie dann aufimage:../media/mount_icon.gif["Mount-Symbol"] .
+. Wählen Sie auf der Seite „Backups mounten“ aus der Dropdown-Liste *Wählen Sie den Host zum Mounten des Backups* den Host aus, auf dem Sie das Backup mounten möchten.
++
+Der Mount-Pfad _/var/opt/snapcenter/sco/backup_mount/backup_name/database_name_ wird angezeigt.
+
++
+Wenn Sie die Sicherung einer ASM-Datenbank mounten, wird der Mount-Pfad +diskgroupname_SID_backupid angezeigt.
+
+. Klicken Sie auf *Mounten*.
+
+
+*Nachdem Sie fertig sind*
+
+* Sie können den folgenden Befehl ausführen, um die Informationen zum bereitgestellten Backup abzurufen:
++
+`./sccli Get-SmBackup -BackupName backup_name -ListMountInfo`
+
+* Wenn Sie eine ASM-Datenbank gemountet haben, können Sie den folgenden Befehl ausführen, um die Informationen zum gemounteten Backup abzurufen:
++
+`./sccli Get-Smbackup -BackupNamediskgroupname_SID_backupid-listmountinfo`
+
+* Um die Sicherungs-ID abzurufen, führen Sie den folgenden Befehl aus:
++
+`./sccli Get-Smbackup-BackupNamebackup_name`
+
++
+Informationen zu den mit dem Befehl verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von Get-Help _command_name_. Alternativ können Sie auch auf die https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenter Software-Befehlsreferenzhandbuch"^] .
+
+
+
+
+
+== Unmounten einer Datenbanksicherung
+
+Sie können die Bereitstellung einer bereitgestellten Datenbanksicherung manuell aufheben, wenn Sie nicht mehr auf die Dateien in der Sicherung zugreifen möchten.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder „Datenbank“ oder „Ressourcengruppe“ aus der Liste „Anzeigen“ aus.
+. Wählen Sie die Datenbank entweder aus der Datenbankdetailansicht oder aus der Ressourcengruppendetailansicht aus.
++
+Die Seite „Datenbanktopologie“ wird angezeigt.
+
+. Wählen Sie das bereitgestellte Backup aus und klicken Sie dann aufimage:../media/unmount_icon.gif["Symbol zum Aufheben der Bereitstellung"] .
+. Klicken Sie auf *OK*.
+

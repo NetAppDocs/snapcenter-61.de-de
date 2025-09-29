@@ -1,0 +1,96 @@
+---
+permalink: protect-sco/backup-application-volume.html 
+sidebar: sidebar 
+keywords: application volume, back up 
+summary: Sie können das Anwendungsvolume von der Seite „Ressourcen“ aus sichern, wenn das Anwendungsvolume nicht Teil einer Ressourcengruppe ist. 
+---
+= Anwendungsvolume sichern
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn das Anwendungsvolume nicht Teil einer Ressourcengruppe ist, können Sie das Anwendungsvolume von der Seite „Ressourcen“ aus sichern.
+
+*Über diese Aufgabe*
+
+Standardmäßig werden Konsistenzgruppen-Sicherungen (CG) erstellt.  Wenn Sie Volume-basierte Backups erstellen möchten, sollten Sie den Wert von *EnableOracleNdvVolumeBasedBackup* in der Datei _web.config_ auf „true“ setzen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Oracle Database-Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Anwendungsvolumen“ aus.
+. Klicken Sie auf *image:../media/filter_icon.gif["Filtersymbol"] * und wählen Sie dann den Hostnamen und den Datenbanktyp aus, um die Ressourcen zu filtern.
++
+Sie können dann auf * klicken.image:../media/filter_icon.gif["Filtersymbol"] *, um den Filterbereich zu schließen.
+
+. Wählen Sie das Anwendungsvolume aus, das Sie sichern möchten.
++
+Die Seite „Anwendungsvolume schützen“ wird angezeigt.
+
+. Führen Sie auf der Seite „Ressource“ die folgenden Aktionen aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden
+ a| 
+Aktivieren Sie dieses Kontrollkästchen und geben Sie dann ein benutzerdefiniertes Namensformat ein, das Sie für den Snapshot-Namen verwenden möchten.
+
+Beispielsweise customtext__policy_hostname oder resource_hostname.  Standardmäßig wird dem Snapshot-Namen ein Zeitstempel angehängt.
+
+
+
+ a| 
+Archivprotokollziele von der Sicherung ausschließen
+ a| 
+Geben Sie die Ziele der Archivprotokolldateien an, die Sie nicht sichern möchten.
+
+|===
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Schritte aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
++
+
+NOTE: Sie können auch eine Richtlinie erstellen, indem Sie auf * klicken.image:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] *.
+
+
+
++
+Im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ werden die ausgewählten Richtlinien aufgelistet.
+
++
+.. Klickenimage:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] in der Spalte „Zeitpläne konfigurieren“ für die Richtlinie, für die Sie einen Zeitplan konfigurieren möchten.
+.. Konfigurieren Sie im Fenster „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan und klicken Sie dann auf *OK*.
++
+_policy_name_ ist der Name der von Ihnen ausgewählten Richtlinie.
+
++
+Die konfigurierten Zeitpläne werden in der Spalte „Angewandte Zeitpläne“ aufgelistet.
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den für die Ressource durchgeführten Sicherungsvorgang anhängen möchten, wählen Sie *Jobbericht anhängen*.
+
++
+
+NOTE: Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl „Set-SmSmtpServer“ angegeben haben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
++
+Die Seite mit der Anwendungsvolume-Topologie wird angezeigt.
+
+. Klicken Sie auf *Jetzt sichern*.
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn Sie mehrere Richtlinien auf die Ressource angewendet haben, wählen Sie aus der Dropdownliste *Richtlinie* die Richtlinie aus, die Sie für die Sicherung verwenden möchten.
+.. Klicken Sie auf *Sichern*.
+
+
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+

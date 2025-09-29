@@ -1,0 +1,22 @@
+---
+permalink: protect-scsql/concept_snapcenter_plug_in_for_microsoft_sql_server_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: Das SnapCenter -Plug-in für Microsoft SQL Server ist eine hostseitige Komponente der NetApp SnapCenter -Software, die eine anwendungsbewusste Datenschutzverwaltung von Microsoft SQL Server-Datenbanken ermöglicht.  Das Plug-in für SQL Server automatisiert die Sicherungs-, Überprüfungs-, Wiederherstellungs- und Klonvorgänge der SQL Server-Datenbank in Ihrer SnapCenter Umgebung. 
+---
+= Übersicht über das SnapCenter -Plug-in für Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das SnapCenter -Plug-in für Microsoft SQL Server ist eine hostseitige Komponente der NetApp SnapCenter -Software, die eine anwendungsbewusste Datenschutzverwaltung von Microsoft SQL Server-Datenbanken ermöglicht.  Das Plug-in für SQL Server automatisiert die Sicherungs-, Überprüfungs-, Wiederherstellungs- und Klonvorgänge der SQL Server-Datenbank in Ihrer SnapCenter Umgebung.
+
+Wenn das Plug-in für SQL Server installiert ist, können Sie SnapCenter mit der NetApp SnapMirror -Technologie verwenden, um Spiegelkopien von Sicherungssätzen auf einem anderen Volume zu erstellen, und mit der NetApp SnapVault -Technologie eine Backup-Replikation von Festplatte zu Festplatte zur Einhaltung von Standards oder zu Archivierungszwecken durchführen.
+
+* Automatisiert anwendungsbezogene Sicherungs-, Wiederherstellungs- und Klonvorgänge für Microsoft SQL Server-Datenbanken in Ihrer SnapCenter -Umgebung.
+* Unterstützt Microsoft SQL Server-Datenbanken auf VMDK und Raw Device Mapping (RDM) LUNs, wenn Sie das SnapCenter Plug-in for VMware vSphere bereitstellen und das Plug-in bei SnapCenter registrieren
+* Unterstützt nur die Bereitstellung von SMB-Freigaben.  Für die Sicherung von SQL Server-Datenbanken auf SMB-Freigaben wird keine Unterstützung bereitgestellt.
+* Unterstützt das Importieren von Backups von SnapManager für Microsoft SQL Server in SnapCenter.
+

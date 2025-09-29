@@ -1,0 +1,189 @@
+---
+permalink: install/task_install_the_snapcenter_server_using_the_install_wizard.html 
+sidebar: sidebar 
+keywords: install, snapcenter software, install wizard, features enabled 
+summary: Sie können die ausführbare Datei des SnapCenter Server-Installationsprogramms ausführen, um den SnapCenter Server zu installieren. 
+---
+= Installieren Sie den SnapCenter -Server auf einem Windows-Host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die ausführbare Datei des SnapCenter Server-Installationsprogramms ausführen, um den SnapCenter Server zu installieren.
+
+Sie können optional mehrere Installations- und Konfigurationsverfahren mithilfe von PowerShell-Cmdlets durchführen.  Sie sollten PowerShell 7.4.2 oder höher verwenden.
+
+
+NOTE: Die automatische Installation des SnapCenter -Servers über die Befehlszeile wird nicht unterstützt.
+
+.Bevor Sie beginnen
+* Der SnapCenter Server-Host muss über aktuelle Windows-Updates verfügen und darf keine ausstehenden Systemneustarts aufweisen.
+* Sie sollten sichergestellt haben, dass MySQL Server nicht auf dem Host installiert ist, auf dem Sie den SnapCenter Server installieren möchten.
+* Sie sollten das Debuggen des Windows-Installationsprogramms aktiviert haben.
++
+Informationen zum Aktivieren finden Sie auf der Microsoft-Website https://support.microsoft.com/kb/223300["Protokollierung des Windows-Installationsprogramms"^] .
+
++
+
+NOTE: Sie sollten den SnapCenter -Server nicht auf einem Host installieren, der über Microsoft Exchange Server, Active Directory oder Domain Name Server verfügt.
+
+
+
+.Schritte
+. Laden Sie das SnapCenter Server-Installationspaket herunter von https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab["NetApp Support Site"^] .
+. Starten Sie die Installation des SnapCenter -Servers, indem Sie auf die heruntergeladene EXE-Datei doppelklicken.
++
+Nachdem Sie die Installation gestartet haben, werden alle Vorprüfungen durchgeführt und wenn die Mindestanforderungen nicht erfüllt sind, werden entsprechende Fehler- oder Warnmeldungen angezeigt.
+
++
+Sie können die Warnmeldungen ignorieren und mit der Installation fortfahren. Fehler sollten jedoch behoben sein.
+
+. Überprüfen Sie die vorab ausgefüllten Werte, die für die Installation des SnapCenter -Servers erforderlich sind, und ändern Sie sie bei Bedarf.
++
+Sie müssen das Kennwort für die MySQL Server-Repository-Datenbank nicht angeben.  Während der Installation des SnapCenter -Servers wird das Kennwort automatisch generiert.
+
++
+
+NOTE: Das Sonderzeichen "`%`" is not supported in the custom path for the repository database. If you include "` %`" im Pfad, die Installation schlägt fehl.
+
+. Klicken Sie auf *Jetzt installieren*.
++
+Sollten Sie ungültige Werte angegeben haben, werden entsprechende Fehlermeldungen angezeigt.  Sie sollten die Werte erneut eingeben und dann die Installation starten.
+
++
+
+NOTE: Wenn Sie auf die Schaltfläche *Abbrechen* klicken, wird der ausgeführte Schritt abgeschlossen und anschließend der Rollback-Vorgang gestartet.  Der SnapCenter -Server wird vollständig vom Host entfernt.
+
++
+Wenn Sie jedoch auf *Abbrechen* klicken, während die Vorgänge „Neustart der SnapCenter Server-Site“ oder „Warten auf den Start des SnapCenter Servers“ ausgeführt werden, wird die Installation fortgesetzt, ohne den Vorgang abzubrechen.
+
++
+Protokolldateien werden immer (die ältesten zuerst) im Ordner %temp% des Administratorbenutzers aufgelistet.  Wenn Sie die Protokollspeicherorte umleiten möchten, starten Sie die Installation des SnapCenter -Servers über die Eingabeaufforderung, indem Sie Folgendes ausführen:``C:\installer_location\installer_name.exe /log"C:\"``
+
+
+
+
+
+== Während der Installation auf dem Windows-Host aktivierte Funktionen
+
+Das SnapCenter Server-Installationsprogramm aktiviert während der Installation die Windows-Funktionen und -Rollen auf Ihrem Windows-Host.  Diese könnten für die Fehlerbehebung und Wartung des Hostsystems von Interesse sein.
+
+|===
+| Kategorie | Funktion 
+
+
+ a| 
+Webserver
+ a| 
+* Internetinformationsdienste
+* World Wide Web-Dienste
+* Allgemeine HTTP-Funktionen
++
+** Standarddokument
+** Verzeichnissuche
+** HTTP-Fehler
+** HTTP-Umleitung
+** Statischer Inhalt
+** WebDAV-Veröffentlichung
+
+
+* Gesundheit und Diagnostik
++
+** Benutzerdefinierte Protokollierung
+** HTTP-Protokollierung
+** Protokollierungstools
+** Anforderungsmonitor
+** Ablaufverfolgung
+
+
+* Leistungsmerkmale
++
+** Komprimierung statischer Inhalte
+
+
+* Sicherheit
++
+** IP-Sicherheit
+** Basisauthentifizierung
+** Zentralisierte SSL-Zertifikatunterstützung
+** Client-Zertifikatzuordnungsauthentifizierung
+** Authentifizierung über die IIS-Client-Zertifikatzuordnung
+** IP- und Domänenbeschränkungen
+** Anforderungsfilterung
+** URL-Autorisierung
+** Windows-Authentifizierung
+
+
+* Funktionen zur Anwendungsentwicklung
++
+** .NET-Erweiterbarkeit 4.5
+** Anwendungsinitialisierung
+** ASP.NET Core Runtime 8.0.12 (und alle nachfolgenden 8.0.x-Patches) Hosting-Paket
+** Serverseitige Includes
+** WebSocket-Protokoll
+
+
+* Verwaltungstools
++
+** IIS-Verwaltungskonsole
+
+
+
+
+
+
+ a| 
+IIS-Verwaltungsskripts und -Tools
+ a| 
+* IIS-Verwaltungsdienst
+* Webverwaltungstools
+
+
+
+
+ a| 
++.NET Framework 8.0.12 Funktionen+
+ a| 
+* ASP.NET Core Runtime 8.0.12 (und alle nachfolgenden 8.0.x-Patches) Hosting-Paket
+* Windows Communication Foundation (WCF) HTTP-Aktivierung45
++
+** TCP-Aktivierung
+** HTTP-Aktivierung
+
+
+
+
+.NET-spezifische Informationen zur Fehlerbehebung finden Sie unter https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_upgrade_or_install_fails_with_%22This_KB_is_not_related_to_the_OS%22["Das Upgrade oder die Installation von SnapCenter schlägt bei älteren Systemen ohne Internetverbindung fehl"^] .
+
+
+
+ a| 
+Nachrichtenwarteschlange
+ a| 
+* Nachrichtenwarteschlangendienste
++
+
+NOTE: Stellen Sie sicher, dass keine anderen Anwendungen den von SnapCenter erstellten und verwalteten MSMQ-Dienst verwenden.
+
+* RabbitMQ
+* Erlang
+
+
+
+
+ a| 
+Windows-Prozessaktivierungsdienst
+ a| 
+* Prozessmodell
+
+
+
+
+ a| 
+Konfigurations-APIs
+ a| 
+Alle
+
+|===

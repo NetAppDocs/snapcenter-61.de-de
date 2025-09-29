@@ -1,0 +1,197 @@
+---
+permalink: protect-nsp/create_resource_groups_and_attach_policies.html 
+sidebar: sidebar 
+keywords: resource groups, attach policies, snapcenter 
+summary: Eine Ressourcengruppe ist der Container, zu dem Sie Ressourcen hinzufügen müssen, die Sie sichern und schützen möchten. 
+---
+= Erstellen von Ressourcengruppen und Anfügen von Richtlinien
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine Ressourcengruppe ist der Container, zu dem Sie Ressourcen hinzufügen müssen, die Sie sichern und schützen möchten.  Damit können Sie alle Daten, die mit einer bestimmten Anwendung verknüpft sind, gleichzeitig sichern.  Sie müssen der Ressourcengruppe außerdem eine oder mehrere Richtlinien zuordnen, um die Art des Datenschutzjobs zu definieren, den Sie ausführen möchten.
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ die Option „Neue Ressourcengruppe“ aus.
+. Führen Sie auf der Seite „Name“ die folgenden Aktionen aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Name
+ a| 
+Geben Sie einen Namen für die Ressourcengruppe ein.
+
+Hinweis: Der Name der Ressourcengruppe sollte nicht länger als 250 Zeichen sein.
+
+
+
+ a| 
+Schlagwörter
+ a| 
+Geben Sie eine oder mehrere Bezeichnungen ein, die Ihnen später bei der Suche nach der Ressourcengruppe helfen.
+
+Wenn Sie beispielsweise „HR“ als Tag zu mehreren Ressourcengruppen hinzufügen, können Sie später alle mit dem HR-Tag verknüpften Ressourcengruppen finden.
+
+
+
+ a| 
+Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden
+ a| 
+Aktivieren Sie dieses Kontrollkästchen und geben Sie ein benutzerdefiniertes Namensformat ein, das Sie für den Snapshot-Namen verwenden möchten.
+
+Beispiel: _customtext_resource group_policy_hostname oder resource group_hostname_.  Standardmäßig wird dem Snapshot-Namen ein Zeitstempel angehängt.
+
+|===
+. Optional: Wählen Sie auf der Seite „Ressourcen“ einen Hostnamen aus der Dropdownliste *Host* und den Ressourcentyp aus der Dropdownliste *Ressourcentyp* aus.
++
+Dies hilft, Informationen auf dem Bildschirm zu filtern.
+
+. Wählen Sie die Ressourcen aus dem Abschnitt *Verfügbare Ressourcen* aus und klicken Sie dann auf den Rechtspfeil, um sie in den Abschnitt *Ausgewählte Ressourcen* zu verschieben.
+. Optional: Gehen Sie auf der Seite *Anwendungseinstellungen* wie folgt vor:
++
+.. Wählen Sie den Pfeil „Backups“ aus, um zusätzliche Backup-Optionen festzulegen:
++
+Aktivieren Sie die Konsistenzgruppensicherung und führen Sie die folgenden Aufgaben aus:
+
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Planen Sie Zeit ein, um auf den Abschluss des Consistency Group Snapshot-Vorgangs zu warten
+ a| 
+Wählen Sie „Dringend“, „Mittel“ oder „Entspannt“ aus, um die Wartezeit für den Abschluss des Snapshot-Vorgangs festzulegen.
+
+Dringend = 5 Sekunden, Mittel = 7 Sekunden und Entspannt = 20 Sekunden.
+
+
+
+ a| 
+WAFL -Synchronisierung deaktivieren
+ a| 
+Wählen Sie diese Option, um das Erzwingen eines WAFL Konsistenzpunkts zu vermeiden.
+
+|===
++
+image:../media/application_settings.gif["Ein Screenshot der Optionen für die Konsistenzgruppensicherung: dringend, mittel oder entspannt."]
+
+.. Wählen Sie den Pfeil „Skripts“ aus und geben Sie die Pre- und Post-Befehle für Quiesce-, Snapshot- und Unquiesce-Vorgänge ein.  Sie können auch die Vorbefehle eingeben, die im Falle eines Fehlers vor dem Beenden ausgeführt werden sollen.
+.. Wählen Sie den Pfeil „Benutzerdefinierte Konfigurationen“ aus und geben Sie die benutzerdefinierten Schlüssel-Wert-Paare ein, die für alle Datenschutzvorgänge mit dieser Ressource erforderlich sind.
++
+|===
+| Parameter | Einstellung | Beschreibung 
+
+
+ a| 
+ARCHIV_LOG_ENABLE
+ a| 
+(J/N)
+ a| 
+Aktiviert die Archivprotokollverwaltung zum Löschen der Archivprotokolle.
+
+
+
+ a| 
+ARCHIV_LOG_RETENTION
+ a| 
+Anzahl_der_Tage
+ a| 
+Gibt die Anzahl der Tage an, für die die Archivprotokolle aufbewahrt werden.
+
+Diese Einstellung muss gleich oder größer als NTAP_SNAPSHOT_RETENTIONS sein.
+
+
+
+ a| 
+ARCHIVE_LOG_DIR
+ a| 
+change_info_directory/logs
+ a| 
+Gibt den Pfad zum Verzeichnis an, das die Archivprotokolle enthält.
+
+
+
+ a| 
+ARCHIVE_LOG_EXT
+ a| 
+Dateierweiterung
+ a| 
+Gibt die Erweiterungslänge der Archivprotokolldatei an.
+
+Wenn das Archivprotokoll beispielsweise log_backup_0_0_0_0.161518551942 9 lautet und der Wert für die Dateierweiterung 5 ist, behält die Erweiterung des Protokolls 5 Ziffern bei, also 16151.
+
+
+
+ a| 
+ARCHIVE_LOG_RECURSIVE_SE ARCH
+ a| 
+(J/N)
+ a| 
+Ermöglicht die Verwaltung von Archivprotokollen in Unterverzeichnissen.
+
+Sie sollten diesen Parameter verwenden, wenn sich die Archivprotokolle in Unterverzeichnissen befinden.
+
+|===
+.. Wählen Sie den Pfeil *Snapshot-Kopiertool*, um das Tool zum Erstellen von Snapshots auszuwählen:
++
+|===
+| Falls Sie es wollen... | Dann... 
+
+
+ a| 
+SnapCenter , um das Plug-In für Windows zu verwenden und das Dateisystem in einen konsistenten Zustand zu versetzen, bevor ein Snapshot erstellt wird.  Für Linux-Ressourcen ist diese Option nicht anwendbar.
+ a| 
+Wählen Sie * SnapCenter mit Dateisystemkonsistenz*.
+
+Diese Option ist für das SnapCenter -Plug-in für die SAP HANA-Datenbank nicht anwendbar.
+
+
+
+ a| 
+SnapCenter zum Erstellen eines Snapshots auf Speicherebene
+ a| 
+Wählen Sie * SnapCenter ohne Dateisystemkonsistenz*.
+
+
+
+ a| 
+Geben Sie den Befehl ein, der auf dem Host ausgeführt werden soll, um Snapshots zu erstellen.
+ a| 
+Wählen Sie *Andere* aus und geben Sie dann den Befehl ein, der auf dem Host ausgeführt werden soll, um einen Snapshot zu erstellen.
+
+|===
+
+
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Schritte aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
++
+
+NOTE: Sie können auch eine Richtlinie erstellen, indem Sie * auswählen.image:../media/add_policy_from_resourcegroup.gif["Ein Plus-Symbol"] *.
+
++
+Die Richtlinien sind im Abschnitt *Zeitpläne für ausgewählte Richtlinien konfigurieren* aufgeführt.
+
+.. Wählen Sie in der Spalte *Zeitpläne konfigurieren* *image:../media/add_policy_from_resourcegroup.gif["Ein Plus-Symbol"] * für die Richtlinie, die Sie konfigurieren möchten.
+.. Konfigurieren Sie im Dialogfeld „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan und wählen Sie „OK“ aus.
++
+Dabei ist „Richtlinienname“ der Name der von Ihnen ausgewählten Richtlinie.
+
++
+Die konfigurierten Zeitpläne werden in der Spalte „Angewandte Zeitpläne“ aufgelistet.  Sicherungspläne von Drittanbietern werden nicht unterstützt, wenn sie sich mit den Sicherungsplänen von SnapCenter überschneiden.
+
+
+
+. Wählen Sie aus der Dropdown-Liste *E-Mail-Einstellungen* auf der Seite *Benachrichtigung* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Der SMTP-Server muss unter *Einstellungen* > *Globale Einstellungen* konfiguriert werden.
+
+. Überprüfen Sie die Zusammenfassung und wählen Sie dann *Fertig*.
+

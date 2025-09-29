@@ -1,0 +1,209 @@
+---
+permalink: protect-scw/reference_installation_requirements_for_snapcenter_plug_in_for_microsoft_windows.html 
+sidebar: sidebar 
+keywords: requirements 
+summary: Sie sollten sich bestimmter Installationsanforderungen bewusst sein, bevor Sie das Plug-in für Windows installieren. 
+---
+= Installationsanforderungen für das SnapCenter -Plug-in für Microsoft Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie sollten sich bestimmter Installationsanforderungen bewusst sein, bevor Sie das Plug-in für Windows installieren.
+
+Bevor Sie mit der Verwendung des Plug-ins für Windows beginnen, muss der SnapCenter Administrator den SnapCenter -Server installieren und konfigurieren und die erforderlichen Aufgaben ausführen.
+
+* Sie müssen über SnapCenter Administratorrechte verfügen, um das Plug-in für Windows zu installieren.
++
+Die SnapCenter Administratorrolle muss über Administratorrechte verfügen.
+
+* Sie müssen den SnapCenter -Server installiert und konfiguriert haben.
+* Wenn Sie beim Installieren eines Plug-Ins auf einem Windows-Host Anmeldeinformationen angeben, die nicht integriert sind, oder wenn der Benutzer zu einem lokalen Arbeitsgruppenbenutzer gehört, müssen Sie die Benutzerkontensteuerung auf dem Host deaktivieren.
+* Sie müssen SnapMirror und SnapVault einrichten, wenn Sie eine Backup-Replikation wünschen.
+
+
+
+
+== Hostanforderungen zur Installation des SnapCenter Plug-Ins-Pakets für Windows
+
+Bevor Sie das SnapCenter Plug-Ins-Paket für Windows installieren, sollten Sie mit einigen grundlegenden Speicherplatz- und Größenanforderungen des Hostsystems vertraut sein.
+
+|===
+| Artikel | Anforderungen 
+
+
+ a| 
+Betriebssysteme
+ a| 
+Microsoft Windows
+
+Die neuesten Informationen zu unterstützten Versionen finden Sie im https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"^] .
+
+Wenn Sie ein Windows-Cluster-Setup verwenden, sollten Sie auch die Windows-Remoteverwaltung (WinRM) installieren und konfigurieren.
+
+
+
+ a| 
+Mindest-RAM für das SnapCenter -Plug-In auf dem Host
+ a| 
+1 GB
+
+
+
+ a| 
+Minimaler Installations- und Protokollspeicherplatz für das SnapCenter -Plug-In auf dem Host
+ a| 
+5 GB
+
+
+NOTE: Sie sollten ausreichend Speicherplatz zuweisen und den Speicherverbrauch des Protokollordners überwachen.  Der erforderliche Protokollspeicherplatz variiert je nach Anzahl der zu schützenden Entitäten und der Häufigkeit der Datenschutzvorgänge.  Wenn nicht genügend Speicherplatz vorhanden ist, werden die Protokolle für die kürzlich ausgeführten Vorgänge nicht erstellt.
+
+
+
+ a| 
+Erforderliche Softwarepakete
+ a| 
+* ASP.NET Core Runtime 8.0.12 (und alle nachfolgenden 8.0.x-Patches) Hosting-Paket
+* PowerShell Core 7.4.2
+
+
+Die neuesten Informationen zu unterstützten Versionen finden Sie im https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"^] .
+
+.NET-spezifische Informationen zur Fehlerbehebung finden Sie unter https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["Das Upgrade oder die Installation von SnapCenter schlägt bei älteren Systemen ohne Internetverbindung fehl."]
+
+|===
+
+
+== Richten Sie Ihre Anmeldeinformationen für das Plug-in für Windows ein
+
+SnapCenter verwendet Anmeldeinformationen, um Benutzer für SnapCenter -Vorgänge zu authentifizieren.  Sie sollten Anmeldeinformationen für die Installation von SnapCenter -Plug-Ins und zusätzliche Anmeldeinformationen für die Durchführung von Datenschutzvorgängen auf Windows-Dateisystemen erstellen.
+
+*Was Sie brauchen*
+
+* Sie müssen Windows-Anmeldeinformationen einrichten, bevor Sie Plug-Ins installieren.
+* Sie müssen die Anmeldeinformationen mit Administratorrechten, einschließlich Administratorrechten, auf dem Remote-Host einrichten.
+* Wenn Sie Anmeldeinformationen für einzelne Ressourcengruppen einrichten und der Benutzer nicht über vollständige Administratorrechte verfügt, müssen Sie dem Benutzer mindestens die Ressourcengruppen- und Sicherungsrechte zuweisen.
+
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Anmeldeinformationen*.
+. Klicken Sie auf *Neu*.
+. Gehen Sie auf der Seite „Anmeldeinformationen“ wie folgt vor:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Anmeldeinformationsname
+ a| 
+Geben Sie einen Namen für die Anmeldeinformationen ein.
+
+
+
+ a| 
+Benutzername/Passwort
+ a| 
+Geben Sie den Benutzernamen und das Kennwort ein, die für die Authentifizierung verwendet werden.
+
+** Domänenadministrator oder ein beliebiges Mitglied der Administratorgruppe
++
+Geben Sie den Domänenadministrator oder ein beliebiges Mitglied der Administratorgruppe auf dem System an, auf dem Sie das SnapCenter -Plug-In installieren. Gültige Formate für das Feld „Benutzername“ sind:
+
++
+*** `NetBIOS\UserName`
+*** `Domain FQDN\UserName`
+*** `UserName@upn`
+
+
+** Lokaler Administrator (nur für Arbeitsgruppen)
++
+Geben Sie für Systeme, die zu einer Arbeitsgruppe gehören, den integrierten lokalen Administrator auf dem System an, auf dem Sie das SnapCenter -Plug-In installieren. Sie können ein lokales Benutzerkonto angeben, das zur lokalen Administratorgruppe gehört, wenn das Benutzerkonto über erhöhte Berechtigungen verfügt oder die Benutzerzugriffssteuerung auf dem Hostsystem deaktiviert ist.  Das gültige Format für das Feld „Benutzername“ lautet wie folgt: `UserName`
+
++
+Verwenden Sie in den Passwörtern keine doppelten Anführungszeichen (") oder Backticks (`).  Sie sollten die Zeichen „Kleiner als“ (<) und „Ausrufezeichen“ (!) nicht zusammen in Passwörtern verwenden.  Zum Beispiel kleiner als <!10, kleiner als 10 <!, Backtick `12.
+
+
+
+
+
+ a| 
+Passwort
+ a| 
+Geben Sie das zur Authentifizierung verwendete Passwort ein.
+
+|===
+. Klicken Sie auf *OK*.
++
+Nachdem Sie die Anmeldeinformationen eingerichtet haben, möchten Sie möglicherweise einem Benutzer oder einer Benutzergruppe auf der Seite „Benutzer und Zugriff“ die Anmeldeinformationsverwaltung zuweisen.
+
+
+
+
+
+== Konfigurieren von gMSA unter Windows Server 2016 oder höher
+
+Mit Windows Server 2016 oder höher können Sie ein gruppenverwaltetes Dienstkonto (gMSA) erstellen, das eine automatisierte Kennwortverwaltung für Dienstkonten von einem verwalteten Domänenkonto aus ermöglicht.
+
+.Bevor Sie beginnen
+* Sie sollten über einen Domänencontroller mit Windows Server 2016 oder höher verfügen.
+* Sie sollten über einen Host mit Windows Server 2016 oder höher verfügen, der Mitglied der Domäne ist.
+
+
+.Schritte
+. Erstellen Sie einen KDS-Stammschlüssel, um eindeutige Passwörter für jedes Objekt in Ihrem gMSA zu generieren.
+. Führen Sie für jede Domäne den folgenden Befehl vom Windows-Domänencontroller aus: Add-KDSRootKey -EffectiveImmediately
+. Erstellen und konfigurieren Sie Ihr gMSA:
++
+.. Erstellen Sie ein Benutzergruppenkonto im folgenden Format:
++
+ domainName\accountName$
+.. Fügen Sie der Gruppe Computerobjekte hinzu.
+.. Verwenden Sie die gerade erstellte Benutzergruppe, um das gMSA zu erstellen.
++
+Zum Beispiel,
+
++
+ New-ADServiceAccount -name <ServiceAccountName> -DNSHostName <fqdn> -PrincipalsAllowedToRetrieveManagedPassword <group> -ServicePrincipalNames <SPN1,SPN2,…>
+.. Laufen `Get-ADServiceAccount` Befehl zum Überprüfen des Dienstkontos.
+
+
+. Konfigurieren Sie das gMSA auf Ihren Hosts:
++
+.. Aktivieren Sie das Active Directory-Modul für Windows PowerShell auf dem Host, auf dem Sie das gMSA-Konto verwenden möchten.
++
+Führen Sie dazu den folgenden Befehl von PowerShell aus:
+
++
+[listing]
+----
+PS C:\> Get-WindowsFeature AD-Domain-Services
+
+Display Name                           Name                Install State
+------------                           ----                -------------
+[ ] Active Directory Domain Services   AD-Domain-Services  Available
+
+
+PS C:\> Install-WindowsFeature AD-DOMAIN-SERVICES
+
+Success Restart Needed Exit Code      Feature Result
+------- -------------- ---------      --------------
+True    No             Success        {Active Directory Domain Services, Active ...
+WARNING: Windows automatic updating is not enabled. To ensure that your newly-installed role or feature is
+automatically updated, turn on Windows Update.
+----
+.. Starten Sie Ihren Host neu.
+.. Installieren Sie das gMSA auf Ihrem Host, indem Sie den folgenden Befehl in der PowerShell-Eingabeaufforderung ausführen: `Install-AdServiceAccount <gMSA>`
+.. Überprüfen Sie Ihr gMSA-Konto, indem Sie den folgenden Befehl ausführen: `Test-AdServiceAccount <gMSA>`
+
+
+. Weisen Sie dem konfigurierten gMSA auf dem Host die Administratorrechte zu.
+. Fügen Sie den Windows-Host hinzu, indem Sie das konfigurierte gMSA-Konto im SnapCenter -Server angeben.
++
+SnapCenter Server installiert die ausgewählten Plug-Ins auf dem Host und das angegebene gMSA wird während der Plug-In-Installation als Dienstanmeldekonto verwendet.
+
+

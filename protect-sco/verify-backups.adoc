@@ -1,0 +1,18 @@
+---
+permalink: protect-sco/verify-backups.html 
+sidebar: sidebar 
+keywords: oracle databases backup 
+summary: Überprüfen Sie die Sicherungskopie mithilfe des primären oder sekundären Speichervolumes. 
+---
+= Wo kann ich die Sicherungskopie überprüfen?
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Sicherungskopien auf dem primären Speichervolume oder auf dem sekundären Speichervolume von SnapMirror oder SnapVault überprüfen.  Durch die Überprüfung mithilfe eines sekundären Speichervolumens wird die Belastung des primären Speichervolumens reduziert.
+
+Wenn Sie eine Sicherung überprüfen, die sich entweder auf dem primären oder sekundären Speichervolume befindet, werden alle primären und sekundären Snapshots als überprüft markiert.
+
+Zum Überprüfen von Sicherungskopien auf dem sekundären Speichervolume von SnapMirror und SnapVault ist eine SnapRestore -Lizenz erforderlich.

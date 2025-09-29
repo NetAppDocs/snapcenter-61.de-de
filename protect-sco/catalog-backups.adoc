@@ -1,0 +1,71 @@
+---
+permalink: protect-sco/catalog-backups.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: So erkennt SnapCenter Oracle-Datenbanken. 
+---
+= So katalogisieren Sie Backups mit Oracle Recovery Manager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Sicherungen von Oracle-Datenbanken mit Oracle Recovery Manager (RMAN) katalogisieren, um die Sicherungsinformationen im Oracle RMAN-Repository zu speichern.
+
+Die katalogisierten Sicherungen können später für die Wiederherstellung auf Blockebene oder für Point-in-Time-Wiederherstellungsvorgänge im Tablespace verwendet werden.  Wenn Sie diese katalogisierten Sicherungen nicht benötigen, können Sie die Kataloginformationen entfernen.
+
+Für die Katalogisierung muss die Datenbank im gemounteten oder höheren Zustand sein.  Sie können Datensicherungen, Archivprotokollsicherungen und vollständige Sicherungen katalogisieren.  Wenn die Katalogisierung für die Sicherung einer Ressourcengruppe mit mehreren Datenbanken aktiviert ist, wird die Katalogisierung für jede Datenbank durchgeführt.  Bei Oracle RAC-Datenbanken wird die Katalogisierung auf dem bevorzugten Knoten durchgeführt, auf dem sich die Datenbank zumindest im gemounteten Zustand befindet.
+
+Wenn Sie Sicherungen einer RAC-Datenbank katalogisieren möchten, stellen Sie sicher, dass für diese Datenbank kein anderer Job ausgeführt wird.  Wenn ein anderer Job ausgeführt wird, schlägt der Katalogisierungsvorgang fehl, anstatt in die Warteschlange gestellt zu werden.
+
+
+
+== Externe Katalogdatenbank
+
+Standardmäßig wird die Steuerdatei der Zieldatenbank für die Katalogisierung verwendet.  Wenn Sie eine externe Katalogdatenbank hinzufügen möchten, können Sie diese konfigurieren, indem Sie die Anmeldeinformationen und den Transparent Network Substrate (TNS)-Namen des externen Katalogs mithilfe des Datenbankeinstellungsassistenten der grafischen Benutzeroberfläche (GUI) von SnapCenter angeben.  Sie können die externe Katalogdatenbank auch über die CLI konfigurieren, indem Sie den Befehl Configure-SmOracleDatabase mit den Optionen -OracleRmanCatalogCredentialName und -OracleRmanCatalogTnsName ausführen.
+
+
+
+== RMAN-Befehl
+
+Wenn Sie die Katalogisierungsoption beim Erstellen einer Oracle-Sicherungsrichtlinie über die SnapCenter -GUI aktiviert haben, werden die Sicherungen im Rahmen des Sicherungsvorgangs mit Oracle RMAN katalogisiert.  Sie können auch eine verzögerte Katalogisierung von Backups durchführen, indem Sie den `Catalog-SmBackupWithOracleRMAN` Befehl.
+
+Nach der Katalogisierung der Backups können Sie die `Get-SmBackupDetails` Befehl zum Abrufen der katalogisierten Sicherungsinformationen, z. B. des Tags für katalogisierte Datendateien, des Katalogpfads der Steuerdatei und der Speicherorte der katalogisierten Archivprotokolle.
+
+
+
+== Benennungsformat
+
+Wenn der Name der ASM-Datenträgergruppe größer oder gleich 16 Zeichen ist, lautet das für die Sicherung verwendete Namensformat ab SnapCenter 3.0 SC_HASHCODEofDISKGROUP_DBSID_BACKUPID.  Wenn der Name der Datenträgergruppe jedoch weniger als 16 Zeichen umfasst, lautet das für die Sicherung verwendete Namensformat DISKGROUPNAME_DBSID_BACKUPID. Dies ist dasselbe Format, das in SnapCenter 2.0 verwendet wird.
+
+Der HASHCODEofDISKGROUP ist eine automatisch generierte Nummer (2 bis 10 Ziffern), die für jede ASM-Datenträgergruppe eindeutig ist.
+
+
+
+== Crosscheck-Operationen
+
+Sie können Gegenprüfungen durchführen, um veraltete RMAN-Repository-Informationen zu Sicherungen zu aktualisieren, deren Repository-Datensätze nicht mit ihrem physischen Status übereinstimmen.  Wenn ein Benutzer beispielsweise archivierte Protokolle mit einem Betriebssystembefehl von der Festplatte entfernt, zeigt die Steuerdatei immer noch an, dass sich die Protokolle auf der Festplatte befinden, obwohl dies in Wirklichkeit nicht der Fall ist.
+
+Durch die Gegenprüfung können Sie die Steuerdatei mit den Informationen aktualisieren.  Sie können die Gegenprüfung aktivieren, indem Sie den Befehl „Set-SmConfigSettings“ ausführen und dem Parameter „ENABLE_CROSSCHECK“ den Wert „TRUE“ zuweisen.  Der Standardwert ist auf FALSE gesetzt.
+
+`sccli Set-SmConfigSettings-ConfigSettingsTypePlugin-PluginCodeSCO-ConfigSettings "KEY=ENABLE_CROSSCHECK, VALUE=TRUE"`
+
+
+
+== Kataloginformationen entfernen
+
+Sie können die Kataloginformationen entfernen, indem Sie den Befehl Uncatalog-SmBackupWithOracleRMAN ausführen.  Sie können die Kataloginformationen nicht über die SnapCenter -GUI entfernen.  Allerdings werden Informationen zu einer katalogisierten Sicherung entfernt, wenn die Sicherung gelöscht wird oder wenn die mit dieser katalogisierten Sicherung verknüpfte Aufbewahrungs- und Ressourcengruppe gelöscht wird.
+
+
+NOTE: Wenn Sie das Löschen des SnapCenter -Hosts erzwingen, werden die Informationen der mit diesem Host verknüpften katalogisierten Sicherungen nicht entfernt.  Sie müssen Informationen aller katalogisierten Sicherungen für diesen Host entfernen, bevor Sie die Löschung des Hosts erzwingen.
+
+Wenn das Katalogisieren und Entkatalogisieren fehlschlägt, weil die Vorgangszeit den für den Parameter ORACLE_PLUGIN_RMAN_CATALOG_TIMEOUT angegebenen Timeout-Wert überschritten hat, sollten Sie den Wert des Parameters ändern, indem Sie den folgenden Befehl ausführen:
+
+`/opt/Netapp/snapcenter/spl/bin/sccli Set-SmConfigSettings-ConfigSettingsType Plugin -PluginCode SCO-ConfigSettings "KEY=ORACLE_PLUGIN_RMAN_CATALOG_TIMEOUT,VALUE=user_defined_value"`
+
+Nachdem Sie den Wert des Parameters geändert haben, starten Sie den Dienst SnapCenter Plug-in Loader (SPL) neu, indem Sie den folgenden Befehl ausführen:
+
+`/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+Informationen zu den mit dem Befehl verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von Get-Help command_name. Alternativ können Sie sich an die https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenter Software-Befehlsreferenzhandbuch"^] .

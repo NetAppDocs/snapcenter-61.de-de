@@ -1,0 +1,75 @@
+---
+permalink: protect-sce/concept_prepare_for_data_protection.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Exchange Server 
+summary: Bevor Sie Datenschutzvorgänge wie Sicherungs-, Klon- oder Wiederherstellungsvorgänge durchführen, müssen Sie Ihre Strategie definieren und die Umgebung einrichten.  Sie können den SnapCenter -Server auch für die Verwendung der SnapMirror und SnapVault -Technologie einrichten. 
+---
+= Bereiten Sie sich auf den Datenschutz vor
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie Datenschutzvorgänge wie Sicherungs-, Klon- oder Wiederherstellungsvorgänge durchführen, müssen Sie Ihre Strategie definieren und die Umgebung einrichten.  Sie können den SnapCenter -Server auch für die Verwendung der SnapMirror und SnapVault -Technologie einrichten.
+
+Um die Vorteile der SnapVault und SnapMirror -Technologie nutzen zu können, müssen Sie eine Datenschutzbeziehung zwischen den Quell- und Zielvolumes auf dem Speichergerät konfigurieren und initialisieren.  Sie können diese Aufgaben mit NetAppSystem Manager oder über die Befehlszeile der Speicherkonsole ausführen.
+
+*Weitere Informationen finden*
+
+link:https://docs.netapp.com/us-en/ontap-automation/getting_started_with_the_rest_api.html["Erste Schritte mit der REST-API"]
+
+
+
+== Voraussetzungen für die Verwendung des SnapCenter Plug-Ins für Microsoft Exchange Server
+
+Bevor Sie das Plug-in für Exchange verwenden, muss der SnapCenter Administrator den SnapCenter -Server installieren und konfigurieren und die erforderlichen Aufgaben ausführen.
+
+* Installieren und konfigurieren Sie SnapCenter Server.
+* Melden Sie sich bei SnapCenter an.
+* Konfigurieren Sie die SnapCenter -Umgebung, indem Sie Speichersystemverbindungen hinzufügen oder zuweisen und Anmeldeinformationen erstellen.
++
+
+NOTE: SnapCenter unterstützt nicht mehrere SVMs mit demselben Namen auf verschiedenen Clustern.  Jede von SnapCenter unterstützte SVM muss einen eindeutigen Namen haben.
+
+* Fügen Sie Hosts hinzu, installieren Sie das SnapCenter -Plug-in für Microsoft Windows und das SnapCenter -Plug-in für Microsoft Exchange Server und ermitteln (aktualisieren) Sie die Ressourcen.
+* Führen Sie die hostseitige Speicherbereitstellung mit dem SnapCenter -Plug-in für Microsoft Windows durch.
+* Wenn Sie SnapCenter Server zum Schutz von Exchange-Datenbanken verwenden, die sich auf VMware RDM LUNs befinden, müssen Sie das SnapCenter Plug-in for VMware vSphere bereitstellen und das Plug-in bei SnapCenter registrieren.  Weitere Informationen finden Sie in der Dokumentation zum SnapCenter Plug-in for VMware vSphere .
++
+
+NOTE: VMDKs werden nicht unterstützt.
+
+* Verschieben Sie eine vorhandene Microsoft Exchange Server-Datenbank mithilfe von Microsoft Exchange-Tools von einer lokalen Festplatte auf einen unterstützten Speicher.
+* Richten Sie SnapMirror und SnapVault -Beziehungen ein, wenn Sie eine Backup-Replikation wünschen.
+
+
+Für Benutzer von SnapCenter 4.1.1 enthält die Dokumentation zum SnapCenter Plug-in for VMware vSphere 4.1.1 Informationen zum Schutz virtualisierter Datenbanken und Dateisysteme.  Für Benutzer von SnapCenter 4.2.x sowie NetApp Data Broker 1.0 und 1.0.1 enthält die Dokumentation Informationen zum Schutz virtualisierter Datenbanken und Dateisysteme mithilfe des SnapCenter Plug-in for VMware vSphere, das von der Linux-basierten virtuellen NetApp Data Broker-Appliance (Open Virtual Appliance-Format) bereitgestellt wird.  Für Benutzer von SnapCenter 4.3.x enthält die Dokumentation zum SnapCenter Plug-in for VMware vSphere 4.3 Informationen zum Schutz virtualisierter Datenbanken und Dateisysteme mithilfe des Linux-basierten SnapCenter Plug-in for VMware vSphere (Open Virtual Appliance-Format).
+
+https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphere Dokumentation"^]
+
+
+
+== So werden Ressourcen, Ressourcengruppen und Richtlinien zum Schutz von Exchange Server verwendet
+
+Bevor Sie SnapCenter verwenden, ist es hilfreich, die grundlegenden Konzepte im Zusammenhang mit den Sicherungs-, Wiederherstellungs- und Reseed-Vorgängen zu verstehen, die Sie durchführen möchten.  Sie interagieren mit Ressourcen, Ressourcengruppen und Richtlinien für verschiedene Vorgänge.
+
+* Bei den Ressourcen handelt es sich in der Regel um Postfachdatenbanken oder Microsoft Exchange Database Availability Groups (DAGs), die Sie mit SnapCenter sichern.
+* Eine SnapCenter -Ressourcengruppe ist eine Sammlung von Ressourcen auf einem Host oder Exchange DAG und die Ressourcengruppe kann entweder einen ganzen DAG oder einzelne Datenbanken umfassen.
++
+Wenn Sie einen Vorgang für eine Ressourcengruppe ausführen, führen Sie diesen Vorgang für die in der Ressourcengruppe definierten Ressourcen gemäß dem Zeitplan aus, den Sie für die Ressourcengruppe angeben.
+
++
+Sie können bei Bedarf eine einzelne Ressource oder eine Ressourcengruppe sichern.  Sie können auch geplante Sicherungen für einzelne Ressourcen und Ressourcengruppen durchführen.
+
++
+Die Ressourcengruppen wurden früher als Datensätze bezeichnet.
+
+* Die Richtlinien legen die Sicherungshäufigkeit, die Aufbewahrung von Kopien, Skripts und andere Merkmale von Datenschutzvorgängen fest.
++
+Wenn Sie eine Ressourcengruppe erstellen, wählen Sie eine oder mehrere Richtlinien für diese Gruppe aus.  Sie können auch eine oder mehrere Richtlinien auswählen, wenn Sie eine bedarfsgesteuerte Sicherung für eine einzelne Ressource durchführen.
+
+
+
+Stellen Sie sich eine Ressourcengruppe so vor, als würde sie definieren, _was_ Sie schützen möchten und wann Sie es hinsichtlich Tag und Uhrzeit schützen möchten.  Stellen Sie sich eine Richtlinie so vor, als würde sie definieren, _wie_ Sie sie schützen möchten.  Wenn Sie beispielsweise alle Datenbanken eines Hosts sichern, können Sie eine Ressourcengruppe erstellen, die alle Datenbanken des Hosts enthält.  Sie könnten dann zwei Richtlinien an die Ressourcengruppe anhängen: eine tägliche Richtlinie und eine stündliche Richtlinie.  Wenn Sie die Ressourcengruppe erstellen und die Richtlinien anfügen, können Sie die Ressourcengruppe so konfigurieren, dass täglich eine vollständige Sicherung durchgeführt wird, und einen anderen Zeitplan, der stündlich Protokollsicherungen durchführt.  Die folgende Abbildung veranschaulicht die Beziehung zwischen Ressourcen, Ressourcengruppen und Richtlinien für Datenbanken:
+
+image::../media/sce_resourcegroup_policy.gif[Screenshot der Ressourcengruppenrichtlinie]

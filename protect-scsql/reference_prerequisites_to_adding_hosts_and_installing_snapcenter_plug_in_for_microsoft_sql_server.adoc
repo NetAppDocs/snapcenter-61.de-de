@@ -1,0 +1,35 @@
+---
+permalink: protect-scsql/reference_prerequisites_to_adding_hosts_and_installing_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Bevor Sie einen Host hinzufügen und die Plug-In-Pakete installieren, müssen Sie alle Anforderungen erfüllen. 
+---
+= Voraussetzungen zum Hinzufügen von Hosts und Installieren des SnapCenter -Plug-Ins für Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie einen Host hinzufügen und die Plug-In-Pakete installieren, müssen Sie alle Anforderungen erfüllen.
+
+* Wenn Sie iSCSI verwenden, muss der iSCSI-Dienst ausgeführt werden.
+* Sie müssen über einen Benutzer mit lokalen Administratorrechten und lokalen Anmeldeberechtigungen auf dem Remote-Host verfügen.
+* Wenn Sie Clusterknoten in SnapCenter verwalten, benötigen Sie einen Benutzer mit Administratorrechten für alle Knoten im Cluster.
+* Sie müssen über einen Benutzer mit Systemadministratorberechtigungen auf dem SQL Server verfügen.
++
+Das SnapCenter -Plug-in für Microsoft SQL Server verwendet das Microsoft VDI Framework, das Systemadministratorzugriff erfordert.
+
++
+https://mskb.pkisolutions.com/kb/2926557["Microsoft-Supportartikel 2926557: SQL Server VDI-Sicherungs- und Wiederherstellungsvorgänge erfordern Sysadmin-Berechtigungen"]
+
+* Wenn Sie beim Installieren eines Plug-Ins auf einem Windows-Host Anmeldeinformationen angeben, die nicht integriert sind, oder wenn der Benutzer zu einem lokalen Arbeitsgruppenbenutzer gehört, müssen Sie die Benutzerkontensteuerung auf dem Host deaktivieren.
+* Wenn SnapManager für Microsoft SQL Server installiert ist, müssen Sie den Dienst und die Zeitpläne gestoppt oder deaktiviert haben.
++
+Wenn Sie Sicherungs- oder Klonaufträge in SnapCenter importieren möchten, deinstallieren Sie SnapManager für Microsoft SQL Server nicht.
+
+* Der Host muss vom Server aus in den vollqualifizierten Domänennamen (FQDN) auflösbar sein.
++
+Wenn die Hosts-Datei geändert wird, um sie auflösbar zu machen, und wenn sowohl der Kurzname als auch der FQDN in der Hosts-Datei angegeben sind, erstellen Sie einen Eintrag in der SnapCenter Hosts-Datei im folgenden Format: <IP-Adresse> <Host-FQDN> <Hostname>
+
+

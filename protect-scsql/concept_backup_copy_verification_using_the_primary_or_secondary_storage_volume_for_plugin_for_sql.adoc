@@ -1,0 +1,18 @@
+---
+permalink: protect-scsql/concept_backup_copy_verification_using_the_primary_or_secondary_storage_volume_for_plugin_for_sql.html 
+sidebar: sidebar 
+keywords: Backup copy verification 
+summary: Sie können Sicherungskopien auf dem primären Speichervolume oder auf dem sekundären Speichervolume von SnapMirror oder SnapVault überprüfen.  Durch die Überprüfung mithilfe eines sekundären Speichervolumens wird die Belastung des primären Speichervolumens reduziert. 
+---
+= Überprüfung der Sicherungskopie mithilfe des primären oder sekundären Speichervolumes für Plug-in für SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Sicherungskopien auf dem primären Speichervolume oder auf dem sekundären Speichervolume von SnapMirror oder SnapVault überprüfen.  Durch die Überprüfung mithilfe eines sekundären Speichervolumens wird die Belastung des primären Speichervolumens reduziert.
+
+Wenn Sie eine Sicherung überprüfen, die sich entweder auf dem primären oder sekundären Speichervolume befindet, werden alle primären und sekundären Snapshots als überprüft markiert.
+
+Zum Überprüfen von Sicherungskopien auf dem sekundären Speichervolume von SnapMirror und SnapVault ist eine SnapRestore -Lizenz erforderlich.

@@ -1,0 +1,53 @@
+---
+permalink: protect-postgresql/install-the-snapcenter-plug-in-for-postgresql-on-linux-hosts-using-the-command-line-interface.html 
+sidebar: sidebar 
+keywords: install, SnapCenter Plug-in for postgresql 
+summary: 'Sie sollten das SnapCenter Plug-in für PostgreSQL-Cluster mithilfe der SnapCenter Benutzeroberfläche (UI) installieren.  Wenn Ihre Umgebung keine Remote-Installation des Plug-Ins über die SnapCenter Benutzeroberfläche zulässt, können Sie das Plug-In für PostgreSQL-Cluster entweder im Konsolenmodus oder im Hintergrundmodus mithilfe der Befehlszeilenschnittstelle (CLI1) installieren.' 
+---
+= Installieren Sie das SnapCenter -Plug-in für PostgreSQL auf Linux-Hosts mithilfe der Befehlszeilenschnittstelle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie sollten das SnapCenter Plug-in für PostgreSQL-Cluster mithilfe der SnapCenter Benutzeroberfläche (UI) installieren.  Wenn Ihre Umgebung keine Remote-Installation des Plug-Ins über die SnapCenter Benutzeroberfläche zulässt, können Sie das Plug-In für PostgreSQL-Cluster entweder im Konsolenmodus oder im Hintergrundmodus mithilfe der Befehlszeilenschnittstelle (CLI) installieren.
+
+.Bevor Sie beginnen
+* Sie sollten das Plug-in für PostgreSQL-Cluster auf jedem Linux-Host installieren, auf dem sich der PostgreSQL-Client befindet.
+* Der Linux-Host, auf dem Sie das SnapCenter -Plug-in für den PostgreSQL-Cluster installieren, muss die abhängigen Software-, Cluster- und Betriebssystemanforderungen erfüllen.
++
+Das Interoperability Matrix Tool (IMT) enthält die neuesten Informationen zu den unterstützten Konfigurationen.
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121069;&solution=1259&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"]
+
+* Das SnapCenter -Plug-in für PostgreSQL-Cluster ist Teil des SnapCenter Plug-in-Pakets für Linux.  Bevor Sie das SnapCenter Plug-ins-Paket für Linux installieren, sollten Sie SnapCenter bereits auf einem Windows-Host installiert haben.
+
+
+.Schritte
+. Kopieren Sie die Installationsdatei des SnapCenter Plug-ins-Pakets für Linux (snapcenter_linux_host_plugin.bin) von C:\ProgramData\ NetApp\ SnapCenter\Package Repository auf den Host, auf dem Sie das Plug-in für PostgreSQL installieren möchten.
++
+Sie können auf diesen Pfad von dem Host aus zugreifen, auf dem der SnapCenter -Server installiert ist.
+
+. Navigieren Sie in der Eingabeaufforderung zu dem Verzeichnis, in das Sie die Installationsdatei kopiert haben.
+. Installieren Sie das Plug-In: `path_to_installation_bin_file/snapcenter_linux_host_plugin.bin -i silent -DPORT=port_number_for_host -DSERVER_IP=server_name_or_ip_address -DSERVER_HTTPS_PORT=port_number_for_server`
++
+** -DPORT gibt den SMCore HTTPS-Kommunikationsport an.
+** -DSERVER_IP gibt die IP-Adresse des SnapCenter -Servers an.
+** -DSERVER_HTTPS_PORT gibt den HTTPS-Port des SnapCenter -Servers an.
+** -DUSER_INSTALL_DIR gibt das Verzeichnis an, in dem Sie das SnapCenter Plug-Ins-Paket für Linux installieren möchten.
+** DINSTALL_LOG_NAME gibt den Namen der Protokolldatei an.
+
+
++
+[listing]
+----
+/tmp/sc-plugin-installer/snapcenter_linux_host_plugin.bin -i silent  -DPORT=8145 -DSERVER_IP=scserver.domain.com -DSERVER_HTTPS_PORT=8146 -DUSER_INSTALL_DIR=/opt -DINSTALL_LOG_NAME=SnapCenter_Linux_Host_Plugin_Install_2.log -DCHOSEN_FEATURE_LIST=CUSTOM
+----
+. Bearbeiten Sie die Datei /<Installationsverzeichnis>/ NetApp/snapcenter/scc/etc/SC_SMS_Services.properties und fügen Sie dann den Parameter PLUGINS_ENABLED = PostgreSQL:3.0 hinzu.
+. Fügen Sie den Host mit dem Cmdlet Add-Smhost und den erforderlichen Parametern zum SnapCenter -Server hinzu.
++
+Informationen zu den mit dem Befehl verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+

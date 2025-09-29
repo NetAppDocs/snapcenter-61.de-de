@@ -1,0 +1,244 @@
+---
+permalink: protect-sco/task_restore_an_oracle_database.html 
+sidebar: sidebar 
+keywords: restore, recover, Oracle 
+summary: Im Falle eines Datenverlusts können Sie mit SnapCenter Daten aus einem oder mehreren Backups auf Ihrem aktiven Dateisystem wiederherstellen und anschließend die Datenbank wiederherstellen. 
+---
+= Wiederherstellen und Wiederherstellen der Oracle-Datenbank
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Im Falle eines Datenverlusts können Sie mit SnapCenter Daten aus einem oder mehreren Backups auf Ihrem aktiven Dateisystem wiederherstellen und anschließend die Datenbank wiederherstellen.
+
+*Bevor Sie beginnen*
+
+Wenn Sie das Plug-In als Nicht-Root-Benutzer installiert haben, sollten Sie die Ausführungsberechtigungen für die Verzeichnisse „prescript“ und „postscript“ manuell zuweisen.
+
+*Über diese Aufgabe*
+
+* Die Wiederherstellung erfolgt mithilfe der Archivprotokolle, die am konfigurierten Archivprotokollspeicherort verfügbar sind.  Wenn die Datenbank im ARCHIVELOG-Modus ausgeführt wird, speichert die Oracle-Datenbank die gefüllten Gruppen von Redo-Log-Dateien an einem oder mehreren Offline-Zielen, die zusammen als archiviertes Redo-Log bezeichnet werden.  SnapCenter ermittelt und mountet die optimale Anzahl von Protokollsicherungen basierend auf der angegebenen SCN, dem ausgewählten Datum und der Uhrzeit oder der Option „Alle Protokolle“.  Wenn die für die Wiederherstellung erforderlichen Archivprotokolle am konfigurierten Speicherort nicht verfügbar sind, sollten Sie den Snapshot mit den Protokollen mounten und den Pfad als externe Archivprotokolle angeben.
++
+Wenn Sie die ASM-Datenbank von ASMLIB nach ASMFD migrieren, können die mit ASMLIB erstellten Sicherungen nicht zum Wiederherstellen der Datenbank verwendet werden.  Sie sollten in der ASMFD-Konfiguration Sicherungen erstellen und diese Sicherungen zur Wiederherstellung verwenden.  Wenn die ASM-Datenbank von ASMFD nach ASMLIB migriert wird, sollten Sie zur Wiederherstellung Sicherungen in der ASMLIB-Konfiguration erstellen.
+
++
+Wenn Sie eine Datenbank wiederherstellen, wird auf dem Oracle-Datenbankhost im Verzeichnis _/var/opt/snapcenter/sco/lock_ eine Betriebssperrdatei (.sm_lock_dbsid) erstellt, um zu vermeiden, dass mehrere Vorgänge auf der Datenbank ausgeführt werden.  Nach der Wiederherstellung der Datenbank wird die Betriebssperrdatei automatisch entfernt.
+
++
+
+NOTE: Die Wiederherstellung der SPFILE- und Kennwortdatei wird nicht unterstützt.
+
+* Wenn Sie für SnapLock -fähige Richtlinien für ONTAP 9.12.1 und niedrigere Versionen eine Snapshot-Sperrdauer angeben, erben die im Rahmen der Wiederherstellung aus den manipulationssicheren Snapshots erstellten Klone die SnapLock Ablaufzeit. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder „Datenbank“ oder „Ressourcengruppe“ aus der Liste „Anzeigen“ aus.
+. Wählen Sie die Datenbank entweder aus der Datenbankdetailansicht oder der Ressourcengruppendetailansicht aus.
++
+Die Seite „Datenbanktopologie“ wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Backups* entweder vom primären oder vom sekundären (gespiegelten oder replizierten) Speichersystem aus.
+. Wählen Sie das Backup aus der Tabelle aus und klicken Sie dann auf *image:../media/restore_icon.gif["Wiederherstellungssymbol"] *.
+. Führen Sie auf der Seite „Wiederherstellungsbereich“ die folgenden Aufgaben aus:
++
+.. Wenn Sie eine Sicherung einer Datenbank in einer Real Application Clusters (RAC)-Umgebung ausgewählt haben, wählen Sie den RAC-Knoten aus.
+.. Wenn Sie gespiegelte oder Tresordaten auswählen:
++
+*** Wenn es keine Protokollsicherung im Spiegel oder Tresor gibt, wird nichts ausgewählt und die Locatoren sind leer.
+*** Wenn Protokollsicherungen im Spiegel oder Tresor vorhanden sind, wird die neueste Protokollsicherung ausgewählt und der entsprechende Locator angezeigt.
++
+
+NOTE: Wenn die ausgewählte Protokollsicherung sowohl am Spiegel- als auch am Tresorspeicherort vorhanden ist, werden beide Locatoren angezeigt.
+
+
+
+.. Führen Sie die folgenden Aktionen aus:
++
+|===
+| Wenn Sie wiederherstellen möchten... | Machen Sie Folgendes... 
+
+
+ a| 
+Alle Datendateien der Datenbank
+ a| 
+Wählen Sie *Alle Datendateien*.
+
+Es werden nur die Datendateien der Datenbank wiederhergestellt.  Die Steuerdateien, Archivprotokolle oder Redo-Log-Dateien werden nicht wiederhergestellt.
+
+
+
+ a| 
+Tabellenbereiche
+ a| 
+Wählen Sie *Tablespaces* aus.
+
+Sie können die Tablespaces angeben, die Sie wiederherstellen möchten.
+
+
+
+ a| 
+Steuerdateien
+ a| 
+Wählen Sie *Steuerdateien*.
+
+
+NOTE: Stellen Sie beim Wiederherstellen von Steuerdateien sicher, dass die Verzeichnisstruktur entweder vorhanden ist oder mit den richtigen Benutzer- und Gruppeneigentümern (sofern vorhanden) erstellt wird, damit die Dateien beim Wiederherstellungsprozess an den Zielspeicherort kopiert werden können.  Wenn das Verzeichnis nicht vorhanden ist, schlägt der Wiederherstellungsauftrag fehl.
+
+
+
+ a| 
+Redo-Log-Dateien
+ a| 
+Wählen Sie *Protokolldateien wiederholen*.
+
+Diese Option ist nur für Data Guard-Standby- oder Active Data Guard-Standby-Datenbanken verfügbar.
+
+
+NOTE: Für Datenbanken, die nicht zu Data Guard gehören, werden keine Redo-Log-Dateien gesichert.  Bei Datenbanken, die nicht von Data Guard stammen, wird die Wiederherstellung mithilfe von Archivprotokollen durchgeführt.
+
+
+
+ a| 
+Pluggable-Datenbanken (PDBs)
+ a| 
+Wählen Sie *Pluggable-Datenbanken* aus und geben Sie dann die PDBs an, die Sie wiederherstellen möchten.
+
+
+
+ a| 
+Pluggable Database (PDB)-Tabellenbereiche
+ a| 
+Wählen Sie *Pluggable Database (PDB)-Tablespaces* aus und geben Sie dann die PDB und die Tablespaces dieser PDB an, die Sie wiederherstellen möchten.
+
+Diese Option ist nur verfügbar, wenn Sie eine PDB zur Wiederherstellung ausgewählt haben.
+
+|===
+.. Wählen Sie *Datenbankstatus ändern, falls für Wiederherstellung und Recovery erforderlich* aus, um den Status der Datenbank in den für die Durchführung von Wiederherstellungs- und Recovery-Vorgängen erforderlichen Status zu ändern.
++
+Die verschiedenen Zustände einer Datenbank sind (von oben nach unten) geöffnet, gemountet, gestartet und heruntergefahren.  Sie müssen dieses Kontrollkästchen aktivieren, wenn sich die Datenbank in einem höheren Status befindet, der Status jedoch in einen niedrigeren Status geändert werden muss, um einen Wiederherstellungsvorgang durchzuführen.  Wenn sich die Datenbank in einem niedrigeren Status befindet, der Status jedoch in einen höheren Status geändert werden muss, um den Wiederherstellungsvorgang durchzuführen, wird der Datenbankstatus automatisch geändert, auch wenn Sie das Kontrollkästchen nicht aktivieren.
+
++
+Wenn sich eine Datenbank im geöffneten Zustand befindet und für die Wiederherstellung der Zustand „gemountet“ erforderlich ist, wird der Datenbankstatus nur geändert, wenn Sie dieses Kontrollkästchen aktivieren.
+
+.. Wählen Sie *In-Place-Wiederherstellung erzwingen*, wenn Sie eine In-Place-Wiederherstellung in Szenarien durchführen möchten, in denen nach der Sicherung neue Datendateien hinzugefügt werden oder wenn LUNs zu einer LVM-Datenträgergruppe hinzugefügt, gelöscht oder neu erstellt werden.
+
+
+. Führen Sie auf der Seite „Wiederherstellungsbereich“ die folgenden Aktionen aus:
++
+|===
+| Wenn du... | Machen Sie Folgendes... 
+
+
+ a| 
+Möchten Sie die letzte Transaktion wiederherstellen
+ a| 
+Wählen Sie *Alle Protokolle*.
+
+
+
+ a| 
+Möchten Sie auf eine bestimmte System Change Number (SCN) wiederherstellen
+ a| 
+Wählen Sie *Bis SCN (System Change Number)*.
+
+
+
+ a| 
+Möchten Sie zu einem bestimmten Datum und Zeitpunkt wiederherstellen
+ a| 
+Wählen Sie *Datum und Uhrzeit*.
+
+Sie müssen Datum und Uhrzeit der Zeitzone des Datenbankhosts angeben.
+
+
+
+ a| 
+Will nicht erholen
+ a| 
+Wählen Sie *Keine Wiederherstellung*.
+
+
+
+ a| 
+Möchten Sie externe Archivprotokollspeicherorte angeben
+ a| 
+Wenn die Datenbank im ARCHIVELOG-Modus ausgeführt wird, ermittelt und mountet SnapCenter die optimale Anzahl von Protokollsicherungen basierend auf der angegebenen SCN, dem ausgewählten Datum und der Uhrzeit oder der Option „Alle Protokolle“.
+
+Wenn Sie dennoch den Speicherort der externen Archivprotokolldateien angeben möchten, wählen Sie *Speicherorte für externe Archivprotokolle angeben*.
+
+Wenn Archivprotokolle im Rahmen der Sicherung bereinigt werden und Sie die erforderlichen Archivprotokollsicherungen manuell bereitgestellt haben, müssen Sie den bereitgestellten Sicherungspfad als externen Archivprotokollspeicherort für die Wiederherstellung angeben.
+
+
+NOTE: Sie sollten den Pfad und den Inhalt des Mount-Pfads überprüfen, bevor Sie ihn als externen Protokollspeicherort auflisten.
+
+** https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-dp-overview.html["Oracle-Datenschutz mit ONTAP"^]
+** https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/ORA-00308%3A_cannot_open_archived_log_ORA_LOG_arch1_123_456789012.arc["Der Vorgang schlägt mit dem Fehler ORA-00308 fehl"^]
+
+
+|===
++
+Sie können keine Wiederherstellung mit der Wiederherstellung aus sekundären Sicherungen durchführen, wenn die Archivprotokollvolumes nicht geschützt sind, die Datenvolumes jedoch geschützt sind.  Sie können nur wiederherstellen, indem Sie *Keine Wiederherstellung* auswählen.
+
++
+Wenn Sie eine RAC-Datenbank mit ausgewählter Option „Datenbank öffnen“ wiederherstellen, wird nur die RAC-Instanz, bei der der Wiederherstellungsvorgang initiiert wurde, wieder in den geöffneten Zustand versetzt.
+
++
+
+NOTE: Die Wiederherstellung wird für Data Guard-Standby- und Active Data Guard-Standby-Datenbanken nicht unterstützt.
+
+. Geben Sie auf der Seite „PreOps“ den Pfad und die Argumente des Prescripts ein, das Sie vor dem Wiederherstellungsvorgang ausführen möchten.
++
+Sie müssen die Prescripts entweder im Pfad _/var/opt/snapcenter/spl/scripts_ oder in einem beliebigen Ordner innerhalb dieses Pfads speichern.  Standardmäßig wird der Pfad _/var/opt/snapcenter/spl/scripts_ ausgefüllt.  Wenn Sie innerhalb dieses Pfads Ordner zum Speichern der Skripte erstellt haben, müssen Sie diese Ordner im Pfad angeben.
+
++
+Sie können auch den Timeout-Wert des Skripts angeben. Der Standardwert beträgt 60 Sekunden.
+
++
+SnapCenter ermöglicht Ihnen die Verwendung der vordefinierten Umgebungsvariablen, wenn Sie das Prescript und Postscript ausführen.link:../protect-sco/predefined-environment-variables-prescript-postscript-restore.html["Mehr erfahren"^]
+
+. Führen Sie auf der Seite „PostOps“ die folgenden Schritte aus:
++
+.. Geben Sie den Pfad und die Argumente des Postscripts ein, das Sie nach dem Wiederherstellungsvorgang ausführen möchten.
++
+Sie müssen die Postscripts entweder in _/var/opt/snapcenter/spl/scripts_ oder in einem beliebigen Ordner innerhalb dieses Pfads speichern.  Standardmäßig wird der Pfad _/var/opt/snapcenter/spl/scripts_ ausgefüllt.  Wenn Sie innerhalb dieses Pfads Ordner zum Speichern der Skripte erstellt haben, müssen Sie diese Ordner im Pfad angeben.
+
++
+
+NOTE: Wenn der Wiederherstellungsvorgang fehlschlägt, werden Postscripts nicht ausgeführt und Bereinigungsaktivitäten direkt ausgelöst.
+
+.. Aktivieren Sie das Kontrollkästchen, wenn Sie die Datenbank nach der Wiederherstellung öffnen möchten.
++
+Wenn Sie nach der Wiederherstellung einer Containerdatenbank (CDB) mit oder ohne Steuerdateien oder nach der Wiederherstellung nur der CDB-Steuerdateien angeben, dass die Datenbank nach der Wiederherstellung geöffnet werden soll, wird nur die CDB geöffnet und nicht die Pluggable Databases (PDB) in dieser CDB.
+
++
+In einem RAC-Setup wird nach der Wiederherstellung nur die RAC-Instanz geöffnet, die für die Wiederherstellung verwendet wird.
+
++
+
+NOTE: Nach der Wiederherstellung eines Benutzertabellenbereichs mit Steuerdateien, eines Systemtabellenbereichs mit oder ohne Steuerdateien oder einer PDB mit oder ohne Steuerdateien wird nur der Status der PDB im Zusammenhang mit dem Wiederherstellungsvorgang in den ursprünglichen Status geändert.  Der Status der anderen PDBs, die nicht für die Wiederherstellung verwendet wurden, wird nicht in den ursprünglichen Status zurückgesetzt, da der Status dieser PDBs nicht gespeichert wurde.  Sie müssen den Status der PDBs, die nicht für die Wiederherstellung verwendet wurden, manuell ändern.
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mail-Benachrichtigungen senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den durchgeführten Wiederherstellungsvorgang anhängen möchten, müssen Sie *Jobbericht anhängen* auswählen.
+
++
+
+NOTE: Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl „Set-SmSmtpServer“ angegeben haben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+
+
+*Für weitere Informationen*
+
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Oracle_RAC_One_Node_database_is_skipped_for_performing_SnapCenter_operations["Die Oracle RAC One Node-Datenbank wird für die Durchführung von SnapCenter -Vorgängen übersprungen"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Failed_to_restore_from_a_secondary_SnapMirror_or_SnapVault_location["Die Wiederherstellung von einem sekundären SnapMirror oder SnapVault Speicherort ist fehlgeschlagen."^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Failed_to_restore_when_a_backup_of_an_orphan_incarnation_is_selected["Fehler beim Wiederherstellen aus einer Sicherung einer verwaisten Inkarnation"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/What_are_the_customizable_parameters_for_backup_restore_and_clone_operations_on_AIX_systems["Anpassbare Parameter für Sicherungs-, Wiederherstellungs- und Klonvorgänge auf AIX-Systemen"^]
+

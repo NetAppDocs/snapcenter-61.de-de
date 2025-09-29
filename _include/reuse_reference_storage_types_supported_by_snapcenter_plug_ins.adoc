@@ -1,0 +1,133 @@
+= 
+:allow-uri-read: 
+
+
+SnapCenter unterstützt eine breite Palette von Speichertypen sowohl auf physischen als auch auf virtuellen Maschinen.  Sie müssen überprüfen, ob für Ihren Speichertyp Unterstützung verfügbar ist, bevor Sie das Paket für Ihren Host installieren.
+
+SnapCenter -Bereitstellungs- und Datenschutzunterstützung ist auf Windows Server verfügbar.  Die neuesten Informationen zu unterstützten Versionen finden Sie imhttps://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"^] .
+
+|===
+| Maschine | Speichertyp | Bereitstellung mittels | Support-Hinweise 
+
+
+ a| 
+Physischer Server
+ a| 
+FC-verbundene LUNs
+ a| 
+Grafische Benutzeroberfläche (GUI) von SnapCenter oder PowerShell-Cmdlets
+ a| 
+
+
+
+ a| 
+Physischer Server
+ a| 
+Über iSCSI verbundene LUNs
+ a| 
+SnapCenter -GUI oder PowerShell-Cmdlets
+ a| 
+
+
+
+ a| 
+Physischer Server
+ a| 
+SMB3 (CIFS)-Freigaben auf einer Storage Virtual Machine (SVM)
+ a| 
+SnapCenter -GUI oder PowerShell-Cmdlets
+ a| 
+Support nur für die Bereitstellung.
+
+
+
+ a| 
+VMware VM
+ a| 
+Über einen FC- oder iSCSI-HBA verbundene RDM-LUNs
+ a| 
+PowerShell-Cmdlets
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+iSCSI-LUNs, die vom iSCSI-Initiator direkt mit dem Gastsystem verbunden sind
+ a| 
+SnapCenter -GUI oder PowerShell-Cmdlets
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+Virtual Machine File Systems (VMFS) oder NFS-Datenspeicher
+ a| 
+VMware vSphere
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+Ein Gastsystem, das mit SMB3-Freigaben verbunden ist, die sich auf einer SVM befinden
+ a| 
+SnapCenter -GUI oder PowerShell-Cmdlets
+ a| 
+Support nur für die Bereitstellung.
+
+
+
+ a| 
+VMware VM
+ a| 
+vVol-Datenspeicher auf NFS und SAN
+ a| 
+ONTAP Tools für VMware vSphere
+ a| 
+
+
+
+ a| 
+Hyper-V-VM
+ a| 
+Virtuelle FC (vFC) LUNs, die durch einen virtuellen Fibre Channel Switch verbunden sind
+ a| 
+SnapCenter -GUI oder PowerShell-Cmdlets
+ a| 
+Sie müssen Hyper-V Manager verwenden, um Virtual FC (vFC)-LUNs bereitzustellen, die über einen virtuellen Fibre Channel-Switch verbunden sind.
+
+
+NOTE: Hyper-V-Passthrough-Festplatten und das Sichern von Datenbanken auf VHD(x), die auf NetApp -Speicher bereitgestellt werden, werden nicht unterstützt.
+
+
+
+ a| 
+Hyper-V-VM
+ a| 
+iSCSI-LUNs, die vom iSCSI-Initiator direkt mit dem Gastsystem verbunden sind
+ a| 
+SnapCenter -GUI oder PowerShell-Cmdlets
+ a| 
+
+NOTE: Hyper-V-Passthrough-Festplatten und das Sichern von Datenbanken auf VHD(x), die auf NetApp -Speicher bereitgestellt werden, werden nicht unterstützt.
+
+
+
+ a| 
+Hyper-V-VM
+ a| 
+Ein Gastsystem, das mit SMB3-Freigaben verbunden ist, die sich auf einer SVM befinden
+ a| 
+SnapCenter -GUI oder PowerShell-Cmdlets
+ a| 
+Support nur für die Bereitstellung.
+
+
+NOTE: Hyper-V-Passthrough-Festplatten und das Sichern von Datenbanken auf VHD(x), die auf NetApp -Speicher bereitgestellt werden, werden nicht unterstützt.
+
+|===

@@ -1,0 +1,16 @@
+---
+permalink: protect-nsp/install_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: install workflow, NetApp supported plug-in 
+summary: Sie sollten von SnapCenter NetApp unterstützte Plug-Ins installieren und einrichten, wenn Sie von NetApp unterstützte Plug-In-Ressourcen schützen möchten. 
+---
+= Installationsablauf der von SnapCenter NetApp unterstützten Plug-Ins
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie sollten von SnapCenter NetApp unterstützte Plug-Ins installieren und einrichten, wenn Sie von NetApp unterstützte Plug-In-Ressourcen schützen möchten.
+
+image::../media/scc_install_configure_workflow.gif[Workflow der von SnapCenter NetApp unterstützten Plug-Ins]

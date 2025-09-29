@@ -1,0 +1,21 @@
+---
+permalink: protect-nsp/restore_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords:  
+summary: Der Wiederherstellungs-Workflow umfasst die Planung und Durchführung der Wiederherstellungsvorgänge sowie die Überwachung der Vorgänge. 
+---
+= Wiederherstellen von NetApp -unterstützten Plug-In-Ressourcen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Wiederherstellungs-Workflow umfasst die Planung und Durchführung der Wiederherstellungsvorgänge sowie die Überwachung der Vorgänge.
+
+.Informationen zu diesem Vorgang
+Der folgende Arbeitsablauf zeigt die Reihenfolge, in der Sie den Wiederherstellungsvorgang durchführen müssen:
+
+image::../media/all_plug_ins_restore_workflow.gif[Wiederherstellungs-Workflow]
+
+Sie können PowerShell-Cmdlets auch manuell oder in Skripts verwenden, um Sicherungs-, Wiederherstellungs- und Klonvorgänge durchzuführen.  Informationen zu PowerShell-Cmdlets finden Sie in der Hilfe zu SnapCenter -Cmdlets oder im https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"] .

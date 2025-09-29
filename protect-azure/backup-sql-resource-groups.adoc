@@ -1,0 +1,28 @@
+---
+permalink: protect-azure/backup-sql-resource-groups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server Database, back up, resource groups 
+summary: Eine Ressourcengruppe ist eine Sammlung von Ressourcen auf einem Host.  Ein Sicherungsvorgang für die Ressourcengruppe wird für alle in der Ressourcengruppe definierten Ressourcen ausgeführt. 
+---
+= Sichern von SQL Server-Ressourcengruppen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Ressourcengruppen sichern, die aus mehreren Ressourcen bestehen.  Ein Sicherungsvorgang für die Ressourcengruppe wird für alle in der Ressourcengruppe definierten Ressourcen ausgeführt.
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Ressourcengruppe“ aus.
+. Wählen Sie auf der Seite „Ressourcengruppen“ die Ressourcengruppe aus, die Sie sichern möchten, und wählen Sie dann *Jetzt sichern* aus.
+. Führen Sie auf der Seite „Sichern“ die folgenden Schritte aus:
++
+.. Wenn der Ressourcengruppe mehrere Richtlinien zugeordnet sind, wählen Sie aus der Dropdownliste *Richtlinie* die Richtlinie aus, die Sie für die Sicherung verwenden möchten.
+.. Wählen Sie nach der Sicherung „Überprüfen“ aus, um die On-Demand-Sicherung zu überprüfen.
+.. Wählen Sie *Backup*.
+
+
+. Überwachen Sie den Vorgangsfortschritt, indem Sie *Überwachen* > *Jobs* auswählen.
+

@@ -1,0 +1,27 @@
+---
+permalink: protect-mysql/types-of-restore-strategies-supported-for-manually-added-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Sie müssen eine Strategie definieren, bevor Sie Wiederherstellungsvorgänge mit SnapCenter erfolgreich durchführen können.  Es gibt zwei Arten von Wiederherstellungsstrategien für manuell hinzugefügte MySQL-Ressourcen.  Sie können manuell hinzugefügte MySQL-Ressourcen nicht wiederherstellen. 
+---
+= Unterstützte Wiederherstellungsstrategien für manuell hinzugefügte MySQL-Ressourcen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie müssen eine Strategie definieren, bevor Sie Wiederherstellungsvorgänge mit SnapCenter erfolgreich durchführen können.  Es gibt zwei Arten von Wiederherstellungsstrategien für manuell hinzugefügte MySQL-Ressourcen.
+
+
+NOTE: Sie können manuell hinzugefügte MySQL-Ressourcen nicht wiederherstellen.
+
+
+
+== Vollständige Ressourcenwiederherstellung
+
+* Stellt alle Volumes, Qtrees und LUNs einer Ressource wieder her
+
+
+
+NOTE: Wenn die Ressource Volumes oder Qtrees enthält, werden die Snapshots, die nach dem für die Wiederherstellung ausgewählten Snapshot auf diesen Volumes oder Qtrees erstellt wurden, gelöscht und können nicht wiederhergestellt werden.  Wenn außerdem eine andere Ressource auf denselben Volumes oder Qtrees gehostet wird, wird diese Ressource ebenfalls gelöscht.

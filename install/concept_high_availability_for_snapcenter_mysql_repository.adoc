@@ -1,0 +1,38 @@
+---
+permalink: install/concept_high_availability_for_snapcenter_mysql_repository.html 
+sidebar: sidebar 
+keywords: SnapCenter, MySQL high availability 
+summary: 'Die MySQL-Replikation ist eine Funktion des MySQL-Servers, mit der Sie Daten von einem MySQL-Datenbankserver (Master) auf einen anderen MySQL-Datenbankserver (Slave) replizieren können.  SnapCenter unterstützt die MySQL-Replikation für hohe Verfügbarkeit nur auf zwei Knoten mit aktiviertem Netzwerklastenausgleich (NLB).' 
+---
+= Hohe Verfügbarkeit für das SnapCenter MySQL-Repository
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die MySQL-Replikation ist eine Funktion des MySQL-Servers, mit der Sie Daten von einem MySQL-Datenbankserver (Master) auf einen anderen MySQL-Datenbankserver (Slave) replizieren können.  SnapCenter unterstützt die MySQL-Replikation für hohe Verfügbarkeit nur auf zwei Knoten mit aktiviertem Netzwerklastenausgleich (NLB).
+
+SnapCenter führt Lese- oder Schreibvorgänge am Master-Repository aus und leitet seine Verbindung zum Slave-Repository um, wenn im Master-Repository ein Fehler auftritt.  Das Slave-Repository wird dann zum Master-Repository.  SnapCenter unterstützt auch die umgekehrte Replikation, die nur während eines Failovers aktiviert wird.
+
+Wenn Sie die MySQL-Hochverfügbarkeitsfunktion (HA) verwenden möchten, müssen Sie Network Load Balancer (NLB) auf dem ersten Knoten konfigurieren.  Das MySQL-Repository wird im Rahmen der Installation auf diesem Knoten installiert.  Während Sie SnapCenter auf dem zweiten Knoten installieren, müssen Sie sich mit F5 des ersten Knotens verbinden und eine Kopie des MySQL-Repositorys auf dem zweiten Knoten erstellen.
+
+SnapCenter bietet die PowerShell-Cmdlets _Get-SmRepositoryConfig_ und _Set-SmRepositoryConfig_ zur Verwaltung der MySQL-Replikation.
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+Sie müssen sich der Einschränkungen im Zusammenhang mit der MySQL HA-Funktion bewusst sein:
+
+* NLB und MySQL HA werden über zwei Knoten hinaus nicht unterstützt.
+* Der Wechsel von einer eigenständigen SnapCenter -Installation zu einer NLB-Installation oder umgekehrt sowie der Wechsel von einem eigenständigen MySQL-Setup zu MySQL HA werden nicht unterstützt.
+* Automatisches Failover wird nicht unterstützt, wenn die Daten des Slave-Repositorys nicht mit den Daten des Master-Repositorys synchronisiert sind.
++
+Sie können ein erzwungenes Failover mithilfe des Cmdlets _Set-SmRepositoryConfig_ initiieren.
+
+* Wenn ein Failover eingeleitet wird, können laufende Jobs fehlschlagen.
++
+Wenn ein Failover auftritt, weil der MySQL-Server oder der SnapCenter Server ausgefallen ist, können alle ausgeführten Jobs fehlschlagen.  Nach dem Failover auf den zweiten Knoten werden alle nachfolgenden Jobs erfolgreich ausgeführt.
+
+
+
+Informationen zum Konfigurieren von Hochverfügbarkeit finden Sie unter https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_configure_NLB_and_ARR_with_SnapCenter["So konfigurieren Sie NLB und ARR mit SnapCenter"^] .

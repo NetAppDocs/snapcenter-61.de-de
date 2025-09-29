@@ -1,0 +1,34 @@
+---
+permalink: protect-sce/task_restore_an_exchange_server_database_from_secondary_storage.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 'Sie können eine gesicherte Exchange Server-Datenbank aus einem sekundären Speicher (Spiegel oder Tresor) wiederherstellen.' 
+---
+= Wiederherstellen einer Exchange Server-Datenbank aus einem sekundären Speicher
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können eine gesicherte Exchange Server-Datenbank aus einem sekundären Speicher (Spiegel oder Tresor) wiederherstellen.
+
+Sie müssen die Snapshots vom primären Speicher auf einen sekundären Speicher repliziert haben.
+
+.Informationen zu diesem Vorgang
+* Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+* Für den Wiederherstellungsvorgang mit SnapMirror Active Sync müssen Sie die Sicherung vom primären Speicherort auswählen.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann *Microsoft Exchange Server-Plug-In* aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ aus der Dropdownliste „Anzeigen“ die Option „Datenbank“ oder „Ressourcengruppe“ aus.
+. Wählen Sie die Datenbank oder die Ressourcengruppe aus.
++
+Die Seite mit der Datenbank- oder Ressourcengruppentopologie wird angezeigt.
+
+. Wählen Sie im Abschnitt „Kopien verwalten“ *Backups* aus dem sekundären Speichersystem (Spiegel oder Tresor) aus.
+. Wählen Sie das Backup aus der Liste aus und klicken Sie dann aufimage:../media/restore_icon.gif["Wiederherstellungssymbol"] .
+. Wählen Sie auf der Seite „Speicherort“ das Zielvolume für die Wiederherstellung der ausgewählten Ressource aus.
+. Schließen Sie den Wiederherstellungsassistenten ab, überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+

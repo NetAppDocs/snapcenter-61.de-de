@@ -1,0 +1,50 @@
+---
+permalink: protect-scw/task_cancel_restore_operations.html 
+sidebar: sidebar 
+keywords: cancel restore 
+summary: Sie können in der Warteschlange befindliche Wiederherstellungsaufträge abbrechen. 
+---
+= Abbrechen von Wiederherstellungsvorgängen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können in der Warteschlange befindliche Wiederherstellungsaufträge abbrechen.
+
+Sie sollten als SnapCenter -Administrator oder Auftragseigentümer angemeldet sein, um Wiederherstellungsvorgänge abzubrechen.
+
+.Informationen zu diesem Vorgang
+* Sie können einen in die Warteschlange gestellten Wiederherstellungsvorgang entweder auf der Seite *Überwachen* oder im Bereich *Aktivität* abbrechen.
+* Sie können einen laufenden Wiederherstellungsvorgang nicht abbrechen.
+* Sie können die SnapCenter GUI, PowerShell-Cmdlets oder CLI-Befehle verwenden, um die in die Warteschlange gestellten Wiederherstellungsvorgänge abzubrechen.
+* Die Schaltfläche *Auftrag abbrechen* ist für Wiederherstellungsvorgänge deaktiviert, die nicht abgebrochen werden können.
+* Wenn Sie beim Erstellen einer Rolle auf der Seite „Benutzer\Gruppen“ die Option *Alle Mitglieder dieser Rolle können die Objekte anderer Mitglieder sehen und bearbeiten* ausgewählt haben, können Sie die in die Warteschlange gestellten Wiederherstellungsvorgänge anderer Mitglieder abbrechen, während Sie diese Rolle verwenden.
+
+
+.Schritt
+Führen Sie eine der folgenden Aktionen aus:
+
+|===
+| Von der... | Aktion 
+
+
+ a| 
+Monitorseite
+ a| 
+. Klicken Sie im linken Navigationsbereich auf *Monitor* > *Jobs*.
+. Wählen Sie den Auftrag aus und klicken Sie auf *Auftrag abbrechen*.
+
+
+
+
+ a| 
+Aktivitätsbereich
+ a| 
+. Klicken Sie nach dem Starten des Wiederherstellungsvorgangs aufimage:../media/activity_pane_icon.gif["Symbol für den Aktivitätsbereich"] im Aktivitätsbereich, um die fünf letzten Vorgänge anzuzeigen.
+. Wählen Sie den Vorgang aus.
+. Klicken Sie auf der Seite „Auftragsdetails“ auf *Auftrag abbrechen*.
+
+
+|===

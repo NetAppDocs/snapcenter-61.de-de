@@ -1,0 +1,366 @@
+---
+permalink: protect-scsql/task_create_backup_policies_for_sql_server_databases.html 
+sidebar: sidebar 
+keywords: backup policy 
+summary: Sie können eine Sicherungsrichtlinie für die Ressource oder die Ressourcengruppe erstellen, bevor Sie SnapCenter zum Sichern von SQL Server-Ressourcen verwenden, oder Sie können eine Sicherungsrichtlinie erstellen, wenn Sie eine Ressourcengruppe erstellen oder eine einzelne Ressource sichern. 
+---
+= Erstellen von Sicherungsrichtlinien für SQL Server-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können eine Sicherungsrichtlinie für die Ressource oder die Ressourcengruppe erstellen, bevor Sie SnapCenter zum Sichern von SQL Server-Ressourcen verwenden, oder Sie können eine Sicherungsrichtlinie erstellen, wenn Sie eine Ressourcengruppe erstellen oder eine einzelne Ressource sichern.
+
+.Bevor Sie beginnen
+* Sie müssen Ihre Datenschutzstrategie definiert haben.
+* Sie müssen sich auf den Datenschutz vorbereitet haben, indem Sie Aufgaben wie die Installation von SnapCenter, das Hinzufügen von Hosts, das Identifizieren von Ressourcen und das Erstellen von Speichersystemverbindungen abgeschlossen haben.
+* Sie müssen das Host-Protokollverzeichnis für die Protokollsicherung konfiguriert haben.
+* Sie müssen die SQL Server-Ressourcen aktualisiert (erkannt) haben.
+* Wenn Sie Snapshots auf einen Spiegel oder Tresor replizieren, muss der SnapCenter Administrator Ihnen die virtuellen Speichermaschinen (SVMs) sowohl für die Quell- als auch für die Zielvolumes zugewiesen haben.
++
+Informationen dazu, wie Administratoren Benutzern Ressourcen zuweisen, finden Sie in den Installationsinformationen zu SnapCenter .
+
+* Wenn Sie die PowerShell-Skripte in Prescripts und Postscripts ausführen möchten, sollten Sie den Wert des Parameters usePowershellProcessforScripts in der Datei web.config auf true setzen.
++
+Der Standardwert ist „false“.
+
+* Überprüfen Sie die spezifischen Voraussetzungen und Einschränkungen der SnapMirror Active Sync. Weitere Informationen finden Sie unter https://docs.netapp.com/us-en/ontap/smbc/considerations-limits.html#volumes["Objektlimits für SnapMirror Active Sync"] .
+
+
+.Informationen zu diesem Vorgang
+* Eine Sicherungsrichtlinie ist ein Satz von Regeln, der regelt, wie Sie Sicherungen verwalten und aufbewahren und wie häufig die Ressource oder Ressourcengruppe gesichert wird.  Darüber hinaus können Sie Replikations- und Skripteinstellungen angeben.  Das Angeben von Optionen in einer Richtlinie spart Zeit, wenn Sie die Richtlinie für eine andere Ressourcengruppe wiederverwenden möchten.
++
+Der SCRIPTS_PATH wird mithilfe des Schlüssels „PredefinedWindowsScriptsDirectory“ definiert, der sich in der Datei „SMCoreServiceHost.exe.Config“ des Plug-In-Hosts befindet.
+
++
+Bei Bedarf können Sie diesen Pfad ändern und den SMcore-Dienst neu starten.  Aus Sicherheitsgründen wird empfohlen, den Standardpfad zu verwenden.
+
++
+Der Wert des Schlüssels kann von Swagger über die API angezeigt werden: API /4.7/configsettings
+
++
+Sie können die GET-API verwenden, um den Wert des Schlüssels anzuzeigen.  SET-API wird nicht unterstützt.
+
+* SnapLock
++
+** Wenn die Option „Sicherungskopien für eine bestimmte Anzahl von Tagen aufbewahren“ ausgewählt ist, muss die SnapLock -Aufbewahrungsdauer kleiner oder gleich der angegebenen Aufbewahrungsdauer in Tagen sein.
++
+Durch die Angabe einer Snapshot-Sperrfrist wird das Löschen der Snapshots verhindert, bis die Aufbewahrungsfrist abgelaufen ist. Dies kann dazu führen, dass mehr Snapshots aufbewahrt werden als in der Richtlinie angegeben.
+
++
+Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+
+
+
+
+
+
+
+== Schritt 1: Richtliniennamen erstellen
+
+. Wählen Sie im linken Navigationsbereich *Einstellungen* aus.
+. Wählen Sie auf der Seite „Einstellungen“ *Richtlinien* aus.
+. Wählen Sie *Neu*.
+. Geben Sie auf der Seite *Name* den Richtliniennamen und die Details ein.
+
+
+
+
+== Schritt 2: Richtlinienoptionen konfigurieren
+
+. Führen Sie auf der Seite „Richtlinientyp“ die folgenden Schritte aus:
++
+.. Wählen Sie Ihren Speichertyp aus.
+.. Wählen Sie Ihren Richtlinienumfang aus.
++
+[role="tabbed-block"]
+====
+.Vollständige Sicherung und Protokollsicherung
+--
+Sichern Sie die Datenbankdateien und Transaktionsprotokolle und kürzen Sie die Transaktionsprotokolle.
+
+... Wählen Sie *Vollständige Sicherung und Protokollsicherung*.
+... Geben Sie die maximale Anzahl der Datenbanken ein, die für jeden Snapshot gesichert werden sollen.
++
+
+NOTE: Sie müssen diesen Wert erhöhen, wenn Sie mehrere Sicherungsvorgänge gleichzeitig ausführen möchten.
+
+
+
+--
+.Vollständige Sicherung
+--
+Sichern Sie die Datenbankdateien.
+
+... Wählen Sie *Vollständige Sicherung*.
+... Geben Sie die maximale Anzahl der Datenbanken ein, die für jeden Snapshot gesichert werden sollen.  Der Standardwert ist 100
++
+
+NOTE: Sie müssen diesen Wert erhöhen, wenn Sie mehrere Sicherungsvorgänge gleichzeitig ausführen möchten.
+
+
+
+--
+.Protokollsicherung
+--
+... Sichern Sie die Transaktionsprotokolle.
+... Wählen Sie *Protokollsicherung*.
+
+
+--
+.Nur Kopie-Backup
+--
+... Wenn Sie Ihre Ressourcen mithilfe einer anderen Sicherungsanwendung sichern, wählen Sie *Nur Sicherung kopieren*.
+
+
+Wenn die Transaktionsprotokolle intakt bleiben, kann jede Sicherungsanwendung die Datenbanken wiederherstellen.  Normalerweise sollten Sie die Option „Nur kopieren“ unter keinen anderen Umständen verwenden.
+
+
+NOTE: Microsoft SQL unterstützt die Option *Nur Kopie-Sicherung* zusammen mit der Option *Vollständige Sicherung und Protokollsicherung* für sekundären Speicher nicht.
+
+--
+====
+
+
+
+
+
+
+== Schritt 3: Konfigurieren der Verfügbarkeitsgruppeneinstellungen
+
+. Führen Sie im Abschnitt „Einstellungen der Verfügbarkeitsgruppe“ die folgenden Aktionen aus:
++
+.. Sicherung nur auf bevorzugter Sicherungsreplik.
++
+Wählen Sie diese Option, um nur auf der bevorzugten Sicherungsreplik zu sichern.  Das bevorzugte Sicherungsreplikat wird durch die für die AG im SQL Server konfigurierten Sicherungseinstellungen bestimmt.
+
+.. Wählen Sie Replikate für die Sicherung aus.
++
+Wählen Sie für die Sicherung das primäre AG-Replikat oder das sekundäre AG-Replikat aus.
+
+.. Wählen Sie die Sicherungspriorität (minimale und maximale Sicherungspriorität)
++
+Geben Sie eine minimale und eine maximale Sicherungsprioritätszahl an, die das AG-Replikat für die Sicherung bestimmen.  Sie können beispielsweise eine Mindestpriorität von 10 und eine Höchstpriorität von 50 festlegen.  In diesem Fall werden alle AG-Replikate mit einer Priorität über 10 und unter 50 für die Sicherung berücksichtigt.
+
++
+Standardmäßig beträgt die Mindestpriorität 1 und die Höchstpriorität 100.
+
+
+
++
+
+NOTE: In Clusterkonfigurationen werden die Sicherungen gemäß den in der Richtlinie festgelegten Aufbewahrungseinstellungen auf jedem Knoten des Clusters aufbewahrt.  Wenn sich der Besitzerknoten der AG ändert, werden die Sicherungen gemäß den Aufbewahrungseinstellungen erstellt und die Sicherungen des vorherigen Besitzerknotens bleiben erhalten.  Die Aufbewahrung für AG gilt nur auf Knotenebene.
+
+
+
+
+
+== Schritt 4: Konfigurieren der Snapshot- und Replikationseinstellungen
+
+. Führen Sie auf der Seite „Snapshot und Replikation“ die folgenden Schritte aus:
++
+.. Geben Sie den Zeitplantyp an, indem Sie *Auf Anfrage*, *Stündlich*, *Täglich*, *Wöchentlich* oder *Monatlich* auswählen.
++
+Sie können für eine Richtlinie nur einen Zeitplantyp auswählen.
+
++
+
+NOTE: Sie können den Zeitplan (Startdatum, Enddatum und Häufigkeit) für den Sicherungsvorgang beim Erstellen einer Ressourcengruppe angeben.  Auf diese Weise können Sie Ressourcengruppen erstellen, die dieselbe Richtlinie und Sicherungshäufigkeit verwenden, aber jeder Richtlinie unterschiedliche Sicherungspläne zuweisen.
+
++
+
+NOTE: Wenn Sie 2:00 Uhr morgens geplant haben, wird der Zeitplan während der Sommerzeit (DST) nicht ausgelöst.
+
+
+
+
+
+
+
+== Schritt 5: Konfigurieren Sie aktuelle Aufbewahrungseinstellungen
+
+. Führen Sie im Abschnitt „Aktuelle Aufbewahrungseinstellungen“ je nach dem auf der Seite „Sicherungstyp“ ausgewählten Sicherungstyp eine oder mehrere der folgenden Aktionen aus:
+
+
+[role="tabbed-block"]
+====
+.Spezifische Anzahl von Kopien
+--
+Behalten Sie nur eine bestimmte Anzahl von Snapshots.
+
+. Wählen Sie die Option *Protokollsicherungen der letzten <Anzahl> Tage aufbewahren* und geben Sie die Anzahl der Tage an, die aufbewahrt werden sollen.  Wenn Sie sich diesem Limit nähern, möchten Sie möglicherweise ältere Kopien löschen.
+
+
+--
+.Bestimmte Anzahl von Tagen
+--
+Bewahren Sie die Sicherungskopien für eine bestimmte Anzahl von Tagen auf.
+
+. Wählen Sie die Option *Protokollsicherungen der letzten <Anzahl> Tage vollständiger Sicherungen aufbewahren* und geben Sie die Anzahl der Tage an, die die Protokollsicherungskopien aufbewahrt werden sollen.
+
+
+--
+====
+
+
+== Schritt 6: Snapshot-Einstellungen konfigurieren
+
+. Führen Sie für die Aufbewahrungseinstellungen für vollständige Sicherungen die folgenden Aktionen aus:
++
+.. Geben Sie die Gesamtzahl der aufzubewahrenden Snapshots an
++
+... Um die Anzahl der aufzubewahrenden Snapshots anzugeben, wählen Sie *Aufzubewahrende Kopien*.
+... Wenn die Anzahl der Snapshots die angegebene Anzahl überschreitet, werden die Snapshots gelöscht, wobei die ältesten Kopien zuerst gelöscht werden.
++
+
+IMPORTANT: Standardmäßig ist der Wert für die Aufbewahrungsanzahl auf 2 eingestellt.  Wenn Sie die Aufbewahrungsanzahl auf 1 setzen, schlägt der Aufbewahrungsvorgang möglicherweise fehl, da der erste Snapshot der Referenz-Snapshot für die SnapVault -Beziehung ist, bis ein neuerer Snapshot auf das Ziel repliziert wird.
+
++
+
+NOTE: Der maximale Aufbewahrungswert beträgt 1018. Sicherungen schlagen fehl, wenn die Aufbewahrung auf einen höheren Wert eingestellt ist, als von der zugrunde liegenden NetApp ONTAP Version unterstützt wird.
+
+
+
+
+
+
+
+. Aufbewahrungsdauer von Snapshots
++
+.. Wenn Sie die Anzahl der Tage angeben möchten, für die Sie die Snapshots aufbewahren möchten, bevor sie gelöscht werden, wählen Sie *Kopien aufbewahren für*.
+
+
+. Wählen Sie *Sperrzeitraum für Snapshot-Kopien* und geben Sie die Dauer in Tagen, Monaten oder Jahren an.
++
+Die Aufbewahrungsdauer von Snaplock sollte weniger als 100 Jahre betragen.
+
+. Wählen Sie eine Richtlinienbezeichnung aus.
++
+
+NOTE: Sie können primären Snapshots SnapMirror Labels für die Remote-Replikation zuweisen, sodass die primären Snapshots den Snapshot-Replikationsvorgang von SnapCenter auf sekundäre ONTAP -Systeme auslagern können. Dies kann erfolgen, ohne die Option SnapMirror oder SnapVault auf der Richtlinienseite zu aktivieren.
+
+
+
+
+
+== Schritt 7: Konfigurieren sekundärer Replikationsoptionen
+
+. Wählen Sie im Abschnitt „Sekundäre Replikationsoptionen auswählen“ eine oder beide der folgenden sekundären Replikationsoptionen aus:
+
+
+[role="tabbed-block"]
+====
+.SnapMirror aktualisieren
+--
+Aktualisieren Sie SnapMirror, nachdem Sie eine lokale Snapshot-Kopie erstellt haben.
+
+. Wählen Sie diese Option, um Spiegelkopien von Sicherungssätzen auf einem anderen Volume (SnapMirror) zu erstellen.
++
+Diese Option sollte für die aktive Synchronisierung von SnapMirror aktiviert werden.
+
++
+Während der sekundären Replikation lädt die Ablaufzeit des SnapLock die Ablaufzeit des primären SnapLock .  Durch Klicken auf die Schaltfläche *Aktualisieren* auf der Seite „Topologie“ werden die Ablaufzeiten des sekundären und primären SnapLock aktualisiert, die von ONTAP abgerufen werden.
+
++
+Sehen link:../protect-scsql/task_view_sql_server_backups_and_clones_in_the_topology_page.html["Anzeigen von SQL Server-Sicherungen und -Klonen auf der Seite „Topologie“"] .
+
+
+
+--
+.SnapVault aktualisieren
+--
+Aktualisieren Sie SnapVault , nachdem Sie eine Snapshot-Kopie erstellt haben.
+
+. Wählen Sie diese Option, um eine Backup-Replikation von Festplatte zu Festplatte durchzuführen.
++
+Während der sekundären Replikation lädt die Ablaufzeit des SnapLock die Ablaufzeit des primären SnapLock .  Durch Klicken auf die Schaltfläche *Aktualisieren* auf der Seite „Topologie“ werden die Ablaufzeiten des sekundären und primären SnapLock aktualisiert, die von ONTAP abgerufen werden.
+
++
+Wenn SnapLock nur auf dem sekundären Server von ONTAP , bekannt als SnapLock Vault, konfiguriert ist, wird durch Klicken auf die Schaltfläche *Aktualisieren* auf der Seite „Topologie“ die Sperrdauer auf dem sekundären Server aktualisiert, die von ONTAP abgerufen wird.
+
++
+Weitere Informationen zu SnapLock Vault finden Sie unter https://docs.netapp.com/us-en/ontap/snaplock/commit-snapshot-copies-worm-concept.html["Übertragen Sie Snapshot-Kopien in WORM auf einem Tresorziel"]
+
++
+Sehen link:../protect-scsql/task_view_sql_server_backups_and_clones_in_the_topology_page.html["Anzeigen von SQL Server-Sicherungen und -Klonen auf der Seite „Topologie“"] .
+
+
+
+--
+.Fehlerwiederholungsanzahl
+--
+. Geben Sie die Anzahl der Replikationsversuche ein, die durchgeführt werden sollen, bevor der Prozess angehalten wird.
+
+
+--
+====
+
+
+== Schritt 8: Skripteinstellungen konfigurieren
+
+. Geben Sie auf der Seite „Skript“ den Pfad und die Argumente des Präskripts oder Postskripts ein, das vor bzw. nach dem Sicherungsvorgang ausgeführt werden soll.
++
+Sie können beispielsweise ein Skript ausführen, um SNMP-Traps zu aktualisieren, Warnungen zu automatisieren und Protokolle zu senden.
+
++
+
+NOTE: Der Prescripts- oder Postscripts-Pfad sollte keine Laufwerke oder Freigaben enthalten.  Der Pfad sollte relativ zum SCRIPTS_PATH sein.
+
++
+
+NOTE: Sie müssen die SnapMirror Aufbewahrungsrichtlinie in ONTAP so konfigurieren, dass der sekundäre Speicher die maximale Anzahl an Snapshots nicht erreicht.
+
+
+
+
+
+== Schritt 9: Konfigurieren der Überprüfungseinstellungen
+
+Führen Sie auf der Seite „Verifizierung“ die folgenden Schritte aus:
+
+. Wählen Sie im Abschnitt „Überprüfung für folgende Sicherungszeitpläne ausführen“ die Zeitplanhäufigkeit aus.
+. Führen Sie im Abschnitt „Optionen zur Datenbankkonsistenzprüfung“ die folgenden Aktionen aus:
++
+.. Beschränken Sie die Integritätsstruktur auf die physische Struktur der Datenbank (PHYSICAL_ONLY).
++
+... Wählen Sie *Integritätsstruktur auf die physische Struktur der Datenbank beschränken (NUR_PHYSIKALISCH)* aus, um die Integritätsprüfung auf die physische Struktur der Datenbank zu beschränken und zerrissene Seiten, Prüfsummenfehler und allgemeine Hardwarefehler zu erkennen, die sich auf die Datenbank auswirken.
+
+
+.. Alle Informationsmeldungen unterdrücken (NO INFOMSGS)
++
+... Wählen Sie *Alle Informationsmeldungen unterdrücken (NO_INFOMSGS)*, um alle Informationsmeldungen zu unterdrücken.  Standardmäßig ausgewählt.
+
+
+.. Alle gemeldeten Fehlermeldungen pro Objekt anzeigen (ALL_ERRORMSGS)
++
+... Wählen Sie *Alle gemeldeten Fehlermeldungen pro Objekt anzeigen (ALL_ERRORMSGS)*, um alle gemeldeten Fehler pro Objekt anzuzeigen.
+
+
+.. Nicht gruppierte Indizes nicht prüfen (NOINDEX)
++
+... Wählen Sie *Nicht gruppierte Indizes nicht prüfen (NOINDEX)* aus, wenn Sie keine nicht gruppierten Indizes prüfen möchten.  Die SQL Server-Datenbank verwendet den Microsoft SQL Server Database Consistency Checker (DBCC), um die logische und physische Integrität der Objekte in der Datenbank zu überprüfen.
+
+
+.. Begrenzen Sie die Prüfungen und erhalten Sie die Sperren, anstatt einen internen Datenbank-Snapshot (TABLOCK) zu verwenden.
++
+... Wählen Sie *Beschränken Sie die Prüfungen und erhalten Sie die Sperren, anstatt eine interne Datenbank-Snapshot-Kopie zu verwenden (TABLOCK)* aus, um die Prüfungen zu begrenzen und Sperren zu erhalten, anstatt einen internen Datenbank-Snapshot zu verwenden.
+
+
+
+
+. Wählen Sie im Abschnitt *Protokollsicherung* die Option *Protokollsicherung nach Abschluss überprüfen* aus, um die Protokollsicherung nach Abschluss zu überprüfen.
+. Geben Sie im Abschnitt *Einstellungen des Überprüfungsskripts* den Pfad und die Argumente des Präskripts oder Postskripts ein, das vor bzw. nach dem Überprüfungsvorgang ausgeführt werden soll.
++
+
+NOTE: Der Prescripts- oder Postscripts-Pfad sollte keine Laufwerke oder Freigaben enthalten.  Der Pfad sollte relativ zum SCRIPTS_PATH sein.
+
+
+
+
+
+== Schritt 10: Zusammenfassung der Überprüfung
+
+. Überprüfen Sie die Zusammenfassung und wählen Sie dann *Fertig*.
+

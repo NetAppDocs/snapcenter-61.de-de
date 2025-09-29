@@ -1,0 +1,73 @@
+---
+permalink: protect-sce/task_define_a_restore_strategy_for_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Durch die Definition einer Wiederherstellungsstrategie für Exchange Server können Sie Ihre Datenbank erfolgreich wiederherstellen. 
+---
+= Definieren einer Wiederherstellungsstrategie für Exchange-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Durch die Definition einer Wiederherstellungsstrategie für Exchange Server können Sie Ihre Datenbank erfolgreich wiederherstellen.
+
+
+
+== Quellen für einen Wiederherstellungsvorgang in Exchange Server
+
+Sie können eine Exchange Server-Datenbank aus einer Sicherungskopie auf dem primären Speicher wiederherstellen.
+
+Sie können Datenbanken nur aus dem Primärspeicher wiederherstellen.
+
+
+
+== Für Exchange Server unterstützte Arten von Wiederherstellungsvorgängen
+
+Sie können SnapCenter verwenden, um verschiedene Arten von Wiederherstellungsvorgängen an Exchange-Ressourcen durchzuführen.
+
+* Aktuelle Wiederherstellung
+* Wiederherstellen eines früheren Zeitpunkts
+
+
+
+
+=== Wiederherstellung auf die Minute genau
+
+Bei einem minutengenauen Wiederherstellungsvorgang werden Datenbanken bis zum Fehlerpunkt wiederhergestellt.  SnapCenter erreicht dies durch Ausführen der folgenden Sequenz:
+
+. Stellt die Datenbanken aus der von Ihnen ausgewählten vollständigen Datenbanksicherung wieder her.
+. Wendet alle gesicherten Transaktionsprotokolle sowie alle neuen Protokolle an, die seit der letzten Sicherung erstellt wurden.
++
+Transaktionsprotokolle werden weitergeleitet und auf alle ausgewählten Datenbanken angewendet.
+
++
+Exchange erstellt nach Abschluss einer Wiederherstellung eine neue Protokollkette.
+
++
+|===
+
+
+| *Best Practice:* Es wird empfohlen, nach Abschluss einer Wiederherstellung eine neue vollständige Sicherung und Protokollsicherung durchzuführen. 
+|===
++
+Für einen minutengenauen Wiederherstellungsvorgang ist ein zusammenhängender Satz von Transaktionsprotokollen erforderlich.
+
++
+Nachdem Sie eine minutengenaue Wiederherstellung durchgeführt haben, ist die für die Wiederherstellung verwendete Sicherung nur für zeitpunktbezogene Wiederherstellungsvorgänge verfügbar.
+
++
+Wenn Sie nicht für alle Sicherungen die Wiederherstellungsfunktion auf die Minute genau benötigen, können Sie die Aufbewahrungsdauer der Transaktionsprotokollsicherungen Ihres Systems über die Sicherungsrichtlinien konfigurieren.
+
+
+
+
+
+=== Wiederherstellen eines früheren Zeitpunkts
+
+Bei einer zeitpunktbezogenen Wiederherstellung werden Datenbanken nur auf einen bestimmten Zeitpunkt in der Vergangenheit wiederhergestellt.  Eine zeitpunktbezogene Wiederherstellung erfolgt in den folgenden Wiederherstellungssituationen:
+
+* Die Datenbank wird zu einem bestimmten Zeitpunkt in einem gesicherten Transaktionsprotokoll wiederhergestellt.
+* Die Datenbank wird wiederhergestellt und nur eine Teilmenge der gesicherten Transaktionsprotokolle wird darauf angewendet.
+

@@ -1,0 +1,82 @@
+---
+permalink: protect-scu/view_protected_unix_file_systems_in_the_topology_page.html 
+sidebar: sidebar 
+keywords: topology, unix file systems, 
+summary: Wenn Sie das Sichern, Wiederherstellen oder Klonen einer Ressource vorbereiten, kann es hilfreich sein, eine grafische Darstellung aller Sicherungen, wiederhergestellten Dateisysteme und Klone auf dem primären und sekundären Speicher anzuzeigen. 
+---
+= Geschützte Unix-Dateisysteme auf der Seite „Topologie“ anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie das Sichern, Wiederherstellen oder Klonen einer Ressource vorbereiten, kann es hilfreich sein, eine grafische Darstellung aller Sicherungen, wiederhergestellten Dateisysteme und Klone auf dem primären und sekundären Speicher anzuzeigen.
+
+*Über diese Aufgabe*
+
+Auf der Seite „Topologie“ können Sie alle Sicherungen, wiederhergestellten Dateisysteme und Klone sehen, die für die ausgewählte Ressource oder Ressourcengruppe verfügbar sind.  Sie können die Details dieser Sicherungen, wiederhergestellten Dateisysteme und Klone anzeigen und sie dann auswählen, um Datenschutzvorgänge durchzuführen.
+
+Sie können die folgenden Symbole in der Ansicht „Kopien verwalten“ überprüfen, um festzustellen, ob die Sicherungen und Klone auf dem primären oder sekundären Speicher verfügbar sind (Spiegelkopien oder Tresorkopien).
+
+* image:../media/topology_primary_storage.gif["Symbol für den primären Speicher"]zeigt die Anzahl der Backups und Klone an, die auf dem primären Speicher verfügbar sind.
+* image:../media/topology_mirror_secondary_storage.gif["Sekundärspeicher-Spiegelsymbol"]zeigt die Anzahl der Backups und Klone an, die mithilfe der SnapMirror -Technologie auf dem sekundären Speicher gespiegelt werden.
+* image:../media/topology_vault_secondary_storage.gif["Symbol für sekundären Tresor"]zeigt die Anzahl der Backups und Klone an, die mithilfe der SnapVault -Technologie auf dem sekundären Speicher repliziert werden.
++
+Die angezeigte Anzahl der Backups umfasst die aus dem sekundären Speicher gelöschten Backups.  Wenn Sie beispielsweise 6 Sicherungen mit einer Richtlinie zum Aufbewahren von nur 4 Sicherungen erstellt haben, wird die Anzahl der angezeigten Sicherungen mit 6 angegeben.
+
+
+
+
+NOTE: Klone einer Sicherung eines versionsflexiblen Spiegels auf einem Volume vom Typ „Mirror-Vault“ werden in der Topologieansicht angezeigt, die Anzahl der Spiegelsicherungen in der Topologieansicht umfasst jedoch nicht die versionsflexible Sicherung.
+
+Wenn Sie eine sekundäre Beziehung als SnapMirror Active Sync haben (ursprünglich veröffentlicht als SnapMirror Business Continuity [SM-BC]), können Sie die folgenden zusätzlichen Symbole sehen:
+
+* image:../media/topology_replica_site_up.png["Replikat-Site ist aktiv"]Die Replikationssite ist aktiv.
+* image:../media/topology_replica_site_down.png["Replikationssite ausgefallen"]Die Replikationssite ist ausgefallen.
+* image:../media/topology_reestablished.png["Beziehung wird wiederhergestellt"]Die sekundäre Spiegel- oder Tresorbeziehung wurde nicht wiederhergestellt.
+
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder die Ressource oder die Ressourcengruppe aus der Dropdownliste *Anzeigen* aus.
+. Wählen Sie die Ressource entweder aus der Ressourcendetailansicht oder aus der Ressourcengruppendetailansicht aus.
++
+Wenn die Ressource geschützt ist, wird die Topologieseite der ausgewählten Ressource angezeigt.
+
+. Überprüfen Sie die Karte „Zusammenfassung“, um eine Übersicht über die Anzahl der auf dem primären und sekundären Speicher verfügbaren Sicherungen und Klone anzuzeigen.
++
+Im Abschnitt „Zusammenfassungskarte“ wird die Gesamtzahl der Sicherungen und Klone angezeigt.
+
++
+Durch Klicken auf die Schaltfläche *Aktualisieren* wird eine Abfrage des Speichers gestartet, um eine genaue Anzahl anzuzeigen.
+
++
+Wenn eine SnapLock -fähige Sicherung durchgeführt wird, wird durch Klicken auf die Schaltfläche *Aktualisieren* die von ONTAP abgerufene Ablaufzeit des primären und sekundären SnapLock aktualisiert.  Ein wöchentlicher Zeitplan aktualisiert auch die von ONTAP abgerufene Ablaufzeit des primären und sekundären SnapLock .
+
++
+Wenn das Dateisystem über mehrere Volumes verteilt ist, entspricht die SnapLock -Ablaufzeit für die Sicherung der längsten SnapLock -Ablaufzeit, die für einen Snapshot in einem Volume festgelegt ist.  Die längste SnapLock -Ablaufzeit wird von ONTAP abgerufen.
+
++
+Bei der aktiven Synchronisierung von SnapMirror wird durch Klicken auf die Schaltfläche *Aktualisieren* das SnapCenter -Sicherungsinventar aktualisiert, indem ONTAP sowohl nach primären als auch nach Replikationsstandorten abgefragt wird.  Ein wöchentlicher Zeitplan führt diese Aktivität auch für alle Datenbanken aus, die eine aktive Synchronisierungsbeziehung mit SnapMirror enthalten.
+
++
+** Für SnapMirror Active Sync und nur für ONTAP 9.14.1 sollten Async Mirror- oder Async MirrorVault-Beziehungen zum neuen primären Ziel nach dem Failover manuell konfiguriert werden.  Ab ONTAP 9.15.1 wird Async Mirror oder Async MirrorVault automatisch auf das neue primäre Ziel konfiguriert.
+** Nach dem Failover sollte ein Backup für SnapCenter erstellt werden, um über das Failover informiert zu sein.  Sie können erst auf *Aktualisieren* klicken, nachdem eine Sicherung erstellt wurde.
+
+
+. Klicken Sie in der Ansicht „Kopien verwalten“ auf *Backups* oder *Klone* vom primären oder sekundären Speicher, um Details zu einem Backup oder Klon anzuzeigen.
++
+Die Details der Backups und Klone werden in einem Tabellenformat angezeigt.
+
+. Wählen Sie die Sicherung aus der Tabelle aus und klicken Sie dann auf die Datenschutzsymbole, um Wiederherstellungs-, Klon- und Löschvorgänge durchzuführen.
++
+
+NOTE: Sie können Sicherungen, die sich auf dem sekundären Speicher befinden, weder umbenennen noch löschen.
+
+. Wenn Sie einen Klon löschen möchten, wählen Sie den Klon aus der Tabelle aus und klicken Sie dann aufimage:../media/delete_icon.gif["Symbol „Löschen“"] .
+
+
+.Beispiel für Backups und Klone auf dem Primärspeicher
+image:../media/topology_view_scu.png["Topologieansicht von Backups und Klonen im Primärspeicher."]

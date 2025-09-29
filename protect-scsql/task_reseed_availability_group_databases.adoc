@@ -1,0 +1,33 @@
+---
+permalink: protect-scsql/task_reseed_availability_group_databases.html 
+sidebar: sidebar 
+keywords: reseed 
+summary: 'Reseed ist eine Option zum Wiederherstellen von Verfügbarkeitsgruppen-(AG-)Datenbanken.  Wenn die Synchronisierung einer sekundären Datenbank mit der primären Datenbank in einer AG aufgehoben wird, können Sie ein erneutes Seeding der sekundären Datenbank durchführen.' 
+---
+= Reseed Availability Group-Datenbanken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Reseed ist eine Option zum Wiederherstellen von Datenbanken der Verfügbarkeitsgruppe (AG).  Wenn die Synchronisierung einer sekundären Datenbank mit der primären Datenbank in einer AG aufgehoben wird, können Sie ein erneutes Seeding der sekundären Datenbank durchführen.
+
+.Bevor Sie beginnen
+* Sie müssen eine Sicherungskopie der sekundären AG-Datenbank erstellt haben, die Sie wiederherstellen möchten.
+* Auf dem SnapCenter -Server und dem Plug-In-Host muss dieselbe SnapCenter -Version installiert sein.
+
+
+.Informationen zu diesem Vorgang
+* Sie können keinen Reseed-Vorgang für primäre Datenbanken durchführen.
+* Sie können keinen Reseed-Vorgang durchführen, wenn die Replikatdatenbank aus der Verfügbarkeitsgruppe entfernt wird.  Wenn das Replikat entfernt wird, schlägt der Reseed-Vorgang fehl.
+* Während Sie den Reseed-Vorgang für die SQL-Verfügbarkeitsgruppendatenbank ausführen, sollten Sie keine Protokollsicherungen für die Replikatdatenbanken dieser Verfügbarkeitsgruppendatenbank auslösen.  Wenn Sie während des Reseed-Vorgangs Protokollsicherungen auslösen, schlägt der Reseed-Vorgang mit der Fehlermeldung „Die Spiegeldatenbank „database_name“ verfügt nicht über genügend Transaktionsprotokolldaten, um die Protokollsicherungskette der Hauptdatenbank beizubehalten“ fehl.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann * SnapCenter Plug-in für SQL Server* aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Ansicht“ die Option „Datenbank“ aus.
+. Wählen Sie die sekundäre AG-Datenbank aus der Liste aus.
+. Klicken Sie auf *Neu säen*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie auf *Überwachen* > *Jobs* klicken.
+

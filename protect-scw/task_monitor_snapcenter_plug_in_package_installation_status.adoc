@@ -1,0 +1,40 @@
+---
+permalink: protect-scw/task_monitor_snapcenter_plug_in_package_installation_status.html 
+sidebar: sidebar 
+keywords: resource group 
+summary: Sie können den Fortschritt der Installation des SnapCenter -Plug-In-Pakets auf der Seite „Jobs“ überwachen.  Möglicherweise möchten Sie den Installationsfortschritt überprüfen, um festzustellen, wann die Installation abgeschlossen ist oder ob ein Problem vorliegt. 
+---
+= Überwachen des Installationsstatus des SnapCenter -Plug-In-Pakets
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den Fortschritt der Installation des SnapCenter -Plug-In-Pakets auf der Seite „Jobs“ überwachen.  Möglicherweise möchten Sie den Installationsfortschritt überprüfen, um festzustellen, wann die Installation abgeschlossen ist oder ob ein Problem vorliegt.
+
+.Informationen zu diesem Vorgang
+Die folgenden Symbole werden auf der Seite „Jobs“ angezeigt und geben den Status des Vorgangs an:
+
+* image:../media/progress_icon.gif["Symbol „In Bearbeitung“"]Im Gange
+* image:../media/success_icon.gif["Symbol „Abgeschlossen“"]Erfolgreich abgeschlossen
+* image:../media/failed_icon.gif["Fehlgeschlagenes Symbol"]Fehlgeschlagen
+* image:../media/warning_icon.gif["Abgeschlossen mit Warnsymbol"]Mit Warnungen abgeschlossen oder konnte aufgrund von Warnungen nicht gestartet werden
+* image:../media/verification_job_in_queue.gif["Der Überprüfungsauftrag befindet sich in der Warteschlange."]In der Warteschlange
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Monitor*.
+. Klicken Sie auf der Seite *Überwachen* auf *Jobs*.
+. Um auf der Seite *Jobs* die Liste so zu filtern, dass nur Plug-In-Installationsvorgänge aufgeführt werden, gehen Sie wie folgt vor:
++
+.. Klicken Sie auf *Filter*.
+.. Optional: Geben Sie das Start- und Enddatum an.
+.. Wählen Sie im Dropdown-Menü „Typ“ die Option „Plug-in-Installation“ aus.
+.. Wählen Sie im Dropdown-Menü „Status“ den Installationsstatus aus.
+.. Klicken Sie auf *Übernehmen*.
+
+
+. Wählen Sie den Installationsauftrag aus und klicken Sie auf *Details*, um die Auftragsdetails anzuzeigen.
+. Klicken Sie auf der Seite *Auftragsdetails* auf *Protokolle anzeigen*.
+

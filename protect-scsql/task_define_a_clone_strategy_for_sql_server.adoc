@@ -1,0 +1,46 @@
+---
+permalink: protect-scsql/task_define_a_clone_strategy_for_sql_server.html 
+sidebar: sidebar 
+keywords: clone strategy 
+summary: Durch die Definition einer Klonstrategie können Sie Ihre Datenbank erfolgreich klonen. 
+---
+= Definieren einer Klonstrategie für SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Durch die Definition einer Klonstrategie können Sie Ihre Datenbank erfolgreich klonen.
+
+. Überprüfen Sie die Einschränkungen im Zusammenhang mit Klonvorgängen.
+. Entscheiden Sie sich für den Klontyp, den Sie benötigen.
+
+
+
+
+== Einschränkungen von Klonvorgängen
+
+Sie sollten sich der Einschränkungen von Klonvorgängen bewusst sein, bevor Sie die Datenbanken klonen.
+
+* Wenn Sie eine beliebige Version von Oracle zwischen 11.2.0.4 und 12.1.0.1 verwenden, bleibt der Klonvorgang hängen, wenn Sie den Befehl _renamedg_ ausführen.  Sie können den Oracle-Patch 19544733 anwenden, um dieses Problem zu beheben.
+* Das Klonen von Datenbanken von einer LUN, die direkt an einen Host angeschlossen ist (z. B. mithilfe des Microsoft iSCSI-Initiators auf einem Windows-Host), auf eine VMDK oder eine RDM-LUN auf demselben oder einem anderen Windows-Host oder umgekehrt wird nicht unterstützt.
+* Das Stammverzeichnis des Volume-Mount-Punkts darf kein freigegebenes Verzeichnis sein.
+* Wenn Sie eine LUN, die einen Klon enthält, auf ein neues Volume verschieben, kann der Klon nicht gelöscht werden.
+
+
+
+
+== Arten von Klonvorgängen
+
+Sie können SnapCenter verwenden, um entweder eine SQL Server-Datenbanksicherung oder eine Produktionsdatenbank zu klonen.
+
+* Klonen aus einer Datenbanksicherung
++
+Die geklonte Datenbank kann als Basis für die Entwicklung neuer Anwendungen dienen und dabei helfen, Anwendungsfehler zu isolieren, die in der Produktionsumgebung auftreten.  Die geklonte Datenbank kann auch zur Wiederherstellung nach leichten Datenbankfehlern verwendet werden.
+
+* Lebenszyklus des Klons
++
+Sie können SnapCenter verwenden, um wiederkehrende Klonaufträge zu planen, die ausgeführt werden, wenn die Produktionsdatenbank nicht ausgelastet ist.
+
+

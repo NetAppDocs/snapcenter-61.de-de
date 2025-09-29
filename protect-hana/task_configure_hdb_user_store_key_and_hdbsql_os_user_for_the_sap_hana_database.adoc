@@ -1,0 +1,38 @@
+---
+permalink: protect-hana/task_configure_hdb_user_store_key_and_hdbsql_os_user_for_the_sap_hana_database.html 
+sidebar: sidebar 
+keywords: HDB User Store Key, HDBSQL OS User, SAP HANA database 
+summary: Sie müssen den HDB User Store Key und den HDBSQL OS User konfigurieren, um Datenschutzvorgänge für SAP HANA-Datenbanken durchzuführen. 
+---
+= Konfigurieren Sie den HDB User Store Key und den HDBSQL OS User für die SAP HANA-Datenbank
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie müssen den HDB User Store Key und den HDBSQL OS User konfigurieren, um Datenschutzvorgänge für SAP HANA-Datenbanken durchzuführen.
+
+.Bevor Sie beginnen
+* Wenn für die SAP HANA-Datenbank der HDB Secure User Store Key und der HDB SQL OS User nicht konfiguriert sind, wird nur für die automatisch erkannten Ressourcen ein rotes Vorhängeschlosssymbol angezeigt.  Wenn sich bei einem nachfolgenden Erkennungsvorgang herausstellt, dass der konfigurierte HDB Secure User Store Key falsch ist oder keinen Zugriff auf die Datenbank selbst gewährt, wird das rote Vorhängeschlosssymbol erneut angezeigt.
+* Sie müssen den HDB Secure User Store Key und den HDB SQL OS-Benutzer konfigurieren, um die Datenbank schützen zu können, oder sie einer Ressourcengruppe hinzufügen, um Datenschutzvorgänge durchzuführen.
+* Sie müssen den HDB SQL OS-Benutzer konfigurieren, um auf die Systemdatenbank zugreifen zu können.  Wenn der HDB SQL OS-Benutzer so konfiguriert ist, dass er nur auf die Mandantendatenbank zugreift, schlägt der Erkennungsvorgang fehl.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann SnapCenter Plug-in für SAP HANA-Datenbank aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ den Ressourcentyp aus der Liste *Anzeigen* aus.
+. (Optional) Klicken Sie aufimage:../media/filter_icon.gif["Filtersymbol"] und wählen Sie den Hostnamen aus.
++
+Sie können dann aufimage:../media/filter_icon.gif["Filtersymbol"] , um den Filterbereich zu schließen.
+
+. Wählen Sie die Datenbank aus und klicken Sie dann auf *Datenbank konfigurieren*.
+. Geben Sie im Abschnitt „Datenbankeinstellungen konfigurieren“ den HDB Secure User Store Key ein.
++
+
+NOTE: Der Plug-in-Hostname wird angezeigt und der HDB SQL OS-Benutzer wird automatisch mit <sid>adm ausgefüllt.
+
+. Klicken Sie auf *OK*.
+
+
+Sie können die Datenbankkonfiguration auf der Seite „Topologie“ ändern.

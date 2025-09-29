@@ -1,0 +1,33 @@
+---
+permalink: uninstall/task_uninstall_plug_ins_locally_on_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, uninstall plug-in locally, uninstall plug-in from a host 
+summary: Sie können SnapCenter -Plug-Ins lokal auf einem Host deinstallieren, wenn Sie den Host vom SnapCenter -Server aus nicht erreichen können. 
+---
+= Plug-Ins lokal auf einem Host deinstallieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter -Plug-Ins lokal auf einem Host deinstallieren, wenn Sie den Host vom SnapCenter -Server aus nicht erreichen können.
+
+.Informationen zu diesem Vorgang
+Die bewährte Methode zum Deinstallieren einzelner Plug-Ins oder Plug-In-Pakete besteht darin, entweder die SnapCenter GUI oder das Cmdlet „Uninstall-SmHostPackage“ auf der Befehlszeilenschnittstelle des SnapCenter -Server-Hosts zu verwenden.  Diese Verfahren helfen dem SnapCenter -Server, bei allen Änderungen auf dem neuesten Stand zu bleiben.
+
+In seltenen Fällen kann es jedoch erforderlich sein, Plug-Ins lokal zu deinstallieren.  Beispielsweise haben Sie möglicherweise einen Deinstallationsauftrag vom SnapCenter -Server ausgeführt, der jedoch fehlgeschlagen ist, oder Sie haben Ihren SnapCenter -Server deinstalliert und verwaiste Plug-Ins verbleiben auf einem Host.
+
+
+IMPORTANT: Durch die lokale Deinstallation eines Plug-In-Pakets auf einem Host werden die mit dem Host verknüpften Daten, beispielsweise geplante Jobs und Sicherungsmetadaten, nicht gelöscht.
+
+
+IMPORTANT: Versuchen Sie nicht, das SnapCenter Plug-ins-Paket für Windows lokal über die Systemsteuerung zu deinstallieren.  Sie müssen die SnapCenter -GUI verwenden, um sicherzustellen, dass das SnapCenter -Plug-in für Microsoft Windows ordnungsgemäß deinstalliert wird.
+
+.Schritte
+. Navigieren Sie auf dem Hostsystem zur Systemsteuerung und klicken Sie auf *Programm deinstallieren*.
+. Wählen Sie in der Programmliste das SnapCenter Plug-in oder Plug-in-Paket aus, das Sie deinstallieren möchten, und klicken Sie auf *Deinstallieren*.
++
+Windows deinstalliert alle Plug-Ins im ausgewählten Paket.
+
+

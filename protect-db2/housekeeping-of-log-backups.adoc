@@ -1,0 +1,16 @@
+---
+permalink: protect-db2/housekeeping-of-log-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM DB2 
+summary: SnapCenter verwaltet die Verwaltung von Protokoll- und Datensicherungen auf Speichersystem- und Dateisystemebene sowie innerhalb des IBM Db2-Sicherungskatalogs. 
+---
+= So verwaltet SnapCenter die Datensicherung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter verwaltet die Datensicherungen auf Speichersystem- und Dateisystemebene.
+
+Die Snapshots auf dem primären oder sekundären Speicher und die entsprechenden Einträge im IBM Db2-Katalog werden basierend auf den Aufbewahrungseinstellungen gelöscht.

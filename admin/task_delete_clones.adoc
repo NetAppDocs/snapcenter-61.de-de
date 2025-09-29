@@ -1,0 +1,50 @@
+---
+permalink: admin/task_delete_clones.html 
+sidebar: sidebar 
+keywords: Delete clones 
+summary: Sie können Klone löschen, wenn Sie sie nicht mehr benötigen. 
+---
+= Klone löschen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Klone löschen, wenn Sie sie nicht mehr benötigen.
+
+*Über diese Aufgabe*
+
+Sie können keine Klone löschen, die als Quelle für andere Klone fungieren.
+
+Wenn die Produktionsdatenbank beispielsweise db1 ist, wird die Datenbank clone1 aus der Sicherung von db1 geklont und anschließend clone1 geschützt.  Die Datenbank „Klon2“ wird aus der Sicherung von „Klon1“ geklont.  Wenn Sie Klon1 löschen möchten, müssen Sie zuerst Klon2 und dann Klon1 löschen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder die Ressource oder die Ressourcengruppe aus der Dropdownliste *Anzeigen* aus.
+. Wählen Sie die Ressource oder Ressourcengruppe aus der Liste aus.
++
+Die Topologieseite der Ressource oder Ressourcengruppe wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Klone* entweder aus dem primären oder sekundären (gespiegelten oder replizierten) Speichersystem aus.
+. Wählen Sie den Klon aus und klicken Sie dann aufimage:../media/delete_icon.gif["Symbol „Löschen“"] .
++
+Wenn Sie SAP HANA-Datenbankklone löschen, führen Sie auf der Seite „Klone löschen“ die folgenden Aktionen aus:
+
++
+.. Geben Sie im Feld *Pre clone delete* die Befehle ein, die vor dem Löschen des Klons ausgeführt werden sollen.
+.. Geben Sie im Feld *Unmount* den Befehl zum Unmounten des Klons ein, bevor Sie ihn löschen.
+
+
+. Klicken Sie auf *OK*.
+
+
+*Nachdem Sie fertig sind*
+
+Manchmal werden die Dateisysteme nicht gelöscht.  Sie müssen den Wert des Parameters CLONE_DELETE_DELAY erhöhen, indem Sie den folgenden Befehl ausführen:``./sccli Set-SmConfigSettings``
+
+
+NOTE: Der Parameter CLONE_DELETE_DELAY gibt die Anzahl der Sekunden an, die nach Abschluss des Löschens des Anwendungsklons gewartet werden soll, bevor mit dem Löschen des Dateisystems begonnen wird.
+
+Starten Sie den SnapCenter Plug-in Loader (SPL)-Dienst neu, nachdem Sie den Wert des Parameters geändert haben.

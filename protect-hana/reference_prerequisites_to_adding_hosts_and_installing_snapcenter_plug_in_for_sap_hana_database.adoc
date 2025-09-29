@@ -1,0 +1,173 @@
+---
+permalink: protect-hana/reference_prerequisites_to_adding_hosts_and_installing_snapcenter_plug_in_for_sap_hana_database.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Bevor Sie einen Host hinzufügen und die Plug-in-Pakete installieren, müssen Sie alle Anforderungen erfüllen.  Das SnapCenter Plug-in für die SAP HANA-Datenbank ist sowohl in Windows- als auch in Linux-Umgebungen verfügbar. 
+---
+= Voraussetzungen für das Hinzufügen von Hosts und die Installation des SnapCenter -Plug-ins für die SAP HANA-Datenbank
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie einen Host hinzufügen und die Plug-in-Pakete installieren, müssen Sie alle Anforderungen erfüllen.  Das SnapCenter Plug-in für die SAP HANA-Datenbank ist sowohl in Windows- als auch in Linux-Umgebungen verfügbar.
+
+* Sie müssen Java 11 auf Ihrem Host installiert haben.
++
+
+NOTE: IBM Java wird auf Windows- und Linux-Hosts nicht unterstützt.
+
+* Sie müssen das interaktive SAP HANA-Datenbankterminal (HDBSQL-Client) auf dem Host installiert haben.
+* Unter Windows sollte der Plug-in Creator Service mit dem Windows-Benutzer „LocalSystem“ ausgeführt werden. Dies ist das Standardverhalten, wenn das Plug-in für die SAP HANA-Datenbank als Domänenadministrator installiert wird.
+* Unter Windows sollten Benutzerspeicherschlüssel als SYSTEM-Benutzer erstellt werden.
+* Wenn Sie beim Installieren eines Plug-Ins auf einem Windows-Host Anmeldeinformationen angeben, die nicht integriert sind, oder wenn der Benutzer zu einem lokalen Arbeitsgruppenbenutzer gehört, müssen Sie die Benutzerkontensteuerung auf dem Host deaktivieren.  Das SnapCenter -Plug-in für Microsoft Windows wird standardmäßig mit dem SAP HANA-Plug-in auf Windows-Hosts bereitgestellt.
+* Bei Linux-Hosts erfolgt der Zugriff auf die Schlüssel des HDB Secure User Store als HDBSQL-Betriebssystembenutzer.
+* Der SnapCenter -Server sollte Zugriff auf den 8145- oder benutzerdefinierten Port des Plug-ins für den SAP HANA-Datenbankhost haben.
+
+
+
+
+== Windows-Hosts
+
+* Sie müssen über einen Domänenbenutzer mit lokalen Administratorrechten und lokalen Anmeldeberechtigungen auf dem Remotehost verfügen.
+* Während der Installation des Plug-ins für die SAP HANA-Datenbank auf einem Windows-Host wird das SnapCenter Plug-in für Microsoft Windows automatisch installiert.
+* Sie müssen die passwortbasierte SSH-Verbindung für den Root- oder Nicht-Root-Benutzer aktiviert haben.
+* Sie müssen Java 11 auf Ihrem Windows-Host installiert haben.
++
+http://www.java.com/en/download/manual.jsp["Laden Sie JAVA für alle Betriebssysteme herunter"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"]
+
+
+
+
+
+== Linux-Hosts
+
+* Sie müssen die passwortbasierte SSH-Verbindung für den Root- oder Nicht-Root-Benutzer aktiviert haben.
+* Sie müssen Java 11 auf Ihrem Linux-Host installiert haben.
++
+http://www.java.com/en/download/manual.jsp["Laden Sie JAVA für alle Betriebssysteme herunter"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp Interoperabilitätsmatrix-Tool"]
+
+* Bei SAP HANA-Datenbanken, die auf einem Linux-Host ausgeführt werden, wird bei der Installation des Plug-ins für die SAP HANA-Datenbank automatisch das SnapCenter Plug-in für UNIX installiert.
+* Sie sollten *bash* als Standard-Shell für die Plug-In-Installation haben.
+
+
+
+
+== Ergänzende Befehle
+
+Um einen zusätzlichen Befehl im SnapCenter -Plug-in für SAP HANA auszuführen, müssen Sie ihn in die Datei _allowed_commands.config_ aufnehmen.
+
+* Standardspeicherort auf dem Windows-Host: _C:\Programme\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+* Standardspeicherort auf dem Linux-Host: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+Um zusätzliche Befehle auf dem Plug-In-Host zuzulassen, öffnen Sie die Datei _allowed_commands.config_ in einem Editor.  Geben Sie jeden Befehl in einer separaten Zeile ein. Bei den Befehlen wird nicht zwischen Groß- und Kleinschreibung unterschieden.  Stellen Sie sicher, dass Sie den vollständig qualifizierten Pfadnamen angeben und den Pfadnamen in Anführungszeichen (") einschließen, wenn er Leerzeichen enthält.
+
+Beispiel:
+
+Befehl: mount
+
+Befehl: umount
+
+Befehl: "C:\Programme\ NetApp\SnapCreator commands\sdcli.exe"
+
+Befehl: myscript.bat
+
+Wenn die Datei _allowed_commands.config_ nicht vorhanden ist, werden die Befehle oder die Skriptausführung blockiert und der Workflow schlägt mit dem folgenden Fehler fehl:
+
+"[/mnt/mount -a] Ausführung nicht erlaubt.  Autorisieren Sie, indem Sie den Befehl in der Datei %s auf dem Plugin-Host hinzufügen."
+
+Wenn der Befehl oder das Skript nicht in der Datei „_allowed_commands.config_“ vorhanden ist, wird die Ausführung des Befehls oder Skripts blockiert und der Workflow schlägt mit dem folgenden Fehler fehl:
+
+"[/mnt/mount -a] Ausführung nicht erlaubt.  Autorisieren Sie, indem Sie den Befehl in der Datei %s auf dem Plugin-Host hinzufügen."
+
+
+NOTE: Um alle Befehle zuzulassen, sollten Sie keinen Platzhaltereintrag (*) verwenden.
+
+
+
+== Konfigurieren Sie Sudo-Berechtigungen für Nicht-Root-Benutzer für den Linux-Host
+
+SnapCenter 2.0 und spätere Versionen ermöglichen es einem Nicht-Root-Benutzer, das SnapCenter -Plug-In-Paket für Linux zu installieren und den Plug-In-Prozess zu starten.  Die Plug-In-Prozesse werden als effektiver Nicht-Root-Benutzer ausgeführt.  Sie sollten Sudo-Berechtigungen für den Nicht-Root-Benutzer konfigurieren, um Zugriff auf mehrere Pfade zu ermöglichen.
+
+*Was Sie brauchen*
+
+* Sudo Version 1.8.7 oder höher.
+* Wenn die Umask 0027 ist, stellen Sie sicher, dass der Java-Ordner und alle darin enthaltenen Dateien die Berechtigung 555 haben.  Andernfalls kann die Plug-in-Installation fehlschlagen.
+* Stellen Sie beim Nicht-Root-Benutzer sicher, dass der Name des Nicht-Root-Benutzers und der Benutzergruppe identisch sind.
+* Bearbeiten Sie die Datei _/etc/ssh/sshd_config_, um die Algorithmen für den Nachrichtenauthentifizierungscode zu konfigurieren: MACs hmac-sha2-256 und MACs hmac-sha2-512.
++
+Starten Sie den SSHD-Dienst nach der Aktualisierung der Konfigurationsdatei neu.
+
++
+Beispiel:
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*Über diese Aufgabe*
+
+Sie sollten Sudo-Berechtigungen für den Nicht-Root-Benutzer konfigurieren, um Zugriff auf die folgenden Pfade zu gewähren:
+
+* /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin
+* /benutzerdefinierter_Speicherort/ NetApp/snapcenter/spl/installation/plugins/uninstall
+* /benutzerdefinierter_Speicherort/ NetApp/snapcenter/spl/bin/spl
+
+
+*Schritte*
+
+. Melden Sie sich beim Linux-Host an, auf dem Sie das SnapCenter Plug-ins-Paket für Linux installieren möchten.
+. Fügen Sie mithilfe des Linux-Dienstprogramms visudo die folgenden Zeilen zur Datei /etc/sudoers hinzu.
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+
+NOTE: Wenn Sie ein RAC-Setup haben, sollten Sie neben den anderen zulässigen Befehlen Folgendes zur Datei /etc/sudoers hinzufügen: „/<crs_home>/bin/olsnodes“
+
+
+
+Sie können den Wert von _crs_home_ aus der Datei _/etc/oracle/olr.loc_ abrufen.
+
+_LINUX_USER_ ist der Name des von Ihnen erstellten Nicht-Root-Benutzers.
+
+Sie können den _Prüfsummenwert_ aus der Datei *sc_unix_plugins_checksum.txt* abrufen, die sich hier befindet:
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_, wenn SnapCenter Server auf einem Windows-Host installiert ist.
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_, wenn SnapCenter Server auf einem Linux-Host installiert ist. .
+
+
+
+IMPORTANT: Das Beispiel sollte nur als Referenz für die Erstellung Ihrer eigenen Daten verwendet werden.

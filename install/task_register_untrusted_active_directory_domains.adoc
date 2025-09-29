@@ -1,0 +1,118 @@
+---
+permalink: install/task_register_untrusted_active_directory_domains.html 
+sidebar: sidebar 
+keywords: Active Directory 
+summary: Sie sollten das Active Directory beim SnapCenter Server registrieren, um Hosts, Benutzer und Gruppen aus mehreren nicht vertrauenswürdigen Active Directory-Domänen zu verwalten. 
+---
+= Registrieren nicht vertrauenswürdiger Active Directory-Domänen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie sollten das Active Directory beim SnapCenter Server registrieren, um Hosts, Benutzer und Gruppen aus mehreren nicht vertrauenswürdigen Active Directory-Domänen zu verwalten.
+
+.Bevor Sie beginnen
+*LDAP- und LDAPS-Protokolle*
+
+* Sie können die nicht vertrauenswürdigen Active Directory-Domänen entweder mit dem LDAP- oder dem LDAPS-Protokoll registrieren.
+* Sie sollten die bidirektionale Kommunikation zwischen den Plug-In-Hosts und dem SnapCenter -Server aktiviert haben.
+* Die DNS-Auflösung sollte vom SnapCenter -Server zu den Plug-In-Hosts und umgekehrt eingerichtet werden.
+
+
+*LDAP-Protokoll*
+
+* Der vollqualifizierte Domänenname (FQDN) sollte vom SnapCenter -Server auflösbar sein.
++
+Sie können eine nicht vertrauenswürdige Domäne mit dem FQDN registrieren.  Wenn der FQDN vom SnapCenter -Server nicht aufgelöst werden kann, können Sie sich mit einer Domänencontroller-IP-Adresse registrieren. Diese sollte vom SnapCenter -Server aufgelöst werden können.
+
+
+
+*LDAPS-Protokoll*
+
+* Für LDAPS sind CA-Zertifikate erforderlich, um eine End-to-End-Verschlüsselung während der Active Directory-Kommunikation bereitzustellen.
++
+link:task_configure_CA_client_certificate_for_LDAPS.html["Konfigurieren des CA-Client-Zertifikats für LDAPS"]
+
+* Domänencontroller-Hostnamen (DCHostName) sollten vom SnapCenter -Server aus erreichbar sein.
+
+
+*Über diese Aufgabe*
+
+* Sie können entweder die SnapCenter -Benutzeroberfläche, PowerShell-Cmdlets oder die REST-API verwenden, um eine nicht vertrauenswürdige Domäne zu registrieren.
+
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Globale Einstellungen*.
+. Klicken Sie auf der Seite „Globale Einstellungen“ auf *Domäneneinstellungen*.
+. Klickenimage:../media/add_policy_from_resourcegroup.gif["Richtlinienformular-Ressourcengruppe hinzufügen"] um eine neue Domain zu registrieren.
+. Wählen Sie auf der Seite „Neue Domäne registrieren“ entweder *LDAP* oder *LDAPS* aus.
++
+.. Wenn Sie *LDAP* auswählen, geben Sie die Informationen an, die zum Registrieren der nicht vertrauenswürdigen Domäne für LDAP erforderlich sind:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Domänenname
+ a| 
+Geben Sie den NetBIOS-Namen für die Domäne an.
+
+
+
+ a| 
+Domänen-FQDN
+ a| 
+Geben Sie den FQDN an und klicken Sie auf *Auflösen*.
+
+
+
+ a| 
+IP-Adressen des Domänencontrollers
+ a| 
+Wenn der Domänen-FQDN vom SnapCenter -Server nicht aufgelöst werden kann, geben Sie eine oder mehrere Domänencontroller-IP-Adressen an.
+
+Weitere Informationen finden Sie unter  https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_does_not_allow_to_add_Domain_Controller_IP_for_untrusted_domain_from_GUI["Fügen Sie die Domänencontroller-IP für eine nicht vertrauenswürdige Domäne über die GUI hinzu"^] .
+
+|===
+.. Wenn Sie *LDAPS* auswählen, geben Sie die Informationen an, die zum Registrieren der nicht vertrauenswürdigen Domäne für LDAPS erforderlich sind:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Domänenname
+ a| 
+Geben Sie den NetBIOS-Namen für die Domäne an.
+
+
+
+ a| 
+Domänen-FQDN
+ a| 
+Geben Sie den FQDN an.
+
+
+
+ a| 
+Domänencontrollernamen
+ a| 
+Geben Sie einen oder mehrere Domänencontrollernamen an und klicken Sie auf *Auflösen*.
+
+
+
+ a| 
+IP-Adressen des Domänencontrollers
+ a| 
+Wenn die Domänencontrollernamen vom SnapCenter -Server nicht aufgelöst werden können, sollten Sie die DNS-Auflösungen korrigieren.
+
+|===
+
+
+. Klicken Sie auf *OK*.
+

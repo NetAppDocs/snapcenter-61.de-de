@@ -1,0 +1,42 @@
+---
+permalink: protect-scsql/concept_what_you_can_do_with_the_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: Wenn das SnapCenter -Plug-in für Microsoft SQL Server in Ihrer Umgebung installiert ist, können Sie SnapCenter zum Sichern, Wiederherstellen und Klonen von SQL Server-Datenbanken verwenden. 
+---
+= Was Sie mit dem SnapCenter Plug-in für Microsoft SQL Server tun können
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn das SnapCenter -Plug-in für Microsoft SQL Server in Ihrer Umgebung installiert ist, können Sie SnapCenter zum Sichern, Wiederherstellen und Klonen von SQL Server-Datenbanken verwenden.
+
+Sie können die folgenden Aufgaben ausführen, die Sicherungsvorgänge, Wiederherstellungsvorgänge und Klonvorgänge von SQL Server-Datenbanken und Datenbankressourcen unterstützen:
+
+* Sichern Sie SQL Server-Datenbanken und zugehörige Transaktionsprotokolle
++
+Sie können keine Protokollsicherung für Master- und MSDB-Systemdatenbanken erstellen.  Sie können jedoch Protokollsicherungen für die Modellsystemdatenbank erstellen.
+
+* Wiederherstellen von Datenbankressourcen
++
+** Sie können Mastersystemdatenbanken, msdb-Systemdatenbanken und Modellsystemdatenbanken wiederherstellen.
+** Sie können nicht mehrere Datenbanken, Instanzen und Verfügbarkeitsgruppen wiederherstellen.
+** Sie können die Systemdatenbank nicht auf einem alternativen Pfad wiederherstellen.
+
+
+* Erstellen Sie zeitpunktbezogene Klone von Produktionsdatenbanken
++
+Sie können keine Sicherungs-, Wiederherstellungs-, Klon- und Lebenszyklusvorgänge für Tempdb-Systemdatenbanken durchführen.
+
+* Überprüfen Sie Sicherungsvorgänge sofort oder verschieben Sie die Überprüfung auf einen späteren Zeitpunkt.
++
+Die Überprüfung der SQL Server-Systemdatenbank wird nicht unterstützt.  SnapCenter klont die Datenbanken, um einen Überprüfungsvorgang durchzuführen.  SnapCenter kann SQL Server-Systemdatenbanken nicht klonen und daher wird die Überprüfung dieser Datenbanken nicht unterstützt.
+
+* Planen Sie Sicherungsvorgänge und Klonvorgänge
+* Überwachen von Sicherungsvorgängen, Wiederherstellungsvorgängen und Klonvorgängen
+
+
+
+NOTE: Das Plug-in für SQL Server unterstützt keine Sicherung und Wiederherstellung von SQL Server-Datenbanken auf SMB-Freigaben.

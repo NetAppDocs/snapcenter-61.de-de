@@ -1,0 +1,20 @@
+---
+permalink: protect-hana/concept_snapcenter_plug_in_for_sap_hana_database_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Das SnapCenter -Plug-in für SAP HANA-Datenbanken ist eine hostseitige Komponente der NetApp SnapCenter software , die ein anwendungsbewusstes Datenschutzmanagement von SAP HANA-Datenbanken ermöglicht.  Das Plug-in für SAP HANA-Datenbanken automatisiert die Sicherung, Wiederherstellung und das Klonen von SAP HANA-Datenbanken in Ihrer SnapCenter Umgebung. 
+---
+= Übersicht über das SnapCenter -Plug-in für die SAP HANA-Datenbank
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das SnapCenter -Plug-in für SAP HANA-Datenbanken ist eine hostseitige Komponente der NetApp SnapCenter software , die ein anwendungsbewusstes Datenschutzmanagement von SAP HANA-Datenbanken ermöglicht.  Das Plug-in für SAP HANA-Datenbanken automatisiert die Sicherung, Wiederherstellung und das Klonen von SAP HANA-Datenbanken in Ihrer SnapCenter Umgebung.
+
+SnapCenter unterstützt Einzelcontainer und Multitenant-Datenbankcontainer (MDC).  Sie können das Plug-in für die SAP HANA-Datenbank sowohl in Windows- als auch in Linux-Umgebungen verwenden.  Das Plug-In, das nicht auf dem HANA-Datenbankhost installiert ist, wird als zentralisiertes Host-Plug-In bezeichnet. Das zentralisierte Host-Plug-In kann mehrere HANA-Datenbanken auf verschiedenen Hosts verwalten.
+
+Wenn das Plug-in für die SAP HANA-Datenbank installiert ist, können Sie SnapCenter mit der NetApp SnapMirror Technologie verwenden, um Spiegelkopien von Sicherungssätzen auf einem anderen Volume zu erstellen.  Sie können das Plug-in auch mit der NetApp SnapVault -Technologie verwenden, um eine Disk-to-Disk-Backup-Replikation zur Einhaltung von Standards durchzuführen.
+
+Das Plug-in für die SAP HANA-Datenbank unterstützt SnapMirror Active Sync (ursprünglich veröffentlicht als SnapMirror Business Continuity [SM-BC]), wodurch Geschäftsdienste auch bei einem vollständigen Site-Ausfall weiter ausgeführt werden können und Anwendungen mithilfe einer sekundären Kopie ein transparentes Failover durchführen können.  Um mit SnapMirror Active Sync ein Failover auszulösen, sind weder manuelle Eingriffe noch zusätzliche Skripts erforderlich.

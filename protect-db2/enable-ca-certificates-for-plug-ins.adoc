@@ -1,0 +1,42 @@
+---
+permalink: protect-db2/enable-ca-certificates-for-plug-ins.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Sie sollten die CA-Zertifikate konfigurieren und die CA-Zertifikate im SnapCenter -Server und den entsprechenden Plug-In-Hosts bereitstellen. 
+---
+= CA-Zertifikate für Plug-Ins aktivieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie sollten die CA-Zertifikate konfigurieren und die CA-Zertifikate im SnapCenter -Server und den entsprechenden Plug-In-Hosts bereitstellen.  Sie sollten die CA-Zertifikatvalidierung für die Plug-Ins aktivieren.
+
+.Bevor Sie beginnen
+* Sie können die CA-Zertifikate mit dem Cmdlet „_Set-SmCertificateSettings_“ aktivieren oder deaktivieren.
+* Den Zertifikatsstatus der Plug-ins können Sie sich mit _Get-SmCertificateSettings_ anzeigen lassen.
+
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Hosts*.
+. Klicken Sie auf der Seite „Hosts“ auf *Verwaltete Hosts*.
+. Wählen Sie einzelne oder mehrere Plug-In-Hosts aus.
+. Klicken Sie auf *Weitere Optionen*.
+. Wählen Sie *Zertifikatvalidierung aktivieren*.
+
+
+.Nach Abschluss
+Auf der Registerkarte „Managed Hosts“ wird ein Vorhängeschloss angezeigt und die Farbe des Vorhängeschlosses zeigt den Status der Verbindung zwischen SnapCenter Server und dem Plug-in-Host an.
+
+* *image:../media/enable_ca_issues_icon.png["CA-Zertifikat ist weder aktiviert noch dem Plug-in-Host-Symbol zugewiesen"] * zeigt an, dass das CA-Zertifikat weder aktiviert noch dem Plug-In-Host zugewiesen ist.
+* *image:../media/enable_ca_good_icon.png["Symbol „CA-Zertifikat erfolgreich validiert“"] * zeigt an, dass das CA-Zertifikat erfolgreich validiert wurde.
+* *image:../media/enable_ca_failed_icon.png["Symbol „CA-Zertifikat konnte nicht validiert werden“"] * zeigt an, dass das CA-Zertifikat nicht validiert werden konnte.
+* *image:../media/enable_ca_undefined_icon.png["Symbol „Die Verbindungsinformationen konnten nicht abgerufen werden“"] * zeigt an, dass die Verbindungsinformationen nicht abgerufen werden konnten.
++
+
+NOTE: Wenn der Status gelb oder grün ist, wurden die Datenschutzvorgänge erfolgreich abgeschlossen.
+
+

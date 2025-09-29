@@ -1,0 +1,15 @@
+= 
+:allow-uri-read: 
+
+
+Im Aktivitätsbereich werden die fünf zuletzt ausgeführten Vorgänge angezeigt.  Im Aktivitätsbereich wird auch angezeigt, wann der Vorgang gestartet wurde und welchen Status er hat.
+
+Im Aktivitätsbereich werden Informationen zu Sicherungs-, Wiederherstellungs-, Klon- und geplanten Sicherungsvorgängen angezeigt.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Klickenimage:../media/activity_pane_icon.gif["Symbol für den Aktivitätsbereich"] im Aktivitätsbereich, um die fünf letzten Vorgänge anzuzeigen.
++
+Wenn Sie auf einen der Vorgänge klicken, werden die Vorgangsdetails auf der Seite *Auftragsdetails* aufgelistet.
+
+

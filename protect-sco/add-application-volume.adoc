@@ -1,0 +1,64 @@
+---
+permalink: protect-sco/add-application-volume.html 
+sidebar: sidebar 
+keywords: application volume, overview, add, modify, delete, Oracle database 
+summary: Sie sollten die Anwendungsvolumes manuell hinzufügen. 
+---
+= Anwendungsvolumes hinzufügen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter unterstützt das Sichern und Klonen von Anwendungsvolumes der Oracle-Datenbank.  Sie sollten die Anwendungsvolumes manuell hinzufügen.  Die automatische Erkennung von Anwendungsvolumes wird nicht unterstützt.
+
+
+NOTE: Anwendungsvolumes unterstützen nur direkte NFS- und direkte iSCSI-Verbindungen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Oracle Database-Plug-In aus der Liste aus.
+. Klicken Sie auf *Anwendungsvolume hinzufügen*.
+. Führen Sie auf der Seite „Name“ die folgenden Aktionen aus:
++
+** Geben Sie im Feld „Name“ den Namen des Anwendungsvolumes ein.
+** Geben Sie im Feld „Hostname“ den Namen des Hosts ein.
+
+
+. Geben Sie auf der Seite „Storage Footprint“ den Namen des Speichersystems ein, wählen Sie ein oder mehrere Volumes aus und geben Sie die zugehörigen LUNs oder Qtrees an.
++
+Sie können mehrere Speichersysteme hinzufügen.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Anwendungsvolume“ aus, um alle von Ihnen hinzugefügten Anwendungsvolumes anzuzeigen.
+
+
+
+
+== Anwendungslautstärke ändern
+
+Sie können alle Werte ändern, die Sie beim Hinzufügen des Anwendungsvolumes angegeben haben, wenn keine Sicherungen erstellt werden.  Wenn die Sicherung erstellt ist, können Sie nur die Details des Speichersystems ändern.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Oracle Database-Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Anwendungsvolumen“ aus.
+. Klickenimage:../media/edit_icon.gif["Symbol „Bearbeiten“"] , um die Werte zu ändern.
+. Klickenimage:../media/edit_icon.gif["Symbol „Bearbeiten“"] , um die Werte zu ändern.
+
+
+
+
+== Anwendungsvolume löschen
+
+Wenn Sie ein Anwendungsvolume löschen und dem Anwendungsvolume Sicherungen zugeordnet sind, wird das Anwendungsvolume in den Wartungsmodus versetzt und es werden keine neuen Sicherungen erstellt und keine früheren Sicherungen beibehalten.  Wenn keine Sicherungen zugeordnet sind, werden alle Metadaten gelöscht.
+
+Bei Bedarf können Sie den Löschvorgang mit SnapCenter rückgängig machen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das Oracle Database-Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Anwendungsvolumen“ aus.
+. Klickenimage:../media/delete_icon.gif["Symbol „Löschen“"] Löschen-Symbol], um die Werte zu ändern.
+

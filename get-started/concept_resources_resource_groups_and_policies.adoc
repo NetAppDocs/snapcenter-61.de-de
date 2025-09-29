@@ -1,0 +1,114 @@
+---
+permalink: get-started/concept_resources_resource_groups_and_policies.html 
+sidebar: sidebar 
+keywords: resource, resource group, policy 
+summary: Bevor Sie SnapCenter verwenden, ist es hilfreich, die grundlegenden Konzepte im Zusammenhang mit den Sicherungs-, Klon- und Wiederherstellungsvorgängen zu verstehen, die Sie durchführen möchten. 
+---
+= Schlüsselbegriffe des Datenschutzes
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Machen Sie sich vor der Verwendung von SnapCenter mit den wichtigsten Konzepten für Sicherung, Klonen und Wiederherstellen vertraut.
+
+
+
+== Ressourcen
+
+Zu den Ressourcen gehören Datenbanken, Windows-Dateisysteme oder Dateifreigaben, die mit SnapCenter gesichert oder geklont wurden.  Abhängig von Ihrer Umgebung können Ressourcen auch Datenbankinstanzen, SQL Server-Verfügbarkeitsgruppen, Oracle-Datenbanken, RAC-Datenbanken oder benutzerdefinierte Anwendungsgruppen sein.
+
+
+
+== Ressourcengruppe
+
+Eine Ressourcengruppe ist eine Sammlung von Ressourcen auf einem Host oder Cluster, möglicherweise von mehreren Hosts und Clustern.  An einer Ressourcengruppe ausgeführte Vorgänge gelten für alle darin enthaltenen Ressourcen basierend auf dem angegebenen Zeitplan.  Sie können On-Demand- oder geplante Backups für einzelne Ressourcen oder Gruppen durchführen.
+
+
+NOTE: Wenn ein Host in einer gemeinsam genutzten Ressourcengruppe in den Wartungsmodus wechselt, werden alle geplanten Vorgänge für diese Gruppe auf allen Hosts ausgesetzt.
+
+Verwenden Sie relevante Plug-ins, um bestimmte Ressourcen zu sichern: Datenbank-Plug-ins für Datenbanken, Dateisystem-Plug-ins für Dateisysteme und das SnapCenter Plug-in for VMware vSphere für VMs und Datenspeicher.
+
+
+
+== Richtlinien
+
+Richtlinien legen die Sicherungshäufigkeit, die Aufbewahrung von Kopien, Replikation, Skripts und andere Merkmale von Datenschutzvorgängen fest.
+
+Beim Erstellen einer Ressourcengruppe oder beim Durchführen einer On-Demand-Sicherung können eine oder mehrere Richtlinien ausgewählt werden.
+
+Eine Ressourcengruppe definiert, was geschützt werden muss und wann es hinsichtlich Tag und Uhrzeit geschützt werden soll.  Eine Richtlinie beschreibt, wie der Schutz umgesetzt wird.  Wenn beispielsweise eine Sicherung aller Datenbanken oder Dateisysteme eines Hosts erforderlich ist, kann eine Ressourcengruppe erstellt werden, die alle Datenbanken oder Dateisysteme auf dem Host umfasst.  Der Ressourcengruppe könnten dann zwei Richtlinien zugeordnet werden: eine Tagesrichtlinie und eine Stundenrichtlinie.
+
+Beim Erstellen der Ressourcengruppe und Anhängen der Richtlinien ist es möglich, sie so zu konfigurieren, dass täglich eine vollständige Sicherung und stündlich ein weiterer Zeitplan für Protokollsicherungen durchgeführt wird.
+
+Bei Datenschutzvorgängen können benutzerdefinierte Prescripts und Postscripts verwendet werden.  Diese Skripte ermöglichen eine Automatisierung entweder vor oder nach dem Datenschutzjob.  Beispielsweise könnte ein Skript automatisch über Fehler oder Warnungen bei Datenschutzaufträgen informieren.  Bevor Sie Präskripte und Postskripte einrichten, ist es wichtig, die Anforderungen zum Erstellen dieser Skripte zu verstehen.
+
+
+
+== Verwendung von Präskripten und Postskripten
+
+Benutzerdefinierte Prescripts und Postscripts können Ihre Datenschutzaufgaben vor oder nach dem Job automatisieren.  Sie können beispielsweise ein Skript hinzufügen, das Sie über Jobfehler oder Warnungen benachrichtigt.  Stellen Sie vor der Einrichtung sicher, dass Sie die Anforderungen für diese Skripte verstehen.
+
+
+
+=== Unterstützte Skripttypen
+
+Die folgenden Skripttypen werden für Windows unterstützt:
+
+* Batchdateien
+* PowerShell-Skripts
+* Perl-Skripte
+
+
+Für UNIX werden die folgenden Skripttypen unterstützt:
+
+* Perl-Skripte
+* Python-Skripte
+* Shell-Skripte
++
+
+NOTE: Neben der Standard-Bash-Shell werden auch andere Shells wie SH-Shell, K-Shell und C-Shell unterstützt.
+
+
+
+
+
+=== Skriptpfad
+
+Alle Prescripts und Postscripts, die als Teil von SnapCenter -Vorgängen auf nicht virtualisierten und virtualisierten Speichersystemen ausgeführt werden, werden auf dem Plug-In-Host ausgeführt.
+
+* Die Windows-Skripte sollten sich auf dem Plug-In-Host befinden.
+
+
+
+NOTE: Der Prescripts- oder Postscripts-Pfad sollte keine Laufwerke oder Freigaben enthalten.  Der Pfad sollte relativ zum SCRIPTS_PATH sein.
+
+* Die UNIX-Skripte sollten sich auf dem Plug-In-Host befinden.
+
+
+
+NOTE: Der Skriptpfad wird zum Zeitpunkt der Ausführung validiert.
+
+
+
+=== Wo Skripte angegeben werden
+
+Skripte werden in Sicherungsrichtlinien angegeben.  Wenn ein Sicherungsauftrag gestartet wird, verknüpft die Richtlinie das Skript automatisch mit den zu sichernden Ressourcen.  Wenn Sie eine Sicherungsrichtlinie erstellen, können Sie die Prescript- und Postscript-Argumente angeben.
+
+
+NOTE: Sie können nicht mehrere Skripte angeben.
+
+
+
+=== Skript-Timeouts
+
+Das Timeout ist standardmäßig auf 60 Sekunden eingestellt.  Sie können den Timeout-Wert ändern.
+
+
+
+=== Skriptausgabe
+
+Das Standardverzeichnis für die Windows-Prescripts- und Postscripts-Ausgabedateien ist Windows\System32.
+
+Es gibt keinen Standardspeicherort für die UNIX-Prescripts und Postscripts.  Sie können die Ausgabedatei an einen beliebigen Speicherort umleiten.

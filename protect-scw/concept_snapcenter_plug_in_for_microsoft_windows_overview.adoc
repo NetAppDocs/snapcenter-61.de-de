@@ -1,0 +1,24 @@
+---
+permalink: protect-scw/concept_snapcenter_plug_in_for_microsoft_windows_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Windows 
+summary: Das SnapCenter -Plug-in für Microsoft Windows ist eine hostseitige Komponente der NetApp SnapCenter -Software, die eine anwendungsbewusste Datenschutzverwaltung von Microsoft-Dateisystemressourcen ermöglicht.  Darüber hinaus bietet es Speicherbereitstellung, Snapshot-Konsistenz und Speicherplatzrückgewinnung für Windows-Dateisysteme.  Das Plug-in für Windows automatisiert Sicherungs-, Wiederherstellungs- und Klonvorgänge des Dateisystems in Ihrer SnapCenter -Umgebung. 
+---
+= Übersicht über das SnapCenter -Plug-in für Microsoft Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das SnapCenter -Plug-in für Microsoft Windows ist eine hostseitige Komponente der NetApp SnapCenter -Software, die eine anwendungsbewusste Datenschutzverwaltung von Microsoft-Dateisystemressourcen ermöglicht.  Darüber hinaus bietet es Speicherbereitstellung, Snapshot-Konsistenz und Speicherplatzrückgewinnung für Windows-Dateisysteme.  Das Plug-in für Windows automatisiert Sicherungs-, Wiederherstellungs- und Klonvorgänge des Dateisystems in Ihrer SnapCenter -Umgebung.
+
+Wenn das Plug-in für Windows installiert ist, können Sie SnapCenter mit der NetApp SnapMirror -Technologie verwenden, um Spiegelkopien von Sicherungssätzen auf einem anderen Volume zu erstellen, und mit der NetApp SnapVault -Technologie eine Disk-to-Disk-Sicherungsreplikation zur Archivierung oder Standardkonformität durchführen.
+
+* Ermöglicht anwendungsbezogenen Datenschutz für andere Plug-Ins, die auf Windows-Hosts in Ihrer SnapCenter -Umgebung ausgeführt werden
+* Automatisiert anwendungsorientierte Sicherungs-, Wiederherstellungs- und Klonvorgänge für Microsoft-Dateisysteme in Ihrer SnapCenter Umgebung
+* Unterstützt Speicherbereitstellung, Snapshot-Konsistenz und Speicherplatzrückgewinnung für Windows-Hosts
+
+
+
+NOTE: Das Plug-in für Windows stellt SMB-Freigaben und Windows-Dateisysteme auf physischen und RDM-LUNs bereit, unterstützt jedoch keine Sicherungsvorgänge für Windows-Dateisysteme auf SMB-Freigaben.

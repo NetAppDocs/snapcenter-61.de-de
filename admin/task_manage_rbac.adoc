@@ -1,0 +1,61 @@
+---
+permalink: admin/task_manage_rbac.html 
+sidebar: sidebar 
+keywords: modify RBAC, role, users, groups 
+summary: Mit SnapCenter können Sie Rollen, Benutzer und Gruppen ändern. 
+---
+= RBAC verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit SnapCenter können Sie Rollen, Benutzer und Gruppen ändern.
+
+
+
+== Ändern einer Rolle
+
+Sie können eine SnapCenter -Rolle ändern, um Benutzer oder Gruppen zu entfernen und die mit der Rolle verknüpften Berechtigungen zu ändern.  Das Ändern von Rollen ist besonders dann sinnvoll, wenn Sie die von einer ganzen Rolle verwendeten Berechtigungen ändern oder entfernen möchten.
+
+.Bevor Sie beginnen
+Sie müssen sich mit der Rolle „SnapCenterAdmin“ angemeldet haben.
+
+
+NOTE: Sie können die Berechtigungen für die Rolle „SnapCenterAdmin“ weder ändern noch entfernen.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Rollen*.
+. Klicken Sie im Feld „Rollenname“ auf die Rolle, die Sie ändern möchten.
+. Wählen Sie *Alle Mitglieder dieser Rolle können die Objekte anderer Mitglieder sehen* aus, um anderen Mitgliedern der Rolle das Anzeigen von Ressourcen wie Volumes und Hosts zu ermöglichen, nachdem sie die Ressourcenliste aktualisiert haben.
++
+Deaktivieren Sie diese Option, wenn Sie nicht möchten, dass Mitglieder dieser Rolle Objekte sehen, denen andere Mitglieder zugewiesen sind.
+
++
+
+NOTE: Wenn diese Option aktiviert ist, ist es nicht erforderlich, Benutzern Zugriff auf Objekte oder Ressourcen zuzuweisen, wenn die Benutzer derselben Rolle angehören wie der Benutzer, der die Objekte oder Ressourcen erstellt hat.
+
+. Ändern Sie auf der Seite „Rollendetails“ die Berechtigungen oder heben Sie die Zuweisung der Mitglieder nach Bedarf auf.
+. Klicken Sie auf *Senden*.
+
+
+
+
+== Benutzer und Gruppen ändern
+
+Sie können SnapCenter Benutzer oder -Gruppen ändern, um ihre Rollen und Ressourcen zu verändern.
+
+.Bevor Sie beginnen
+Sie müssen als SnapCenter Administrator angemeldet sein.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Benutzer und Zugriff*.
+. Klicken Sie in der Liste „Benutzer- oder Gruppenname“ auf den Benutzer oder die Gruppe, den/die Sie ändern möchten.
+. Ändern Sie auf der Benutzer- oder Gruppendetailseite Rollen und Assets.
+. Klicken Sie auf *Senden*.
+

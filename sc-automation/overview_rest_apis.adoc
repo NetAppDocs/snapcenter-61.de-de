@@ -1,0 +1,23 @@
+---
+permalink: sc-automation/overview_rest_apis.html 
+sidebar: sidebar 
+keywords: REST APIs, swagger 
+summary: Beschreibt, wie REST-APIs zum Ausführen mehrerer SnapCenter -Verwaltungsvorgänge verwendet werden.  REST-APIs werden über die Swagger-Webseite bereitgestellt. 
+---
+= SnapCenter -Automatisierung mithilfe von REST-APIs
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können REST-APIs verwenden, um verschiedene SnapCenter -Verwaltungsvorgänge durchzuführen.  REST-APIs werden über die Swagger-Webseite bereitgestellt.  Sie können auf die Swagger-Webseite unter _\https://<SnapCenter_IP_address_or_name>:<SnapCenter_port>/swagger/_ zugreifen, um die REST-API-Dokumentation anzuzeigen und manuell einen API-Aufruf zu tätigen.
+
+Die Plug-Ins, die REST-APIs unterstützen, sind:
+
+* Plug-in für Microsoft SQL Server
+* Plug-in für SAP HANA-Datenbank
+* Plug-in für Oracle-Datenbank
+
+
+Informationen zum SnapCenter Plug-in for VMware vSphere REST APIs finden Sie unter https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_rest_apis_overview.html["SnapCenter Plug-in for VMware vSphere REST-APIs"^]

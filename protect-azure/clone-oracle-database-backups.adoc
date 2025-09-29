@@ -1,0 +1,92 @@
+---
+permalink: protect-azure/clone-oracle-database-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Oracle Database, clone, database, backups. split clone, pluggable database 
+summary: Sie können SnapCenter verwenden, um ein Backup zu klonen. 
+---
+= Klonen Sie die Oracle-Datenbanksicherung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um eine Oracle-Datenbank mithilfe der Sicherung der Datenbank zu klonen.  Bei den erstellten Klonen handelt es sich um dicke Klone, die im übergeordneten Kapazitätspool erstellt werden.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Ansicht“ entweder „*Datenbank*“ oder „*Ressourcengruppe*“ aus.
+. Wählen Sie die Datenbank aus.
+. Wählen Sie auf der Ansichtsseite „Kopien verwalten“ die Sicherung vom primären Speichersystem aus.
+. Wählen Sie die Datensicherung aus und klicken Sie dann auf *image:../media/clone_icon.gif["Klonsymbol"] *.
+. Wählen Sie auf der Seite „Name“ aus, ob Sie eine Datenbank (CDB oder nicht CDB) oder eine Pluggable-Datenbank (PDB) klonen möchten.
+. Geben Sie auf der Seite „Standorte“ die erforderlichen Details an.
++
+Wenn die ANF-Volumes der Oracle-Datenbank in einem manuellen QOS-Kapazitätspool konfiguriert sind, geben Sie das QOS für die geklonten Volumes an.
+
++
+Wenn die QOS für die geklonten Volumes nicht angegeben ist, wird die QOS des Quellvolumes verwendet.  Wenn der automatische QOS-Kapazitätspool verwendet wird, wird der angegebene QOS-Wert ignoriert.
+
+. Führen Sie auf der Seite „Anmeldeinformationen“ einen der folgenden Schritte aus:
++
+.. Wählen Sie unter Anmeldeinformationsname für Sys-Benutzer die Anmeldeinformationen aus, die zum Definieren des Sys-Benutzerkennworts der Klondatenbank verwendet werden sollen.
+.. Wählen Sie für den Anmeldeinformationsnamen der ASM-Instanz *Keine* aus, wenn die Betriebssystemauthentifizierung für die Verbindung mit der ASM-Instanz auf dem Klonhost aktiviert ist.
++
+Andernfalls wählen Sie die Oracle ASM-Anmeldeinformationen aus, die entweder mit dem Benutzer „sys“ oder einem Benutzer mit der für den Klonhost geltenden Berechtigung „sysasm“ konfiguriert sind.
+
+
+
+. Geben Sie auf der Seite „Pre-Ops“ den Pfad und die Argumente der Prescripts an und ändern Sie im Abschnitt „Datenbankparametereinstellungen“ die Werte der vorab ausgefüllten Datenbankparameter, die zum Initialisieren der Datenbank verwendet werden.
+. Auf der Seite „Post-Ops“ sind standardmäßig „*Datenbank wiederherstellen*“ und „*Bis Abbrechen*“ ausgewählt, um die Wiederherstellung der geklonten Datenbank durchzuführen.
++
+.. Wenn Sie „Bis Abbrechen“ auswählen, führt SnapCenter die Wiederherstellung durch, indem es die neueste Protokollsicherung mit der ununterbrochenen Sequenz von Archivprotokollen nach der zum Klonen ausgewählten Datensicherung bereitstellt.
+.. Wenn Sie *Datum und Uhrzeit* auswählen, stellt SnapCenter die Datenbank bis zu einem angegebenen Datum und einer angegebenen Uhrzeit wieder her.
+.. Wenn Sie *Bis SCN* auswählen, stellt SnapCenter die Datenbank bis zu einem angegebenen SCN wieder her.
+.. Wenn Sie *Externe Archivprotokollspeicherorte angeben* auswählen, ermittelt und mountet SnapCenter die optimale Anzahl von Protokollsicherungen basierend auf der angegebenen SCN oder dem ausgewählten Datum und der ausgewählten Uhrzeit.
+.. Standardmäßig ist das Kontrollkästchen *Neue DBID erstellen* aktiviert, um eine eindeutige Nummer (DBID) für die geklonte Datenbank zu generieren, die sie von der Quelldatenbank unterscheidet.
++
+Deaktivieren Sie das Kontrollkästchen, wenn Sie der geklonten Datenbank die DBID der Quelldatenbank zuweisen möchten.  Wenn Sie in diesem Szenario die geklonte Datenbank beim externen RMAN-Katalog registrieren möchten, in dem die Quelldatenbank bereits registriert ist, schlägt der Vorgang fehl.
+
+.. Aktivieren Sie das Kontrollkästchen *Temporäre Datei für temporären Tablespace erstellen*, wenn Sie eine temporäre Datei für den standardmäßigen temporären Tablespace der geklonten Datenbank erstellen möchten.
+.. Fügen Sie unter *Geben Sie SQL-Einträge ein, die beim Erstellen des Klons angewendet werden sollen* die SQL-Einträge hinzu, die beim Erstellen des Klons angewendet werden sollen.
+.. Geben Sie unter *Geben Sie die nach dem Klonvorgang auszuführenden Skripts ein* den Pfad und die Argumente des Postskripts an, das Sie nach dem Klonvorgang ausführen möchten.
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
+. Überprüfen Sie die Zusammenfassung und wählen Sie dann *Fertig*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie *Überwachen* > *Jobs* auswählen.
+
+
+
+
+== Klonen einer steckbaren Datenbank
+
+Sie können eine Pluggable Database (PDB) auf eine andere oder dieselbe Ziel-CDB auf demselben Host oder einem alternativen Host klonen.  Sie können die geklonte PDB auch zu einem gewünschten SCN oder Datum und einer gewünschten Uhrzeit wiederherstellen.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Ansicht“ entweder „*Datenbank*“ oder „*Ressourcengruppe*“ aus.
+. Wählen Sie die Datenbank vom Typ „Einzelinstanz (Multitenant)“ aus.
+. Wählen Sie auf der Ansichtsseite „Kopien verwalten“ die Sicherung vom primären Speichersystem aus.
+. Wählen Sie die Sicherung aus und klicken Sie dann auf *image:../media/clone_icon.gif["Klonsymbol"] *.
+. Wählen Sie auf der Seite „Name“ *PDB-Klon* aus und geben Sie die anderen Details an.
+. Geben Sie auf der Seite „Standorte“ die erforderlichen Details an.
+. Geben Sie auf der Seite „Pre-Ops“ den Pfad und die Argumente der Prescripts an und ändern Sie im Abschnitt „Datenbankparametereinstellungen“ die Werte der vorab ausgefüllten Datenbankparameter, die zum Initialisieren der Datenbank verwendet werden.
+. Auf der Seite „Post-Ops“ ist standardmäßig „*Bis Abbrechen*“ ausgewählt, um die Wiederherstellung der geklonten Datenbank durchzuführen.
++
+.. Wenn Sie „Bis Abbrechen“ auswählen, führt SnapCenter die Wiederherstellung durch, indem es die neueste Protokollsicherung mit der ununterbrochenen Sequenz von Archivprotokollen nach der zum Klonen ausgewählten Datensicherung bereitstellt.
+.. Wenn Sie *Datum und Uhrzeit* auswählen, stellt SnapCenter die Datenbank bis zu einem angegebenen Datum und einer angegebenen Uhrzeit wieder her.
+.. Wenn Sie *Externe Archivprotokollspeicherorte angeben* auswählen, ermittelt und mountet SnapCenter die optimale Anzahl von Protokollsicherungen basierend auf der angegebenen SCN oder dem ausgewählten Datum und der ausgewählten Uhrzeit.
+.. Standardmäßig ist das Kontrollkästchen *Neue DBID erstellen* aktiviert, um eine eindeutige Nummer (DBID) für die geklonte Datenbank zu generieren, die sie von der Quelldatenbank unterscheidet.
++
+Deaktivieren Sie das Kontrollkästchen, wenn Sie der geklonten Datenbank die DBID der Quelldatenbank zuweisen möchten.  Wenn Sie in diesem Szenario die geklonte Datenbank beim externen RMAN-Katalog registrieren möchten, in dem die Quelldatenbank bereits registriert ist, schlägt der Vorgang fehl.
+
+.. Aktivieren Sie das Kontrollkästchen *Temporäre Datei für temporären Tablespace erstellen*, wenn Sie eine temporäre Datei für den standardmäßigen temporären Tablespace der geklonten Datenbank erstellen möchten.
+.. Fügen Sie unter *Geben Sie SQL-Einträge ein, die beim Erstellen des Klons angewendet werden sollen* die SQL-Einträge hinzu, die beim Erstellen des Klons angewendet werden sollen.
+.. Geben Sie unter *Geben Sie die nach dem Klonvorgang auszuführenden Skripts ein* den Pfad und die Argumente des Postskripts an, das Sie nach dem Klonvorgang ausführen möchten.
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
+. Überprüfen Sie die Zusammenfassung und wählen Sie dann *Fertig*.
+. Überwachen Sie den Vorgangsfortschritt, indem Sie *Überwachen* > *Jobs* auswählen.
+

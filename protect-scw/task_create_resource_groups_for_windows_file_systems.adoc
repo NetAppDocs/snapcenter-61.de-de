@@ -1,0 +1,136 @@
+---
+permalink: protect-scw/task_create_resource_groups_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: resource groups 
+summary: Eine Ressourcengruppe ist der Container, zu dem Sie mehrere Dateisysteme hinzufügen können, die Sie schützen möchten.  Sie müssen der Ressourcengruppe außerdem eine oder mehrere Richtlinien zuordnen, um den Typ des Datenschutzauftrags zu definieren, den Sie ausführen möchten, und dann den Sicherungszeitplan angeben. 
+---
+= Erstellen von Ressourcengruppen für Windows-Dateisysteme
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine Ressourcengruppe ist der Container, zu dem Sie mehrere Dateisysteme hinzufügen können, die Sie schützen möchten.  Sie müssen der Ressourcengruppe außerdem eine oder mehrere Richtlinien zuordnen, um den Typ des Datenschutzauftrags zu definieren, den Sie ausführen möchten, und dann den Sicherungszeitplan angeben.
+
+.Informationen zu diesem Vorgang
+* Bei ONTAP 9.12.1 und niedrigeren Versionen erben die im Rahmen der Wiederherstellung aus den SnapLock Vault-Snapshots erstellten Klone die Ablaufzeit von SnapLock Vault. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+* Das Hinzufügen neuer Dateisysteme ohne SnapMirror Active Sync zu einer vorhandenen Ressourcengruppe, die Ressourcen mit SnapMirror Active Sync enthält, wird nicht unterstützt.
+* Das Hinzufügen neuer Dateisysteme zu einer vorhandenen Ressourcengruppe im Failover-Modus von SnapMirror Active Sync wird nicht unterstützt.  Sie können der Ressourcengruppe nur im regulären oder Failback-Zustand Ressourcen hinzufügen.
+
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ *Dateisysteme* aus der Liste aus.
++
+
+NOTE: Wenn Sie SnapCenter kürzlich ein Dateisystem hinzugefügt haben, klicken Sie auf *Ressourcen aktualisieren*, um die neu hinzugefügte Ressource anzuzeigen.
+
+. Klicken Sie auf *Neue Ressourcengruppe*.
+. Führen Sie auf der Seite „Name“ des Assistenten die folgenden Schritte aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+Name
+ a| 
+Geben Sie den Namen der Ressourcengruppe ein.
+
+
+NOTE: Der Name der Ressourcengruppe sollte nicht länger als 250 Zeichen sein.
+
+
+
+ a| 
+Benutzerdefiniertes Namensformat für Snapshot-Kopie verwenden
+ a| 
+Optional: Geben Sie einen benutzerdefinierten Snapshot-Namen und ein benutzerdefiniertes Format ein.
+
+Beispiel: customtext_resourcegroup_policy_hostname oder resourcegroup_hostname.  Standardmäßig wird dem Snapshot-Namen ein Zeitstempel angehängt.
+
+
+
+ a| 
+Etikett
+ a| 
+Geben Sie ein beschreibendes Tag ein, um die Suche nach einer Ressourcengruppe zu erleichtern.
+
+|===
+. Führen Sie auf der Seite „Ressourcen“ die folgenden Aufgaben aus:
++
+.. Wählen Sie den Host aus, um die Liste der Ressourcen zu filtern.
++
+Wenn Sie kürzlich Ressourcen hinzugefügt haben, werden diese erst in der Liste der verfügbaren Ressourcen angezeigt, nachdem Sie Ihre Ressourcenliste aktualisiert haben.
+
+.. Klicken Sie im Abschnitt „Verfügbare Ressourcen“ auf die Dateisysteme, die Sie sichern möchten, und klicken Sie dann auf den Rechtspfeil, um sie in den Abschnitt „Hinzugefügt“ zu verschieben.
++
+Wenn Sie die Option *Alle Ressourcen auf demselben Speichervolume automatisch auswählen* auswählen, werden alle Ressourcen auf demselben Volume ausgewählt.  Wenn Sie sie in den Abschnitt „Hinzugefügt“ verschieben, werden alle Ressourcen auf diesem Volume zusammen verschoben.
+
++
+Um ein einzelnes Dateisystem hinzuzufügen, deaktivieren Sie die Option *Alle Ressourcen auf demselben Speichervolume automatisch auswählen* und wählen Sie dann die Dateisysteme aus, die Sie in den Abschnitt „Hinzugefügt“ verschieben möchten.
+
+
+
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Aufgaben aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
++
+Sie können eine beliebige vorhandene Richtlinie auswählen und auf *Details* klicken, um festzustellen, ob Sie diese Richtlinie verwenden können.
+
++
+Wenn keine vorhandene Richtlinie Ihren Anforderungen entspricht, können Sie eine neue Richtlinie erstellen, indem Sie auf * klicken.image:../media/add_policy_from_resourcegroup.gif["Plus-Symbol"] * um den Richtlinienassistenten zu starten.
+
++
+Die ausgewählten Richtlinien werden in der Spalte „Richtlinie“ im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ aufgelistet.
+
+.. Klicken Sie im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ auf *image:../media/add_policy_from_resourcegroup.gif["Plus-Symbol"] * in der Spalte „Zeitpläne konfigurieren“ für die Richtlinie, für die Sie den Zeitplan konfigurieren möchten.
+.. Wenn die Richtlinie mit mehreren Zeitplantypen (Häufigkeiten) verknüpft ist, wählen Sie die Häufigkeit aus, die Sie konfigurieren möchten.
+.. Konfigurieren Sie im Dialogfeld „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan, indem Sie das Startdatum, das Ablaufdatum und die Häufigkeit angeben, und klicken Sie dann auf *Fertig*.
++
+Die konfigurierten Zeitpläne werden in der Spalte „Angewandte Zeitpläne“ im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ aufgelistet.
+
+
+
++
+Sicherungspläne von Drittanbietern werden nicht unterstützt, wenn sie sich mit den Sicherungsplänen von SnapCenter überschneiden.  Sie sollten die Zeitpläne des Windows-Taskplaners und des SQL Server-Agenten nicht ändern.
+
+. Geben Sie auf der Seite „Benachrichtigung“ die folgenden Benachrichtigungsinformationen ein:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+E-Mail-Präferenz
+ a| 
+Wählen Sie *Immer*, *Bei Fehler* oder *Bei Fehler oder Warnung* aus, um nach dem Erstellen von Sicherungsressourcengruppen, dem Anhängen von Richtlinien und dem Konfigurieren von Zeitplänen E-Mails an Empfänger zu senden.  Geben Sie den SMTP-Server, die Standard-E-Mail-Betreffzeile sowie die E-Mail-Adressen „An“ und „Von“ ein.
+
+
+
+ a| 
+Aus
+ a| 
+E-Mail-Adresse
+
+
+
+ a| 
+Zu
+ a| 
+E-Mail an Adresse
+
+
+
+ a| 
+Betreff
+ a| 
+Standardmäßige E-Mail-Betreffzeile
+
+|===
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
++
+Sie können eine Sicherung bei Bedarf durchführen oder auf die geplante Sicherung warten.
+
+

@@ -1,0 +1,130 @@
+---
+permalink: protect-sco/task_create_resource_groups_and_attach_policies_for_oracle_databases.html 
+sidebar: sidebar 
+keywords: run as, resource groups, policies, Oracle database 
+summary: Eine Ressourcengruppe ist ein Container, dem Sie Ressourcen hinzufügen, die Sie sichern und schützen möchten.  Mit einer Ressourcengruppe können Sie alle Daten, die mit einer bestimmten Anwendung verknüpft sind, gleichzeitig sichern. 
+---
+= Erstellen Sie Ressourcengruppen und fügen Sie Richtlinien für Oracle-Datenbanken hinzu
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine Ressourcengruppe ist ein Container, dem Sie Ressourcen hinzufügen, die Sie sichern und schützen möchten.  Mit einer Ressourcengruppe können Sie alle Daten, die mit einer bestimmten Anwendung verknüpft sind, gleichzeitig sichern.
+
+.Informationen zu diesem Vorgang
+* Eine Datenbank mit Dateien in ASM-Datenträgergruppen muss sich im Status „MOUNT“ oder „OPEN“ befinden, um ihre Sicherungen mit dem Oracle-Dienstprogramm DBVERIFY zu überprüfen.
++
+Fügen Sie der Ressourcengruppe eine oder mehrere Richtlinien hinzu, um die Art des Datenschutzjobs zu definieren, den Sie ausführen möchten.
+
++
+Die folgende Abbildung veranschaulicht die Beziehung zwischen Ressourcen, Ressourcengruppen und Richtlinien für Datenbanken:
+
++
+image::../media/sco_resourcegroup_policy.gif[Ressourcengruppenrichtlinie]
+
+* Wenn Sie für SnapLock -fähige Richtlinien für ONTAP 9.12.1 und niedrigere Versionen eine Snapshot-Sperrdauer angeben, erben die im Rahmen der Wiederherstellung aus den manipulationssicheren Snapshots erstellten Klone die SnapLock Ablaufzeit. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+* Das Hinzufügen neuer Datenbanken ohne SnapMirror Active Sync zu einer vorhandenen Ressourcengruppe, die Ressourcen mit SnapMirror Active Sync enthält, wird nicht unterstützt.
+* Das Hinzufügen neuer Datenbanken zu einer vorhandenen Ressourcengruppe im Failover-Modus von SnapMirror Active Sync wird nicht unterstützt.  Sie können der Ressourcengruppe nur im regulären oder Failback-Zustand Ressourcen hinzufügen.
+
+
+.Schritte
+. Wählen Sie im linken Navigationsbereich *Ressourcen* und das entsprechende Plug-In aus der Liste aus.
+. Klicken Sie auf der Seite „Ressourcen“ auf *Neue Ressourcengruppe*.
+. Führen Sie auf der Seite „Name“ die folgenden Aktionen aus:
++
+.. Geben Sie im Feld „Name“ einen Namen für die Ressourcengruppe ein.
++
+
+NOTE: Der Name der Ressourcengruppe sollte nicht länger als 250 Zeichen sein.
+
+.. Geben Sie im Feld „Tag“ eine oder mehrere Bezeichnungen ein, um die spätere Suche nach der Ressourcengruppe zu erleichtern.
++
+Wenn Sie beispielsweise „HR“ als Tag zu mehreren Ressourcengruppen hinzufügen, können Sie später alle mit dem HR-Tag verknüpften Ressourcengruppen finden.
+
+.. Aktivieren Sie dieses Kontrollkästchen und geben Sie ein benutzerdefiniertes Namensformat ein, das Sie für den Snapshot-Namen verwenden möchten.
++
+Beispiel: benutzerdefinierter Text_Ressourcengruppenrichtlinien-Hostname oder Ressourcengruppen-Hostname.  Standardmäßig wird dem Snapshot-Namen ein Zeitstempel angehängt.
+
+.. Geben Sie die Ziele der Archivprotokolldateien an, die Sie nicht sichern möchten.
++
+
+NOTE: Sie sollten genau dasselbe Ziel verwenden, das in Oracle festgelegt wurde, einschließlich Präfix, falls erforderlich.
+
+
+
+. Wählen Sie auf der Seite „Ressourcen“ einen Oracle-Datenbank-Hostnamen aus der Dropdown-Liste *Host* aus.
++
+
+NOTE: Die Ressourcen werden nur dann im Abschnitt „Verfügbare Ressourcen“ aufgeführt, wenn die Ressource erfolgreich erkannt wurde.  Wenn Sie kürzlich Ressourcen hinzugefügt haben, werden diese erst in der Liste der verfügbaren Ressourcen angezeigt, nachdem Sie Ihre Ressourcenliste aktualisiert haben.
+
+. Wählen Sie die Ressourcen aus dem Abschnitt „Verfügbare Ressourcen“ aus und verschieben Sie sie in den Abschnitt „Ausgewählte Ressourcen“.
++
+
+NOTE: Sie können Datenbanken von Linux- und AIX-Hosts in einer einzigen Ressourcengruppe hinzufügen.
+
+. Wählen Sie auf der Seite „Anwendungseinstellungen“ die Sicherungsoption aus.
+. Führen Sie auf der Seite „Richtlinien“ die folgenden Schritte aus:
++
+.. Wählen Sie eine oder mehrere Richtlinien aus der Dropdownliste aus.
++
+
+NOTE: Sie können eine Richtlinie auch erstellen, indem Sie aufimage:../media/add_policy_from_resourcegroup.gif["Symbol hinzufügen"] .
+
++
+Im Abschnitt „Zeitpläne für ausgewählte Richtlinien konfigurieren“ werden die ausgewählten Richtlinien aufgelistet.
+
+.. Klickenimage:../media/add_policy_from_resourcegroup.gif["Symbol hinzufügen"] in der Spalte „Zeitpläne konfigurieren“ für die Richtlinie, für die Sie einen Zeitplan konfigurieren möchten.
+.. Konfigurieren Sie im Fenster „Zeitpläne für Richtlinie _Richtlinienname_ hinzufügen“ den Zeitplan und klicken Sie dann auf *OK*.
++
+Dabei ist _Richtlinienname_ der Name der von Ihnen ausgewählten Richtlinie.
+
++
+Die konfigurierten Zeitpläne werden in der Spalte „Angewandte Zeitpläne“ aufgelistet.
+
+
+
++
+Sicherungspläne von Drittanbietern werden nicht unterstützt, wenn sie sich mit den Sicherungsplänen von SnapCenter überschneiden.
+
+. Führen Sie auf der Seite „Verifizierung“ die folgenden Schritte aus:
++
+.. Klicken Sie auf *Locators laden*, um die SnapMirror oder SnapVault -Volumes zu laden und die Überprüfung auf dem sekundären Speicher durchzuführen.
+.. Klickenimage:../media/add_policy_from_resourcegroup.gif["Symbol hinzufügen"] in der Spalte „Zeitpläne konfigurieren“, um den Überprüfungszeitplan für alle Zeitplantypen der Richtlinie zu konfigurieren.
+.. Führen Sie im Dialogfeld „Verifizierungszeitpläne hinzufügen“ (Richtlinienname) die folgenden Aktionen aus:
++
+|===
+| Wenn Sie wollen... | Machen Sie Folgendes... 
+
+
+ a| 
+Führen Sie nach der Sicherung eine Überprüfung durch
+ a| 
+Wählen Sie *Überprüfung nach Sicherung ausführen*.
+
+
+
+ a| 
+Planen Sie eine Überprüfung
+ a| 
+Wählen Sie *Geplante Überprüfung ausführen* und wählen Sie dann den Zeitplantyp aus der Dropdownliste aus.
+
+|===
+.. Wählen Sie *Am sekundären Speicherort überprüfen*, um Ihre Sicherungen auf dem sekundären Speichersystem zu überprüfen.
+.. Klicken Sie auf *OK*.
++
+Die konfigurierten Überprüfungszeitpläne werden in der Spalte „Angewandte Zeitpläne“ aufgelistet.
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.  Wenn Sie den Bericht über den an der Ressourcengruppe durchgeführten Vorgang anhängen möchten, wählen Sie *Jobbericht anhängen*.
+
++
+
+NOTE: Für die E-Mail-Benachrichtigung müssen Sie die SMTP-Serverdetails entweder über die GUI oder den PowerShell-Befehl „Set-SmSmtpServer“ angegeben haben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+

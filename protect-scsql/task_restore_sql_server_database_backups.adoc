@@ -1,0 +1,292 @@
+---
+permalink: protect-scsql/task_restore_sql_server_database_backups.html 
+sidebar: sidebar 
+keywords: restore operation 
+summary: Sie können SnapCenter verwenden, um gesicherte SQL Server-Datenbanken wiederherzustellen.  Die Datenbankwiederherstellung ist ein mehrphasiger Prozess, bei dem alle Daten und Protokollseiten aus einer angegebenen SQL Server-Sicherung in eine angegebene Datenbank kopiert werden. 
+---
+= Wiederherstellen von SQL Server-Datenbanksicherungen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können SnapCenter verwenden, um gesicherte SQL Server-Datenbanken wiederherzustellen.  Die Datenbankwiederherstellung ist ein mehrphasiger Prozess, bei dem alle Daten und Protokollseiten aus einer angegebenen SQL Server-Sicherung in eine angegebene Datenbank kopiert werden.
+
+.Informationen zu diesem Vorgang
+* Sie können die gesicherten SQL Server-Datenbanken auf einer anderen SQL Server-Instanz auf demselben Host wiederherstellen, auf dem die Sicherung erstellt wurde.
++
+Sie können SnapCenter verwenden, um die gesicherten SQL Server-Datenbanken auf einem alternativen Pfad wiederherzustellen, sodass Sie keine Produktionsversion ersetzen.
+
+* SnapCenter kann Datenbanken in einem Windows-Cluster wiederherstellen, ohne die SQL Server-Clustergruppe offline zu nehmen.
+* Wenn während eines Wiederherstellungsvorgangs ein Clusterfehler (ein Clustergruppenverschiebungsvorgang) auftritt (z. B. wenn der Knoten, dem die Ressourcen gehören, ausfällt), müssen Sie die Verbindung zur SQL Server-Instanz wiederherstellen und den Wiederherstellungsvorgang anschließend neu starten.
+* Sie können die Datenbank nicht wiederherstellen, wenn die Benutzer oder die SQL Server-Agent-Jobs auf die Datenbank zugreifen.
+* Sie können Systemdatenbanken nicht auf einem alternativen Pfad wiederherstellen.
+* Der SCRIPTS_PATH wird mithilfe des Schlüssels „PredefinedWindowsScriptsDirectory“ definiert, der sich in der Datei „SMCoreServiceHost.exe.Config“ des Plug-In-Hosts befindet.
++
+Bei Bedarf können Sie diesen Pfad ändern und den SMcore-Dienst neu starten.  Aus Sicherheitsgründen wird empfohlen, den Standardpfad zu verwenden.
+
++
+Der Wert des Schlüssels kann von Swagger über die API angezeigt werden: API /4.7/configsettings
+
++
+Sie können die GET-API verwenden, um den Wert des Schlüssels anzuzeigen.  SET-API wird nicht unterstützt.
+
+* Die meisten Felder auf den Seiten des Wiederherstellungsassistenten sind selbsterklärend.  Die folgenden Informationen beschreiben Felder, für die Sie möglicherweise Anleitungen benötigen.
+* Für den Wiederherstellungsvorgang mit SnapMirror Active Sync müssen Sie die Sicherung vom primären Speicherort auswählen.
+* Wenn Sie für SnapLock -fähige Richtlinien für ONTAP 9.12.1 und niedrigere Versionen eine Snapshot-Sperrdauer angeben, erben die im Rahmen der Wiederherstellung aus den manipulationssicheren Snapshots erstellten Klone die SnapLock Ablaufzeit. Der Speicheradministrator sollte die Klone nach Ablauf des SnapLock manuell bereinigen.
+
+
+[role="tabbed-block"]
+====
+.SnapCenter -Benutzeroberfläche
+--
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ entweder „Datenbank“ oder „Ressourcengruppe“ aus der Liste „Anzeigen“ aus.
+. Wählen Sie die Datenbank oder die Ressourcengruppe aus der Liste aus.
++
+Die Topologieseite wird angezeigt.
+
+. Wählen Sie in der Ansicht „Kopien verwalten“ *Backups* aus dem Speichersystem aus.
+. Wählen Sie das Backup aus der Tabelle aus und klicken Sie dann auf dasimage:../media/restore_icon.gif["Wiederherstellungssymbol"] Symbol.
++
+image::../media/restoring_resource.gif[Wiederherstellung von Ressourcen]
+
+. Wählen Sie auf der Seite „Wiederherstellungsbereich“ eine der folgenden Optionen aus:
++
+|===
+| Option | Beschreibung 
+
+
+ a| 
+Stellen Sie die Datenbank auf demselben Host wieder her, auf dem die Sicherung erstellt wurde.
+ a| 
+Wählen Sie diese Option, wenn Sie die Datenbank auf demselben SQL-Server wiederherstellen möchten, auf dem die Sicherungen erstellt wurden.
+
+
+
+ a| 
+Wiederherstellen der Datenbank auf einem alternativen Host
+ a| 
+Wählen Sie diese Option, wenn die Datenbank auf einem anderen SQL-Server auf demselben oder einem anderen Host wiederhergestellt werden soll, auf dem die Sicherungen durchgeführt werden.
+
+Wählen Sie einen Hostnamen aus, geben Sie einen Datenbanknamen an (optional), wählen Sie eine Instanz aus und geben Sie die Wiederherstellungspfade an.
+
+
+NOTE: Die im alternativen Pfad angegebene Dateierweiterung muss mit der Dateierweiterung der ursprünglichen Datenbankdatei übereinstimmen.
+
+Wenn die Option *Datenbank auf einem alternativen Host wiederherstellen* auf der Seite „Wiederherstellungsbereich“ nicht angezeigt wird, leeren Sie den Browser-Cache.
+
+
+
+ a| 
+Wiederherstellen der Datenbank mithilfe vorhandener Datenbankdateien
+ a| 
+Wählen Sie diese Option, wenn die Datenbank auf einem anderen SQL Server auf demselben oder einem anderen Host wiederhergestellt werden soll, auf dem die Sicherungen durchgeführt werden.
+
+Datenbankdateien sollten bereits in den angegebenen vorhandenen Dateipfaden vorhanden sein.  Wählen Sie einen Hostnamen aus, geben Sie einen Datenbanknamen an (optional), wählen Sie eine Instanz aus und geben Sie die Wiederherstellungspfade an.
+
+|===
+. Wählen Sie auf der Seite „Wiederherstellungsbereich“ eine der folgenden Optionen aus:
++
+|===
+| Option | Beschreibung 
+
+
+ a| 
+Keine
+ a| 
+Wählen Sie *Keine*, wenn Sie nur die vollständige Sicherung ohne Protokolle wiederherstellen müssen.
+
+
+
+ a| 
+Alle Protokollsicherungen
+ a| 
+Wählen Sie den minutengenauen Wiederherstellungsvorgang „Alle Protokollsicherungen“ aus, um alle verfügbaren Protokollsicherungen nach der vollständigen Sicherung wiederherzustellen.
+
+
+
+ a| 
+Durch Log-Backups bis
+ a| 
+Wählen Sie *Nach Protokollsicherungen* aus, um einen Wiederherstellungsvorgang zu einem bestimmten Zeitpunkt durchzuführen, bei dem die Datenbank basierend auf Sicherungsprotokollen bis zum Sicherungsprotokoll mit dem ausgewählten Datum wiederhergestellt wird.
+
+
+
+ a| 
+Nach einem bestimmten Datum bis
+ a| 
+Wählen Sie *Bis zu einem bestimmten Datum bis* aus, um das Datum und die Uhrzeit anzugeben, nach denen Transaktionsprotokolle nicht mehr auf die wiederhergestellte Datenbank angewendet werden.
+
+Dieser zeitpunktbezogene Wiederherstellungsvorgang stoppt die Wiederherstellung von Transaktionsprotokolleinträgen, die nach dem angegebenen Datum und der angegebenen Uhrzeit aufgezeichnet wurden.
+
+
+
+ a| 
+Benutzerdefiniertes Protokollverzeichnis verwenden
+ a| 
+Wenn Sie *Alle Protokollsicherungen*, *Nach Protokollsicherungen* oder *Nach bestimmtem Datum bis* ausgewählt haben und sich die Protokolle an einem benutzerdefinierten Speicherort befinden, wählen Sie *Benutzerdefiniertes Protokollverzeichnis verwenden* und geben Sie dann den Protokollspeicherort an.
+
+Die Option *Benutzerdefiniertes Protokollverzeichnis verwenden* ist nur verfügbar, wenn Sie *Datenbank auf einem anderen Host wiederherstellen* oder *Datenbank mit vorhandenen Datenbankdateien wiederherstellen* ausgewählt haben.  Sie können auch den freigegebenen Pfad verwenden, stellen Sie jedoch sicher, dass der Pfad für den SQL-Benutzer zugänglich ist.
+
+
+NOTE: Das benutzerdefinierte Protokollverzeichnis wird für die Verfügbarkeitsgruppendatenbank nicht unterstützt.
+
+|===
+. Führen Sie auf der Seite „Pre Ops“ die folgenden Schritte aus:
++
+.. Wählen Sie auf der Seite „Optionen vor der Wiederherstellung“ eine der folgenden Optionen aus:
++
+*** Wählen Sie *Datenbank beim Wiederherstellen mit gleichem Namen überschreiben*, um die Datenbank mit gleichem Namen wiederherzustellen.
+*** Wählen Sie *Replikationseinstellungen der SQL-Datenbank beibehalten*, um die Datenbank wiederherzustellen und die vorhandenen Replikationseinstellungen beizubehalten.
+*** Wählen Sie *Transaktionsprotokollsicherung vor Wiederherstellung erstellen* aus, um vor Beginn des Wiederherstellungsvorgangs ein Transaktionsprotokoll zu erstellen.
+*** Wählen Sie *Wiederherstellung beenden, wenn die Sicherung des Transaktionsprotokolls vor der Wiederherstellung fehlschlägt* aus, um den Wiederherstellungsvorgang abzubrechen, wenn die Sicherung des Transaktionsprotokolls fehlschlägt.
+
+
+.. Geben Sie optionale Skripts an, die vor der Durchführung eines Wiederherstellungsauftrags ausgeführt werden sollen.
++
+Sie können beispielsweise ein Skript ausführen, um SNMP-Traps zu aktualisieren, Warnungen zu automatisieren, Protokolle zu senden usw.
+
++
+
+NOTE: Der Prescripts- oder Postscripts-Pfad sollte keine Laufwerke oder Freigaben enthalten.  Der Pfad sollte relativ zum SCRIPTS_PATH sein.
+
+
+
+. Führen Sie auf der Seite „Post Ops“ die folgenden Schritte aus:
++
+.. Wählen Sie im Abschnitt „Datenbankstatus nach Abschluss der Wiederherstellung auswählen“ eine der folgenden Optionen aus:
++
+*** Wählen Sie *Betriebsbereit, aber nicht verfügbar zum Wiederherstellen zusätzlicher Transaktionsprotokolle*, wenn Sie jetzt alle erforderlichen Sicherungen wiederherstellen.
++
+Dies ist das Standardverhalten, das die Datenbank durch Zurücksetzen der nicht festgeschriebenen Transaktionen einsatzbereit macht.  Sie können keine weiteren Transaktionsprotokolle wiederherstellen, bis Sie eine Sicherung erstellt haben.
+
+*** Wählen Sie *Nicht betriebsbereit, aber zum Wiederherstellen zusätzlicher Transaktionsprotokolle verfügbar* aus, um die Datenbank nicht betriebsbereit zu lassen, ohne die nicht festgeschriebenen Transaktionen zurückzusetzen.
++
+Zusätzliche Transaktionsprotokolle können wiederhergestellt werden.  Sie können die Datenbank erst verwenden, wenn sie wiederhergestellt ist.
+
+*** Wählen Sie *Schreibgeschützter Modus, verfügbar zum Wiederherstellen zusätzlicher Transaktionsprotokolle*, um die Datenbank im schreibgeschützten Modus zu belassen.
++
+Diese Option macht nicht festgeschriebene Transaktionen rückgängig, speichert die rückgängig gemachten Aktionen jedoch in einer Standby-Datei, sodass Wiederherstellungseffekte rückgängig gemacht werden können.
+
++
+Wenn die Option „Verzeichnis rückgängig machen“ aktiviert ist, werden mehr Transaktionsprotokolle wiederhergestellt.  Wenn der Wiederherstellungsvorgang für das Transaktionsprotokoll nicht erfolgreich ist, können die Änderungen rückgängig gemacht werden.  Weitere Informationen finden Sie in der SQL Server-Dokumentation.
+
+
+
+.. Geben Sie optionale Skripts an, die nach der Durchführung eines Wiederherstellungsauftrags ausgeführt werden sollen.
++
+Sie können beispielsweise ein Skript ausführen, um SNMP-Traps zu aktualisieren, Warnungen zu automatisieren, Protokolle zu senden usw.
+
++
+
+NOTE: Der Prescripts- oder Postscripts-Pfad sollte keine Laufwerke oder Freigaben enthalten.  Der Pfad sollte relativ zum SCRIPTS_PATH sein.
+
+
+
+. Wählen Sie auf der Benachrichtigungsseite aus der Dropdownliste *E-Mail-Einstellungen* die Szenarien aus, in denen Sie die E-Mails senden möchten.
++
+Sie müssen außerdem die E-Mail-Adressen des Absenders und des Empfängers sowie den Betreff der E-Mail angeben.
+
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf *Fertig*.
+. Überwachen Sie den Wiederherstellungsprozess mithilfe der Seite *Überwachen* > *Jobs*.
+
+
+--
+.PowerShell-Cmdlets
+--
+.Schritte
+. Initiieren Sie mithilfe des Cmdlets Open-SmConnection eine Verbindungssitzung mit dem SnapCenter -Server für einen angegebenen Benutzer.
++
+[listing]
+----
+PS C:\> Open-Smconnection
+----
+. Rufen Sie die Informationen zu den Sicherungen ab, die Sie wiederherstellen möchten, indem Sie die Cmdlets „Get-SmBackup“ und „Get-SmBackupReport“ verwenden.
++
+Dieses Beispiel zeigt Informationen zu allen verfügbaren Backups an:
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+  1               Payroll Dataset_vise-f6_08... 8/4/2015    11:02:32 AM                 Full Backup
+  2               Payroll Dataset_vise-f6_08... 8/4/2015    11:23:17 AM
+----
++
+Dieses Beispiel zeigt detaillierte Informationen zum Backup vom 29. Januar 2015 bis 3. Februar 2015:
+
++
+[listing]
+----
+PS C:\> Get-SmBackupReport -FromDateTime "1/29/2015" -ToDateTime "2/3/2015"
+
+   SmBackupId           : 113
+   SmJobId              : 2032
+   StartDateTime        : 2/2/2015 6:57:03 AM
+   EndDateTime          : 2/2/2015 6:57:11 AM
+   Duration             : 00:00:07.3060000
+   CreatedDateTime      : 2/2/2015 6:57:23 AM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_06.57.08
+   VerificationStatus   : NotVerified
+
+   SmBackupId           : 114
+   SmJobId              : 2183
+   StartDateTime        : 2/2/2015 1:02:41 PM
+   EndDateTime          : 2/2/2015 1:02:38 PM
+   Duration             : -00:00:03.2300000
+   CreatedDateTime      : 2/2/2015 1:02:53 PM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_13.02.45
+   VerificationStatus   : NotVerified
+----
+. Stellen Sie Daten aus der Sicherung mithilfe des Cmdlets Restore-SmBackup wieder her.
++
+[listing]
+----
+Restore-SmBackup -PluginCode 'DummyPlugin' -AppObjectId 'scc54.sccore.test.com\DummyPlugin\NTP\DB1' -BackupId 269 -Confirm:$false
+output:
+Name                : Restore 'scc54.sccore.test.com\DummyPlugin\NTP\DB1'
+Id                  : 2368
+StartTime           : 10/4/2016 11:22:02 PM
+EndTime             :
+IsCancellable       : False
+IsRestartable       : False
+IsCompleted         : False
+IsVisible           : True
+IsScheduled         : False
+PercentageCompleted : 0
+Description         :
+Status              : Queued
+Owner               :
+Error               :
+Priority            : None
+Tasks               : {}
+ParentJobID         : 0
+EventId             : 0
+JobTypeId           :
+ApisJobKey          :
+ObjectId            : 0
+PluginCode          : NONE
+PluginName          :
+----
+
+
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .
+
+--
+====

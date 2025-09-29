@@ -1,0 +1,268 @@
+---
+permalink: protect-sco/predefined-environment-variables-prescript-postscript-backup.html 
+sidebar: sidebar 
+keywords: environment variable, predefined, prescript, postscript, backup, policy 
+summary: SnapCenter ermöglicht Ihnen die Verwendung der vordefinierten Umgebungsvariablen, wenn Sie beim Erstellen von Sicherungsrichtlinien das Prescript und Postscript ausführen. 
+---
+= Vordefinierte Umgebungsvariablen für backupspezifisches Prescript und Postscript
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter ermöglicht Ihnen die Verwendung der vordefinierten Umgebungsvariablen, wenn Sie beim Erstellen von Sicherungsrichtlinien das Prescript und Postscript ausführen.  Diese Funktionalität wird für alle Oracle-Konfigurationen außer VMDK unterstützt.
+
+SnapCenter definiert die Werte der Parameter vor, auf die in der Umgebung, in der die Shell-Skripte ausgeführt werden, direkt zugegriffen werden kann.  Sie müssen die Werte dieser Parameter beim Ausführen der Skripte nicht manuell angeben.
+
+
+
+== Unterstützte vordefinierte Umgebungsvariablen zum Erstellen von Sicherungsrichtlinien
+
+* *SC_JOB_ID* gibt die Job-ID des Vorgangs an.
++
+Beispiel: 256
+
+* *SC_ORACLE_SID* gibt die Systemkennung der Datenbank an.
++
+Wenn der Vorgang mehrere Datenbanken umfasst, enthält der Parameter durch Pipe-Zeichen getrennte Datenbanknamen.
+
++
+Dieser Parameter wird für Anwendungsvolumes ausgefüllt.
+
++
+Beispiel: NFSB32|NFSB31
+
+* *SC_HOST* gibt den Hostnamen der Datenbank an.
++
+Bei RAC ist der Hostname der Name des Hosts, auf dem die Sicherung durchgeführt wird.
+
++
+Dieser Parameter wird für Anwendungsvolumes ausgefüllt.
+
++
+Beispiel: scsmohost2.gdl.englabe.netapp.com
+
+* *SC_OS_USER* gibt den Betriebssystembesitzer der Datenbank an.
++
+Die Daten werden als <db1>@<osuser1>|<db2>@<osuser2> formatiert.
+
++
+Beispiel: NFSB31@oracle|NFSB32@oracle
+
+* *SC_OS_GROUP* gibt die Betriebssystemgruppe der Datenbank an.
++
+Die Daten werden als <db1>@<osgroup1>|<db2>@<osgroup2> formatiert.
+
++
+Beispiel: NFSB31@install|NFSB32@oinstall
+
+* *SC_BACKUP_TYPE*" gibt den Sicherungstyp an (Online-Vollsicherung, Online-Daten, Online-Protokoll, Offline-Herunterfahren, Offline-Mount)
++
+Beispiele:
+
++
+** Für vollständige Sicherung: ONLINEFULL
+** Nur Datensicherung: ONLINEDATA
+** Für reine Protokollsicherung: ONLINELOG
+
+
+* *SC_BACKUP_NAME* gibt den Namen der Sicherung an.
++
+Dieser Parameter wird für Anwendungsvolumes ausgefüllt.
+
++
+Beispiel: DATA@RG2_scspr2417819002_07-20-2021_12.16.48.9267_0|LOG@RG2_scspr2417819002_07-20-2021_12.16.48.9267_1|AV@RG2_scspr2417819002_07-20-2021_12.16.48.9267
+
+* *SC_BACKUP_ID* gibt die Sicherungs-ID an.
++
+Dieser Parameter wird für Anwendungsvolumes ausgefüllt.
+
++
+Beispiel: DATA@203|LOG@205|AV@207
+
+* *SC_ORACLE_HOME* gibt den Pfad des Oracle-Home-Verzeichnisses an.
++
+Beispiel: NFSB32@/ora01/app/oracle/product/18.1.0/db_1|NFSB31@/ora01/app/oracle/product/18.1.0/db_1
+
+* *SC_BACKUP_RETENTION* gibt den in der Richtlinie definierten Aufbewahrungszeitraum an.
++
+Beispiele:
+
++
+** Für vollständige Sicherung: Stündlich|DATA@DAYS:3|LOG@COUNT:4
+** Für reine Datensicherung auf Abruf: Ondemand|DATA@COUNT:2
+** Für On-Demand-Protokollsicherung: Ondemand|LOG@COUNT:2
+
+
+* *SC_RESOURCE_GROUP_NAME* gibt den Namen der Ressourcengruppe an.
++
+Beispiel: RG1
+
+* *SC_BACKUP_POLICY_NAME* gibt den Namen der Sicherungsrichtlinie an.
++
+Beispiel: backup_policy
+
+* *SC_AV_NAME* gibt die Namen der Anwendungsvolumes an.
++
+Beispiel: AV1|AV2
+
+* *SC_PRIMARY_DATA_VOLUME_FULL_PATH* gibt die Speicherzuordnung von SVM zum Volume für das Datendateiverzeichnis an.  Dies ist der Name des übergeordneten Volumes für LUNs und Qtrees.
++
+Die Daten werden als <db1>@<SVM1:volume1>|<db2>@<SVM2:volume2> formatiert.
+
++
+Beispiele:
+
++
+** Für 2 Datenbanken in derselben Ressourcengruppe: NFSB32@buck:/vol/scspr2417819002_NFS_CDB_NFSB32_DATA|NFSB31@buck:/vol/scspr2417819002_NFS_CDB_NFSB31_DATA
+** Für eine einzelne Datenbank mit Datendateien, die über mehrere Volumes verteilt sind: buck:/vol/scspr2417819002_NFS_CDB_NFSB31_DATA,herculus:/vol/scspr2417819002_NFS
+
+
+* *SC_PRIMARY_ARCHIVELOGS_VOLUME_FULL_PATH* gibt die Speicherzuordnung von SVM zum Volume für das Protokolldateiverzeichnis an.  Dies ist der Name des übergeordneten Volumes für LUNs und Qtrees.
++
+Beispiele:
+
++
+** Für einzelne Datenbankinstanz: buck:/vol/scspr2417819002_NFS_CDB_NFSB31_REDO
+** Für mehrere Datenbankinstanzen: NFSB31@buck:/vol/scspr2417819002_NFS_CDB_NFSB31_REDO|NFSB32@buck:/vol/scspr2417819002_NFS_CDB_NFSB32_REDO
+
+
+* *SC_PRIMARY_FULL_SNAPSHOT_NAME_FOR_TAG* gibt die Liste der Snapshots an, die den Namen des Speichersystems und den Namen des Datenträgers enthalten.
++
+Beispiele:
+
++
+** Für einzelne Datenbankinstanz: buck:/vol/scspr2417819002_NFS_CDB_NFSB32_DATA/RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,buck:/vol/scspr2417819002_NFS_CDB_NFSB32_REDO/RG2_scspr2417819002_07-21-2021_02.28.26.3973_1
+** Für mehrere Datenbankinstanzen: NFSB32@buck:/vol/scspr2417819002_NFS_CDB_NFSB32_DATA/RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,buck:/vol/scspr2417819002_NFS_CDB_NFSB32_REDO/RG2_scspr2417819002_07-21-2021_02.28.26.3973_1 |NFSB31@buck:/vol/scspr2417819002_NFS_CDB_NFSB31_DATA/RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,buck:/vol/scspr2417819002_NFS_CDB_NFSB31_REDO/RG2_scspr2417819002_07-21-2021_02.28.26.3973_1
+
+
+* *SC_PRIMARY_SNAPSHOT_NAMES* gibt die Namen der primären Snapshots an, die während der Sicherung erstellt wurden.
++
+Beispiele:
+
++
+** Für einzelne Datenbankinstanz: RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,RG2_scspr2417819002_07-21-2021_02.28.26.3973_1
+** Für mehrere Datenbankinstanzen: NFSB32@RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,RG2_scspr2417819002_07-21-2021_02.28.26.3973_1|NFSB31@RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,RG2_scspr2417819002_07-21-2021_02.28.26.3973_1
+** Für Konsistenzgruppen-Snapshots, die 2 Volumes umfassen: cg3_R80404CBEF5V1_04-05-2021_03.08.03.4945_0_bfc279cc-28ad-465c-9d60-5487ac17b25d_2021_4_5_3_8_58_350
+
+
+* *SC_PRIMARY_MOUNT_POINTS* gibt die Mount-Point-Details an, die Teil der Sicherung sind.
++
+Die Details umfassen das Verzeichnis, in dem die Volumes bereitgestellt werden, und nicht das unmittelbar übergeordnete Verzeichnis der zu sichernden Datei.  Bei einer ASM-Konfiguration ist dies der Name der Datenträgergruppe.
+
++
+Die Daten werden als <db1>@<mountpoint1,mountpoint2>|<db2>@<mountpoint1,mountpoint2> formatiert.
+
++
+Beispiele:
+
++
+** Für eine einzelne Datenbankinstanz: /mnt/nfsdb3_data,/mnt/nfsdb3_log,/mnt/nfsdb3_data1
+** Für mehrere Datenbankinstanzen: NFSB31@/mnt/nfsdb31_data,/mnt/nfsdb31_log,/mnt/nfsdb31_data1|NFSB32@/mnt/nfsdb32_data,/mnt/nfsdb32_log,/mnt/nfsdb32_data1
+** Für ASM: +DATA2DG,+LOG2DG
+
+
+* *SC_PRIMARY_SNAPSHOTS_AND_MOUNT_POINTS* gibt die Namen der Snapshots an, die während der Sicherung der einzelnen Mount-Punkte erstellt wurden.
++
+Beispiele:
+
++
+** Für einzelne Datenbankinstanz: RG2_scspr2417819002_07-21-2021_02.28.26.3973_0:/mnt/nfsb32_data,RG2_scspr2417819002_07-21-2021_02.28.26.3973_1:/mnt/nfsb31_log
+** Für mehrere Datenbankinstanzen: NFSB32@RG2_scspr2417819002_07-21-2021_02.28.26.3973_0:/mnt/nfsb32_data,RG2_scspr2417819002_07-21-2021_02.28.26.3973_1:/mnt/nfsb31_log|NFSB31@RG2_scspr2417819002_07-21-2021_02.28.26.3973_0:/mnt/nfsb31_data,RG2_scspr2417819002_07-21-2021_02.28.26.3973_1:/mnt/nfsb32_log
+
+
+* *SC_ARCHIVELOGS_LOCATIONS* gibt den Speicherort des Archivprotokollverzeichnisses an.
++
+Die Verzeichnisnamen sind die unmittelbar übergeordneten Verzeichnisse der Archivprotokolldateien.  Wenn die Archivprotokolle an mehr als einem Ort abgelegt werden, werden alle Orte erfasst.  Hierzu zählen auch die FRA-Szenarien.  Wenn Softlinks für das Verzeichnis verwendet werden, werden diese ausgefüllt.
+
++
+Beispiele:
+
++
+** Für einzelne Datenbank auf NFS: /mnt/nfsdb2_log
+** Für mehrere Datenbanken auf NFS und für die NFSB31-Datenbankarchivprotokolle, die an zwei verschiedenen Orten abgelegt werden: NFSB31@/mnt/nfsdb31_log1,/mnt/nfsdb31_log2|NFSB32@/mnt/nfsdb32_log
+** Für ASM: +LOG2DG/ASMDB2/ARCHIVELOG/2021_07_15
+
+
+* *SC_REDO_LOGS_LOCATIONS* gibt den Speicherort des Redo-Log-Verzeichnisses an.
++
+Die Verzeichnisnamen sind die unmittelbar übergeordneten Verzeichnisse der Redo-Logdateien.  Wenn Softlinks für das Verzeichnis verwendet werden, werden diese ausgefüllt.
+
++
+Beispiele:
+
++
+** Für eine einzelne Datenbank auf NFS: /mnt/nfsdb2_data/newdb1
+** Für mehrere Datenbanken auf NFS: NFSB31@/mnt/nfsdb31_data/newdb31|NFSB32@/mnt/nfsdb32_data/newdb32
+** Für ASM: +LOG2DG/ASMDB2/ONLINELOG
+
+
+* *SC_CONTROL_FILES_LOCATIONS* gibt den Speicherort des Steuerdateiverzeichnisses an.
++
+Die Verzeichnisnamen sind die unmittelbar übergeordneten Verzeichnisse der Steuerdateien.  Wenn Softlinks für das Verzeichnis verwendet werden, werden diese ausgefüllt.
+
++
+Beispiele:
+
++
+** Für einzelne Datenbanken auf NFS: /mnt/nfsdb2_data/fra/newdb1,/mnt/nfsdb2_data/newdb1
+** Für mehrere Datenbanken auf NFS: NFSB31@/mnt/nfsdb31_data/fra/newdb31,/mnt/nfsdb31_data/newdb31|NFSB32@/mnt/nfsdb32_data/fra/newdb32,/mnt/nfsdb32_data/newdb32
+** Für ASM: +LOG2DG/ASMDB2/CONTROLFILE
+
+
+* *SC_DATA_FILES_LOCATIONS*" gibt den Speicherort des Datendateiverzeichnisses an.
++
+Die Verzeichnisnamen sind die unmittelbar übergeordneten Verzeichnisse der Datendateien.  Wenn Softlinks für das Verzeichnis verwendet werden, werden diese ausgefüllt.
+
++
+Beispiele:
+
++
+** Für einzelne Datenbanken auf NFS: /mnt/nfsdb3_data1,/mnt/nfsdb3_data/NEWDB3/datafile
+** Für mehrere Datenbanken auf NFS: NFSB31@/mnt/nfsdb31_data1,/mnt/nfsdb31_data/NEWDB31/datafile|NFSB32@/mnt/nfsdb32_data1,/mnt/nfsdb32_data/NEWDB32/datafile
+** Für ASM: +DATA2DG/ASMDB2/DATAFILE,+DATA2DG/ASMDB2/TEMPFILE
+
+
+* *SC_SNAPSHOT_LABEL* gibt den Namen der sekundären Beschriftungen an.
++
+Beispiele: Stündlich, Täglich, Wöchentlich, Monatlich oder benutzerdefiniertes Etikett.
+
+
+
+
+
+== Unterstützte Trennzeichen
+
+* *:* wird verwendet, um SVM-Name und Volume-Name zu trennen
++
+Beispiel: buck:/vol/scspr2417819002_NFS_CDB_NFSB32_DATA/RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,buck:/vol/scspr2417819002_NFS_CDB_NFSB32_REDO/RG2_scspr2417819002_07-21-2021_02.28.26.3973_1
+
+* *@* wird verwendet, um Daten von ihrem Datenbanknamen und den Wert von seinem Schlüssel zu trennen.
++
+Beispiele:
+
++
+** NFSB32@buck:/vol/scspr2417819002_NFS_CDB_NFSB32_DATA/RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,buck:/vol/scspr2417819002_NFS_CDB_NFSB32_REDO/RG2_scspr2417819002_07-21-2021_02.28.26.3973_1 |NFSB31@buck:/vol/scspr2417819002_NFS_CDB_NFSB31_DATA/RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,buck:/vol/scspr2417819002_NFS_CDB_NFSB31_REDO/RG2_scspr2417819002_07-21-2021_02.28.26.3973_1
+** NFSB31@oracle|NFSB32@oracle
+
+
+* *|* wird verwendet, um die Daten zwischen zwei verschiedenen Datenbanken zu trennen und um die Daten zwischen zwei verschiedenen Entitäten für die Parameter SC_BACKUP_ID, SC_BACKUP_RETENTION und SC_BACKUP_NAME zu trennen.
++
+Beispiele:
+
++
+** DATEN@203|LOG@205
+** Stündlich|DATEN@TAGE:3|LOG@ANZAHL:4
+** DATA@RG2_scspr2417819002_07-20-2021_12.16.48.9267_0|LOG@RG2_scspr2417819002_07-20-2021_12.16.48.9267_1
+
+
+* */* wird verwendet, um den Volumenamen von seinem Snapshot für die Parameter SC_PRIMARY_SNAPSHOT_NAMES und SC_PRIMARY_FULL_SNAPSHOT_NAME_FOR_TAG zu trennen.
++
+Beispiel: NFSB32@buck:/vol/scspr2417819002_NFS_CDB_NFSB32_DATA/RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,buck:/vol/scspr2417819002_NFS_CDB_NFSB32_REDO/RG2_scspr2417819002_07-21-2021_02.28.26.3973_1
+
+* *,* wird verwendet, um Variablensätze für dieselbe Datenbank zu trennen.
++
+Beispiel: NFSB32@buck:/vol/scspr2417819002_NFS_CDB_NFSB32_DATA/RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,buck:/vol/scspr2417819002_NFS_CDB_NFSB32_REDO/RG2_scspr2417819002_07-21-2021_02.28.26.3973_1 |NFSB31@buck:/vol/scspr2417819002_NFS_CDB_NFSB31_DATA/RG2_scspr2417819002_07-21-2021_02.28.26.3973_0,buck:/vol/scspr2417819002_NFS_CDB_NFSB31_REDO/RG2_scspr2417819002_07-21-2021_02.28.26.3973_1
+
+

@@ -1,0 +1,99 @@
+---
+permalink: protect-scsql/task_migrate_resources_to_netapp_storage.html 
+sidebar: sidebar 
+keywords: migrate resources 
+summary: 'Nachdem Sie Ihr NetApp -Speichersystem mit dem SnapCenter -Plug-in für Microsoft Windows bereitgestellt haben, können Sie Ihre Ressourcen entweder mithilfe der grafischen Benutzeroberfläche (GUI) von SnapCenter oder mithilfe der PowerShell-Cmdlets zum NetApp -Speichersystem oder von einer NetApp -LUN zu einer anderen NetApp -LUN migrieren.' 
+---
+= Migrieren Sie Ressourcen zum NetApp Speichersystem
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nachdem Sie Ihr NetApp Speichersystem mit dem SnapCenter -Plug-in für Microsoft Windows bereitgestellt haben, können Sie Ihre Ressourcen entweder mithilfe der grafischen Benutzeroberfläche (GUI) von SnapCenter oder mithilfe der PowerShell-Cmdlets zum NetApp -Speichersystem oder von einer NetApp -LUN zu einer anderen NetApp -LUN migrieren.
+
+.Bevor Sie beginnen
+* Sie müssen dem SnapCenter Server Speichersysteme hinzugefügt haben.
+* Sie müssen die SQL Server-Ressourcen aktualisiert (erkannt) haben.
+
+
+Die meisten Felder auf diesen Assistentenseiten sind selbsterklärend.  Die folgenden Informationen beschreiben einige der Felder, für die Sie möglicherweise Anleitungen benötigen.
+
+.Schritte
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ aus der Dropdown-Liste „Anzeigen“ die Option „Datenbank“ oder „Instanz“ aus.
+. Wählen Sie entweder die Datenbank oder die Instanz aus der Liste aus und klicken Sie auf *Migrieren*.
+. Führen Sie auf der Seite „Ressourcen“ die folgenden Aktionen aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+*Datenbankname* (optional)
+ a| 
+Wenn Sie eine Instanz für die Migration ausgewählt haben, müssen Sie die Datenbanken dieser Instanz aus der Dropdown-Liste *Datenbanken* auswählen.
+
+
+
+ a| 
+*Ziele auswählen*
+ a| 
+Wählen Sie den Zielspeicherort für Daten- und Protokolldateien.
+
+Die Daten- und Protokolldateien werden in den Ordner „Daten“ bzw. „Protokoll“ unter dem ausgewählten NetApp Laufwerk verschoben.  Wenn ein Ordner in der Ordnerstruktur nicht vorhanden ist, wird ein Ordner erstellt und die Ressource migriert.
+
+
+
+ a| 
+*Datenbankdateidetails anzeigen* (optional)
+ a| 
+Wählen Sie diese Option, wenn Sie mehrere Dateien einer einzelnen Datenbank migrieren möchten.
+
+
+NOTE: Diese Option wird nicht angezeigt, wenn Sie die Ressource *Instanz* auswählen.
+
+
+
+ a| 
+*Optionen*
+ a| 
+Wählen Sie *Kopie der migrierten Datenbank am ursprünglichen Speicherort löschen*, um die Kopie der Datenbank aus der Quelle zu löschen.
+
+Optional: *FÜHREN SIE UPDATE STATISTICS für Tabellen aus, bevor Sie die Datenbank trennen*.
+
+|===
+. Führen Sie auf der Seite „Überprüfen“ die folgenden Aktionen aus:
++
+|===
+| Für dieses Feld... | Machen Sie Folgendes... 
+
+
+ a| 
+*Optionen zur Datenbankkonsistenzprüfung*
+ a| 
+Wählen Sie *Vorher ausführen*, um die Integrität der Datenbank vor der Migration zu überprüfen.  Wählen Sie *Ausführen nach*, um die Integrität der Datenbank nach der Migration zu überprüfen.
+
+
+
+ a| 
+*DBCC CHECKDB-Optionen*
+ a| 
+** Wählen Sie die Option *PHYSICAL_ONLY*, um die Integritätsprüfung auf die physische Struktur der Datenbank zu beschränken und beschädigte Seiten, Prüfsummenfehler und allgemeine Hardwarefehler zu erkennen, die sich auf die Datenbank auswirken.
+** Wählen Sie die Option *NO_INFOMSGS*, um alle Informationsmeldungen zu unterdrücken.
+** Wählen Sie die Option *ALL_ERRORMSGS*, um alle gemeldeten Fehler pro Objekt anzuzeigen.
+** Wählen Sie die Option *NOINDEX*, wenn Sie nicht gruppierte Indizes nicht überprüfen möchten.
++
+Die SQL Server-Datenbank verwendet den Microsoft SQL Server Database Consistency Checker (DBCC), um die logische und physische Integrität der Objekte in der Datenbank zu überprüfen.
+
++
+
+NOTE: Sie können diese Option auswählen, um die Ausführungszeit zu verkürzen.
+
+** Wählen Sie die Option **TABLOCK**, um die Prüfungen einzuschränken und Sperren zu erhalten, anstatt einen internen Datenbank-Snapshot zu verwenden.
+
+
+|===
+. Überprüfen Sie die Zusammenfassung und klicken Sie dann auf **Fertig**.
+

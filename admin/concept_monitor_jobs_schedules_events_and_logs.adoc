@@ -1,0 +1,170 @@
+---
+permalink: admin/concept_monitor_jobs_schedules_events_and_logs.html 
+sidebar: sidebar 
+keywords: Monitor jobs, schedules, events, logs 
+summary: Auf der Seite „Überwachen“ können Sie den Fortschritt Ihrer Jobs überwachen, Informationen zu geplanten Jobs abrufen und Ereignisse und Protokolle überprüfen. 
+---
+= Überwachen Sie Jobs, Zeitpläne, Ereignisse und Protokolle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Auf der Seite „Überwachen“ können Sie den Fortschritt Ihrer Jobs überwachen, Informationen zu geplanten Jobs abrufen und Ereignisse und Protokolle überprüfen.
+
+
+
+== Überwachen von Jobs
+
+Sie können Informationen zu SnapCenter -Sicherungs-, Klon-, Wiederherstellungs- und Überprüfungsaufträgen anzeigen.  Sie können diese Ansicht nach Start- und Enddatum, Auftragstyp, Ressourcengruppe, Richtlinie oder SnapCenter -Plug-in filtern. Sie können auch zusätzliche Details und Protokolldateien für bestimmte Aufträge abrufen.
+
+Sie können auch Jobs im Zusammenhang mit SnapMirror und SnapVault -Vorgängen überwachen.
+
+
+NOTE: Sie können nur die Jobs überwachen, die Sie erstellt haben und die für Sie relevant sind, es sei denn, Ihnen wird die Rolle „SnapCenter -Administrator“ oder eine andere Superuser-Rolle zugewiesen.
+
+Sie können die folgenden Aufgaben im Zusammenhang mit der Überwachung von Jobs ausführen:
+
+* Überwachen Sie Sicherungs-, Klon-, Wiederherstellungs- und Überprüfungsvorgänge.
+* Zeigen Sie Auftragsdetails und Berichte an.
+* Stoppen Sie einen geplanten Job.
+
+
+
+
+=== Verwalten geplanter Sicherungsaufträge
+
+Ab der Version SnapCenter 6.0.1 wurde ein neuer Parameter *JobConcurrencyThreshold* eingeführt, der einen Schwellenwert für die Anzahl der geplanten Jobs festlegt, die zu einem bestimmten Zeitpunkt ausgeführt werden können.  Auf diese Weise können Sie die Anzahl der Sicherungen, die Sie ausführen möchten, basierend auf der Hardwarekonfiguration Ihres Systems steuern.
+
+Der *JobConcurrencyThreshold* zugewiesene Standardwert ist 0 und ist deaktiviert.  Sie können die Funktion aktivieren, indem Sie einen Wert zuweisen, wenn Sie während des geplanten Sicherungsfensters eine Leistungsverschlechterung feststellen.
+
+
+NOTE: Wenn Sie *JobConcurrencyThreshold* aktivieren, um gleichzeitige Jobs zu verwalten, können Sie mit SnapCenter die Reihenfolge der Sicherungen nicht steuern und die Sicherungen werden möglicherweise nicht zum im Zeitplan angegebenen Zeitpunkt ausgelöst.
+
+.Schritte
+. Legen Sie den Wert des Parameters _JobConcurrencyThreshold_ fest, der sich unter _C:\Programme\ NetApp\ SnapCenter WebApp\ SnapManager befindet.
+. Starten Sie den SnapCenter -Anwendungspool neu, indem Sie auf IIS > Anwendungspools > SnapCenter > Neustart klicken.
+. Starten Sie den SnapCenter -Webdienst neu, indem Sie auf IIS > Sites > SnapCenter > Neustart klicken.
+
+
+
+
+=== Verwalten veralteter Jobs
+
+Veraltete Jobs entstehen durch Unterbrechungen in SnapCenter oder durch unsachgemäße Job-Updates.  Ab der Version SnapCenter 6.0.1 wird ein vordefinierter Zeitplan eingeführt, um diese veralteten Jobs zu bereinigen, die länger als 72 Stunden feststecken.  Sie können die Zeitplanhäufigkeit ändern, indem Sie den konfigurierbaren Parameter *CleanUpStaleJobsIntervalHours* bearbeiten.
+
+Sie können die Bereinigung bei Bedarf auslösen, indem Sie den Zeitplan unter *Monitor* > *Zeitpläne* > *SnapCenter_StaleJobCleanUp* ausführen.
+
+.Schritte
+. Legen Sie den Wert des Parameters _CleanUpStaleJobsIntervalHours_ fest, der sich unter _C:\Programme\ NetApp\ SnapCenter WebApp\ SnapManager befindet.
+. Starten Sie den SnapCenter -Anwendungspool neu, indem Sie auf IIS > Anwendungspools > SnapCenter > Neustart klicken.
+. Starten Sie den SnapCenter -Webdienst neu, indem Sie auf IIS > Sites > SnapCenter > Neustart klicken.
+
+
+
+
+== Zeitpläne überwachen
+
+Möglicherweise möchten Sie aktuelle Zeitpläne anzeigen, um festzustellen, wann der Vorgang beginnt, wann er zuletzt ausgeführt wurde und wann er das nächste Mal ausgeführt wird.  Sie können außerdem den Host bestimmen, auf dem der Vorgang ausgeführt wird, sowie die Ressourcengruppe und Richtlinieninformationen des Vorgangs.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Monitor*.
+. Klicken Sie auf der Seite „Überwachen“ auf *Zeitpläne*.
+. Wählen Sie die Ressourcengruppe und den Zeitplantyp aus.
+. Zeigen Sie die Liste der geplanten Vorgänge an.
+
+
+
+
+== Überwachen von Ereignissen
+
+Sie können eine Liste der SnapCenter -Ereignisse im System anzeigen, z. B. wenn ein Benutzer eine Ressourcengruppe erstellt oder wenn das System Aktivitäten initiiert, z. B. das Erstellen einer geplanten Sicherung.  Möglicherweise möchten Sie Ereignisse anzeigen, um festzustellen, ob gerade ein Vorgang wie beispielsweise eine Sicherung oder Wiederherstellung ausgeführt wird.
+
+*Über diese Aufgabe*
+
+Alle Jobinformationen werden auf der Seite „Ereignisse“ angezeigt.  Wenn beispielsweise ein Sicherungsauftrag gestartet wird, wird ein Ereignis „Sicherungsstart“ angezeigt.  Wenn die Sicherung abgeschlossen ist, wird das Ereignis „Sicherung abgeschlossen“ angezeigt.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Monitor*.
+. Klicken Sie auf der Seite „Überwachen“ auf *Ereignisse*.
+. (Optional) Geben Sie im Feld „Filter“ das Start- oder Enddatum, die Ereigniskategorie (z. B. Sicherung, Ressourcengruppe oder Richtlinie) und den Schweregrad ein und klicken Sie auf „Übernehmen“.  Alternativ können Sie Zeichen in das Suchfeld eingeben.
+. Sehen Sie sich die Liste der Ereignisse an.
+
+
+
+
+== Überwachen von Protokollen
+
+Sie können SnapCenter -Serverprotokolle, SnapCenter Host-Agent-Protokolle und Plug-In-Protokolle anzeigen und herunterladen.  Möglicherweise möchten Sie die Protokolle zur Unterstützung bei der Fehlerbehebung anzeigen.
+
+*Über diese Aufgabe*
+
+Sie können die Protokolle filtern, um nur einen bestimmten Protokollschweregrad anzuzeigen:
+
+* Debuggen
+* Info
+* Warnen
+* Fehler
+* Tödlich
+
+
+Sie können auch Protokolle auf Auftragsebene abrufen, beispielsweise Protokolle, die Ihnen bei der Fehlerbehebung bei einem fehlgeschlagenen Sicherungsauftrag helfen.  Verwenden Sie für Protokolle auf Jobebene die Option *Monitor* > *Jobs*.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Monitor*.
+. Wählen Sie auf der Seite „Jobs“ einen Job aus und klicken Sie auf „Protokolle herunterladen“.
++
+Der heruntergeladene ZIP-Ordner enthält die Jobprotokolle und die allgemeinen Protokolle.  Der Name des komprimierten Ordners enthält die Job-ID und den ausgewählten Jobtyp.
+
+. Klicken Sie auf der Seite „Überwachen“ auf *Protokolle*.
+. Wählen Sie den Protokolltyp, den Host und die Instanz aus.
++
+Wenn Sie den Protokolltyp „Plugin“ auswählen, können Sie ein Host- oder SnapCenter -Plugin auswählen. Dies ist nicht möglich, wenn der Protokolltyp „Server“ ist.
+
+. Um die Protokolle nach einer bestimmten Quelle, Nachricht oder Protokollebene zu filtern, klicken Sie auf das Filtersymbol oben in der Spaltenüberschrift.
++
+Um alle Protokolle anzuzeigen, wählen Sie *Größer als oder gleich* als `Debug` Ebene.
+
+. Klicken Sie auf *Aktualisieren*.
+. Zeigen Sie die Liste der Protokolle an.
+. Klicken Sie auf *Herunterladen*, um die Protokolle herunterzuladen.
++
+Der heruntergeladene ZIP-Ordner enthält die Jobprotokolle und die allgemeinen Protokolle.  Der Name des komprimierten Ordners enthält die Job-ID und den ausgewählten Jobtyp.
+
+
+
+In großen Konfigurationen sollten Sie für eine optimale Leistung die Protokolleinstellungen für SnapCenter mithilfe des PowerShell-Cmdlets auf ein minimales Niveau setzen.
+
+`Set-SmLogSettings -LogLevel All -MaxFileSize 10MB -MaxSizeRollBackups 10 -JobLogsMaxFileSize 10MB -Server`
+
+
+NOTE: Um nach Abschluss eines Failover-Jobs auf Integritäts- oder Konfigurationsinformationen zuzugreifen, führen Sie das Cmdlet aus `Get-SmRepositoryConfig` .
+
+
+
+== Entfernen Sie Jobs und Protokolle aus SnapCenter
+
+Sie können Sicherungs-, Wiederherstellungs-, Klon- und Überprüfungsaufträge sowie Protokolle aus SnapCenter entfernen.  SnapCenter speichert erfolgreiche und fehlgeschlagene Jobprotokolle auf unbestimmte Zeit, sofern Sie sie nicht entfernen.  Möglicherweise möchten Sie sie entfernen, um den Speicher aufzufüllen.
+
+*Über diese Aufgabe*
+
+Es dürfen derzeit keine Jobs ausgeführt werden.  Sie können einen bestimmten Job entfernen, indem Sie eine Job-ID angeben, oder Sie können Jobs innerhalb eines bestimmten Zeitraums entfernen.
+
+Sie müssen den Host nicht in den Wartungsmodus versetzen, um Jobs zu entfernen.
+
+*Schritte*
+
+. Starten Sie PowerShell.
+. Geben Sie in der Eingabeaufforderung Folgendes ein: `Open-SMConnection`
+. Geben Sie in der Eingabeaufforderung Folgendes ein: `Remove-SmJobs`
+. Klicken Sie im linken Navigationsbereich auf *Monitor*.
+. Klicken Sie auf der Seite „Überwachen“ auf *Jobs*.
+. Überprüfen Sie auf der Seite „Jobs“ den Status des Jobs.
+
+
+.Ähnliche Informationen
+Informationen zu den mit dem Cmdlet verwendbaren Parametern und deren Beschreibungen erhalten Sie durch Ausführen von _Get-Help command_name_. Alternativ können Sie auch auf die https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Referenzhandbuch für SnapCenter -Software-Cmdlets"^] .

@@ -1,0 +1,90 @@
+---
+permalink: admin/concept_manage_policies.html 
+sidebar: sidebar 
+keywords: Manage policies 
+summary: Sie können Richtlinien von einer Ressource oder Ressourcengruppe trennen, ändern, löschen, anzeigen und kopieren. 
+---
+= Richtlinien verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Richtlinien von einer Ressource oder Ressourcengruppe trennen, ändern, löschen, anzeigen und kopieren.
+
+
+
+== Richtlinien ändern
+
+Sie können die Replikationsoptionen, die Einstellungen für die Snapshot-Aufbewahrung, die Anzahl der Wiederholungsversuche bei Fehlern oder die Skriptinformationen ändern, während eine Richtlinie an eine Ressource oder Ressourcengruppe angehängt ist.  Sie können den Zeitplantyp (Häufigkeit) erst ändern, nachdem Sie eine Richtlinie getrennt haben.
+
+*Über diese Aufgabe*
+
+Das Ändern des Zeitplantyps in einer Richtlinie erfordert zusätzliche Schritte, da der SnapCenter Server den Zeitplantyp nur zu dem Zeitpunkt registriert, zu dem die Richtlinie einer Ressource oder Ressourcengruppe zugeordnet wird.
+
+|===
+| Wenn Sie wollen... | Dann... 
+
+
+ a| 
+Einen zusätzlichen Zeitplantyp hinzufügen
+ a| 
+Erstellen Sie eine neue Richtlinie und hängen Sie sie an die erforderlichen Ressourcen oder Ressourcengruppen an.
+
+Wenn beispielsweise eine Ressourcengruppenrichtlinie nur stündliche Sicherungen vorgibt und Sie auch tägliche Sicherungen hinzufügen möchten, können Sie eine Richtlinie mit einem täglichen Zeitplantyp erstellen und sie der Ressourcengruppe hinzufügen.  Die Ressourcengruppe hätte dann zwei Richtlinien: stündlich und täglich.
+
+
+
+ a| 
+Entfernen oder Ändern eines Zeitplantyps
+ a| 
+Führen Sie die folgenden Schritte aus:
+
+. Trennen Sie die Richtlinie von jeder Ressource und Ressourcengruppe, die diese Richtlinie verwendet.
+. Ändern Sie den Zeitplantyp.
+. Fügen Sie die Richtlinie erneut allen Ressourcen und Ressourcengruppen hinzu.
+
+
+Wenn beispielsweise eine Richtlinie stündliche Sicherungen vorsieht und Sie diese in tägliche Sicherungen ändern möchten, müssen Sie die Richtlinie zuerst trennen.
+
+|===
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Richtlinien*.
+. Wählen Sie die Richtlinie aus und klicken Sie dann auf *Ändern*.
+. Ändern Sie die Informationen und klicken Sie dann auf *Fertig*.
+
+
+
+
+== Richtlinien trennen
+
+Sie können Richtlinien jederzeit von einer Ressource oder Ressourcengruppe trennen, wenn Sie nicht mehr möchten, dass diese Richtlinien den Datenschutz für die Ressourcen regeln.  Sie müssen eine Richtlinie trennen, bevor Sie sie löschen oder den Zeitplantyp ändern können.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Ressourcen* und wählen Sie dann das entsprechende Plug-In aus der Liste aus.
+. Wählen Sie auf der Seite „Ressourcen“ in der Liste „Anzeigen“ die Option „Ressourcengruppe“ aus.
+. Wählen Sie die Ressourcengruppe aus und klicken Sie dann auf *Ressourcengruppe ändern*.
+. Deaktivieren Sie auf der Seite „Richtlinien“ des Assistenten „Ressourcengruppe ändern“ in der Dropdownliste das Häkchen neben den Richtlinien, die Sie trennen möchten.
+. Nehmen Sie im Rest des Assistenten weitere Änderungen an der Ressourcengruppe vor und klicken Sie dann auf *Fertig*.
+
+
+
+
+== Richtlinien löschen
+
+Wenn Sie Richtlinien nicht mehr benötigen, möchten Sie sie möglicherweise löschen.
+
+.Bevor Sie beginnen
+Sie sollten die Richtlinie von Ressourcen oder Ressourcengruppen trennen, wenn die Richtlinie mit Ressourcen oder Ressourcengruppen verknüpft ist.
+
+*Schritte*
+
+. Klicken Sie im linken Navigationsbereich auf *Einstellungen*.
+. Klicken Sie auf der Seite „Einstellungen“ auf *Richtlinien*.
+. Wählen Sie die Richtlinie aus und klicken Sie dann auf *Löschen*.
+. Klicken Sie auf *Ja*.
+

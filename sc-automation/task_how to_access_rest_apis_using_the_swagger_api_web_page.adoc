@@ -1,0 +1,34 @@
+---
+permalink: sc-automation/task_how to_access_rest_apis_using_the_swagger_api_web_page.html 
+sidebar: sidebar 
+keywords: REST API, Swagger 
+summary: REST-APIs werden über die Swagger-Webseite bereitgestellt.  Sie können auf die Swagger-Webseite zugreifen, um die REST-APIs des SnapCenter Servers anzuzeigen und manuell einen API-Aufruf zu tätigen.  Sie können REST-APIs verwenden, um Ihren SnapCenter Server zu verwalten oder Datenschutzvorgänge durchzuführen. 
+---
+= So greifen Sie über die Swagger-API-Webseite auf REST-APIs zu
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+REST-APIs werden über die Swagger-Webseite bereitgestellt.  Sie können auf die Swagger-Webseite zugreifen, um die REST-APIs des SnapCenter Servers anzuzeigen und manuell einen API-Aufruf zu tätigen.  Sie können REST-APIs verwenden, um Ihren SnapCenter Server zu verwalten oder Datenschutzvorgänge durchzuführen.
+
+Sie sollten die Verwaltungs-IP-Adresse oder den Domänennamen des SnapCenter -Servers kennen, auf dem Sie die REST-APIs ausführen möchten.
+
+Sie benötigen keine besonderen Berechtigungen, um den REST-API-Client auszuführen.  Jeder Benutzer kann auf die Swagger-Webseite zugreifen.  Die jeweiligen Berechtigungen für die Objekte, auf die über die REST-API zugegriffen wird, basieren auf dem Benutzer, der das Token zur Anmeldung bei der REST-API generiert.
+
+.Schritte
+. Geben Sie in einem Browser die URL zum Zugriff auf die Swagger-Webseite im Format _\https://<SnapCenter_IP_address_or_name>:<SnapCenter_port>/swagger/_ ein.
++
+
+NOTE: Stellen Sie sicher, dass die REST-API-URL nicht die folgenden Zeichen enthält: +, ., %, und &.
+
+. Wenn die Swagger-API-Dokumentation nicht automatisch angezeigt wird, geben Sie im Feld *Swagger Explore* Folgendes ein: _\https://<SnapCenter_IP_address_or_name>:<SnapCenter_port>/Content/swagger/ SnapCenter.yaml_
+. Klicken Sie auf *Erkunden*.
++
+Es wird eine Liste mit API-Ressourcentypen oder -Kategorien angezeigt.
+
+. Klicken Sie auf einen API-Ressourcentyp, um die APIs in diesem Ressourcentyp anzuzeigen.
+
+
+Wenn beim Ausführen von SnapCenter REST-APIs unerwartetes Verhalten auftritt, können Sie die Protokolldateien verwenden, um die Ursache zu ermitteln und das Problem zu beheben.  Sie können die Protokolldateien von der SnapCenter -Benutzeroberfläche herunterladen, indem Sie auf *Überwachen* > *Protokolle* > *Herunterladen* klicken.

@@ -1,0 +1,185 @@
+---
+permalink: admin/concept_what_operations_can_be_performed_from_the_resource_page.html 
+sidebar: sidebar 
+keywords: Resources page 
+summary: Auf der Seite „Ressourcen“ können Sie Ressourcen ermitteln und Datenschutzvorgänge durchführen.  Die Vorgänge, die Sie ausführen können, unterscheiden sich je nach dem Plug-In, das Sie zum Verwalten Ihrer Ressourcen verwenden. 
+---
+= Von der Seite „Ressourcen“ unterstützte Vorgänge
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Auf der Seite „Ressourcen“ können Sie Ressourcen ermitteln und Datenschutzvorgänge durchführen.  Die Vorgänge, die Sie ausführen können, unterscheiden sich je nach dem Plug-In, das Sie zum Verwalten Ihrer Ressourcen verwenden.
+
+Auf der Seite „Ressourcen“ können Sie die folgenden Aufgaben ausführen:
+
+|===
+| Sie können diese Aufgaben ausführen... | Für Microsoft Exchange Server | Für Microsoft SQL Server | Für Microsoft Windows | Für Oracle-Datenbanken | Für SAP HANA-Datenbank 
+
+
+ a| 
+Ermitteln, ob Ressourcen für die Sicherung verfügbar sind
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Führen Sie bei Bedarf eine Sicherung einer Ressource durch
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Wiederherstellen aus Backups
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Klonen von Backups
+ a| 
+Nein
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Backups verwalten
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Verwalten von Klonen
+ a| 
+Nein
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Richtlinien verwalten
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Speicherverbindungen verwalten
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Mounten von Backups
+ a| 
+Nein
+ a| 
+Nein
+ a| 
+Nein
+ a| 
+Ja
+ a| 
+Nein
+
+
+
+ a| 
+Sicherungen aushängen
+ a| 
+Nein
+ a| 
+Nein
+ a| 
+Nein
+ a| 
+Ja
+ a| 
+Nein
+
+
+
+ a| 
+Details anzeigen
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+|===
