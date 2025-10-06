@@ -35,7 +35,7 @@ Sie können SnapCenter zum Schutz Ihrer Daten entweder vor Ort oder in einer öf
 * Vor Ort in einer Hybrid Cloud zum Schutz der folgenden Elemente:
 +
 ** Daten, die sich auf primären ONTAP FAS, AFF oder ASA Systemen befinden und auf Cloud Volumes ONTAP repliziert werden
-** Daten, die sich auf primären und sekundären ONTAP FAS, AFF oder ASA -Systemen befinden und durch Objekt- und Archivspeicher in der Cloud geschützt sind (mithilfe der BlueXP backup and recovery )
+** Daten, die sich auf primären und sekundären ONTAP FAS, AFF oder ASA -Systemen befinden und mithilfe der NetApp -Backup- und Recovery-Integration in Objekt- und Archivspeicher in der Cloud geschützt sind
 
 
 * In einer öffentlichen Cloud zum Schutz der folgenden Elemente:
