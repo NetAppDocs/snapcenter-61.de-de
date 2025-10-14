@@ -2636,7 +2636,6 @@
   <block id="f78fb51edae6a69d5e1e911a2b6fc268" category="cell">Portnummern</block>
   <block id="888a77f5ac0748b6c8001822417df8b6" category="cell">Protokoll</block>
   <block id="02674a4ef33e11c879283629996c8ff8" category="cell">Richtung</block>
-  <block id="ed00b70cc595a411eff2cc42510a291f" category="paragraph">SnapCenter -Anschluss</block>
   <block id="202ed3792e2cfa7318b12ead83763c37" category="paragraph">8146</block>
   <block id="0e8433f9a404f1f3ba601c14b026d321" category="paragraph">HTTPS</block>
   <block id="abd4328c725637aabedbd02d3b7ffd40" category="paragraph">Bidirektional</block>
@@ -9558,4 +9557,5 @@
   <block id="8693aef17f2d371968a29ad0e0dff726" category="sidebar">Upgrade-Workflow</block>
   <block id="88d9e24753477cfb09f25b21c0a59b9e" category="paragraph">SnapCenter führt die Aktualisierungen für SnapMirror und SnapVault durch, nachdem der Snapshot-Vorgang abgeschlossen ist. SnapMirror und SnapVault Updates werden als Teil des SnapCenter -Jobs durchgeführt. Wenn Sie SnapMirror Active Sync verwenden, verwenden Sie die Standardzeitpläne von SnapMirror oder SnapVault sowohl für SnapMirror Active Sync als auch für asynchrone Beziehungen.</block>
   <block id="ea1c96f839915f73d25b910bbc92b734" category="list-text">Daten, die sich auf primären und sekundären ONTAP FAS, AFF oder ASA -Systemen befinden und mithilfe der NetApp -Backup- und Recovery-Integration in Objekt- und Archivspeicher in der Cloud geschützt sind</block>
+  <block id="e6f36a956625505e0a3733e3e0073fa0" category="paragraph">SnapCenter -Webport</block>
 </blocks>

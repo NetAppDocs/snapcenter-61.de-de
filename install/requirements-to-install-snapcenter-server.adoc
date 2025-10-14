@@ -168,7 +168,7 @@ In der folgenden Tabelle sind die verschiedenen Ports und ihre Standardwerte auf
 
 
  a| 
-SnapCenter -Anschluss
+SnapCenter -Webport
  a| 
 8146
  a| 
