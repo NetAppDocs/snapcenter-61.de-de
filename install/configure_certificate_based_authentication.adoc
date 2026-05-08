@@ -21,11 +21,11 @@ Um die zertifikatbasierte Authentifizierung für SnapCenter Server und die Windo
 
 * So aktivieren Sie die Client-Zertifikat-basierte Authentifizierung:
 +
-`Set-SmConfigSettings -Agent –configSettings @{"EnableClientCertificateAuthentication"="true"}` `-HostName`<<hostname>>
+`Set-SmConfigSettings -Agent –configSettings @{"EnableClientCertificateAuthentication"="true"}` `-HostName` `hostname`
 
 * So deaktivieren Sie die Client-Zertifikat-basierte Authentifizierung:
 +
-`Set-SmConfigSettings -Agent –configSettings @{"EnableClientCertificateAuthentication"="false"}` `-HostName` `<<hostname>>``
+`Set-SmConfigSettings -Agent –configSettings @{"EnableClientCertificateAuthentication"="false"}` `-HostName` `hostname`
 
 
 

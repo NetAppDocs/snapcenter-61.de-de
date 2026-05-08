@@ -162,9 +162,7 @@ Für EMS finden Sie unter https://docs.netapp.com/us-en/snapcenter/admin/concept
 Nachdem der Klon erstellt wurde, sollten Sie ihn niemals umbenennen.
 
 .Ähnliche Informationen
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["Der Klonvorgang kann mit dem Standardwert TCP_TIMEOUT fehlschlagen oder länger dauern"]
-
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/The_failover_cluster_instance_database_clone_fails["Der Datenbankklon der Failover-Cluster-Instanz schlägt fehl"]
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/The_failover_cluster_instance_database_clone_fails["Der Datenbankklon der Failover-Cluster-Instanz schlägt fehl"^]
 
 --
 .PowerShell-Cmdlets
